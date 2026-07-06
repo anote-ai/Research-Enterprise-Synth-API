@@ -1,0 +1,1954 @@
+[
+  {
+    "intent": "Reset the password for user 48213 to a temporary value since they got locked out after forgetting their login credentials",
+    "ground_truth_method": "PUT",
+    "ground_truth_path": "/users/{userId}/password",
+    "candidates": [
+      {
+        "method": "PUT",
+        "path": "/users/{userId}/password",
+        "operation_id": "userPassword"
+      },
+      {
+        "method": "PATCH",
+        "path": "/chat/users/{userId}/channels/{channelId}",
+        "operation_id": "updateChannel"
+      },
+      {
+        "method": "PUT",
+        "path": "/accounts/{accountId}/owner",
+        "operation_id": "updateAccountOwner"
+      },
+      {
+        "method": "GET",
+        "path": "/metrics/issues/zoomrooms/{zoomroomId}",
+        "operation_id": "dashboardIssueDetailZoomRoom"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/recordings/{recordingId}",
+        "operation_id": "recordingDeleteOne"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/polls/{pollId}",
+        "operation_id": "meetingPollDelete"
+      },
+      {
+        "method": "DELETE",
+        "path": "/groups/{groupId}",
+        "operation_id": "groupDelete"
+      },
+      {
+        "method": "GET",
+        "path": "/chat/users/me/contacts",
+        "operation_id": "getUserContacts"
+      },
+      {
+        "method": "POST",
+        "path": "/webinars/{webinarId}/batch_registrants",
+        "operation_id": "addBatchWebinarRegistrants"
+      },
+      {
+        "method": "PUT",
+        "path": "/rooms/locations/{locationId}/location",
+        "operation_id": "changeParentLocation"
+      },
+      {
+        "method": "GET",
+        "path": "/archive_files",
+        "operation_id": "listArchivedFiles"
+      },
+      {
+        "method": "PATCH",
+        "path": "/tsp",
+        "operation_id": "tspUpdate"
+      },
+      {
+        "method": "POST",
+        "path": "/phone/shared_line_groups/{sharedLineGroupId}/members",
+        "operation_id": "addMembersToSharedLineGroup"
+      },
+      {
+        "method": "GET",
+        "path": "/accounts/{accountId}/plans",
+        "operation_id": "accountPlans"
+      },
+      {
+        "method": "PATCH",
+        "path": "/accounts/{accountId}/phone/sip_trunk/trunks/{sipTrunkId}",
+        "operation_id": "updatePhoneSIPTrunk"
+      },
+      {
+        "method": "DELETE",
+        "path": "/chat/channels/{channelId}",
+        "operation_id": "deleteUserLevelChannel"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/recordings",
+        "operation_id": "recordingDelete"
+      },
+      {
+        "method": "PUT",
+        "path": "/meetings/{meetingId}/recordings/status",
+        "operation_id": "recordingStatusUpdate"
+      },
+      {
+        "method": "POST",
+        "path": "/roles",
+        "operation_id": "createRole"
+      },
+      {
+        "method": "GET",
+        "path": "/users/{userId}",
+        "operation_id": "user"
+      },
+      {
+        "method": "POST",
+        "path": "/accounts/{accountId}/phone/setup",
+        "operation_id": "setUpAccount"
+      },
+      {
+        "method": "PUT",
+        "path": "/rooms/{roomId}/devices/{deviceId}/app_version",
+        "operation_id": "changeZoomRoomsAppVersion"
+      },
+      {
+        "method": "POST",
+        "path": "/meetings/{meetingId}/batch_polls",
+        "operation_id": "createBatchPolls"
+      }
+    ]
+  },
+  {
+    "intent": "As part of our quarterly security policy, update employee jsmith's account password to comply with the new complexity requirements",
+    "ground_truth_method": "PUT",
+    "ground_truth_path": "/users/{userId}/password",
+    "candidates": [
+      {
+        "method": "PUT",
+        "path": "/users/{userId}/password",
+        "operation_id": "userPassword"
+      },
+      {
+        "method": "PATCH",
+        "path": "/chat/users/{userId}/channels/{channelId}",
+        "operation_id": "updateChannel"
+      },
+      {
+        "method": "PUT",
+        "path": "/accounts/{accountId}/owner",
+        "operation_id": "updateAccountOwner"
+      },
+      {
+        "method": "GET",
+        "path": "/metrics/issues/zoomrooms/{zoomroomId}",
+        "operation_id": "dashboardIssueDetailZoomRoom"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/recordings/{recordingId}",
+        "operation_id": "recordingDeleteOne"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/polls/{pollId}",
+        "operation_id": "meetingPollDelete"
+      },
+      {
+        "method": "DELETE",
+        "path": "/groups/{groupId}",
+        "operation_id": "groupDelete"
+      },
+      {
+        "method": "GET",
+        "path": "/chat/users/me/contacts",
+        "operation_id": "getUserContacts"
+      },
+      {
+        "method": "POST",
+        "path": "/webinars/{webinarId}/batch_registrants",
+        "operation_id": "addBatchWebinarRegistrants"
+      },
+      {
+        "method": "PUT",
+        "path": "/rooms/locations/{locationId}/location",
+        "operation_id": "changeParentLocation"
+      },
+      {
+        "method": "GET",
+        "path": "/archive_files",
+        "operation_id": "listArchivedFiles"
+      },
+      {
+        "method": "PATCH",
+        "path": "/tsp",
+        "operation_id": "tspUpdate"
+      },
+      {
+        "method": "POST",
+        "path": "/phone/shared_line_groups/{sharedLineGroupId}/members",
+        "operation_id": "addMembersToSharedLineGroup"
+      },
+      {
+        "method": "GET",
+        "path": "/accounts/{accountId}/plans",
+        "operation_id": "accountPlans"
+      },
+      {
+        "method": "PATCH",
+        "path": "/accounts/{accountId}/phone/sip_trunk/trunks/{sipTrunkId}",
+        "operation_id": "updatePhoneSIPTrunk"
+      },
+      {
+        "method": "DELETE",
+        "path": "/chat/channels/{channelId}",
+        "operation_id": "deleteUserLevelChannel"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/recordings",
+        "operation_id": "recordingDelete"
+      },
+      {
+        "method": "PUT",
+        "path": "/meetings/{meetingId}/recordings/status",
+        "operation_id": "recordingStatusUpdate"
+      },
+      {
+        "method": "POST",
+        "path": "/roles",
+        "operation_id": "createRole"
+      },
+      {
+        "method": "GET",
+        "path": "/users/{userId}",
+        "operation_id": "user"
+      },
+      {
+        "method": "POST",
+        "path": "/accounts/{accountId}/phone/setup",
+        "operation_id": "setUpAccount"
+      },
+      {
+        "method": "PUT",
+        "path": "/rooms/{roomId}/devices/{deviceId}/app_version",
+        "operation_id": "changeZoomRoomsAppVersion"
+      },
+      {
+        "method": "POST",
+        "path": "/meetings/{meetingId}/batch_polls",
+        "operation_id": "createBatchPolls"
+      }
+    ]
+  },
+  {
+    "intent": "Update the name and description of the #project-atlas channel for my user account to reflect the new product launch phase",
+    "ground_truth_method": "PATCH",
+    "ground_truth_path": "/chat/users/{userId}/channels/{channelId}",
+    "candidates": [
+      {
+        "method": "PUT",
+        "path": "/users/{userId}/password",
+        "operation_id": "userPassword"
+      },
+      {
+        "method": "PATCH",
+        "path": "/chat/users/{userId}/channels/{channelId}",
+        "operation_id": "updateChannel"
+      },
+      {
+        "method": "PUT",
+        "path": "/accounts/{accountId}/owner",
+        "operation_id": "updateAccountOwner"
+      },
+      {
+        "method": "GET",
+        "path": "/metrics/issues/zoomrooms/{zoomroomId}",
+        "operation_id": "dashboardIssueDetailZoomRoom"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/recordings/{recordingId}",
+        "operation_id": "recordingDeleteOne"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/polls/{pollId}",
+        "operation_id": "meetingPollDelete"
+      },
+      {
+        "method": "DELETE",
+        "path": "/groups/{groupId}",
+        "operation_id": "groupDelete"
+      },
+      {
+        "method": "GET",
+        "path": "/chat/users/me/contacts",
+        "operation_id": "getUserContacts"
+      },
+      {
+        "method": "POST",
+        "path": "/webinars/{webinarId}/batch_registrants",
+        "operation_id": "addBatchWebinarRegistrants"
+      },
+      {
+        "method": "PUT",
+        "path": "/rooms/locations/{locationId}/location",
+        "operation_id": "changeParentLocation"
+      },
+      {
+        "method": "GET",
+        "path": "/archive_files",
+        "operation_id": "listArchivedFiles"
+      },
+      {
+        "method": "PATCH",
+        "path": "/tsp",
+        "operation_id": "tspUpdate"
+      },
+      {
+        "method": "POST",
+        "path": "/phone/shared_line_groups/{sharedLineGroupId}/members",
+        "operation_id": "addMembersToSharedLineGroup"
+      },
+      {
+        "method": "GET",
+        "path": "/accounts/{accountId}/plans",
+        "operation_id": "accountPlans"
+      },
+      {
+        "method": "PATCH",
+        "path": "/accounts/{accountId}/phone/sip_trunk/trunks/{sipTrunkId}",
+        "operation_id": "updatePhoneSIPTrunk"
+      },
+      {
+        "method": "DELETE",
+        "path": "/chat/channels/{channelId}",
+        "operation_id": "deleteUserLevelChannel"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/recordings",
+        "operation_id": "recordingDelete"
+      },
+      {
+        "method": "PUT",
+        "path": "/meetings/{meetingId}/recordings/status",
+        "operation_id": "recordingStatusUpdate"
+      },
+      {
+        "method": "POST",
+        "path": "/roles",
+        "operation_id": "createRole"
+      },
+      {
+        "method": "GET",
+        "path": "/users/{userId}",
+        "operation_id": "user"
+      },
+      {
+        "method": "POST",
+        "path": "/accounts/{accountId}/phone/setup",
+        "operation_id": "setUpAccount"
+      },
+      {
+        "method": "PUT",
+        "path": "/rooms/{roomId}/devices/{deviceId}/app_version",
+        "operation_id": "changeZoomRoomsAppVersion"
+      },
+      {
+        "method": "POST",
+        "path": "/meetings/{meetingId}/batch_polls",
+        "operation_id": "createBatchPolls"
+      }
+    ]
+  },
+  {
+    "intent": "As an admin, mute notification settings and rename the support-escalations channel under my profile to archive-support-escalations",
+    "ground_truth_method": "PATCH",
+    "ground_truth_path": "/chat/users/{userId}/channels/{channelId}",
+    "candidates": [
+      {
+        "method": "PUT",
+        "path": "/users/{userId}/password",
+        "operation_id": "userPassword"
+      },
+      {
+        "method": "PATCH",
+        "path": "/chat/users/{userId}/channels/{channelId}",
+        "operation_id": "updateChannel"
+      },
+      {
+        "method": "PUT",
+        "path": "/accounts/{accountId}/owner",
+        "operation_id": "updateAccountOwner"
+      },
+      {
+        "method": "GET",
+        "path": "/metrics/issues/zoomrooms/{zoomroomId}",
+        "operation_id": "dashboardIssueDetailZoomRoom"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/recordings/{recordingId}",
+        "operation_id": "recordingDeleteOne"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/polls/{pollId}",
+        "operation_id": "meetingPollDelete"
+      },
+      {
+        "method": "DELETE",
+        "path": "/groups/{groupId}",
+        "operation_id": "groupDelete"
+      },
+      {
+        "method": "GET",
+        "path": "/chat/users/me/contacts",
+        "operation_id": "getUserContacts"
+      },
+      {
+        "method": "POST",
+        "path": "/webinars/{webinarId}/batch_registrants",
+        "operation_id": "addBatchWebinarRegistrants"
+      },
+      {
+        "method": "PUT",
+        "path": "/rooms/locations/{locationId}/location",
+        "operation_id": "changeParentLocation"
+      },
+      {
+        "method": "GET",
+        "path": "/archive_files",
+        "operation_id": "listArchivedFiles"
+      },
+      {
+        "method": "PATCH",
+        "path": "/tsp",
+        "operation_id": "tspUpdate"
+      },
+      {
+        "method": "POST",
+        "path": "/phone/shared_line_groups/{sharedLineGroupId}/members",
+        "operation_id": "addMembersToSharedLineGroup"
+      },
+      {
+        "method": "GET",
+        "path": "/accounts/{accountId}/plans",
+        "operation_id": "accountPlans"
+      },
+      {
+        "method": "PATCH",
+        "path": "/accounts/{accountId}/phone/sip_trunk/trunks/{sipTrunkId}",
+        "operation_id": "updatePhoneSIPTrunk"
+      },
+      {
+        "method": "DELETE",
+        "path": "/chat/channels/{channelId}",
+        "operation_id": "deleteUserLevelChannel"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/recordings",
+        "operation_id": "recordingDelete"
+      },
+      {
+        "method": "PUT",
+        "path": "/meetings/{meetingId}/recordings/status",
+        "operation_id": "recordingStatusUpdate"
+      },
+      {
+        "method": "POST",
+        "path": "/roles",
+        "operation_id": "createRole"
+      },
+      {
+        "method": "GET",
+        "path": "/users/{userId}",
+        "operation_id": "user"
+      },
+      {
+        "method": "POST",
+        "path": "/accounts/{accountId}/phone/setup",
+        "operation_id": "setUpAccount"
+      },
+      {
+        "method": "PUT",
+        "path": "/rooms/{roomId}/devices/{deviceId}/app_version",
+        "operation_id": "changeZoomRoomsAppVersion"
+      },
+      {
+        "method": "POST",
+        "path": "/meetings/{meetingId}/batch_polls",
+        "operation_id": "createBatchPolls"
+      }
+    ]
+  },
+  {
+    "intent": "Our team lead Sarah is going on extended maternity leave starting next week, so please transfer ownership of account 88213 to her backup, mike.chen@acmecorp.com",
+    "ground_truth_method": "PUT",
+    "ground_truth_path": "/accounts/{accountId}/owner",
+    "candidates": [
+      {
+        "method": "PUT",
+        "path": "/users/{userId}/password",
+        "operation_id": "userPassword"
+      },
+      {
+        "method": "PATCH",
+        "path": "/chat/users/{userId}/channels/{channelId}",
+        "operation_id": "updateChannel"
+      },
+      {
+        "method": "PUT",
+        "path": "/accounts/{accountId}/owner",
+        "operation_id": "updateAccountOwner"
+      },
+      {
+        "method": "GET",
+        "path": "/metrics/issues/zoomrooms/{zoomroomId}",
+        "operation_id": "dashboardIssueDetailZoomRoom"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/recordings/{recordingId}",
+        "operation_id": "recordingDeleteOne"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/polls/{pollId}",
+        "operation_id": "meetingPollDelete"
+      },
+      {
+        "method": "DELETE",
+        "path": "/groups/{groupId}",
+        "operation_id": "groupDelete"
+      },
+      {
+        "method": "GET",
+        "path": "/chat/users/me/contacts",
+        "operation_id": "getUserContacts"
+      },
+      {
+        "method": "POST",
+        "path": "/webinars/{webinarId}/batch_registrants",
+        "operation_id": "addBatchWebinarRegistrants"
+      },
+      {
+        "method": "PUT",
+        "path": "/rooms/locations/{locationId}/location",
+        "operation_id": "changeParentLocation"
+      },
+      {
+        "method": "GET",
+        "path": "/archive_files",
+        "operation_id": "listArchivedFiles"
+      },
+      {
+        "method": "PATCH",
+        "path": "/tsp",
+        "operation_id": "tspUpdate"
+      },
+      {
+        "method": "POST",
+        "path": "/phone/shared_line_groups/{sharedLineGroupId}/members",
+        "operation_id": "addMembersToSharedLineGroup"
+      },
+      {
+        "method": "GET",
+        "path": "/accounts/{accountId}/plans",
+        "operation_id": "accountPlans"
+      },
+      {
+        "method": "PATCH",
+        "path": "/accounts/{accountId}/phone/sip_trunk/trunks/{sipTrunkId}",
+        "operation_id": "updatePhoneSIPTrunk"
+      },
+      {
+        "method": "DELETE",
+        "path": "/chat/channels/{channelId}",
+        "operation_id": "deleteUserLevelChannel"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/recordings",
+        "operation_id": "recordingDelete"
+      },
+      {
+        "method": "PUT",
+        "path": "/meetings/{meetingId}/recordings/status",
+        "operation_id": "recordingStatusUpdate"
+      },
+      {
+        "method": "POST",
+        "path": "/roles",
+        "operation_id": "createRole"
+      },
+      {
+        "method": "GET",
+        "path": "/users/{userId}",
+        "operation_id": "user"
+      },
+      {
+        "method": "POST",
+        "path": "/accounts/{accountId}/phone/setup",
+        "operation_id": "setUpAccount"
+      },
+      {
+        "method": "PUT",
+        "path": "/rooms/{roomId}/devices/{deviceId}/app_version",
+        "operation_id": "changeZoomRoomsAppVersion"
+      },
+      {
+        "method": "POST",
+        "path": "/meetings/{meetingId}/batch_polls",
+        "operation_id": "createBatchPolls"
+      }
+    ]
+  },
+  {
+    "intent": "We're restructuring the west region sales division and need to reassign account 44210's owner to the new regional director, jennifer.oyelaran@company.com",
+    "ground_truth_method": "PUT",
+    "ground_truth_path": "/accounts/{accountId}/owner",
+    "candidates": [
+      {
+        "method": "PUT",
+        "path": "/users/{userId}/password",
+        "operation_id": "userPassword"
+      },
+      {
+        "method": "PATCH",
+        "path": "/chat/users/{userId}/channels/{channelId}",
+        "operation_id": "updateChannel"
+      },
+      {
+        "method": "PUT",
+        "path": "/accounts/{accountId}/owner",
+        "operation_id": "updateAccountOwner"
+      },
+      {
+        "method": "GET",
+        "path": "/metrics/issues/zoomrooms/{zoomroomId}",
+        "operation_id": "dashboardIssueDetailZoomRoom"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/recordings/{recordingId}",
+        "operation_id": "recordingDeleteOne"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/polls/{pollId}",
+        "operation_id": "meetingPollDelete"
+      },
+      {
+        "method": "DELETE",
+        "path": "/groups/{groupId}",
+        "operation_id": "groupDelete"
+      },
+      {
+        "method": "GET",
+        "path": "/chat/users/me/contacts",
+        "operation_id": "getUserContacts"
+      },
+      {
+        "method": "POST",
+        "path": "/webinars/{webinarId}/batch_registrants",
+        "operation_id": "addBatchWebinarRegistrants"
+      },
+      {
+        "method": "PUT",
+        "path": "/rooms/locations/{locationId}/location",
+        "operation_id": "changeParentLocation"
+      },
+      {
+        "method": "GET",
+        "path": "/archive_files",
+        "operation_id": "listArchivedFiles"
+      },
+      {
+        "method": "PATCH",
+        "path": "/tsp",
+        "operation_id": "tspUpdate"
+      },
+      {
+        "method": "POST",
+        "path": "/phone/shared_line_groups/{sharedLineGroupId}/members",
+        "operation_id": "addMembersToSharedLineGroup"
+      },
+      {
+        "method": "GET",
+        "path": "/accounts/{accountId}/plans",
+        "operation_id": "accountPlans"
+      },
+      {
+        "method": "PATCH",
+        "path": "/accounts/{accountId}/phone/sip_trunk/trunks/{sipTrunkId}",
+        "operation_id": "updatePhoneSIPTrunk"
+      },
+      {
+        "method": "DELETE",
+        "path": "/chat/channels/{channelId}",
+        "operation_id": "deleteUserLevelChannel"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/recordings",
+        "operation_id": "recordingDelete"
+      },
+      {
+        "method": "PUT",
+        "path": "/meetings/{meetingId}/recordings/status",
+        "operation_id": "recordingStatusUpdate"
+      },
+      {
+        "method": "POST",
+        "path": "/roles",
+        "operation_id": "createRole"
+      },
+      {
+        "method": "GET",
+        "path": "/users/{userId}",
+        "operation_id": "user"
+      },
+      {
+        "method": "POST",
+        "path": "/accounts/{accountId}/phone/setup",
+        "operation_id": "setUpAccount"
+      },
+      {
+        "method": "PUT",
+        "path": "/rooms/{roomId}/devices/{deviceId}/app_version",
+        "operation_id": "changeZoomRoomsAppVersion"
+      },
+      {
+        "method": "POST",
+        "path": "/meetings/{meetingId}/batch_polls",
+        "operation_id": "createBatchPolls"
+      }
+    ]
+  },
+  {
+    "intent": "Pull up the issue history for our 3rd floor Zoom Room from March 1st to March 15th so I can see what's been going wrong with the connection lately.",
+    "ground_truth_method": "GET",
+    "ground_truth_path": "/metrics/issues/zoomrooms/{zoomroomId}",
+    "candidates": [
+      {
+        "method": "PUT",
+        "path": "/users/{userId}/password",
+        "operation_id": "userPassword"
+      },
+      {
+        "method": "PATCH",
+        "path": "/chat/users/{userId}/channels/{channelId}",
+        "operation_id": "updateChannel"
+      },
+      {
+        "method": "PUT",
+        "path": "/accounts/{accountId}/owner",
+        "operation_id": "updateAccountOwner"
+      },
+      {
+        "method": "GET",
+        "path": "/metrics/issues/zoomrooms/{zoomroomId}",
+        "operation_id": "dashboardIssueDetailZoomRoom"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/recordings/{recordingId}",
+        "operation_id": "recordingDeleteOne"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/polls/{pollId}",
+        "operation_id": "meetingPollDelete"
+      },
+      {
+        "method": "DELETE",
+        "path": "/groups/{groupId}",
+        "operation_id": "groupDelete"
+      },
+      {
+        "method": "GET",
+        "path": "/chat/users/me/contacts",
+        "operation_id": "getUserContacts"
+      },
+      {
+        "method": "POST",
+        "path": "/webinars/{webinarId}/batch_registrants",
+        "operation_id": "addBatchWebinarRegistrants"
+      },
+      {
+        "method": "PUT",
+        "path": "/rooms/locations/{locationId}/location",
+        "operation_id": "changeParentLocation"
+      },
+      {
+        "method": "GET",
+        "path": "/archive_files",
+        "operation_id": "listArchivedFiles"
+      },
+      {
+        "method": "PATCH",
+        "path": "/tsp",
+        "operation_id": "tspUpdate"
+      },
+      {
+        "method": "POST",
+        "path": "/phone/shared_line_groups/{sharedLineGroupId}/members",
+        "operation_id": "addMembersToSharedLineGroup"
+      },
+      {
+        "method": "GET",
+        "path": "/accounts/{accountId}/plans",
+        "operation_id": "accountPlans"
+      },
+      {
+        "method": "PATCH",
+        "path": "/accounts/{accountId}/phone/sip_trunk/trunks/{sipTrunkId}",
+        "operation_id": "updatePhoneSIPTrunk"
+      },
+      {
+        "method": "DELETE",
+        "path": "/chat/channels/{channelId}",
+        "operation_id": "deleteUserLevelChannel"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/recordings",
+        "operation_id": "recordingDelete"
+      },
+      {
+        "method": "PUT",
+        "path": "/meetings/{meetingId}/recordings/status",
+        "operation_id": "recordingStatusUpdate"
+      },
+      {
+        "method": "POST",
+        "path": "/roles",
+        "operation_id": "createRole"
+      },
+      {
+        "method": "GET",
+        "path": "/users/{userId}",
+        "operation_id": "user"
+      },
+      {
+        "method": "POST",
+        "path": "/accounts/{accountId}/phone/setup",
+        "operation_id": "setUpAccount"
+      },
+      {
+        "method": "PUT",
+        "path": "/rooms/{roomId}/devices/{deviceId}/app_version",
+        "operation_id": "changeZoomRoomsAppVersion"
+      },
+      {
+        "method": "POST",
+        "path": "/meetings/{meetingId}/batch_polls",
+        "operation_id": "createBatchPolls"
+      }
+    ]
+  },
+  {
+    "intent": "I need a report on all reported problems for the executive boardroom Zoom Room between last Monday and today, can you fetch up to 50 records at a time?",
+    "ground_truth_method": "GET",
+    "ground_truth_path": "/metrics/issues/zoomrooms/{zoomroomId}",
+    "candidates": [
+      {
+        "method": "PUT",
+        "path": "/users/{userId}/password",
+        "operation_id": "userPassword"
+      },
+      {
+        "method": "PATCH",
+        "path": "/chat/users/{userId}/channels/{channelId}",
+        "operation_id": "updateChannel"
+      },
+      {
+        "method": "PUT",
+        "path": "/accounts/{accountId}/owner",
+        "operation_id": "updateAccountOwner"
+      },
+      {
+        "method": "GET",
+        "path": "/metrics/issues/zoomrooms/{zoomroomId}",
+        "operation_id": "dashboardIssueDetailZoomRoom"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/recordings/{recordingId}",
+        "operation_id": "recordingDeleteOne"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/polls/{pollId}",
+        "operation_id": "meetingPollDelete"
+      },
+      {
+        "method": "DELETE",
+        "path": "/groups/{groupId}",
+        "operation_id": "groupDelete"
+      },
+      {
+        "method": "GET",
+        "path": "/chat/users/me/contacts",
+        "operation_id": "getUserContacts"
+      },
+      {
+        "method": "POST",
+        "path": "/webinars/{webinarId}/batch_registrants",
+        "operation_id": "addBatchWebinarRegistrants"
+      },
+      {
+        "method": "PUT",
+        "path": "/rooms/locations/{locationId}/location",
+        "operation_id": "changeParentLocation"
+      },
+      {
+        "method": "GET",
+        "path": "/archive_files",
+        "operation_id": "listArchivedFiles"
+      },
+      {
+        "method": "PATCH",
+        "path": "/tsp",
+        "operation_id": "tspUpdate"
+      },
+      {
+        "method": "POST",
+        "path": "/phone/shared_line_groups/{sharedLineGroupId}/members",
+        "operation_id": "addMembersToSharedLineGroup"
+      },
+      {
+        "method": "GET",
+        "path": "/accounts/{accountId}/plans",
+        "operation_id": "accountPlans"
+      },
+      {
+        "method": "PATCH",
+        "path": "/accounts/{accountId}/phone/sip_trunk/trunks/{sipTrunkId}",
+        "operation_id": "updatePhoneSIPTrunk"
+      },
+      {
+        "method": "DELETE",
+        "path": "/chat/channels/{channelId}",
+        "operation_id": "deleteUserLevelChannel"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/recordings",
+        "operation_id": "recordingDelete"
+      },
+      {
+        "method": "PUT",
+        "path": "/meetings/{meetingId}/recordings/status",
+        "operation_id": "recordingStatusUpdate"
+      },
+      {
+        "method": "POST",
+        "path": "/roles",
+        "operation_id": "createRole"
+      },
+      {
+        "method": "GET",
+        "path": "/users/{userId}",
+        "operation_id": "user"
+      },
+      {
+        "method": "POST",
+        "path": "/accounts/{accountId}/phone/setup",
+        "operation_id": "setUpAccount"
+      },
+      {
+        "method": "PUT",
+        "path": "/rooms/{roomId}/devices/{deviceId}/app_version",
+        "operation_id": "changeZoomRoomsAppVersion"
+      },
+      {
+        "method": "POST",
+        "path": "/meetings/{meetingId}/batch_polls",
+        "operation_id": "createBatchPolls"
+      }
+    ]
+  },
+  {
+    "intent": "We accidentally recorded a confidential client negotiation on meeting 88213 \u2014 please permanently delete recording rec_4471 from it right away.",
+    "ground_truth_method": "DELETE",
+    "ground_truth_path": "/meetings/{meetingId}/recordings/{recordingId}",
+    "candidates": [
+      {
+        "method": "PUT",
+        "path": "/users/{userId}/password",
+        "operation_id": "userPassword"
+      },
+      {
+        "method": "PATCH",
+        "path": "/chat/users/{userId}/channels/{channelId}",
+        "operation_id": "updateChannel"
+      },
+      {
+        "method": "PUT",
+        "path": "/accounts/{accountId}/owner",
+        "operation_id": "updateAccountOwner"
+      },
+      {
+        "method": "GET",
+        "path": "/metrics/issues/zoomrooms/{zoomroomId}",
+        "operation_id": "dashboardIssueDetailZoomRoom"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/recordings/{recordingId}",
+        "operation_id": "recordingDeleteOne"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/polls/{pollId}",
+        "operation_id": "meetingPollDelete"
+      },
+      {
+        "method": "DELETE",
+        "path": "/groups/{groupId}",
+        "operation_id": "groupDelete"
+      },
+      {
+        "method": "GET",
+        "path": "/chat/users/me/contacts",
+        "operation_id": "getUserContacts"
+      },
+      {
+        "method": "POST",
+        "path": "/webinars/{webinarId}/batch_registrants",
+        "operation_id": "addBatchWebinarRegistrants"
+      },
+      {
+        "method": "PUT",
+        "path": "/rooms/locations/{locationId}/location",
+        "operation_id": "changeParentLocation"
+      },
+      {
+        "method": "GET",
+        "path": "/archive_files",
+        "operation_id": "listArchivedFiles"
+      },
+      {
+        "method": "PATCH",
+        "path": "/tsp",
+        "operation_id": "tspUpdate"
+      },
+      {
+        "method": "POST",
+        "path": "/phone/shared_line_groups/{sharedLineGroupId}/members",
+        "operation_id": "addMembersToSharedLineGroup"
+      },
+      {
+        "method": "GET",
+        "path": "/accounts/{accountId}/plans",
+        "operation_id": "accountPlans"
+      },
+      {
+        "method": "PATCH",
+        "path": "/accounts/{accountId}/phone/sip_trunk/trunks/{sipTrunkId}",
+        "operation_id": "updatePhoneSIPTrunk"
+      },
+      {
+        "method": "DELETE",
+        "path": "/chat/channels/{channelId}",
+        "operation_id": "deleteUserLevelChannel"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/recordings",
+        "operation_id": "recordingDelete"
+      },
+      {
+        "method": "PUT",
+        "path": "/meetings/{meetingId}/recordings/status",
+        "operation_id": "recordingStatusUpdate"
+      },
+      {
+        "method": "POST",
+        "path": "/roles",
+        "operation_id": "createRole"
+      },
+      {
+        "method": "GET",
+        "path": "/users/{userId}",
+        "operation_id": "user"
+      },
+      {
+        "method": "POST",
+        "path": "/accounts/{accountId}/phone/setup",
+        "operation_id": "setUpAccount"
+      },
+      {
+        "method": "PUT",
+        "path": "/rooms/{roomId}/devices/{deviceId}/app_version",
+        "operation_id": "changeZoomRoomsAppVersion"
+      },
+      {
+        "method": "POST",
+        "path": "/meetings/{meetingId}/batch_polls",
+        "operation_id": "createBatchPolls"
+      }
+    ]
+  },
+  {
+    "intent": "Compliance flagged that the training session recording (ID rec_9032) under meeting 55210 contains PII that shouldn't be retained. Can you trash that recording instead of just archiving it?",
+    "ground_truth_method": "DELETE",
+    "ground_truth_path": "/meetings/{meetingId}/recordings/{recordingId}",
+    "candidates": [
+      {
+        "method": "PUT",
+        "path": "/users/{userId}/password",
+        "operation_id": "userPassword"
+      },
+      {
+        "method": "PATCH",
+        "path": "/chat/users/{userId}/channels/{channelId}",
+        "operation_id": "updateChannel"
+      },
+      {
+        "method": "PUT",
+        "path": "/accounts/{accountId}/owner",
+        "operation_id": "updateAccountOwner"
+      },
+      {
+        "method": "GET",
+        "path": "/metrics/issues/zoomrooms/{zoomroomId}",
+        "operation_id": "dashboardIssueDetailZoomRoom"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/recordings/{recordingId}",
+        "operation_id": "recordingDeleteOne"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/polls/{pollId}",
+        "operation_id": "meetingPollDelete"
+      },
+      {
+        "method": "DELETE",
+        "path": "/groups/{groupId}",
+        "operation_id": "groupDelete"
+      },
+      {
+        "method": "GET",
+        "path": "/chat/users/me/contacts",
+        "operation_id": "getUserContacts"
+      },
+      {
+        "method": "POST",
+        "path": "/webinars/{webinarId}/batch_registrants",
+        "operation_id": "addBatchWebinarRegistrants"
+      },
+      {
+        "method": "PUT",
+        "path": "/rooms/locations/{locationId}/location",
+        "operation_id": "changeParentLocation"
+      },
+      {
+        "method": "GET",
+        "path": "/archive_files",
+        "operation_id": "listArchivedFiles"
+      },
+      {
+        "method": "PATCH",
+        "path": "/tsp",
+        "operation_id": "tspUpdate"
+      },
+      {
+        "method": "POST",
+        "path": "/phone/shared_line_groups/{sharedLineGroupId}/members",
+        "operation_id": "addMembersToSharedLineGroup"
+      },
+      {
+        "method": "GET",
+        "path": "/accounts/{accountId}/plans",
+        "operation_id": "accountPlans"
+      },
+      {
+        "method": "PATCH",
+        "path": "/accounts/{accountId}/phone/sip_trunk/trunks/{sipTrunkId}",
+        "operation_id": "updatePhoneSIPTrunk"
+      },
+      {
+        "method": "DELETE",
+        "path": "/chat/channels/{channelId}",
+        "operation_id": "deleteUserLevelChannel"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/recordings",
+        "operation_id": "recordingDelete"
+      },
+      {
+        "method": "PUT",
+        "path": "/meetings/{meetingId}/recordings/status",
+        "operation_id": "recordingStatusUpdate"
+      },
+      {
+        "method": "POST",
+        "path": "/roles",
+        "operation_id": "createRole"
+      },
+      {
+        "method": "GET",
+        "path": "/users/{userId}",
+        "operation_id": "user"
+      },
+      {
+        "method": "POST",
+        "path": "/accounts/{accountId}/phone/setup",
+        "operation_id": "setUpAccount"
+      },
+      {
+        "method": "PUT",
+        "path": "/rooms/{roomId}/devices/{deviceId}/app_version",
+        "operation_id": "changeZoomRoomsAppVersion"
+      },
+      {
+        "method": "POST",
+        "path": "/meetings/{meetingId}/batch_polls",
+        "operation_id": "createBatchPolls"
+      }
+    ]
+  },
+  {
+    "intent": "We accidentally created a duplicate poll for tomorrow's all-hands meeting, can you remove poll ID 8842 from meeting 3391 so attendees aren't confused?",
+    "ground_truth_method": "DELETE",
+    "ground_truth_path": "/meetings/{meetingId}/polls/{pollId}",
+    "candidates": [
+      {
+        "method": "PUT",
+        "path": "/users/{userId}/password",
+        "operation_id": "userPassword"
+      },
+      {
+        "method": "PATCH",
+        "path": "/chat/users/{userId}/channels/{channelId}",
+        "operation_id": "updateChannel"
+      },
+      {
+        "method": "PUT",
+        "path": "/accounts/{accountId}/owner",
+        "operation_id": "updateAccountOwner"
+      },
+      {
+        "method": "GET",
+        "path": "/metrics/issues/zoomrooms/{zoomroomId}",
+        "operation_id": "dashboardIssueDetailZoomRoom"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/recordings/{recordingId}",
+        "operation_id": "recordingDeleteOne"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/polls/{pollId}",
+        "operation_id": "meetingPollDelete"
+      },
+      {
+        "method": "DELETE",
+        "path": "/groups/{groupId}",
+        "operation_id": "groupDelete"
+      },
+      {
+        "method": "GET",
+        "path": "/chat/users/me/contacts",
+        "operation_id": "getUserContacts"
+      },
+      {
+        "method": "POST",
+        "path": "/webinars/{webinarId}/batch_registrants",
+        "operation_id": "addBatchWebinarRegistrants"
+      },
+      {
+        "method": "PUT",
+        "path": "/rooms/locations/{locationId}/location",
+        "operation_id": "changeParentLocation"
+      },
+      {
+        "method": "GET",
+        "path": "/archive_files",
+        "operation_id": "listArchivedFiles"
+      },
+      {
+        "method": "PATCH",
+        "path": "/tsp",
+        "operation_id": "tspUpdate"
+      },
+      {
+        "method": "POST",
+        "path": "/phone/shared_line_groups/{sharedLineGroupId}/members",
+        "operation_id": "addMembersToSharedLineGroup"
+      },
+      {
+        "method": "GET",
+        "path": "/accounts/{accountId}/plans",
+        "operation_id": "accountPlans"
+      },
+      {
+        "method": "PATCH",
+        "path": "/accounts/{accountId}/phone/sip_trunk/trunks/{sipTrunkId}",
+        "operation_id": "updatePhoneSIPTrunk"
+      },
+      {
+        "method": "DELETE",
+        "path": "/chat/channels/{channelId}",
+        "operation_id": "deleteUserLevelChannel"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/recordings",
+        "operation_id": "recordingDelete"
+      },
+      {
+        "method": "PUT",
+        "path": "/meetings/{meetingId}/recordings/status",
+        "operation_id": "recordingStatusUpdate"
+      },
+      {
+        "method": "POST",
+        "path": "/roles",
+        "operation_id": "createRole"
+      },
+      {
+        "method": "GET",
+        "path": "/users/{userId}",
+        "operation_id": "user"
+      },
+      {
+        "method": "POST",
+        "path": "/accounts/{accountId}/phone/setup",
+        "operation_id": "setUpAccount"
+      },
+      {
+        "method": "PUT",
+        "path": "/rooms/{roomId}/devices/{deviceId}/app_version",
+        "operation_id": "changeZoomRoomsAppVersion"
+      },
+      {
+        "method": "POST",
+        "path": "/meetings/{meetingId}/batch_polls",
+        "operation_id": "createBatchPolls"
+      }
+    ]
+  },
+  {
+    "intent": "The product feedback poll we set up for the Q3 roadmap review is no longer needed since we're covering it live now, please delete poll 5567 from meeting 1204.",
+    "ground_truth_method": "DELETE",
+    "ground_truth_path": "/meetings/{meetingId}/polls/{pollId}",
+    "candidates": [
+      {
+        "method": "PUT",
+        "path": "/users/{userId}/password",
+        "operation_id": "userPassword"
+      },
+      {
+        "method": "PATCH",
+        "path": "/chat/users/{userId}/channels/{channelId}",
+        "operation_id": "updateChannel"
+      },
+      {
+        "method": "PUT",
+        "path": "/accounts/{accountId}/owner",
+        "operation_id": "updateAccountOwner"
+      },
+      {
+        "method": "GET",
+        "path": "/metrics/issues/zoomrooms/{zoomroomId}",
+        "operation_id": "dashboardIssueDetailZoomRoom"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/recordings/{recordingId}",
+        "operation_id": "recordingDeleteOne"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/polls/{pollId}",
+        "operation_id": "meetingPollDelete"
+      },
+      {
+        "method": "DELETE",
+        "path": "/groups/{groupId}",
+        "operation_id": "groupDelete"
+      },
+      {
+        "method": "GET",
+        "path": "/chat/users/me/contacts",
+        "operation_id": "getUserContacts"
+      },
+      {
+        "method": "POST",
+        "path": "/webinars/{webinarId}/batch_registrants",
+        "operation_id": "addBatchWebinarRegistrants"
+      },
+      {
+        "method": "PUT",
+        "path": "/rooms/locations/{locationId}/location",
+        "operation_id": "changeParentLocation"
+      },
+      {
+        "method": "GET",
+        "path": "/archive_files",
+        "operation_id": "listArchivedFiles"
+      },
+      {
+        "method": "PATCH",
+        "path": "/tsp",
+        "operation_id": "tspUpdate"
+      },
+      {
+        "method": "POST",
+        "path": "/phone/shared_line_groups/{sharedLineGroupId}/members",
+        "operation_id": "addMembersToSharedLineGroup"
+      },
+      {
+        "method": "GET",
+        "path": "/accounts/{accountId}/plans",
+        "operation_id": "accountPlans"
+      },
+      {
+        "method": "PATCH",
+        "path": "/accounts/{accountId}/phone/sip_trunk/trunks/{sipTrunkId}",
+        "operation_id": "updatePhoneSIPTrunk"
+      },
+      {
+        "method": "DELETE",
+        "path": "/chat/channels/{channelId}",
+        "operation_id": "deleteUserLevelChannel"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/recordings",
+        "operation_id": "recordingDelete"
+      },
+      {
+        "method": "PUT",
+        "path": "/meetings/{meetingId}/recordings/status",
+        "operation_id": "recordingStatusUpdate"
+      },
+      {
+        "method": "POST",
+        "path": "/roles",
+        "operation_id": "createRole"
+      },
+      {
+        "method": "GET",
+        "path": "/users/{userId}",
+        "operation_id": "user"
+      },
+      {
+        "method": "POST",
+        "path": "/accounts/{accountId}/phone/setup",
+        "operation_id": "setUpAccount"
+      },
+      {
+        "method": "PUT",
+        "path": "/rooms/{roomId}/devices/{deviceId}/app_version",
+        "operation_id": "changeZoomRoomsAppVersion"
+      },
+      {
+        "method": "POST",
+        "path": "/meetings/{meetingId}/batch_polls",
+        "operation_id": "createBatchPolls"
+      }
+    ]
+  },
+  {
+    "intent": "We just finished migrating everyone out of the 'Contractors-2019' access group into the new system, so go ahead and delete that old group now.",
+    "ground_truth_method": "DELETE",
+    "ground_truth_path": "/groups/{groupId}",
+    "candidates": [
+      {
+        "method": "PUT",
+        "path": "/users/{userId}/password",
+        "operation_id": "userPassword"
+      },
+      {
+        "method": "PATCH",
+        "path": "/chat/users/{userId}/channels/{channelId}",
+        "operation_id": "updateChannel"
+      },
+      {
+        "method": "PUT",
+        "path": "/accounts/{accountId}/owner",
+        "operation_id": "updateAccountOwner"
+      },
+      {
+        "method": "GET",
+        "path": "/metrics/issues/zoomrooms/{zoomroomId}",
+        "operation_id": "dashboardIssueDetailZoomRoom"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/recordings/{recordingId}",
+        "operation_id": "recordingDeleteOne"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/polls/{pollId}",
+        "operation_id": "meetingPollDelete"
+      },
+      {
+        "method": "DELETE",
+        "path": "/groups/{groupId}",
+        "operation_id": "groupDelete"
+      },
+      {
+        "method": "GET",
+        "path": "/chat/users/me/contacts",
+        "operation_id": "getUserContacts"
+      },
+      {
+        "method": "POST",
+        "path": "/webinars/{webinarId}/batch_registrants",
+        "operation_id": "addBatchWebinarRegistrants"
+      },
+      {
+        "method": "PUT",
+        "path": "/rooms/locations/{locationId}/location",
+        "operation_id": "changeParentLocation"
+      },
+      {
+        "method": "GET",
+        "path": "/archive_files",
+        "operation_id": "listArchivedFiles"
+      },
+      {
+        "method": "PATCH",
+        "path": "/tsp",
+        "operation_id": "tspUpdate"
+      },
+      {
+        "method": "POST",
+        "path": "/phone/shared_line_groups/{sharedLineGroupId}/members",
+        "operation_id": "addMembersToSharedLineGroup"
+      },
+      {
+        "method": "GET",
+        "path": "/accounts/{accountId}/plans",
+        "operation_id": "accountPlans"
+      },
+      {
+        "method": "PATCH",
+        "path": "/accounts/{accountId}/phone/sip_trunk/trunks/{sipTrunkId}",
+        "operation_id": "updatePhoneSIPTrunk"
+      },
+      {
+        "method": "DELETE",
+        "path": "/chat/channels/{channelId}",
+        "operation_id": "deleteUserLevelChannel"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/recordings",
+        "operation_id": "recordingDelete"
+      },
+      {
+        "method": "PUT",
+        "path": "/meetings/{meetingId}/recordings/status",
+        "operation_id": "recordingStatusUpdate"
+      },
+      {
+        "method": "POST",
+        "path": "/roles",
+        "operation_id": "createRole"
+      },
+      {
+        "method": "GET",
+        "path": "/users/{userId}",
+        "operation_id": "user"
+      },
+      {
+        "method": "POST",
+        "path": "/accounts/{accountId}/phone/setup",
+        "operation_id": "setUpAccount"
+      },
+      {
+        "method": "PUT",
+        "path": "/rooms/{roomId}/devices/{deviceId}/app_version",
+        "operation_id": "changeZoomRoomsAppVersion"
+      },
+      {
+        "method": "POST",
+        "path": "/meetings/{meetingId}/batch_polls",
+        "operation_id": "createBatchPolls"
+      }
+    ]
+  },
+  {
+    "intent": "Can you remove the 'Marketing-Interns-Summer' group from our directory? The internship program ended and we don't need that group cluttering up the permissions list anymore.",
+    "ground_truth_method": "DELETE",
+    "ground_truth_path": "/groups/{groupId}",
+    "candidates": [
+      {
+        "method": "PUT",
+        "path": "/users/{userId}/password",
+        "operation_id": "userPassword"
+      },
+      {
+        "method": "PATCH",
+        "path": "/chat/users/{userId}/channels/{channelId}",
+        "operation_id": "updateChannel"
+      },
+      {
+        "method": "PUT",
+        "path": "/accounts/{accountId}/owner",
+        "operation_id": "updateAccountOwner"
+      },
+      {
+        "method": "GET",
+        "path": "/metrics/issues/zoomrooms/{zoomroomId}",
+        "operation_id": "dashboardIssueDetailZoomRoom"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/recordings/{recordingId}",
+        "operation_id": "recordingDeleteOne"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/polls/{pollId}",
+        "operation_id": "meetingPollDelete"
+      },
+      {
+        "method": "DELETE",
+        "path": "/groups/{groupId}",
+        "operation_id": "groupDelete"
+      },
+      {
+        "method": "GET",
+        "path": "/chat/users/me/contacts",
+        "operation_id": "getUserContacts"
+      },
+      {
+        "method": "POST",
+        "path": "/webinars/{webinarId}/batch_registrants",
+        "operation_id": "addBatchWebinarRegistrants"
+      },
+      {
+        "method": "PUT",
+        "path": "/rooms/locations/{locationId}/location",
+        "operation_id": "changeParentLocation"
+      },
+      {
+        "method": "GET",
+        "path": "/archive_files",
+        "operation_id": "listArchivedFiles"
+      },
+      {
+        "method": "PATCH",
+        "path": "/tsp",
+        "operation_id": "tspUpdate"
+      },
+      {
+        "method": "POST",
+        "path": "/phone/shared_line_groups/{sharedLineGroupId}/members",
+        "operation_id": "addMembersToSharedLineGroup"
+      },
+      {
+        "method": "GET",
+        "path": "/accounts/{accountId}/plans",
+        "operation_id": "accountPlans"
+      },
+      {
+        "method": "PATCH",
+        "path": "/accounts/{accountId}/phone/sip_trunk/trunks/{sipTrunkId}",
+        "operation_id": "updatePhoneSIPTrunk"
+      },
+      {
+        "method": "DELETE",
+        "path": "/chat/channels/{channelId}",
+        "operation_id": "deleteUserLevelChannel"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/recordings",
+        "operation_id": "recordingDelete"
+      },
+      {
+        "method": "PUT",
+        "path": "/meetings/{meetingId}/recordings/status",
+        "operation_id": "recordingStatusUpdate"
+      },
+      {
+        "method": "POST",
+        "path": "/roles",
+        "operation_id": "createRole"
+      },
+      {
+        "method": "GET",
+        "path": "/users/{userId}",
+        "operation_id": "user"
+      },
+      {
+        "method": "POST",
+        "path": "/accounts/{accountId}/phone/setup",
+        "operation_id": "setUpAccount"
+      },
+      {
+        "method": "PUT",
+        "path": "/rooms/{roomId}/devices/{deviceId}/app_version",
+        "operation_id": "changeZoomRoomsAppVersion"
+      },
+      {
+        "method": "POST",
+        "path": "/meetings/{meetingId}/batch_polls",
+        "operation_id": "createBatchPolls"
+      }
+    ]
+  },
+  {
+    "intent": "Pull up the first page of my external contacts so I can see which vendor reps I've chatted with before scheduling the renewal call",
+    "ground_truth_method": "GET",
+    "ground_truth_path": "/chat/users/me/contacts",
+    "candidates": [
+      {
+        "method": "PUT",
+        "path": "/users/{userId}/password",
+        "operation_id": "userPassword"
+      },
+      {
+        "method": "PATCH",
+        "path": "/chat/users/{userId}/channels/{channelId}",
+        "operation_id": "updateChannel"
+      },
+      {
+        "method": "PUT",
+        "path": "/accounts/{accountId}/owner",
+        "operation_id": "updateAccountOwner"
+      },
+      {
+        "method": "GET",
+        "path": "/metrics/issues/zoomrooms/{zoomroomId}",
+        "operation_id": "dashboardIssueDetailZoomRoom"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/recordings/{recordingId}",
+        "operation_id": "recordingDeleteOne"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/polls/{pollId}",
+        "operation_id": "meetingPollDelete"
+      },
+      {
+        "method": "DELETE",
+        "path": "/groups/{groupId}",
+        "operation_id": "groupDelete"
+      },
+      {
+        "method": "GET",
+        "path": "/chat/users/me/contacts",
+        "operation_id": "getUserContacts"
+      },
+      {
+        "method": "POST",
+        "path": "/webinars/{webinarId}/batch_registrants",
+        "operation_id": "addBatchWebinarRegistrants"
+      },
+      {
+        "method": "PUT",
+        "path": "/rooms/locations/{locationId}/location",
+        "operation_id": "changeParentLocation"
+      },
+      {
+        "method": "GET",
+        "path": "/archive_files",
+        "operation_id": "listArchivedFiles"
+      },
+      {
+        "method": "PATCH",
+        "path": "/tsp",
+        "operation_id": "tspUpdate"
+      },
+      {
+        "method": "POST",
+        "path": "/phone/shared_line_groups/{sharedLineGroupId}/members",
+        "operation_id": "addMembersToSharedLineGroup"
+      },
+      {
+        "method": "GET",
+        "path": "/accounts/{accountId}/plans",
+        "operation_id": "accountPlans"
+      },
+      {
+        "method": "PATCH",
+        "path": "/accounts/{accountId}/phone/sip_trunk/trunks/{sipTrunkId}",
+        "operation_id": "updatePhoneSIPTrunk"
+      },
+      {
+        "method": "DELETE",
+        "path": "/chat/channels/{channelId}",
+        "operation_id": "deleteUserLevelChannel"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/recordings",
+        "operation_id": "recordingDelete"
+      },
+      {
+        "method": "PUT",
+        "path": "/meetings/{meetingId}/recordings/status",
+        "operation_id": "recordingStatusUpdate"
+      },
+      {
+        "method": "POST",
+        "path": "/roles",
+        "operation_id": "createRole"
+      },
+      {
+        "method": "GET",
+        "path": "/users/{userId}",
+        "operation_id": "user"
+      },
+      {
+        "method": "POST",
+        "path": "/accounts/{accountId}/phone/setup",
+        "operation_id": "setUpAccount"
+      },
+      {
+        "method": "PUT",
+        "path": "/rooms/{roomId}/devices/{deviceId}/app_version",
+        "operation_id": "changeZoomRoomsAppVersion"
+      },
+      {
+        "method": "POST",
+        "path": "/meetings/{meetingId}/batch_polls",
+        "operation_id": "createBatchPolls"
+      }
+    ]
+  },
+  {
+    "intent": "I need a list of all my internal coworker contacts in chat, limited to 50 per page, to cross-check who's already on our project channel",
+    "ground_truth_method": "GET",
+    "ground_truth_path": "/chat/users/me/contacts",
+    "candidates": [
+      {
+        "method": "PUT",
+        "path": "/users/{userId}/password",
+        "operation_id": "userPassword"
+      },
+      {
+        "method": "PATCH",
+        "path": "/chat/users/{userId}/channels/{channelId}",
+        "operation_id": "updateChannel"
+      },
+      {
+        "method": "PUT",
+        "path": "/accounts/{accountId}/owner",
+        "operation_id": "updateAccountOwner"
+      },
+      {
+        "method": "GET",
+        "path": "/metrics/issues/zoomrooms/{zoomroomId}",
+        "operation_id": "dashboardIssueDetailZoomRoom"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/recordings/{recordingId}",
+        "operation_id": "recordingDeleteOne"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/polls/{pollId}",
+        "operation_id": "meetingPollDelete"
+      },
+      {
+        "method": "DELETE",
+        "path": "/groups/{groupId}",
+        "operation_id": "groupDelete"
+      },
+      {
+        "method": "GET",
+        "path": "/chat/users/me/contacts",
+        "operation_id": "getUserContacts"
+      },
+      {
+        "method": "POST",
+        "path": "/webinars/{webinarId}/batch_registrants",
+        "operation_id": "addBatchWebinarRegistrants"
+      },
+      {
+        "method": "PUT",
+        "path": "/rooms/locations/{locationId}/location",
+        "operation_id": "changeParentLocation"
+      },
+      {
+        "method": "GET",
+        "path": "/archive_files",
+        "operation_id": "listArchivedFiles"
+      },
+      {
+        "method": "PATCH",
+        "path": "/tsp",
+        "operation_id": "tspUpdate"
+      },
+      {
+        "method": "POST",
+        "path": "/phone/shared_line_groups/{sharedLineGroupId}/members",
+        "operation_id": "addMembersToSharedLineGroup"
+      },
+      {
+        "method": "GET",
+        "path": "/accounts/{accountId}/plans",
+        "operation_id": "accountPlans"
+      },
+      {
+        "method": "PATCH",
+        "path": "/accounts/{accountId}/phone/sip_trunk/trunks/{sipTrunkId}",
+        "operation_id": "updatePhoneSIPTrunk"
+      },
+      {
+        "method": "DELETE",
+        "path": "/chat/channels/{channelId}",
+        "operation_id": "deleteUserLevelChannel"
+      },
+      {
+        "method": "DELETE",
+        "path": "/meetings/{meetingId}/recordings",
+        "operation_id": "recordingDelete"
+      },
+      {
+        "method": "PUT",
+        "path": "/meetings/{meetingId}/recordings/status",
+        "operation_id": "recordingStatusUpdate"
+      },
+      {
+        "method": "POST",
+        "path": "/roles",
+        "operation_id": "createRole"
+      },
+      {
+        "method": "GET",
+        "path": "/users/{userId}",
+        "operation_id": "user"
+      },
+      {
+        "method": "POST",
+        "path": "/accounts/{accountId}/phone/setup",
+        "operation_id": "setUpAccount"
+      },
+      {
+        "method": "PUT",
+        "path": "/rooms/{roomId}/devices/{deviceId}/app_version",
+        "operation_id": "changeZoomRoomsAppVersion"
+      },
+      {
+        "method": "POST",
+        "path": "/meetings/{meetingId}/batch_polls",
+        "operation_id": "createBatchPolls"
+      }
+    ]
+  }
+]

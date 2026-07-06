@@ -1,0 +1,4049 @@
+[
+  {
+    "api": "GitHub",
+    "intent": "Set up a rule so only admins can push release tags matching v*.* on our payments-service repo to prevent accidental overwrites in production.",
+    "candidates": [
+      {
+        "method": "POST",
+        "path": "/repos/{owner}/{repo}/tags/protection",
+        "operation_id": "repos/create-tag-protection"
+      },
+      {
+        "method": "PUT",
+        "path": "/orgs/{org}/actions/secrets/{secret_name}/repositories",
+        "operation_id": "actions/set-selected-repos-for-org-secret"
+      },
+      {
+        "method": "GET",
+        "path": "/events",
+        "operation_id": "activity/list-public-events"
+      },
+      {
+        "method": "GET",
+        "path": "/user/gpg_keys/{gpg_key_id}",
+        "operation_id": "users/get-gpg-key-for-authenticated-user"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/actions/artifacts",
+        "operation_id": "actions/list-artifacts-for-repo"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/topics",
+        "operation_id": "repos/get-all-topics"
+      },
+      {
+        "method": "DELETE",
+        "path": "/orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id}",
+        "operation_id": "actions/remove-selected-repo-from-org-secret"
+      },
+      {
+        "method": "GET",
+        "path": "/feeds",
+        "operation_id": "activity/get-feeds"
+      },
+      {
+        "method": "DELETE",
+        "path": "/user/installations/{installation_id}/repositories/{repository_id}",
+        "operation_id": "apps/remove-repo-from-installation-for-authenticated-user"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/actions/artifacts/{artifact_id}/{archive_format}",
+        "operation_id": "actions/download-artifact"
+      },
+      {
+        "method": "DELETE",
+        "path": "/orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}",
+        "operation_id": "teams/remove-repo-in-org"
+      },
+      {
+        "method": "POST",
+        "path": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments",
+        "operation_id": "teams/create-discussion-comment-in-org"
+      },
+      {
+        "method": "GET",
+        "path": "/orgs/{org}/dependabot/alerts",
+        "operation_id": "dependabot/list-alerts-for-org"
+      },
+      {
+        "method": "POST",
+        "path": "/user/gpg_keys",
+        "operation_id": "users/create-gpg-key-for-authenticated-user"
+      },
+      {
+        "method": "PUT",
+        "path": "/orgs/{org}/actions/runners/{runner_id}/labels",
+        "operation_id": "actions/set-custom-labels-for-self-hosted-runner-for-org"
+      }
+    ],
+    "output": {
+      "selected_method": "POST",
+      "selected_path": "/repos/{owner}/{repo}/tags/protection",
+      "parameters": {
+        "owner": "your-org",
+        "repo": "payments-service",
+        "pattern": "v*.*"
+      }
+    }
+  },
+  {
+    "api": "GitHub",
+    "intent": "We need to lock down tag creation on the acme-api repository so that our CI pipeline can't be tampered with\u2014please add tag protection for anything prefixed with 'release-'.",
+    "candidates": [
+      {
+        "method": "POST",
+        "path": "/repos/{owner}/{repo}/tags/protection",
+        "operation_id": "repos/create-tag-protection"
+      },
+      {
+        "method": "PUT",
+        "path": "/orgs/{org}/actions/secrets/{secret_name}/repositories",
+        "operation_id": "actions/set-selected-repos-for-org-secret"
+      },
+      {
+        "method": "GET",
+        "path": "/events",
+        "operation_id": "activity/list-public-events"
+      },
+      {
+        "method": "GET",
+        "path": "/user/gpg_keys/{gpg_key_id}",
+        "operation_id": "users/get-gpg-key-for-authenticated-user"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/actions/artifacts",
+        "operation_id": "actions/list-artifacts-for-repo"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/topics",
+        "operation_id": "repos/get-all-topics"
+      },
+      {
+        "method": "DELETE",
+        "path": "/orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id}",
+        "operation_id": "actions/remove-selected-repo-from-org-secret"
+      },
+      {
+        "method": "GET",
+        "path": "/feeds",
+        "operation_id": "activity/get-feeds"
+      },
+      {
+        "method": "DELETE",
+        "path": "/user/installations/{installation_id}/repositories/{repository_id}",
+        "operation_id": "apps/remove-repo-from-installation-for-authenticated-user"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/actions/artifacts/{artifact_id}/{archive_format}",
+        "operation_id": "actions/download-artifact"
+      },
+      {
+        "method": "DELETE",
+        "path": "/orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}",
+        "operation_id": "teams/remove-repo-in-org"
+      },
+      {
+        "method": "POST",
+        "path": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments",
+        "operation_id": "teams/create-discussion-comment-in-org"
+      },
+      {
+        "method": "GET",
+        "path": "/orgs/{org}/dependabot/alerts",
+        "operation_id": "dependabot/list-alerts-for-org"
+      },
+      {
+        "method": "POST",
+        "path": "/user/gpg_keys",
+        "operation_id": "users/create-gpg-key-for-authenticated-user"
+      },
+      {
+        "method": "PUT",
+        "path": "/orgs/{org}/actions/runners/{runner_id}/labels",
+        "operation_id": "actions/set-custom-labels-for-self-hosted-runner-for-org"
+      }
+    ],
+    "output": {
+      "selected_method": "POST",
+      "selected_path": "/repos/{owner}/{repo}/tags/protection",
+      "parameters": {
+        "owner": "acme-corp",
+        "repo": "acme-api",
+        "pattern": "release-*"
+      }
+    }
+  },
+  {
+    "api": "GitHub",
+    "intent": "Can you configure our infrastructure-as-code repo so that deployment tags like 'prod-*' can only be created or deleted by repository admins going forward?",
+    "candidates": [
+      {
+        "method": "POST",
+        "path": "/repos/{owner}/{repo}/tags/protection",
+        "operation_id": "repos/create-tag-protection"
+      },
+      {
+        "method": "PUT",
+        "path": "/orgs/{org}/actions/secrets/{secret_name}/repositories",
+        "operation_id": "actions/set-selected-repos-for-org-secret"
+      },
+      {
+        "method": "GET",
+        "path": "/events",
+        "operation_id": "activity/list-public-events"
+      },
+      {
+        "method": "GET",
+        "path": "/user/gpg_keys/{gpg_key_id}",
+        "operation_id": "users/get-gpg-key-for-authenticated-user"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/actions/artifacts",
+        "operation_id": "actions/list-artifacts-for-repo"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/topics",
+        "operation_id": "repos/get-all-topics"
+      },
+      {
+        "method": "DELETE",
+        "path": "/orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id}",
+        "operation_id": "actions/remove-selected-repo-from-org-secret"
+      },
+      {
+        "method": "GET",
+        "path": "/feeds",
+        "operation_id": "activity/get-feeds"
+      },
+      {
+        "method": "DELETE",
+        "path": "/user/installations/{installation_id}/repositories/{repository_id}",
+        "operation_id": "apps/remove-repo-from-installation-for-authenticated-user"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/actions/artifacts/{artifact_id}/{archive_format}",
+        "operation_id": "actions/download-artifact"
+      },
+      {
+        "method": "DELETE",
+        "path": "/orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}",
+        "operation_id": "teams/remove-repo-in-org"
+      },
+      {
+        "method": "POST",
+        "path": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments",
+        "operation_id": "teams/create-discussion-comment-in-org"
+      },
+      {
+        "method": "GET",
+        "path": "/orgs/{org}/dependabot/alerts",
+        "operation_id": "dependabot/list-alerts-for-org"
+      },
+      {
+        "method": "POST",
+        "path": "/user/gpg_keys",
+        "operation_id": "users/create-gpg-key-for-authenticated-user"
+      },
+      {
+        "method": "PUT",
+        "path": "/orgs/{org}/actions/runners/{runner_id}/labels",
+        "operation_id": "actions/set-custom-labels-for-self-hosted-runner-for-org"
+      }
+    ],
+    "output": {
+      "selected_method": "POST",
+      "selected_path": "/repos/{owner}/{repo}/tags/protection",
+      "parameters": {
+        "owner": "acme-corp",
+        "repo": "infra-as-code",
+        "pattern": "prod-*"
+      }
+    }
+  },
+  {
+    "api": "GitHub",
+    "intent": "Update the list of repositories that can access our org-level DOCKER_REGISTRY_PASSWORD secret to include the three new microservice repos our team just created",
+    "candidates": [
+      {
+        "method": "POST",
+        "path": "/repos/{owner}/{repo}/tags/protection",
+        "operation_id": "repos/create-tag-protection"
+      },
+      {
+        "method": "PUT",
+        "path": "/orgs/{org}/actions/secrets/{secret_name}/repositories",
+        "operation_id": "actions/set-selected-repos-for-org-secret"
+      },
+      {
+        "method": "GET",
+        "path": "/events",
+        "operation_id": "activity/list-public-events"
+      },
+      {
+        "method": "GET",
+        "path": "/user/gpg_keys/{gpg_key_id}",
+        "operation_id": "users/get-gpg-key-for-authenticated-user"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/actions/artifacts",
+        "operation_id": "actions/list-artifacts-for-repo"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/topics",
+        "operation_id": "repos/get-all-topics"
+      },
+      {
+        "method": "DELETE",
+        "path": "/orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id}",
+        "operation_id": "actions/remove-selected-repo-from-org-secret"
+      },
+      {
+        "method": "GET",
+        "path": "/feeds",
+        "operation_id": "activity/get-feeds"
+      },
+      {
+        "method": "DELETE",
+        "path": "/user/installations/{installation_id}/repositories/{repository_id}",
+        "operation_id": "apps/remove-repo-from-installation-for-authenticated-user"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/actions/artifacts/{artifact_id}/{archive_format}",
+        "operation_id": "actions/download-artifact"
+      },
+      {
+        "method": "DELETE",
+        "path": "/orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}",
+        "operation_id": "teams/remove-repo-in-org"
+      },
+      {
+        "method": "POST",
+        "path": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments",
+        "operation_id": "teams/create-discussion-comment-in-org"
+      },
+      {
+        "method": "GET",
+        "path": "/orgs/{org}/dependabot/alerts",
+        "operation_id": "dependabot/list-alerts-for-org"
+      },
+      {
+        "method": "POST",
+        "path": "/user/gpg_keys",
+        "operation_id": "users/create-gpg-key-for-authenticated-user"
+      },
+      {
+        "method": "PUT",
+        "path": "/orgs/{org}/actions/runners/{runner_id}/labels",
+        "operation_id": "actions/set-custom-labels-for-self-hosted-runner-for-org"
+      }
+    ],
+    "output": {
+      "selected_method": "PUT",
+      "selected_path": "/orgs/{org}/actions/secrets/{secret_name}/repositories",
+      "parameters": {
+        "org": "my-org",
+        "secret_name": "DOCKER_REGISTRY_PASSWORD",
+        "selected_repository_ids": [
+          123456,
+          123457,
+          123458,
+          123459
+        ]
+      }
+    }
+  },
+  {
+    "api": "GitHub",
+    "intent": "We're rotating which teams have access to the shared AWS_DEPLOY_KEY secret - please restrict it to only the payments-api and payments-worker repositories going forward",
+    "candidates": [
+      {
+        "method": "POST",
+        "path": "/repos/{owner}/{repo}/tags/protection",
+        "operation_id": "repos/create-tag-protection"
+      },
+      {
+        "method": "PUT",
+        "path": "/orgs/{org}/actions/secrets/{secret_name}/repositories",
+        "operation_id": "actions/set-selected-repos-for-org-secret"
+      },
+      {
+        "method": "GET",
+        "path": "/events",
+        "operation_id": "activity/list-public-events"
+      },
+      {
+        "method": "GET",
+        "path": "/user/gpg_keys/{gpg_key_id}",
+        "operation_id": "users/get-gpg-key-for-authenticated-user"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/actions/artifacts",
+        "operation_id": "actions/list-artifacts-for-repo"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/topics",
+        "operation_id": "repos/get-all-topics"
+      },
+      {
+        "method": "DELETE",
+        "path": "/orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id}",
+        "operation_id": "actions/remove-selected-repo-from-org-secret"
+      },
+      {
+        "method": "GET",
+        "path": "/feeds",
+        "operation_id": "activity/get-feeds"
+      },
+      {
+        "method": "DELETE",
+        "path": "/user/installations/{installation_id}/repositories/{repository_id}",
+        "operation_id": "apps/remove-repo-from-installation-for-authenticated-user"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/actions/artifacts/{artifact_id}/{archive_format}",
+        "operation_id": "actions/download-artifact"
+      },
+      {
+        "method": "DELETE",
+        "path": "/orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}",
+        "operation_id": "teams/remove-repo-in-org"
+      },
+      {
+        "method": "POST",
+        "path": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments",
+        "operation_id": "teams/create-discussion-comment-in-org"
+      },
+      {
+        "method": "GET",
+        "path": "/orgs/{org}/dependabot/alerts",
+        "operation_id": "dependabot/list-alerts-for-org"
+      },
+      {
+        "method": "POST",
+        "path": "/user/gpg_keys",
+        "operation_id": "users/create-gpg-key-for-authenticated-user"
+      },
+      {
+        "method": "PUT",
+        "path": "/orgs/{org}/actions/runners/{runner_id}/labels",
+        "operation_id": "actions/set-custom-labels-for-self-hosted-runner-for-org"
+      }
+    ],
+    "output": {
+      "selected_method": "PUT",
+      "selected_path": "/orgs/{org}/actions/secrets/{secret_name}/repositories",
+      "parameters": {
+        "org": "my-org",
+        "secret_name": "AWS_DEPLOY_KEY",
+        "selected_repository_ids": [
+          123456,
+          789012
+        ]
+      }
+    }
+  },
+  {
+    "api": "GitHub",
+    "intent": "Grant the newly onboarded frontend-web and frontend-mobile repos access to the org's SENTRY_AUTH_TOKEN secret while removing the deprecated legacy-ui repo from that list",
+    "candidates": [
+      {
+        "method": "POST",
+        "path": "/repos/{owner}/{repo}/tags/protection",
+        "operation_id": "repos/create-tag-protection"
+      },
+      {
+        "method": "PUT",
+        "path": "/orgs/{org}/actions/secrets/{secret_name}/repositories",
+        "operation_id": "actions/set-selected-repos-for-org-secret"
+      },
+      {
+        "method": "GET",
+        "path": "/events",
+        "operation_id": "activity/list-public-events"
+      },
+      {
+        "method": "GET",
+        "path": "/user/gpg_keys/{gpg_key_id}",
+        "operation_id": "users/get-gpg-key-for-authenticated-user"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/actions/artifacts",
+        "operation_id": "actions/list-artifacts-for-repo"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/topics",
+        "operation_id": "repos/get-all-topics"
+      },
+      {
+        "method": "DELETE",
+        "path": "/orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id}",
+        "operation_id": "actions/remove-selected-repo-from-org-secret"
+      },
+      {
+        "method": "GET",
+        "path": "/feeds",
+        "operation_id": "activity/get-feeds"
+      },
+      {
+        "method": "DELETE",
+        "path": "/user/installations/{installation_id}/repositories/{repository_id}",
+        "operation_id": "apps/remove-repo-from-installation-for-authenticated-user"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/actions/artifacts/{artifact_id}/{archive_format}",
+        "operation_id": "actions/download-artifact"
+      },
+      {
+        "method": "DELETE",
+        "path": "/orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}",
+        "operation_id": "teams/remove-repo-in-org"
+      },
+      {
+        "method": "POST",
+        "path": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments",
+        "operation_id": "teams/create-discussion-comment-in-org"
+      },
+      {
+        "method": "GET",
+        "path": "/orgs/{org}/dependabot/alerts",
+        "operation_id": "dependabot/list-alerts-for-org"
+      },
+      {
+        "method": "POST",
+        "path": "/user/gpg_keys",
+        "operation_id": "users/create-gpg-key-for-authenticated-user"
+      },
+      {
+        "method": "PUT",
+        "path": "/orgs/{org}/actions/runners/{runner_id}/labels",
+        "operation_id": "actions/set-custom-labels-for-self-hosted-runner-for-org"
+      }
+    ],
+    "output": {
+      "selected_method": "PUT",
+      "selected_path": "/orgs/{org}/actions/secrets/{secret_name}/repositories",
+      "parameters": {
+        "org": "my-org",
+        "secret_name": "SENTRY_AUTH_TOKEN",
+        "selected_repository_ids": [
+          123456,
+          234567
+        ]
+      }
+    }
+  },
+  {
+    "api": "GitHub",
+    "intent": "Pull the latest public activity feed so I can check what's happening across the platform before our morning stand-up.",
+    "candidates": [
+      {
+        "method": "POST",
+        "path": "/repos/{owner}/{repo}/tags/protection",
+        "operation_id": "repos/create-tag-protection"
+      },
+      {
+        "method": "PUT",
+        "path": "/orgs/{org}/actions/secrets/{secret_name}/repositories",
+        "operation_id": "actions/set-selected-repos-for-org-secret"
+      },
+      {
+        "method": "GET",
+        "path": "/events",
+        "operation_id": "activity/list-public-events"
+      },
+      {
+        "method": "GET",
+        "path": "/user/gpg_keys/{gpg_key_id}",
+        "operation_id": "users/get-gpg-key-for-authenticated-user"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/actions/artifacts",
+        "operation_id": "actions/list-artifacts-for-repo"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/topics",
+        "operation_id": "repos/get-all-topics"
+      },
+      {
+        "method": "DELETE",
+        "path": "/orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id}",
+        "operation_id": "actions/remove-selected-repo-from-org-secret"
+      },
+      {
+        "method": "GET",
+        "path": "/feeds",
+        "operation_id": "activity/get-feeds"
+      },
+      {
+        "method": "DELETE",
+        "path": "/user/installations/{installation_id}/repositories/{repository_id}",
+        "operation_id": "apps/remove-repo-from-installation-for-authenticated-user"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/actions/artifacts/{artifact_id}/{archive_format}",
+        "operation_id": "actions/download-artifact"
+      },
+      {
+        "method": "DELETE",
+        "path": "/orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}",
+        "operation_id": "teams/remove-repo-in-org"
+      },
+      {
+        "method": "POST",
+        "path": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments",
+        "operation_id": "teams/create-discussion-comment-in-org"
+      },
+      {
+        "method": "GET",
+        "path": "/orgs/{org}/dependabot/alerts",
+        "operation_id": "dependabot/list-alerts-for-org"
+      },
+      {
+        "method": "POST",
+        "path": "/user/gpg_keys",
+        "operation_id": "users/create-gpg-key-for-authenticated-user"
+      },
+      {
+        "method": "PUT",
+        "path": "/orgs/{org}/actions/runners/{runner_id}/labels",
+        "operation_id": "actions/set-custom-labels-for-self-hosted-runner-for-org"
+      }
+    ],
+    "output": {
+      "selected_method": "GET",
+      "selected_path": "/events",
+      "parameters": {
+        "per_page": 30,
+        "page": 1
+      }
+    }
+  },
+  {
+    "api": "GitHub",
+    "intent": "Our compliance team needs a snapshot of recent public events on the network for this week's audit report.",
+    "candidates": [
+      {
+        "method": "POST",
+        "path": "/repos/{owner}/{repo}/tags/protection",
+        "operation_id": "repos/create-tag-protection"
+      },
+      {
+        "method": "PUT",
+        "path": "/orgs/{org}/actions/secrets/{secret_name}/repositories",
+        "operation_id": "actions/set-selected-repos-for-org-secret"
+      },
+      {
+        "method": "GET",
+        "path": "/events",
+        "operation_id": "activity/list-public-events"
+      },
+      {
+        "method": "GET",
+        "path": "/user/gpg_keys/{gpg_key_id}",
+        "operation_id": "users/get-gpg-key-for-authenticated-user"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/actions/artifacts",
+        "operation_id": "actions/list-artifacts-for-repo"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/topics",
+        "operation_id": "repos/get-all-topics"
+      },
+      {
+        "method": "DELETE",
+        "path": "/orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id}",
+        "operation_id": "actions/remove-selected-repo-from-org-secret"
+      },
+      {
+        "method": "GET",
+        "path": "/feeds",
+        "operation_id": "activity/get-feeds"
+      },
+      {
+        "method": "DELETE",
+        "path": "/user/installations/{installation_id}/repositories/{repository_id}",
+        "operation_id": "apps/remove-repo-from-installation-for-authenticated-user"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/actions/artifacts/{artifact_id}/{archive_format}",
+        "operation_id": "actions/download-artifact"
+      },
+      {
+        "method": "DELETE",
+        "path": "/orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}",
+        "operation_id": "teams/remove-repo-in-org"
+      },
+      {
+        "method": "POST",
+        "path": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments",
+        "operation_id": "teams/create-discussion-comment-in-org"
+      },
+      {
+        "method": "GET",
+        "path": "/orgs/{org}/dependabot/alerts",
+        "operation_id": "dependabot/list-alerts-for-org"
+      },
+      {
+        "method": "POST",
+        "path": "/user/gpg_keys",
+        "operation_id": "users/create-gpg-key-for-authenticated-user"
+      },
+      {
+        "method": "PUT",
+        "path": "/orgs/{org}/actions/runners/{runner_id}/labels",
+        "operation_id": "actions/set-custom-labels-for-self-hosted-runner-for-org"
+      }
+    ],
+    "output": {
+      "selected_method": "GET",
+      "selected_path": "/events",
+      "parameters": {
+        "per_page": 100,
+        "page": 1
+      }
+    }
+  },
+  {
+    "api": "GitHub",
+    "intent": "Can you fetch the current public timeline of activity? I want to scan it for anything relevant to our integration partners.",
+    "candidates": [
+      {
+        "method": "POST",
+        "path": "/repos/{owner}/{repo}/tags/protection",
+        "operation_id": "repos/create-tag-protection"
+      },
+      {
+        "method": "PUT",
+        "path": "/orgs/{org}/actions/secrets/{secret_name}/repositories",
+        "operation_id": "actions/set-selected-repos-for-org-secret"
+      },
+      {
+        "method": "GET",
+        "path": "/events",
+        "operation_id": "activity/list-public-events"
+      },
+      {
+        "method": "GET",
+        "path": "/user/gpg_keys/{gpg_key_id}",
+        "operation_id": "users/get-gpg-key-for-authenticated-user"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/actions/artifacts",
+        "operation_id": "actions/list-artifacts-for-repo"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/topics",
+        "operation_id": "repos/get-all-topics"
+      },
+      {
+        "method": "DELETE",
+        "path": "/orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id}",
+        "operation_id": "actions/remove-selected-repo-from-org-secret"
+      },
+      {
+        "method": "GET",
+        "path": "/feeds",
+        "operation_id": "activity/get-feeds"
+      },
+      {
+        "method": "DELETE",
+        "path": "/user/installations/{installation_id}/repositories/{repository_id}",
+        "operation_id": "apps/remove-repo-from-installation-for-authenticated-user"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/actions/artifacts/{artifact_id}/{archive_format}",
+        "operation_id": "actions/download-artifact"
+      },
+      {
+        "method": "DELETE",
+        "path": "/orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}",
+        "operation_id": "teams/remove-repo-in-org"
+      },
+      {
+        "method": "POST",
+        "path": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments",
+        "operation_id": "teams/create-discussion-comment-in-org"
+      },
+      {
+        "method": "GET",
+        "path": "/orgs/{org}/dependabot/alerts",
+        "operation_id": "dependabot/list-alerts-for-org"
+      },
+      {
+        "method": "POST",
+        "path": "/user/gpg_keys",
+        "operation_id": "users/create-gpg-key-for-authenticated-user"
+      },
+      {
+        "method": "PUT",
+        "path": "/orgs/{org}/actions/runners/{runner_id}/labels",
+        "operation_id": "actions/set-custom-labels-for-self-hosted-runner-for-org"
+      }
+    ],
+    "output": {
+      "selected_method": "GET",
+      "selected_path": "/events",
+      "parameters": {
+        "per_page": 30,
+        "page": 1
+      }
+    }
+  },
+  {
+    "api": "GitHub",
+    "intent": "Check the details of GPG key ID 481516 on my GitHub account to confirm it's the one I use for signing our release commits",
+    "candidates": [
+      {
+        "method": "POST",
+        "path": "/repos/{owner}/{repo}/tags/protection",
+        "operation_id": "repos/create-tag-protection"
+      },
+      {
+        "method": "PUT",
+        "path": "/orgs/{org}/actions/secrets/{secret_name}/repositories",
+        "operation_id": "actions/set-selected-repos-for-org-secret"
+      },
+      {
+        "method": "GET",
+        "path": "/events",
+        "operation_id": "activity/list-public-events"
+      },
+      {
+        "method": "GET",
+        "path": "/user/gpg_keys/{gpg_key_id}",
+        "operation_id": "users/get-gpg-key-for-authenticated-user"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/actions/artifacts",
+        "operation_id": "actions/list-artifacts-for-repo"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/topics",
+        "operation_id": "repos/get-all-topics"
+      },
+      {
+        "method": "DELETE",
+        "path": "/orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id}",
+        "operation_id": "actions/remove-selected-repo-from-org-secret"
+      },
+      {
+        "method": "GET",
+        "path": "/feeds",
+        "operation_id": "activity/get-feeds"
+      },
+      {
+        "method": "DELETE",
+        "path": "/user/installations/{installation_id}/repositories/{repository_id}",
+        "operation_id": "apps/remove-repo-from-installation-for-authenticated-user"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/actions/artifacts/{artifact_id}/{archive_format}",
+        "operation_id": "actions/download-artifact"
+      },
+      {
+        "method": "DELETE",
+        "path": "/orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}",
+        "operation_id": "teams/remove-repo-in-org"
+      },
+      {
+        "method": "POST",
+        "path": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments",
+        "operation_id": "teams/create-discussion-comment-in-org"
+      },
+      {
+        "method": "GET",
+        "path": "/orgs/{org}/dependabot/alerts",
+        "operation_id": "dependabot/list-alerts-for-org"
+      },
+      {
+        "method": "POST",
+        "path": "/user/gpg_keys",
+        "operation_id": "users/create-gpg-key-for-authenticated-user"
+      },
+      {
+        "method": "PUT",
+        "path": "/orgs/{org}/actions/runners/{runner_id}/labels",
+        "operation_id": "actions/set-custom-labels-for-self-hosted-runner-for-org"
+      }
+    ],
+    "output": {
+      "selected_method": "GET",
+      "selected_path": "/user/gpg_keys/{gpg_key_id}",
+      "parameters": {
+        "gpg_key_id": 481516
+      }
+    }
+  },
+  {
+    "api": "GitHub",
+    "intent": "I need to verify the expiration date on one of my registered GPG keys before we rotate our commit signing credentials next quarter",
+    "candidates": [
+      {
+        "method": "POST",
+        "path": "/repos/{owner}/{repo}/tags/protection",
+        "operation_id": "repos/create-tag-protection"
+      },
+      {
+        "method": "PUT",
+        "path": "/orgs/{org}/actions/secrets/{secret_name}/repositories",
+        "operation_id": "actions/set-selected-repos-for-org-secret"
+      },
+      {
+        "method": "GET",
+        "path": "/events",
+        "operation_id": "activity/list-public-events"
+      },
+      {
+        "method": "GET",
+        "path": "/user/gpg_keys/{gpg_key_id}",
+        "operation_id": "users/get-gpg-key-for-authenticated-user"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/actions/artifacts",
+        "operation_id": "actions/list-artifacts-for-repo"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/topics",
+        "operation_id": "repos/get-all-topics"
+      },
+      {
+        "method": "DELETE",
+        "path": "/orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id}",
+        "operation_id": "actions/remove-selected-repo-from-org-secret"
+      },
+      {
+        "method": "GET",
+        "path": "/feeds",
+        "operation_id": "activity/get-feeds"
+      },
+      {
+        "method": "DELETE",
+        "path": "/user/installations/{installation_id}/repositories/{repository_id}",
+        "operation_id": "apps/remove-repo-from-installation-for-authenticated-user"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/actions/artifacts/{artifact_id}/{archive_format}",
+        "operation_id": "actions/download-artifact"
+      },
+      {
+        "method": "DELETE",
+        "path": "/orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}",
+        "operation_id": "teams/remove-repo-in-org"
+      },
+      {
+        "method": "POST",
+        "path": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments",
+        "operation_id": "teams/create-discussion-comment-in-org"
+      },
+      {
+        "method": "GET",
+        "path": "/orgs/{org}/dependabot/alerts",
+        "operation_id": "dependabot/list-alerts-for-org"
+      },
+      {
+        "method": "POST",
+        "path": "/user/gpg_keys",
+        "operation_id": "users/create-gpg-key-for-authenticated-user"
+      },
+      {
+        "method": "PUT",
+        "path": "/orgs/{org}/actions/runners/{runner_id}/labels",
+        "operation_id": "actions/set-custom-labels-for-self-hosted-runner-for-org"
+      }
+    ],
+    "output": {
+      "selected_method": "GET",
+      "selected_path": "/user/gpg_keys/{gpg_key_id}",
+      "parameters": {
+        "gpg_key_id": 1234567
+      }
+    }
+  },
+  {
+    "api": "GitHub",
+    "intent": "Pull up the info for a specific GPG key on my profile so I can confirm its fingerprint matches what's documented in our security compliance records",
+    "candidates": [
+      {
+        "method": "POST",
+        "path": "/repos/{owner}/{repo}/tags/protection",
+        "operation_id": "repos/create-tag-protection"
+      },
+      {
+        "method": "PUT",
+        "path": "/orgs/{org}/actions/secrets/{secret_name}/repositories",
+        "operation_id": "actions/set-selected-repos-for-org-secret"
+      },
+      {
+        "method": "GET",
+        "path": "/events",
+        "operation_id": "activity/list-public-events"
+      },
+      {
+        "method": "GET",
+        "path": "/user/gpg_keys/{gpg_key_id}",
+        "operation_id": "users/get-gpg-key-for-authenticated-user"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/actions/artifacts",
+        "operation_id": "actions/list-artifacts-for-repo"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/topics",
+        "operation_id": "repos/get-all-topics"
+      },
+      {
+        "method": "DELETE",
+        "path": "/orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id}",
+        "operation_id": "actions/remove-selected-repo-from-org-secret"
+      },
+      {
+        "method": "GET",
+        "path": "/feeds",
+        "operation_id": "activity/get-feeds"
+      },
+      {
+        "method": "DELETE",
+        "path": "/user/installations/{installation_id}/repositories/{repository_id}",
+        "operation_id": "apps/remove-repo-from-installation-for-authenticated-user"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/actions/artifacts/{artifact_id}/{archive_format}",
+        "operation_id": "actions/download-artifact"
+      },
+      {
+        "method": "DELETE",
+        "path": "/orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}",
+        "operation_id": "teams/remove-repo-in-org"
+      },
+      {
+        "method": "POST",
+        "path": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments",
+        "operation_id": "teams/create-discussion-comment-in-org"
+      },
+      {
+        "method": "GET",
+        "path": "/orgs/{org}/dependabot/alerts",
+        "operation_id": "dependabot/list-alerts-for-org"
+      },
+      {
+        "method": "POST",
+        "path": "/user/gpg_keys",
+        "operation_id": "users/create-gpg-key-for-authenticated-user"
+      },
+      {
+        "method": "PUT",
+        "path": "/orgs/{org}/actions/runners/{runner_id}/labels",
+        "operation_id": "actions/set-custom-labels-for-self-hosted-runner-for-org"
+      }
+    ],
+    "output": {
+      "selected_method": "GET",
+      "selected_path": "/user/gpg_keys/{gpg_key_id}",
+      "parameters": {
+        "gpg_key_id": 1234567
+      }
+    }
+  },
+  {
+    "api": "GitHub",
+    "intent": "Can you pull up all the build artifacts stored in the 'payments-service' repo so I can check disk usage?",
+    "candidates": [
+      {
+        "method": "POST",
+        "path": "/repos/{owner}/{repo}/tags/protection",
+        "operation_id": "repos/create-tag-protection"
+      },
+      {
+        "method": "PUT",
+        "path": "/orgs/{org}/actions/secrets/{secret_name}/repositories",
+        "operation_id": "actions/set-selected-repos-for-org-secret"
+      },
+      {
+        "method": "GET",
+        "path": "/events",
+        "operation_id": "activity/list-public-events"
+      },
+      {
+        "method": "GET",
+        "path": "/user/gpg_keys/{gpg_key_id}",
+        "operation_id": "users/get-gpg-key-for-authenticated-user"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/actions/artifacts",
+        "operation_id": "actions/list-artifacts-for-repo"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/topics",
+        "operation_id": "repos/get-all-topics"
+      },
+      {
+        "method": "DELETE",
+        "path": "/orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id}",
+        "operation_id": "actions/remove-selected-repo-from-org-secret"
+      },
+      {
+        "method": "GET",
+        "path": "/feeds",
+        "operation_id": "activity/get-feeds"
+      },
+      {
+        "method": "DELETE",
+        "path": "/user/installations/{installation_id}/repositories/{repository_id}",
+        "operation_id": "apps/remove-repo-from-installation-for-authenticated-user"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/actions/artifacts/{artifact_id}/{archive_format}",
+        "operation_id": "actions/download-artifact"
+      },
+      {
+        "method": "DELETE",
+        "path": "/orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}",
+        "operation_id": "teams/remove-repo-in-org"
+      },
+      {
+        "method": "POST",
+        "path": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments",
+        "operation_id": "teams/create-discussion-comment-in-org"
+      },
+      {
+        "method": "GET",
+        "path": "/orgs/{org}/dependabot/alerts",
+        "operation_id": "dependabot/list-alerts-for-org"
+      },
+      {
+        "method": "POST",
+        "path": "/user/gpg_keys",
+        "operation_id": "users/create-gpg-key-for-authenticated-user"
+      },
+      {
+        "method": "PUT",
+        "path": "/orgs/{org}/actions/runners/{runner_id}/labels",
+        "operation_id": "actions/set-custom-labels-for-self-hosted-runner-for-org"
+      }
+    ],
+    "output": {
+      "selected_method": "GET",
+      "selected_path": "/repos/{owner}/{repo}/actions/artifacts",
+      "parameters": {
+        "owner": "acme-corp",
+        "repo": "payments-service",
+        "per_page": 100,
+        "page": 1
+      }
+    }
+  },
+  {
+    "api": "GitHub",
+    "intent": "I need to find every artifact named 'coverage-report' generated in the frontend-dashboard repository this month.",
+    "candidates": [
+      {
+        "method": "POST",
+        "path": "/repos/{owner}/{repo}/tags/protection",
+        "operation_id": "repos/create-tag-protection"
+      },
+      {
+        "method": "PUT",
+        "path": "/orgs/{org}/actions/secrets/{secret_name}/repositories",
+        "operation_id": "actions/set-selected-repos-for-org-secret"
+      },
+      {
+        "method": "GET",
+        "path": "/events",
+        "operation_id": "activity/list-public-events"
+      },
+      {
+        "method": "GET",
+        "path": "/user/gpg_keys/{gpg_key_id}",
+        "operation_id": "users/get-gpg-key-for-authenticated-user"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/actions/artifacts",
+        "operation_id": "actions/list-artifacts-for-repo"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/topics",
+        "operation_id": "repos/get-all-topics"
+      },
+      {
+        "method": "DELETE",
+        "path": "/orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id}",
+        "operation_id": "actions/remove-selected-repo-from-org-secret"
+      },
+      {
+        "method": "GET",
+        "path": "/feeds",
+        "operation_id": "activity/get-feeds"
+      },
+      {
+        "method": "DELETE",
+        "path": "/user/installations/{installation_id}/repositories/{repository_id}",
+        "operation_id": "apps/remove-repo-from-installation-for-authenticated-user"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/actions/artifacts/{artifact_id}/{archive_format}",
+        "operation_id": "actions/download-artifact"
+      },
+      {
+        "method": "DELETE",
+        "path": "/orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}",
+        "operation_id": "teams/remove-repo-in-org"
+      },
+      {
+        "method": "POST",
+        "path": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments",
+        "operation_id": "teams/create-discussion-comment-in-org"
+      },
+      {
+        "method": "GET",
+        "path": "/orgs/{org}/dependabot/alerts",
+        "operation_id": "dependabot/list-alerts-for-org"
+      },
+      {
+        "method": "POST",
+        "path": "/user/gpg_keys",
+        "operation_id": "users/create-gpg-key-for-authenticated-user"
+      },
+      {
+        "method": "PUT",
+        "path": "/orgs/{org}/actions/runners/{runner_id}/labels",
+        "operation_id": "actions/set-custom-labels-for-self-hosted-runner-for-org"
+      }
+    ],
+    "output": {
+      "selected_method": "GET",
+      "selected_path": "/repos/{owner}/{repo}/actions/artifacts",
+      "parameters": {
+        "owner": "my-org",
+        "repo": "frontend-dashboard",
+        "name": "coverage-report",
+        "per_page": 100,
+        "page": 1
+      }
+    }
+  },
+  {
+    "api": "GitHub",
+    "intent": "Check the acme-corp/data-pipeline repo for all uploaded CI artifacts before we clean up old storage.",
+    "candidates": [
+      {
+        "method": "POST",
+        "path": "/repos/{owner}/{repo}/tags/protection",
+        "operation_id": "repos/create-tag-protection"
+      },
+      {
+        "method": "PUT",
+        "path": "/orgs/{org}/actions/secrets/{secret_name}/repositories",
+        "operation_id": "actions/set-selected-repos-for-org-secret"
+      },
+      {
+        "method": "GET",
+        "path": "/events",
+        "operation_id": "activity/list-public-events"
+      },
+      {
+        "method": "GET",
+        "path": "/user/gpg_keys/{gpg_key_id}",
+        "operation_id": "users/get-gpg-key-for-authenticated-user"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/actions/artifacts",
+        "operation_id": "actions/list-artifacts-for-repo"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/topics",
+        "operation_id": "repos/get-all-topics"
+      },
+      {
+        "method": "DELETE",
+        "path": "/orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id}",
+        "operation_id": "actions/remove-selected-repo-from-org-secret"
+      },
+      {
+        "method": "GET",
+        "path": "/feeds",
+        "operation_id": "activity/get-feeds"
+      },
+      {
+        "method": "DELETE",
+        "path": "/user/installations/{installation_id}/repositories/{repository_id}",
+        "operation_id": "apps/remove-repo-from-installation-for-authenticated-user"
+      },
+      {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/actions/artifacts/{artifact_id}/{archive_format}",
+        "operation_id": "actions/download-artifact"
+      },
+      {
+        "method": "DELETE",
+        "path": "/orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}",
+        "operation_id": "teams/remove-repo-in-org"
+      },
+      {
+        "method": "POST",
+        "path": "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments",
+        "operation_id": "teams/create-discussion-comment-in-org"
+      },
+      {
+        "method": "GET",
+        "path": "/orgs/{org}/dependabot/alerts",
+        "operation_id": "dependabot/list-alerts-for-org"
+      },
+      {
+        "method": "POST",
+        "path": "/user/gpg_keys",
+        "operation_id": "users/create-gpg-key-for-authenticated-user"
+      },
+      {
+        "method": "PUT",
+        "path": "/orgs/{org}/actions/runners/{runner_id}/labels",
+        "operation_id": "actions/set-custom-labels-for-self-hosted-runner-for-org"
+      }
+    ],
+    "output": {
+      "selected_method": "GET",
+      "selected_path": "/repos/{owner}/{repo}/actions/artifacts",
+      "parameters": {
+        "owner": "acme-corp",
+        "repo": "data-pipeline",
+        "per_page": 100,
+        "page": 1
+      }
+    }
+  },
+  {
+    "api": "Stripe",
+    "intent": "Remove the extra seat license item si_1N3xYzABC from Acme Corp's subscription since they downgraded their team size this quarter.",
+    "candidates": [
+      {
+        "method": "DELETE",
+        "path": "/v1/subscription_items/{item}",
+        "operation_id": "DeleteSubscriptionItemsItem"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/charges",
+        "operation_id": "PostCharges"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/accounts/{account}/capabilities/{capability}",
+        "operation_id": "GetAccountsAccountCapabilitiesCapability"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/test_clocks",
+        "operation_id": "PostTestHelpersTestClocks"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/disputes/{dispute}/close",
+        "operation_id": "PostDisputesDisputeClose"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/subscription_schedules",
+        "operation_id": "PostSubscriptionSchedules"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/charges/{charge}",
+        "operation_id": "GetChargesCharge"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/accounts/{account}/capabilities/{capability}",
+        "operation_id": "PostAccountsAccountCapabilitiesCapability"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/treasury/inbound_transfers/{id}/return",
+        "operation_id": "PostTestHelpersTreasuryInboundTransfersIdReturn"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/events",
+        "operation_id": "GetEvents"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/customers/{customer}/subscriptions",
+        "operation_id": "PostCustomersCustomerSubscriptions"
+      },
+      {
+        "method": "DELETE",
+        "path": "/v1/customers/{customer}/discount",
+        "operation_id": "DeleteCustomersCustomerDiscount"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/checkout/sessions/{session}/expire",
+        "operation_id": "PostCheckoutSessionsSessionExpire"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/test_clocks/{test_clock}/advance",
+        "operation_id": "PostTestHelpersTestClocksTestClockAdvance"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/billing_portal/configurations/{configuration}",
+        "operation_id": "GetBillingPortalConfigurationsConfiguration"
+      }
+    ],
+    "output": {
+      "selected_method": "DELETE",
+      "selected_path": "/v1/subscription_items/{item}",
+      "parameters": {
+        "item": "si_1N3xYzABC",
+        "proration_behavior": "create_prorations"
+      }
+    }
+  },
+  {
+    "api": "Stripe",
+    "intent": "We accidentally added a duplicate add-on line item to the Contoso account's billing subscription\u2014please delete subscription item si_9K2mTqLwe so they aren't double charged.",
+    "candidates": [
+      {
+        "method": "DELETE",
+        "path": "/v1/subscription_items/{item}",
+        "operation_id": "DeleteSubscriptionItemsItem"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/charges",
+        "operation_id": "PostCharges"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/accounts/{account}/capabilities/{capability}",
+        "operation_id": "GetAccountsAccountCapabilitiesCapability"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/test_clocks",
+        "operation_id": "PostTestHelpersTestClocks"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/disputes/{dispute}/close",
+        "operation_id": "PostDisputesDisputeClose"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/subscription_schedules",
+        "operation_id": "PostSubscriptionSchedules"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/charges/{charge}",
+        "operation_id": "GetChargesCharge"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/accounts/{account}/capabilities/{capability}",
+        "operation_id": "PostAccountsAccountCapabilitiesCapability"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/treasury/inbound_transfers/{id}/return",
+        "operation_id": "PostTestHelpersTreasuryInboundTransfersIdReturn"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/events",
+        "operation_id": "GetEvents"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/customers/{customer}/subscriptions",
+        "operation_id": "PostCustomersCustomerSubscriptions"
+      },
+      {
+        "method": "DELETE",
+        "path": "/v1/customers/{customer}/discount",
+        "operation_id": "DeleteCustomersCustomerDiscount"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/checkout/sessions/{session}/expire",
+        "operation_id": "PostCheckoutSessionsSessionExpire"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/test_clocks/{test_clock}/advance",
+        "operation_id": "PostTestHelpersTestClocksTestClockAdvance"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/billing_portal/configurations/{configuration}",
+        "operation_id": "GetBillingPortalConfigurationsConfiguration"
+      }
+    ],
+    "output": {
+      "selected_method": "DELETE",
+      "selected_path": "/v1/subscription_items/{item}",
+      "parameters": {
+        "item": "si_9K2mTqLwe",
+        "proration_behavior": "none"
+      }
+    }
+  },
+  {
+    "api": "Stripe",
+    "intent": "Our customer canceled their premium support add-on effective immediately, so pull subscription item si_7Rp4WvnXZ off their active subscription.",
+    "candidates": [
+      {
+        "method": "DELETE",
+        "path": "/v1/subscription_items/{item}",
+        "operation_id": "DeleteSubscriptionItemsItem"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/charges",
+        "operation_id": "PostCharges"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/accounts/{account}/capabilities/{capability}",
+        "operation_id": "GetAccountsAccountCapabilitiesCapability"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/test_clocks",
+        "operation_id": "PostTestHelpersTestClocks"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/disputes/{dispute}/close",
+        "operation_id": "PostDisputesDisputeClose"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/subscription_schedules",
+        "operation_id": "PostSubscriptionSchedules"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/charges/{charge}",
+        "operation_id": "GetChargesCharge"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/accounts/{account}/capabilities/{capability}",
+        "operation_id": "PostAccountsAccountCapabilitiesCapability"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/treasury/inbound_transfers/{id}/return",
+        "operation_id": "PostTestHelpersTreasuryInboundTransfersIdReturn"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/events",
+        "operation_id": "GetEvents"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/customers/{customer}/subscriptions",
+        "operation_id": "PostCustomersCustomerSubscriptions"
+      },
+      {
+        "method": "DELETE",
+        "path": "/v1/customers/{customer}/discount",
+        "operation_id": "DeleteCustomersCustomerDiscount"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/checkout/sessions/{session}/expire",
+        "operation_id": "PostCheckoutSessionsSessionExpire"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/test_clocks/{test_clock}/advance",
+        "operation_id": "PostTestHelpersTestClocksTestClockAdvance"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/billing_portal/configurations/{configuration}",
+        "operation_id": "GetBillingPortalConfigurationsConfiguration"
+      }
+    ],
+    "output": {
+      "selected_method": "DELETE",
+      "selected_path": "/v1/subscription_items/{item}",
+      "parameters": {
+        "item": "si_7Rp4WvnXZ",
+        "proration_behavior": "none",
+        "clear_usage": true
+      }
+    }
+  },
+  {
+    "api": "Stripe",
+    "intent": "Charge the customer's card on file $1,250 for invoice #4471 from Acme Corp's monthly subscription plan",
+    "candidates": [
+      {
+        "method": "DELETE",
+        "path": "/v1/subscription_items/{item}",
+        "operation_id": "DeleteSubscriptionItemsItem"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/charges",
+        "operation_id": "PostCharges"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/accounts/{account}/capabilities/{capability}",
+        "operation_id": "GetAccountsAccountCapabilitiesCapability"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/test_clocks",
+        "operation_id": "PostTestHelpersTestClocks"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/disputes/{dispute}/close",
+        "operation_id": "PostDisputesDisputeClose"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/subscription_schedules",
+        "operation_id": "PostSubscriptionSchedules"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/charges/{charge}",
+        "operation_id": "GetChargesCharge"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/accounts/{account}/capabilities/{capability}",
+        "operation_id": "PostAccountsAccountCapabilitiesCapability"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/treasury/inbound_transfers/{id}/return",
+        "operation_id": "PostTestHelpersTreasuryInboundTransfersIdReturn"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/events",
+        "operation_id": "GetEvents"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/customers/{customer}/subscriptions",
+        "operation_id": "PostCustomersCustomerSubscriptions"
+      },
+      {
+        "method": "DELETE",
+        "path": "/v1/customers/{customer}/discount",
+        "operation_id": "DeleteCustomersCustomerDiscount"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/checkout/sessions/{session}/expire",
+        "operation_id": "PostCheckoutSessionsSessionExpire"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/test_clocks/{test_clock}/advance",
+        "operation_id": "PostTestHelpersTestClocksTestClockAdvance"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/billing_portal/configurations/{configuration}",
+        "operation_id": "GetBillingPortalConfigurationsConfiguration"
+      }
+    ],
+    "output": {
+      "selected_method": "POST",
+      "selected_path": "/v1/charges",
+      "parameters": {
+        "amount": 125000,
+        "currency": "usd",
+        "customer": "cus_AcmeCorp123",
+        "description": "Invoice #4471 - Acme Corp Monthly Subscription",
+        "metadata": {
+          "invoice_number": "4471",
+          "customer_name": "Acme Corp"
+        }
+      }
+    }
+  },
+  {
+    "api": "Stripe",
+    "intent": "We need to process a one-time payment of $89.99 for the premium upgrade that customer Jane Doe just requested over the phone",
+    "candidates": [
+      {
+        "method": "DELETE",
+        "path": "/v1/subscription_items/{item}",
+        "operation_id": "DeleteSubscriptionItemsItem"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/charges",
+        "operation_id": "PostCharges"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/accounts/{account}/capabilities/{capability}",
+        "operation_id": "GetAccountsAccountCapabilitiesCapability"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/test_clocks",
+        "operation_id": "PostTestHelpersTestClocks"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/disputes/{dispute}/close",
+        "operation_id": "PostDisputesDisputeClose"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/subscription_schedules",
+        "operation_id": "PostSubscriptionSchedules"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/charges/{charge}",
+        "operation_id": "GetChargesCharge"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/accounts/{account}/capabilities/{capability}",
+        "operation_id": "PostAccountsAccountCapabilitiesCapability"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/treasury/inbound_transfers/{id}/return",
+        "operation_id": "PostTestHelpersTreasuryInboundTransfersIdReturn"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/events",
+        "operation_id": "GetEvents"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/customers/{customer}/subscriptions",
+        "operation_id": "PostCustomersCustomerSubscriptions"
+      },
+      {
+        "method": "DELETE",
+        "path": "/v1/customers/{customer}/discount",
+        "operation_id": "DeleteCustomersCustomerDiscount"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/checkout/sessions/{session}/expire",
+        "operation_id": "PostCheckoutSessionsSessionExpire"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/test_clocks/{test_clock}/advance",
+        "operation_id": "PostTestHelpersTestClocksTestClockAdvance"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/billing_portal/configurations/{configuration}",
+        "operation_id": "GetBillingPortalConfigurationsConfiguration"
+      }
+    ],
+    "output": {
+      "selected_method": "POST",
+      "selected_path": "/v1/charges",
+      "parameters": {
+        "amount": 8999,
+        "currency": "usd",
+        "customer": "cus_JaneDoe123",
+        "description": "One-time payment for Premium Upgrade requested via phone",
+        "receipt_email": "jane.doe@example.com"
+      }
+    }
+  },
+  {
+    "api": "Stripe",
+    "intent": "Please bill our client's saved payment method $3,500 as a deposit for the upcoming consulting engagement",
+    "candidates": [
+      {
+        "method": "DELETE",
+        "path": "/v1/subscription_items/{item}",
+        "operation_id": "DeleteSubscriptionItemsItem"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/charges",
+        "operation_id": "PostCharges"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/accounts/{account}/capabilities/{capability}",
+        "operation_id": "GetAccountsAccountCapabilitiesCapability"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/test_clocks",
+        "operation_id": "PostTestHelpersTestClocks"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/disputes/{dispute}/close",
+        "operation_id": "PostDisputesDisputeClose"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/subscription_schedules",
+        "operation_id": "PostSubscriptionSchedules"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/charges/{charge}",
+        "operation_id": "GetChargesCharge"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/accounts/{account}/capabilities/{capability}",
+        "operation_id": "PostAccountsAccountCapabilitiesCapability"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/treasury/inbound_transfers/{id}/return",
+        "operation_id": "PostTestHelpersTreasuryInboundTransfersIdReturn"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/events",
+        "operation_id": "GetEvents"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/customers/{customer}/subscriptions",
+        "operation_id": "PostCustomersCustomerSubscriptions"
+      },
+      {
+        "method": "DELETE",
+        "path": "/v1/customers/{customer}/discount",
+        "operation_id": "DeleteCustomersCustomerDiscount"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/checkout/sessions/{session}/expire",
+        "operation_id": "PostCheckoutSessionsSessionExpire"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/test_clocks/{test_clock}/advance",
+        "operation_id": "PostTestHelpersTestClocksTestClockAdvance"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/billing_portal/configurations/{configuration}",
+        "operation_id": "GetBillingPortalConfigurationsConfiguration"
+      }
+    ],
+    "output": {
+      "selected_method": "POST",
+      "selected_path": "/v1/charges",
+      "parameters": {
+        "amount": 350000,
+        "currency": "usd",
+        "customer": "cus_ABC123XYZ",
+        "description": "Deposit for upcoming consulting engagement",
+        "capture": true
+      }
+    }
+  },
+  {
+    "api": "Stripe",
+    "intent": "Can you check if card payments capability is active for our connected account acct_1Hx8Yz2eZvKYlo2C?",
+    "candidates": [
+      {
+        "method": "DELETE",
+        "path": "/v1/subscription_items/{item}",
+        "operation_id": "DeleteSubscriptionItemsItem"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/charges",
+        "operation_id": "PostCharges"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/accounts/{account}/capabilities/{capability}",
+        "operation_id": "GetAccountsAccountCapabilitiesCapability"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/test_clocks",
+        "operation_id": "PostTestHelpersTestClocks"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/disputes/{dispute}/close",
+        "operation_id": "PostDisputesDisputeClose"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/subscription_schedules",
+        "operation_id": "PostSubscriptionSchedules"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/charges/{charge}",
+        "operation_id": "GetChargesCharge"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/accounts/{account}/capabilities/{capability}",
+        "operation_id": "PostAccountsAccountCapabilitiesCapability"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/treasury/inbound_transfers/{id}/return",
+        "operation_id": "PostTestHelpersTreasuryInboundTransfersIdReturn"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/events",
+        "operation_id": "GetEvents"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/customers/{customer}/subscriptions",
+        "operation_id": "PostCustomersCustomerSubscriptions"
+      },
+      {
+        "method": "DELETE",
+        "path": "/v1/customers/{customer}/discount",
+        "operation_id": "DeleteCustomersCustomerDiscount"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/checkout/sessions/{session}/expire",
+        "operation_id": "PostCheckoutSessionsSessionExpire"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/test_clocks/{test_clock}/advance",
+        "operation_id": "PostTestHelpersTestClocksTestClockAdvance"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/billing_portal/configurations/{configuration}",
+        "operation_id": "GetBillingPortalConfigurationsConfiguration"
+      }
+    ],
+    "output": {
+      "selected_method": "GET",
+      "selected_path": "/v1/accounts/{account}/capabilities/{capability}",
+      "parameters": {
+        "account": "acct_1Hx8Yz2eZvKYlo2C",
+        "capability": "card_payments"
+      }
+    }
+  },
+  {
+    "api": "Stripe",
+    "intent": "I need to confirm whether the transfers capability has been approved for merchant account acct_19HcGGBElhZTiJ3D before we enable payouts.",
+    "candidates": [
+      {
+        "method": "DELETE",
+        "path": "/v1/subscription_items/{item}",
+        "operation_id": "DeleteSubscriptionItemsItem"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/charges",
+        "operation_id": "PostCharges"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/accounts/{account}/capabilities/{capability}",
+        "operation_id": "GetAccountsAccountCapabilitiesCapability"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/test_clocks",
+        "operation_id": "PostTestHelpersTestClocks"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/disputes/{dispute}/close",
+        "operation_id": "PostDisputesDisputeClose"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/subscription_schedules",
+        "operation_id": "PostSubscriptionSchedules"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/charges/{charge}",
+        "operation_id": "GetChargesCharge"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/accounts/{account}/capabilities/{capability}",
+        "operation_id": "PostAccountsAccountCapabilitiesCapability"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/treasury/inbound_transfers/{id}/return",
+        "operation_id": "PostTestHelpersTreasuryInboundTransfersIdReturn"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/events",
+        "operation_id": "GetEvents"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/customers/{customer}/subscriptions",
+        "operation_id": "PostCustomersCustomerSubscriptions"
+      },
+      {
+        "method": "DELETE",
+        "path": "/v1/customers/{customer}/discount",
+        "operation_id": "DeleteCustomersCustomerDiscount"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/checkout/sessions/{session}/expire",
+        "operation_id": "PostCheckoutSessionsSessionExpire"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/test_clocks/{test_clock}/advance",
+        "operation_id": "PostTestHelpersTestClocksTestClockAdvance"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/billing_portal/configurations/{configuration}",
+        "operation_id": "GetBillingPortalConfigurationsConfiguration"
+      }
+    ],
+    "output": {
+      "selected_method": "GET",
+      "selected_path": "/v1/accounts/{account}/capabilities/{capability}",
+      "parameters": {
+        "account": "acct_19HcGGBElhZTiJ3D",
+        "capability": "transfers"
+      }
+    }
+  },
+  {
+    "api": "Stripe",
+    "intent": "Pull up the current status of the legacy_payments capability on account acct_1F3sQeBElhZTiJ3D, and include the requirements details in the response.",
+    "candidates": [
+      {
+        "method": "DELETE",
+        "path": "/v1/subscription_items/{item}",
+        "operation_id": "DeleteSubscriptionItemsItem"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/charges",
+        "operation_id": "PostCharges"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/accounts/{account}/capabilities/{capability}",
+        "operation_id": "GetAccountsAccountCapabilitiesCapability"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/test_clocks",
+        "operation_id": "PostTestHelpersTestClocks"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/disputes/{dispute}/close",
+        "operation_id": "PostDisputesDisputeClose"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/subscription_schedules",
+        "operation_id": "PostSubscriptionSchedules"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/charges/{charge}",
+        "operation_id": "GetChargesCharge"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/accounts/{account}/capabilities/{capability}",
+        "operation_id": "PostAccountsAccountCapabilitiesCapability"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/treasury/inbound_transfers/{id}/return",
+        "operation_id": "PostTestHelpersTreasuryInboundTransfersIdReturn"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/events",
+        "operation_id": "GetEvents"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/customers/{customer}/subscriptions",
+        "operation_id": "PostCustomersCustomerSubscriptions"
+      },
+      {
+        "method": "DELETE",
+        "path": "/v1/customers/{customer}/discount",
+        "operation_id": "DeleteCustomersCustomerDiscount"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/checkout/sessions/{session}/expire",
+        "operation_id": "PostCheckoutSessionsSessionExpire"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/test_clocks/{test_clock}/advance",
+        "operation_id": "PostTestHelpersTestClocksTestClockAdvance"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/billing_portal/configurations/{configuration}",
+        "operation_id": "GetBillingPortalConfigurationsConfiguration"
+      }
+    ],
+    "output": {
+      "selected_method": "GET",
+      "selected_path": "/v1/accounts/{account}/capabilities/{capability}",
+      "parameters": {
+        "account": "acct_1F3sQeBElhZTiJ3D",
+        "capability": "legacy_payments",
+        "expand": [
+          "requirements"
+        ]
+      }
+    }
+  },
+  {
+    "api": "Stripe",
+    "intent": "We're about to run a QA pass on our subscription billing flows\u2014can you spin up a new test clock so we can simulate customer time moving forward without waiting for real billing cycles?",
+    "candidates": [
+      {
+        "method": "DELETE",
+        "path": "/v1/subscription_items/{item}",
+        "operation_id": "DeleteSubscriptionItemsItem"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/charges",
+        "operation_id": "PostCharges"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/accounts/{account}/capabilities/{capability}",
+        "operation_id": "GetAccountsAccountCapabilitiesCapability"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/test_clocks",
+        "operation_id": "PostTestHelpersTestClocks"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/disputes/{dispute}/close",
+        "operation_id": "PostDisputesDisputeClose"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/subscription_schedules",
+        "operation_id": "PostSubscriptionSchedules"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/charges/{charge}",
+        "operation_id": "GetChargesCharge"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/accounts/{account}/capabilities/{capability}",
+        "operation_id": "PostAccountsAccountCapabilitiesCapability"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/treasury/inbound_transfers/{id}/return",
+        "operation_id": "PostTestHelpersTreasuryInboundTransfersIdReturn"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/events",
+        "operation_id": "GetEvents"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/customers/{customer}/subscriptions",
+        "operation_id": "PostCustomersCustomerSubscriptions"
+      },
+      {
+        "method": "DELETE",
+        "path": "/v1/customers/{customer}/discount",
+        "operation_id": "DeleteCustomersCustomerDiscount"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/checkout/sessions/{session}/expire",
+        "operation_id": "PostCheckoutSessionsSessionExpire"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/test_clocks/{test_clock}/advance",
+        "operation_id": "PostTestHelpersTestClocksTestClockAdvance"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/billing_portal/configurations/{configuration}",
+        "operation_id": "GetBillingPortalConfigurationsConfiguration"
+      }
+    ],
+    "output": {
+      "selected_method": "POST",
+      "selected_path": "/v1/test_helpers/test_clocks",
+      "parameters": {
+        "frozen_time": 1717219200,
+        "name": "QA Billing Flow Test Clock"
+      }
+    }
+  },
+  {
+    "api": "Stripe",
+    "intent": "Set up a fresh simulated clock in our sandbox environment so the QA team can test how annual subscription renewals behave a year from now.",
+    "candidates": [
+      {
+        "method": "DELETE",
+        "path": "/v1/subscription_items/{item}",
+        "operation_id": "DeleteSubscriptionItemsItem"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/charges",
+        "operation_id": "PostCharges"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/accounts/{account}/capabilities/{capability}",
+        "operation_id": "GetAccountsAccountCapabilitiesCapability"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/test_clocks",
+        "operation_id": "PostTestHelpersTestClocks"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/disputes/{dispute}/close",
+        "operation_id": "PostDisputesDisputeClose"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/subscription_schedules",
+        "operation_id": "PostSubscriptionSchedules"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/charges/{charge}",
+        "operation_id": "GetChargesCharge"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/accounts/{account}/capabilities/{capability}",
+        "operation_id": "PostAccountsAccountCapabilitiesCapability"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/treasury/inbound_transfers/{id}/return",
+        "operation_id": "PostTestHelpersTreasuryInboundTransfersIdReturn"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/events",
+        "operation_id": "GetEvents"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/customers/{customer}/subscriptions",
+        "operation_id": "PostCustomersCustomerSubscriptions"
+      },
+      {
+        "method": "DELETE",
+        "path": "/v1/customers/{customer}/discount",
+        "operation_id": "DeleteCustomersCustomerDiscount"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/checkout/sessions/{session}/expire",
+        "operation_id": "PostCheckoutSessionsSessionExpire"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/test_clocks/{test_clock}/advance",
+        "operation_id": "PostTestHelpersTestClocksTestClockAdvance"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/billing_portal/configurations/{configuration}",
+        "operation_id": "GetBillingPortalConfigurationsConfiguration"
+      }
+    ],
+    "output": {
+      "selected_method": "POST",
+      "selected_path": "/v1/test_helpers/test_clocks",
+      "parameters": {
+        "frozen_time": 1782000000,
+        "name": "QA-Annual-Renewal-Simulation"
+      }
+    }
+  },
+  {
+    "api": "Stripe",
+    "intent": "I need to create a new test clock in Stripe's test mode so our engineers can validate trial-to-paid conversion logic before we ship the update.",
+    "candidates": [
+      {
+        "method": "DELETE",
+        "path": "/v1/subscription_items/{item}",
+        "operation_id": "DeleteSubscriptionItemsItem"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/charges",
+        "operation_id": "PostCharges"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/accounts/{account}/capabilities/{capability}",
+        "operation_id": "GetAccountsAccountCapabilitiesCapability"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/test_clocks",
+        "operation_id": "PostTestHelpersTestClocks"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/disputes/{dispute}/close",
+        "operation_id": "PostDisputesDisputeClose"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/subscription_schedules",
+        "operation_id": "PostSubscriptionSchedules"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/charges/{charge}",
+        "operation_id": "GetChargesCharge"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/accounts/{account}/capabilities/{capability}",
+        "operation_id": "PostAccountsAccountCapabilitiesCapability"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/treasury/inbound_transfers/{id}/return",
+        "operation_id": "PostTestHelpersTreasuryInboundTransfersIdReturn"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/events",
+        "operation_id": "GetEvents"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/customers/{customer}/subscriptions",
+        "operation_id": "PostCustomersCustomerSubscriptions"
+      },
+      {
+        "method": "DELETE",
+        "path": "/v1/customers/{customer}/discount",
+        "operation_id": "DeleteCustomersCustomerDiscount"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/checkout/sessions/{session}/expire",
+        "operation_id": "PostCheckoutSessionsSessionExpire"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/test_clocks/{test_clock}/advance",
+        "operation_id": "PostTestHelpersTestClocksTestClockAdvance"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/billing_portal/configurations/{configuration}",
+        "operation_id": "GetBillingPortalConfigurationsConfiguration"
+      }
+    ],
+    "output": {
+      "selected_method": "POST",
+      "selected_path": "/v1/test_helpers/test_clocks",
+      "parameters": {
+        "frozen_time": 1717200000,
+        "name": "Trial-to-Paid Conversion Test Clock"
+      }
+    }
+  },
+  {
+    "api": "Stripe",
+    "intent": "We already have enough evidence that dispute dp_1FcQ2kLxJ8 was accidental on the customer's end, so please close it out on our side since we're not submitting further evidence.",
+    "candidates": [
+      {
+        "method": "DELETE",
+        "path": "/v1/subscription_items/{item}",
+        "operation_id": "DeleteSubscriptionItemsItem"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/charges",
+        "operation_id": "PostCharges"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/accounts/{account}/capabilities/{capability}",
+        "operation_id": "GetAccountsAccountCapabilitiesCapability"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/test_clocks",
+        "operation_id": "PostTestHelpersTestClocks"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/disputes/{dispute}/close",
+        "operation_id": "PostDisputesDisputeClose"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/subscription_schedules",
+        "operation_id": "PostSubscriptionSchedules"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/charges/{charge}",
+        "operation_id": "GetChargesCharge"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/accounts/{account}/capabilities/{capability}",
+        "operation_id": "PostAccountsAccountCapabilitiesCapability"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/treasury/inbound_transfers/{id}/return",
+        "operation_id": "PostTestHelpersTreasuryInboundTransfersIdReturn"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/events",
+        "operation_id": "GetEvents"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/customers/{customer}/subscriptions",
+        "operation_id": "PostCustomersCustomerSubscriptions"
+      },
+      {
+        "method": "DELETE",
+        "path": "/v1/customers/{customer}/discount",
+        "operation_id": "DeleteCustomersCustomerDiscount"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/checkout/sessions/{session}/expire",
+        "operation_id": "PostCheckoutSessionsSessionExpire"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/test_clocks/{test_clock}/advance",
+        "operation_id": "PostTestHelpersTestClocksTestClockAdvance"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/billing_portal/configurations/{configuration}",
+        "operation_id": "GetBillingPortalConfigurationsConfiguration"
+      }
+    ],
+    "output": {
+      "selected_method": "POST",
+      "selected_path": "/v1/disputes/{dispute}/close",
+      "parameters": {
+        "dispute": "dp_1FcQ2kLxJ8"
+      }
+    }
+  },
+  {
+    "api": "Stripe",
+    "intent": "Mark the chargeback case dp_2Nk9RtA0Bq as closed in our system \u2014 the customer withdrew their claim after we spoke with them directly.",
+    "candidates": [
+      {
+        "method": "DELETE",
+        "path": "/v1/subscription_items/{item}",
+        "operation_id": "DeleteSubscriptionItemsItem"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/charges",
+        "operation_id": "PostCharges"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/accounts/{account}/capabilities/{capability}",
+        "operation_id": "GetAccountsAccountCapabilitiesCapability"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/test_clocks",
+        "operation_id": "PostTestHelpersTestClocks"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/disputes/{dispute}/close",
+        "operation_id": "PostDisputesDisputeClose"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/subscription_schedules",
+        "operation_id": "PostSubscriptionSchedules"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/charges/{charge}",
+        "operation_id": "GetChargesCharge"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/accounts/{account}/capabilities/{capability}",
+        "operation_id": "PostAccountsAccountCapabilitiesCapability"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/treasury/inbound_transfers/{id}/return",
+        "operation_id": "PostTestHelpersTreasuryInboundTransfersIdReturn"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/events",
+        "operation_id": "GetEvents"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/customers/{customer}/subscriptions",
+        "operation_id": "PostCustomersCustomerSubscriptions"
+      },
+      {
+        "method": "DELETE",
+        "path": "/v1/customers/{customer}/discount",
+        "operation_id": "DeleteCustomersCustomerDiscount"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/checkout/sessions/{session}/expire",
+        "operation_id": "PostCheckoutSessionsSessionExpire"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/test_clocks/{test_clock}/advance",
+        "operation_id": "PostTestHelpersTestClocksTestClockAdvance"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/billing_portal/configurations/{configuration}",
+        "operation_id": "GetBillingPortalConfigurationsConfiguration"
+      }
+    ],
+    "output": {
+      "selected_method": "POST",
+      "selected_path": "/v1/disputes/{dispute}/close",
+      "parameters": {
+        "dispute": "dp_2Nk9RtA0Bq"
+      }
+    }
+  },
+  {
+    "api": "Stripe",
+    "intent": "Can you close out dispute ID dp_3Zx7YpWq1L for us? Finance decided it's not worth contesting given the low transaction amount.",
+    "candidates": [
+      {
+        "method": "DELETE",
+        "path": "/v1/subscription_items/{item}",
+        "operation_id": "DeleteSubscriptionItemsItem"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/charges",
+        "operation_id": "PostCharges"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/accounts/{account}/capabilities/{capability}",
+        "operation_id": "GetAccountsAccountCapabilitiesCapability"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/test_clocks",
+        "operation_id": "PostTestHelpersTestClocks"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/disputes/{dispute}/close",
+        "operation_id": "PostDisputesDisputeClose"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/subscription_schedules",
+        "operation_id": "PostSubscriptionSchedules"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/charges/{charge}",
+        "operation_id": "GetChargesCharge"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/accounts/{account}/capabilities/{capability}",
+        "operation_id": "PostAccountsAccountCapabilitiesCapability"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/treasury/inbound_transfers/{id}/return",
+        "operation_id": "PostTestHelpersTreasuryInboundTransfersIdReturn"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/events",
+        "operation_id": "GetEvents"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/customers/{customer}/subscriptions",
+        "operation_id": "PostCustomersCustomerSubscriptions"
+      },
+      {
+        "method": "DELETE",
+        "path": "/v1/customers/{customer}/discount",
+        "operation_id": "DeleteCustomersCustomerDiscount"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/checkout/sessions/{session}/expire",
+        "operation_id": "PostCheckoutSessionsSessionExpire"
+      },
+      {
+        "method": "POST",
+        "path": "/v1/test_helpers/test_clocks/{test_clock}/advance",
+        "operation_id": "PostTestHelpersTestClocksTestClockAdvance"
+      },
+      {
+        "method": "GET",
+        "path": "/v1/billing_portal/configurations/{configuration}",
+        "operation_id": "GetBillingPortalConfigurationsConfiguration"
+      }
+    ],
+    "output": {
+      "selected_method": "POST",
+      "selected_path": "/v1/disputes/{dispute}/close",
+      "parameters": {
+        "dispute": "dp_3Zx7YpWq1L"
+      }
+    }
+  },
+  {
+    "api": "Slack",
+    "intent": "Update my Slack status to show I'm out at a conference through Friday and won't be checking messages regularly",
+    "candidates": [
+      {
+        "method": "POST",
+        "path": "/users.profile.set",
+        "operation_id": "users_profile_set"
+      },
+      {
+        "method": "GET",
+        "path": "/admin.inviteRequests.approved.list",
+        "operation_id": "admin_inviteRequests_approved_list"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.conversations.convertToPrivate",
+        "operation_id": "admin_conversations_convertToPrivate"
+      },
+      {
+        "method": "GET",
+        "path": "/calls.info",
+        "operation_id": "calls_info"
+      },
+      {
+        "method": "GET",
+        "path": "/apps.permissions.users.list",
+        "operation_id": "apps_permissions_users_list"
+      },
+      {
+        "method": "GET",
+        "path": "/views.publish",
+        "operation_id": "views_publish"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.inviteRequests.deny",
+        "operation_id": "admin_inviteRequests_deny"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.conversations.create",
+        "operation_id": "admin_conversations_create"
+      },
+      {
+        "method": "POST",
+        "path": "/chat.delete",
+        "operation_id": "chat_delete"
+      },
+      {
+        "method": "GET",
+        "path": "/auth.revoke",
+        "operation_id": "auth_revoke"
+      },
+      {
+        "method": "GET",
+        "path": "/apps.permissions.request",
+        "operation_id": "apps_permissions_request"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.teams.settings.setDefaultChannels",
+        "operation_id": "admin_teams_settings_setDefaultChannels"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.inviteRequests.approve",
+        "operation_id": "admin_inviteRequests_approve"
+      },
+      {
+        "method": "GET",
+        "path": "/team.accessLogs",
+        "operation_id": "team_accessLogs"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.emoji.addAlias",
+        "operation_id": "admin_emoji_addAlias"
+      }
+    ],
+    "output": {
+      "selected_method": "POST",
+      "selected_path": "/users.profile.set",
+      "parameters": {
+        "token": "REDACTED_EXAMPLE_TOKEN",
+        "user": "U123456",
+        "profile": "{\"status_text\": \"At a conference, back Friday\", \"status_emoji\": \":date:\", \"status_expiration\": 1735142400}"
+      }
+    }
+  },
+  {
+    "api": "Slack",
+    "intent": "Change my displayed job title in Slack from 'Marketing Coordinator' to 'Senior Marketing Coordinator' now that my promotion went through",
+    "candidates": [
+      {
+        "method": "POST",
+        "path": "/users.profile.set",
+        "operation_id": "users_profile_set"
+      },
+      {
+        "method": "GET",
+        "path": "/admin.inviteRequests.approved.list",
+        "operation_id": "admin_inviteRequests_approved_list"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.conversations.convertToPrivate",
+        "operation_id": "admin_conversations_convertToPrivate"
+      },
+      {
+        "method": "GET",
+        "path": "/calls.info",
+        "operation_id": "calls_info"
+      },
+      {
+        "method": "GET",
+        "path": "/apps.permissions.users.list",
+        "operation_id": "apps_permissions_users_list"
+      },
+      {
+        "method": "GET",
+        "path": "/views.publish",
+        "operation_id": "views_publish"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.inviteRequests.deny",
+        "operation_id": "admin_inviteRequests_deny"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.conversations.create",
+        "operation_id": "admin_conversations_create"
+      },
+      {
+        "method": "POST",
+        "path": "/chat.delete",
+        "operation_id": "chat_delete"
+      },
+      {
+        "method": "GET",
+        "path": "/auth.revoke",
+        "operation_id": "auth_revoke"
+      },
+      {
+        "method": "GET",
+        "path": "/apps.permissions.request",
+        "operation_id": "apps_permissions_request"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.teams.settings.setDefaultChannels",
+        "operation_id": "admin_teams_settings_setDefaultChannels"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.inviteRequests.approve",
+        "operation_id": "admin_inviteRequests_approve"
+      },
+      {
+        "method": "GET",
+        "path": "/team.accessLogs",
+        "operation_id": "team_accessLogs"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.emoji.addAlias",
+        "operation_id": "admin_emoji_addAlias"
+      }
+    ],
+    "output": {
+      "selected_method": "POST",
+      "selected_path": "/users.profile.set",
+      "parameters": {
+        "token": "REDACTED_EXAMPLE_TOKEN",
+        "user": "U12345678",
+        "profile": "{\"title\": \"Senior Marketing Coordinator\"}"
+      }
+    }
+  },
+  {
+    "api": "Slack",
+    "intent": "Set my profile status to reflect that I'm working from the Chicago office this week so my team knows where to find me",
+    "candidates": [
+      {
+        "method": "POST",
+        "path": "/users.profile.set",
+        "operation_id": "users_profile_set"
+      },
+      {
+        "method": "GET",
+        "path": "/admin.inviteRequests.approved.list",
+        "operation_id": "admin_inviteRequests_approved_list"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.conversations.convertToPrivate",
+        "operation_id": "admin_conversations_convertToPrivate"
+      },
+      {
+        "method": "GET",
+        "path": "/calls.info",
+        "operation_id": "calls_info"
+      },
+      {
+        "method": "GET",
+        "path": "/apps.permissions.users.list",
+        "operation_id": "apps_permissions_users_list"
+      },
+      {
+        "method": "GET",
+        "path": "/views.publish",
+        "operation_id": "views_publish"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.inviteRequests.deny",
+        "operation_id": "admin_inviteRequests_deny"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.conversations.create",
+        "operation_id": "admin_conversations_create"
+      },
+      {
+        "method": "POST",
+        "path": "/chat.delete",
+        "operation_id": "chat_delete"
+      },
+      {
+        "method": "GET",
+        "path": "/auth.revoke",
+        "operation_id": "auth_revoke"
+      },
+      {
+        "method": "GET",
+        "path": "/apps.permissions.request",
+        "operation_id": "apps_permissions_request"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.teams.settings.setDefaultChannels",
+        "operation_id": "admin_teams_settings_setDefaultChannels"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.inviteRequests.approve",
+        "operation_id": "admin_inviteRequests_approve"
+      },
+      {
+        "method": "GET",
+        "path": "/team.accessLogs",
+        "operation_id": "team_accessLogs"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.emoji.addAlias",
+        "operation_id": "admin_emoji_addAlias"
+      }
+    ],
+    "output": {
+      "selected_method": "POST",
+      "selected_path": "/users.profile.set",
+      "parameters": {
+        "token": "REDACTED_EXAMPLE_TOKEN",
+        "user": "U12345678",
+        "profile": "{\"status_text\": \"Working from Chicago office this week\", \"status_emoji\": \":office:\", \"status_expiration\": 1717929600}"
+      }
+    }
+  },
+  {
+    "api": "Slack",
+    "intent": "Pull up the list of approved invite requests for our Slack workspace so I can confirm which external contractors were granted access last week",
+    "candidates": [
+      {
+        "method": "POST",
+        "path": "/users.profile.set",
+        "operation_id": "users_profile_set"
+      },
+      {
+        "method": "GET",
+        "path": "/admin.inviteRequests.approved.list",
+        "operation_id": "admin_inviteRequests_approved_list"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.conversations.convertToPrivate",
+        "operation_id": "admin_conversations_convertToPrivate"
+      },
+      {
+        "method": "GET",
+        "path": "/calls.info",
+        "operation_id": "calls_info"
+      },
+      {
+        "method": "GET",
+        "path": "/apps.permissions.users.list",
+        "operation_id": "apps_permissions_users_list"
+      },
+      {
+        "method": "GET",
+        "path": "/views.publish",
+        "operation_id": "views_publish"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.inviteRequests.deny",
+        "operation_id": "admin_inviteRequests_deny"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.conversations.create",
+        "operation_id": "admin_conversations_create"
+      },
+      {
+        "method": "POST",
+        "path": "/chat.delete",
+        "operation_id": "chat_delete"
+      },
+      {
+        "method": "GET",
+        "path": "/auth.revoke",
+        "operation_id": "auth_revoke"
+      },
+      {
+        "method": "GET",
+        "path": "/apps.permissions.request",
+        "operation_id": "apps_permissions_request"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.teams.settings.setDefaultChannels",
+        "operation_id": "admin_teams_settings_setDefaultChannels"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.inviteRequests.approve",
+        "operation_id": "admin_inviteRequests_approve"
+      },
+      {
+        "method": "GET",
+        "path": "/team.accessLogs",
+        "operation_id": "team_accessLogs"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.emoji.addAlias",
+        "operation_id": "admin_emoji_addAlias"
+      }
+    ],
+    "output": {
+      "selected_method": "GET",
+      "selected_path": "/admin.inviteRequests.approved.list",
+      "parameters": {
+        "token": "REDACTED_EXAMPLE_TOKEN",
+        "team_id": "T0123456",
+        "limit": 50
+      }
+    }
+  },
+  {
+    "api": "Slack",
+    "intent": "I need to audit all approved join requests for the marketing team's workspace\u2014can you fetch the first 50 and give me a cursor for the next batch?",
+    "candidates": [
+      {
+        "method": "POST",
+        "path": "/users.profile.set",
+        "operation_id": "users_profile_set"
+      },
+      {
+        "method": "GET",
+        "path": "/admin.inviteRequests.approved.list",
+        "operation_id": "admin_inviteRequests_approved_list"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.conversations.convertToPrivate",
+        "operation_id": "admin_conversations_convertToPrivate"
+      },
+      {
+        "method": "GET",
+        "path": "/calls.info",
+        "operation_id": "calls_info"
+      },
+      {
+        "method": "GET",
+        "path": "/apps.permissions.users.list",
+        "operation_id": "apps_permissions_users_list"
+      },
+      {
+        "method": "GET",
+        "path": "/views.publish",
+        "operation_id": "views_publish"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.inviteRequests.deny",
+        "operation_id": "admin_inviteRequests_deny"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.conversations.create",
+        "operation_id": "admin_conversations_create"
+      },
+      {
+        "method": "POST",
+        "path": "/chat.delete",
+        "operation_id": "chat_delete"
+      },
+      {
+        "method": "GET",
+        "path": "/auth.revoke",
+        "operation_id": "auth_revoke"
+      },
+      {
+        "method": "GET",
+        "path": "/apps.permissions.request",
+        "operation_id": "apps_permissions_request"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.teams.settings.setDefaultChannels",
+        "operation_id": "admin_teams_settings_setDefaultChannels"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.inviteRequests.approve",
+        "operation_id": "admin_inviteRequests_approve"
+      },
+      {
+        "method": "GET",
+        "path": "/team.accessLogs",
+        "operation_id": "team_accessLogs"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.emoji.addAlias",
+        "operation_id": "admin_emoji_addAlias"
+      }
+    ],
+    "output": {
+      "selected_method": "GET",
+      "selected_path": "/admin.inviteRequests.approved.list",
+      "parameters": {
+        "token": "REDACTED_EXAMPLE_TOKEN",
+        "team_id": "T0MARKETING1",
+        "limit": 50
+      }
+    }
+  },
+  {
+    "api": "Slack",
+    "intent": "Can you check which invite requests have already been approved for team T02ABCXYZ before I send the onboarding email to new hires?",
+    "candidates": [
+      {
+        "method": "POST",
+        "path": "/users.profile.set",
+        "operation_id": "users_profile_set"
+      },
+      {
+        "method": "GET",
+        "path": "/admin.inviteRequests.approved.list",
+        "operation_id": "admin_inviteRequests_approved_list"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.conversations.convertToPrivate",
+        "operation_id": "admin_conversations_convertToPrivate"
+      },
+      {
+        "method": "GET",
+        "path": "/calls.info",
+        "operation_id": "calls_info"
+      },
+      {
+        "method": "GET",
+        "path": "/apps.permissions.users.list",
+        "operation_id": "apps_permissions_users_list"
+      },
+      {
+        "method": "GET",
+        "path": "/views.publish",
+        "operation_id": "views_publish"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.inviteRequests.deny",
+        "operation_id": "admin_inviteRequests_deny"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.conversations.create",
+        "operation_id": "admin_conversations_create"
+      },
+      {
+        "method": "POST",
+        "path": "/chat.delete",
+        "operation_id": "chat_delete"
+      },
+      {
+        "method": "GET",
+        "path": "/auth.revoke",
+        "operation_id": "auth_revoke"
+      },
+      {
+        "method": "GET",
+        "path": "/apps.permissions.request",
+        "operation_id": "apps_permissions_request"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.teams.settings.setDefaultChannels",
+        "operation_id": "admin_teams_settings_setDefaultChannels"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.inviteRequests.approve",
+        "operation_id": "admin_inviteRequests_approve"
+      },
+      {
+        "method": "GET",
+        "path": "/team.accessLogs",
+        "operation_id": "team_accessLogs"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.emoji.addAlias",
+        "operation_id": "admin_emoji_addAlias"
+      }
+    ],
+    "output": {
+      "selected_method": "GET",
+      "selected_path": "/admin.inviteRequests.approved.list",
+      "parameters": {
+        "token": "REDACTED_EXAMPLE_TOKEN",
+        "team_id": "T02ABCXYZ",
+        "limit": 50
+      }
+    }
+  },
+  {
+    "api": "Slack",
+    "intent": "Our #general-announcements channel accidentally got created as public and it needs to be locked down to only invited members immediately, can you convert it to private?",
+    "candidates": [
+      {
+        "method": "POST",
+        "path": "/users.profile.set",
+        "operation_id": "users_profile_set"
+      },
+      {
+        "method": "GET",
+        "path": "/admin.inviteRequests.approved.list",
+        "operation_id": "admin_inviteRequests_approved_list"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.conversations.convertToPrivate",
+        "operation_id": "admin_conversations_convertToPrivate"
+      },
+      {
+        "method": "GET",
+        "path": "/calls.info",
+        "operation_id": "calls_info"
+      },
+      {
+        "method": "GET",
+        "path": "/apps.permissions.users.list",
+        "operation_id": "apps_permissions_users_list"
+      },
+      {
+        "method": "GET",
+        "path": "/views.publish",
+        "operation_id": "views_publish"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.inviteRequests.deny",
+        "operation_id": "admin_inviteRequests_deny"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.conversations.create",
+        "operation_id": "admin_conversations_create"
+      },
+      {
+        "method": "POST",
+        "path": "/chat.delete",
+        "operation_id": "chat_delete"
+      },
+      {
+        "method": "GET",
+        "path": "/auth.revoke",
+        "operation_id": "auth_revoke"
+      },
+      {
+        "method": "GET",
+        "path": "/apps.permissions.request",
+        "operation_id": "apps_permissions_request"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.teams.settings.setDefaultChannels",
+        "operation_id": "admin_teams_settings_setDefaultChannels"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.inviteRequests.approve",
+        "operation_id": "admin_inviteRequests_approve"
+      },
+      {
+        "method": "GET",
+        "path": "/team.accessLogs",
+        "operation_id": "team_accessLogs"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.emoji.addAlias",
+        "operation_id": "admin_emoji_addAlias"
+      }
+    ],
+    "output": {
+      "selected_method": "POST",
+      "selected_path": "/admin.conversations.convertToPrivate",
+      "parameters": {
+        "token": "REDACTED_EXAMPLE_TOKEN",
+        "channel_id": "C012ABCXYZ"
+      }
+    }
+  },
+  {
+    "api": "Slack",
+    "intent": "Legal just flagged that the #project-atlas-merger channel contains sensitive M&A discussion and needs to be switched from public to private right now.",
+    "candidates": [
+      {
+        "method": "POST",
+        "path": "/users.profile.set",
+        "operation_id": "users_profile_set"
+      },
+      {
+        "method": "GET",
+        "path": "/admin.inviteRequests.approved.list",
+        "operation_id": "admin_inviteRequests_approved_list"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.conversations.convertToPrivate",
+        "operation_id": "admin_conversations_convertToPrivate"
+      },
+      {
+        "method": "GET",
+        "path": "/calls.info",
+        "operation_id": "calls_info"
+      },
+      {
+        "method": "GET",
+        "path": "/apps.permissions.users.list",
+        "operation_id": "apps_permissions_users_list"
+      },
+      {
+        "method": "GET",
+        "path": "/views.publish",
+        "operation_id": "views_publish"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.inviteRequests.deny",
+        "operation_id": "admin_inviteRequests_deny"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.conversations.create",
+        "operation_id": "admin_conversations_create"
+      },
+      {
+        "method": "POST",
+        "path": "/chat.delete",
+        "operation_id": "chat_delete"
+      },
+      {
+        "method": "GET",
+        "path": "/auth.revoke",
+        "operation_id": "auth_revoke"
+      },
+      {
+        "method": "GET",
+        "path": "/apps.permissions.request",
+        "operation_id": "apps_permissions_request"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.teams.settings.setDefaultChannels",
+        "operation_id": "admin_teams_settings_setDefaultChannels"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.inviteRequests.approve",
+        "operation_id": "admin_inviteRequests_approve"
+      },
+      {
+        "method": "GET",
+        "path": "/team.accessLogs",
+        "operation_id": "team_accessLogs"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.emoji.addAlias",
+        "operation_id": "admin_emoji_addAlias"
+      }
+    ],
+    "output": {
+      "selected_method": "POST",
+      "selected_path": "/admin.conversations.convertToPrivate",
+      "parameters": {
+        "token": "REDACTED_EXAMPLE_TOKEN",
+        "channel_id": "C0123ATLASMERGER"
+      }
+    }
+  },
+  {
+    "api": "Slack",
+    "intent": "Can you change the #hr-complaints channel from public to private so only authorized HR staff can view past messages and join going forward?",
+    "candidates": [
+      {
+        "method": "POST",
+        "path": "/users.profile.set",
+        "operation_id": "users_profile_set"
+      },
+      {
+        "method": "GET",
+        "path": "/admin.inviteRequests.approved.list",
+        "operation_id": "admin_inviteRequests_approved_list"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.conversations.convertToPrivate",
+        "operation_id": "admin_conversations_convertToPrivate"
+      },
+      {
+        "method": "GET",
+        "path": "/calls.info",
+        "operation_id": "calls_info"
+      },
+      {
+        "method": "GET",
+        "path": "/apps.permissions.users.list",
+        "operation_id": "apps_permissions_users_list"
+      },
+      {
+        "method": "GET",
+        "path": "/views.publish",
+        "operation_id": "views_publish"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.inviteRequests.deny",
+        "operation_id": "admin_inviteRequests_deny"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.conversations.create",
+        "operation_id": "admin_conversations_create"
+      },
+      {
+        "method": "POST",
+        "path": "/chat.delete",
+        "operation_id": "chat_delete"
+      },
+      {
+        "method": "GET",
+        "path": "/auth.revoke",
+        "operation_id": "auth_revoke"
+      },
+      {
+        "method": "GET",
+        "path": "/apps.permissions.request",
+        "operation_id": "apps_permissions_request"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.teams.settings.setDefaultChannels",
+        "operation_id": "admin_teams_settings_setDefaultChannels"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.inviteRequests.approve",
+        "operation_id": "admin_inviteRequests_approve"
+      },
+      {
+        "method": "GET",
+        "path": "/team.accessLogs",
+        "operation_id": "team_accessLogs"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.emoji.addAlias",
+        "operation_id": "admin_emoji_addAlias"
+      }
+    ],
+    "output": {
+      "selected_method": "POST",
+      "selected_path": "/admin.conversations.convertToPrivate",
+      "parameters": {
+        "token": "REDACTED_EXAMPLE_TOKEN",
+        "channel_id": "C012HRCOMP"
+      }
+    }
+  },
+  {
+    "api": "Slack",
+    "intent": "Can you pull up the details for call ID R123456789 so I can verify the duration before invoicing the client?",
+    "candidates": [
+      {
+        "method": "POST",
+        "path": "/users.profile.set",
+        "operation_id": "users_profile_set"
+      },
+      {
+        "method": "GET",
+        "path": "/admin.inviteRequests.approved.list",
+        "operation_id": "admin_inviteRequests_approved_list"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.conversations.convertToPrivate",
+        "operation_id": "admin_conversations_convertToPrivate"
+      },
+      {
+        "method": "GET",
+        "path": "/calls.info",
+        "operation_id": "calls_info"
+      },
+      {
+        "method": "GET",
+        "path": "/apps.permissions.users.list",
+        "operation_id": "apps_permissions_users_list"
+      },
+      {
+        "method": "GET",
+        "path": "/views.publish",
+        "operation_id": "views_publish"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.inviteRequests.deny",
+        "operation_id": "admin_inviteRequests_deny"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.conversations.create",
+        "operation_id": "admin_conversations_create"
+      },
+      {
+        "method": "POST",
+        "path": "/chat.delete",
+        "operation_id": "chat_delete"
+      },
+      {
+        "method": "GET",
+        "path": "/auth.revoke",
+        "operation_id": "auth_revoke"
+      },
+      {
+        "method": "GET",
+        "path": "/apps.permissions.request",
+        "operation_id": "apps_permissions_request"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.teams.settings.setDefaultChannels",
+        "operation_id": "admin_teams_settings_setDefaultChannels"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.inviteRequests.approve",
+        "operation_id": "admin_inviteRequests_approve"
+      },
+      {
+        "method": "GET",
+        "path": "/team.accessLogs",
+        "operation_id": "team_accessLogs"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.emoji.addAlias",
+        "operation_id": "admin_emoji_addAlias"
+      }
+    ],
+    "output": {
+      "selected_method": "GET",
+      "selected_path": "/calls.info",
+      "parameters": {
+        "token": "REDACTED_EXAMPLE_TOKEN",
+        "id": "R123456789"
+      }
+    }
+  },
+  {
+    "api": "Slack",
+    "intent": "I need to check the status of the call logged under ID CALL-98213 to confirm it connected successfully with our support team.",
+    "candidates": [
+      {
+        "method": "POST",
+        "path": "/users.profile.set",
+        "operation_id": "users_profile_set"
+      },
+      {
+        "method": "GET",
+        "path": "/admin.inviteRequests.approved.list",
+        "operation_id": "admin_inviteRequests_approved_list"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.conversations.convertToPrivate",
+        "operation_id": "admin_conversations_convertToPrivate"
+      },
+      {
+        "method": "GET",
+        "path": "/calls.info",
+        "operation_id": "calls_info"
+      },
+      {
+        "method": "GET",
+        "path": "/apps.permissions.users.list",
+        "operation_id": "apps_permissions_users_list"
+      },
+      {
+        "method": "GET",
+        "path": "/views.publish",
+        "operation_id": "views_publish"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.inviteRequests.deny",
+        "operation_id": "admin_inviteRequests_deny"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.conversations.create",
+        "operation_id": "admin_conversations_create"
+      },
+      {
+        "method": "POST",
+        "path": "/chat.delete",
+        "operation_id": "chat_delete"
+      },
+      {
+        "method": "GET",
+        "path": "/auth.revoke",
+        "operation_id": "auth_revoke"
+      },
+      {
+        "method": "GET",
+        "path": "/apps.permissions.request",
+        "operation_id": "apps_permissions_request"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.teams.settings.setDefaultChannels",
+        "operation_id": "admin_teams_settings_setDefaultChannels"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.inviteRequests.approve",
+        "operation_id": "admin_inviteRequests_approve"
+      },
+      {
+        "method": "GET",
+        "path": "/team.accessLogs",
+        "operation_id": "team_accessLogs"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.emoji.addAlias",
+        "operation_id": "admin_emoji_addAlias"
+      }
+    ],
+    "output": {
+      "selected_method": "GET",
+      "selected_path": "/calls.info",
+      "parameters": {
+        "token": "REDACTED_EXAMPLE_TOKEN",
+        "id": "CALL-98213"
+      }
+    }
+  },
+  {
+    "api": "Slack",
+    "intent": "Please retrieve the metadata for call record 4471-XZ so I can attach it to the compliance audit report we're preparing.",
+    "candidates": [
+      {
+        "method": "POST",
+        "path": "/users.profile.set",
+        "operation_id": "users_profile_set"
+      },
+      {
+        "method": "GET",
+        "path": "/admin.inviteRequests.approved.list",
+        "operation_id": "admin_inviteRequests_approved_list"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.conversations.convertToPrivate",
+        "operation_id": "admin_conversations_convertToPrivate"
+      },
+      {
+        "method": "GET",
+        "path": "/calls.info",
+        "operation_id": "calls_info"
+      },
+      {
+        "method": "GET",
+        "path": "/apps.permissions.users.list",
+        "operation_id": "apps_permissions_users_list"
+      },
+      {
+        "method": "GET",
+        "path": "/views.publish",
+        "operation_id": "views_publish"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.inviteRequests.deny",
+        "operation_id": "admin_inviteRequests_deny"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.conversations.create",
+        "operation_id": "admin_conversations_create"
+      },
+      {
+        "method": "POST",
+        "path": "/chat.delete",
+        "operation_id": "chat_delete"
+      },
+      {
+        "method": "GET",
+        "path": "/auth.revoke",
+        "operation_id": "auth_revoke"
+      },
+      {
+        "method": "GET",
+        "path": "/apps.permissions.request",
+        "operation_id": "apps_permissions_request"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.teams.settings.setDefaultChannels",
+        "operation_id": "admin_teams_settings_setDefaultChannels"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.inviteRequests.approve",
+        "operation_id": "admin_inviteRequests_approve"
+      },
+      {
+        "method": "GET",
+        "path": "/team.accessLogs",
+        "operation_id": "team_accessLogs"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.emoji.addAlias",
+        "operation_id": "admin_emoji_addAlias"
+      }
+    ],
+    "output": {
+      "selected_method": "GET",
+      "selected_path": "/calls.info",
+      "parameters": {
+        "token": "REDACTED_EXAMPLE_TOKEN",
+        "id": "4471-XZ"
+      }
+    }
+  },
+  {
+    "api": "Slack",
+    "intent": "Pull up the list of users who currently have app permissions granted so we can review access before our security audit next week",
+    "candidates": [
+      {
+        "method": "POST",
+        "path": "/users.profile.set",
+        "operation_id": "users_profile_set"
+      },
+      {
+        "method": "GET",
+        "path": "/admin.inviteRequests.approved.list",
+        "operation_id": "admin_inviteRequests_approved_list"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.conversations.convertToPrivate",
+        "operation_id": "admin_conversations_convertToPrivate"
+      },
+      {
+        "method": "GET",
+        "path": "/calls.info",
+        "operation_id": "calls_info"
+      },
+      {
+        "method": "GET",
+        "path": "/apps.permissions.users.list",
+        "operation_id": "apps_permissions_users_list"
+      },
+      {
+        "method": "GET",
+        "path": "/views.publish",
+        "operation_id": "views_publish"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.inviteRequests.deny",
+        "operation_id": "admin_inviteRequests_deny"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.conversations.create",
+        "operation_id": "admin_conversations_create"
+      },
+      {
+        "method": "POST",
+        "path": "/chat.delete",
+        "operation_id": "chat_delete"
+      },
+      {
+        "method": "GET",
+        "path": "/auth.revoke",
+        "operation_id": "auth_revoke"
+      },
+      {
+        "method": "GET",
+        "path": "/apps.permissions.request",
+        "operation_id": "apps_permissions_request"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.teams.settings.setDefaultChannels",
+        "operation_id": "admin_teams_settings_setDefaultChannels"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.inviteRequests.approve",
+        "operation_id": "admin_inviteRequests_approve"
+      },
+      {
+        "method": "GET",
+        "path": "/team.accessLogs",
+        "operation_id": "team_accessLogs"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.emoji.addAlias",
+        "operation_id": "admin_emoji_addAlias"
+      }
+    ],
+    "output": {
+      "selected_method": "GET",
+      "selected_path": "/apps.permissions.users.list",
+      "parameters": {
+        "token": "REDACTED_EXAMPLE_TOKEN",
+        "limit": 100
+      }
+    }
+  },
+  {
+    "api": "Slack",
+    "intent": "I need to check which employees have been given permissions for our workspace apps as part of the quarterly compliance report, can you fetch the next page after cursor abc123 with up to 50 results?",
+    "candidates": [
+      {
+        "method": "POST",
+        "path": "/users.profile.set",
+        "operation_id": "users_profile_set"
+      },
+      {
+        "method": "GET",
+        "path": "/admin.inviteRequests.approved.list",
+        "operation_id": "admin_inviteRequests_approved_list"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.conversations.convertToPrivate",
+        "operation_id": "admin_conversations_convertToPrivate"
+      },
+      {
+        "method": "GET",
+        "path": "/calls.info",
+        "operation_id": "calls_info"
+      },
+      {
+        "method": "GET",
+        "path": "/apps.permissions.users.list",
+        "operation_id": "apps_permissions_users_list"
+      },
+      {
+        "method": "GET",
+        "path": "/views.publish",
+        "operation_id": "views_publish"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.inviteRequests.deny",
+        "operation_id": "admin_inviteRequests_deny"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.conversations.create",
+        "operation_id": "admin_conversations_create"
+      },
+      {
+        "method": "POST",
+        "path": "/chat.delete",
+        "operation_id": "chat_delete"
+      },
+      {
+        "method": "GET",
+        "path": "/auth.revoke",
+        "operation_id": "auth_revoke"
+      },
+      {
+        "method": "GET",
+        "path": "/apps.permissions.request",
+        "operation_id": "apps_permissions_request"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.teams.settings.setDefaultChannels",
+        "operation_id": "admin_teams_settings_setDefaultChannels"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.inviteRequests.approve",
+        "operation_id": "admin_inviteRequests_approve"
+      },
+      {
+        "method": "GET",
+        "path": "/team.accessLogs",
+        "operation_id": "team_accessLogs"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.emoji.addAlias",
+        "operation_id": "admin_emoji_addAlias"
+      }
+    ],
+    "output": {
+      "selected_method": "GET",
+      "selected_path": "/apps.permissions.users.list",
+      "parameters": {
+        "token": "REDACTED_EXAMPLE_TOKEN",
+        "cursor": "abc123",
+        "limit": 50
+      }
+    }
+  },
+  {
+    "api": "Slack",
+    "intent": "Can you get me the full roster of users with app-level permissions so I can cross-reference it against our HR offboarding list and revoke access for anyone who's left the company?",
+    "candidates": [
+      {
+        "method": "POST",
+        "path": "/users.profile.set",
+        "operation_id": "users_profile_set"
+      },
+      {
+        "method": "GET",
+        "path": "/admin.inviteRequests.approved.list",
+        "operation_id": "admin_inviteRequests_approved_list"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.conversations.convertToPrivate",
+        "operation_id": "admin_conversations_convertToPrivate"
+      },
+      {
+        "method": "GET",
+        "path": "/calls.info",
+        "operation_id": "calls_info"
+      },
+      {
+        "method": "GET",
+        "path": "/apps.permissions.users.list",
+        "operation_id": "apps_permissions_users_list"
+      },
+      {
+        "method": "GET",
+        "path": "/views.publish",
+        "operation_id": "views_publish"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.inviteRequests.deny",
+        "operation_id": "admin_inviteRequests_deny"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.conversations.create",
+        "operation_id": "admin_conversations_create"
+      },
+      {
+        "method": "POST",
+        "path": "/chat.delete",
+        "operation_id": "chat_delete"
+      },
+      {
+        "method": "GET",
+        "path": "/auth.revoke",
+        "operation_id": "auth_revoke"
+      },
+      {
+        "method": "GET",
+        "path": "/apps.permissions.request",
+        "operation_id": "apps_permissions_request"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.teams.settings.setDefaultChannels",
+        "operation_id": "admin_teams_settings_setDefaultChannels"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.inviteRequests.approve",
+        "operation_id": "admin_inviteRequests_approve"
+      },
+      {
+        "method": "GET",
+        "path": "/team.accessLogs",
+        "operation_id": "team_accessLogs"
+      },
+      {
+        "method": "POST",
+        "path": "/admin.emoji.addAlias",
+        "operation_id": "admin_emoji_addAlias"
+      }
+    ],
+    "output": {
+      "selected_method": "GET",
+      "selected_path": "/apps.permissions.users.list",
+      "parameters": {
+        "token": "REDACTED_EXAMPLE_TOKEN",
+        "limit": 200,
+        "cursor": ""
+      }
+    }
+  }
+]

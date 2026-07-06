@@ -408,18 +408,168 @@ consistent for these three APIs specifically, not a general guarantee for arbitr
 
 \subsection{Experiment 5: Downstream LLM Agent Evaluation}
 The result most central to the paper's claim: does EnterpriseSynth-generated SFT data improve
-API-use capability, evaluated on \textbf{held-out APIs not included during synthesis}? Metrics:
-task success rate, tool selection accuracy, argument correctness, workflow completion. Baselines:
-base LLM (no fine-tuning), prompt-only agent, Self-Instruct-generated data, and ToolBench where a
-live sandbox is safely available. Results: to be measured.
+API-use capability, evaluated on \textbf{held-out APIs not included during synthesis}? Baselines
+specified: base LLM (no fine-tuning), prompt-only agent, Self-Instruct-generated data, and
+ToolBench where a live sandbox is safely available.
+
+\textbf{Hardware-driven scope change, stated plainly.} Section~3.4's original target
+(Mistral-7B-Instruct or Llama-3-8B via LoRA) is not feasible on the machine available for this
+pilot -- no GPU, 16GB RAM, and QLoRA has only experimental Apple Silicon support. Rather than skip
+the experiment or report untested numbers, we substitute Qwen2.5-0.5B-Instruct, actually fine-tuned
+via LoRA (rank 8, \texttt{q\_proj}/\texttt{v\_proj}, 3 epochs, LR 3e-4) on this hardware, in real
+wall-clock time -- a real result for a much smaller model than the eventual target, not a stand-in
+for the full-scale experiment.
+
+\textbf{Setup.} Training set: the 45 Stage-6-verified trajectories from Experiment 3
+(GitHub/Stripe/Slack only). Held-out set: 16 intents generated for Zoom (373 endpoints), an API
+never touched by any prior experiment or by the training data.
+
+\textbf{Measured (pilot scale, base vs.\ fine-tuned only -- other baselines not yet implemented
+for this pilot).}
+
+\begin{center}
+\begin{tabular}{lll}
+\textbf{Model} & \textbf{Tool Selection Acc.} & \textbf{Param. Validity (of correct)} \\
+Base (zero-shot, untuned) & 12.5\% (2/16) & 0.0\% \\
++ LoRA fine-tuned & 87.5\% (14/16) & 57.1\% (8/14) \\
+\end{tabular}
+\end{center}
+
+Training loss dropped monotonically over the 3 epochs (0.708 $\rightarrow$ 0.403 $\rightarrow$
+0.247). The jump on tool selection (12.5\% $\rightarrow$ 87.5\%) is a genuine, fairly large effect
+for 45 training examples and a 0.5B model, on an API never seen during training -- the strongest
+evidence in the paper so far for the central claim.
+
+Parameter Validity's gap below Tool Selection Accuracy is itself informative, not just a
+shortfall. Inspecting failures: for Zoom's \texttt{PUT /users/\{userId\}/password}, the true
+required body field is \texttt{password}, but the fine-tuned model generated plausible invented
+field names instead (\texttt{new\_password}, \texttt{expiration\_time}), neither of which exists
+in Zoom's schema -- while correctly selecting the endpoint and preserving the
+\texttt{\{userId\}} path template. The model generalized \textit{which endpoint to call}
+correctly but not \textit{the exact field names} a genuinely novel schema requires -- precisely
+the failure mode Stage 6 verification exists to catch before a generated trajectory reaches a
+real API call or a training set. Experiments 4 and 5 corroborate each other here.
+
+This pilot does not show the effect holds at the paper's actual target model scale (7--8B), at
+the full stratified training sample size (Section~3.2), or against the Self-Instruct/ToolBench/
+prompt-only-agent baselines -- those require cloud GPU access or further implementation time,
+both future work.
 
 \subsection{What Comes After Experiments}
-Once Experiments 1--5 run, the remaining sections analyze the results: Results (quantitative
-findings across all five experiments), Ablation Study (remove one pipeline component at a time --
-no knowledge graph, no verifier -- to isolate each stage's contribution), Case Studies (walk
-through generated examples end-to-end, from raw spec to verified trajectory), Discussion
-(strengths, limitations, scalability, future work), and Conclusion. Not written yet, since there
-is nothing to analyze until the pipeline exists.
+Once Experiments 1--5 run, the remaining sections analyze the results. Results (below) covers
+quantitative findings across all five experiments; Ablation Study, Case Studies, Discussion, and
+Conclusion are not yet written, pending the full-scale run described at the end of Section~8.
+
+\section{Results and Analysis}
+
+\subsection{Overview}
+We evaluate EnterpriseSynth on real-world OpenAPI specifications from GitHub, Stripe, and Slack
+(pipeline development and SFT training data), plus Zoom (held out exclusively for evaluation,
+never touched during training or any earlier experiment). All numbers below are measured, not
+projected; full detail, scripts, and raw data are in DESIGN\_DOC.md Section~6 and the repository's
+\texttt{scripts/} and \texttt{data/generated/} directories.
+
+\subsection{RQ1 --- API Schema Understanding}
+Endpoint, parameter, request/response schema, and authentication extraction accuracy all reach
+100\% for GitHub (845 operations), Stripe (446), and Slack (174), checked against independently
+recomputed ground truth. All three reach 100\%, but not equally easily: GitHub was hardest because
+it defines most parameters via \texttt{\$ref} to shared \texttt{components.parameters} entries,
+which Stage 1 originally dropped silently (undercounting required parameters at 67 vs.\ the true
+1{,}721); Stripe was hardest differently, since many endpoints (e.g.\ \texttt{/v1/charges})
+declare zero OpenAPI \texttt{parameters} and put every field in \texttt{requestBody} schema
+instead, which Stage 1 originally never parsed into typed fields at all. Slack required neither
+fix. Both fixes are general, not spec-specific patches.
+
+\subsection{RQ2 --- Intent Generation Quality}
+5 endpoints sampled per API, 3 intents each (45 total): 100\% Intent Coverage and 100\%
+exact-string Intent Diversity for all three APIs (a weak proxy -- semantic-similarity clustering
+is not yet implemented). Manual inspection substantiates quality beyond the aggregate metric:
+generated intents are business-scenario-specific and non-generic (e.g.\ locking down release tags
+for a named "payments-service" repo, rotating a named secret across specific microservices) rather
+than templated restatements of the same request.
+
+\subsection{RQ3 --- Agent Trajectory Generation}
+Tool Selection Accuracy reaches 100\% for GitHub and Stripe, 93.3--100\% for Slack across repeated
+runs; Parameter Validity among correct selections reaches 100\%. Workflow Completeness is not
+applicable at this pilot scale (single-endpoint intents only). No baseline comparison row exists
+yet for this experiment specifically -- the prompt-only/Self-Instruct/AgentInstruct baselines are
+not yet implemented for trajectory generation. The one genuine miss observed across runs was a
+JSON-parsing failure in our extraction code (1/45 in one run), not a wrong tool choice.
+
+\subsection{RQ4 --- Verification Performance}
+The paper's strongest contribution area. 45 valid trajectories (100\% Verification Pass Rate) plus
+44 deliberately corrupted variants, scored for whether Stage 6 catches each planted error:
+
+\begin{center}
+\begin{tabular}{lll}
+\textbf{Error type} & \textbf{Detected} & \textbf{Missed} \\
+Wrong HTTP method & 12/12 & 0 \\
+Missing required parameter & 11/11 & 0 \\
+Invalid endpoint path & 12/12 & 0 \\
+Parameter type mismatch & 9/9 & 0 \\
+\textbf{Total} & \textbf{44/44 (100\%)} & \textbf{0} \\
+\end{tabular}
+\end{center}
+
+This 100\% took real work to earn: the first run of this experiment reached only 57--80\%
+detection, and adversarial testing (deliberately corrupting already-correct trajectories, not just
+checking that correct ones pass) surfaced two verifier/harness bugs and two Stage 1 parser gaps
+that a non-adversarial test would never have revealed (Section~6.6). The conclusion is not that the
+verifier is perfect, but that adversarial testing against a verifier is what actually validates
+one.
+
+\subsection{RQ5 --- Downstream Agent Performance}
+Training set: 45 Stage-6-verified trajectories from GitHub/Stripe/Slack. Evaluation set: 16 intents
+for Zoom (373 endpoints), absent from training and every prior experiment. Model: Qwen2.5-0.5B-
+Instruct, LoRA fine-tuned (a hardware-scoped substitute for the paper's eventual 7--8B target;
+Section~6.7).
+
+\begin{center}
+\begin{tabular}{lll}
+\textbf{Model} & \textbf{Tool Success} & \textbf{Argument Correctness} \\
+Base LLM (zero-shot) & 12.5\% (2/16) & 0.0\% \\
+EnterpriseSynth-fine-tuned & 87.5\% (14/16) & 57.1\% (8/14) \\
+\end{tabular}
+\end{center}
+
+Prompt-only-agent and Self-Instruct baseline rows are not yet implemented for this pilot. The
+12.5\%$\rightarrow$87.5\% jump, from 45 training examples and a 0.5B model, on a genuinely unseen
+API, is the strongest evidence for the paper's central claim so far. Argument correctness lagging
+behind tool selection is itself informative: the model learned which endpoint to call but not
+always the exact field names a new schema requires (Section~6.7) -- exactly the failure mode
+Stage 6 verification exists to catch downstream.
+
+\subsection{Comparison With Existing Approaches}
+
+\begin{center}
+\begin{tabular}{lccccc}
+\textbf{Capability} & \textbf{ToolBench} & \textbf{API-Bank} & \textbf{AgentInstruct} & \textbf{Ours} \\
+Uses OpenAPI specs & Partial & No & No & Yes \\
+Enterprise APIs & Limited & Limited & No & Yes \\
+Requires live execution & Yes & Yes & No & No \\
+Generates SFT data & Yes & Limited & Yes & Yes \\
+Generates eval data & Limited & Yes & No & Yes \\
+Schema-based verification & No & Limited & No & Yes \\
+\end{tabular}
+\end{center}
+
+\subsection{Key Findings Summary}
+\begin{itemize}
+    \item EnterpriseSynth extracts structured knowledge from real-world APIs at 100\% measured
+    accuracy -- trustworthy only because two genuine Stage 1 parsing gaps were found and fixed,
+    not assumed from the start.
+    \item Schema-grounded generation produces enterprise-specific, non-generic intents and
+    correctly-scoped trajectories on a 45-example pilot.
+    \item Static, non-LLM verification catches 100\% of planted errors across four corruption
+    types -- but only after adversarial testing forced fixes to real bugs; the pre-fix rate was
+    57--80\%, reported rather than hidden.
+    \item EnterpriseSynth-generated SFT data measurably improves tool-selection accuracy on a
+    genuinely unseen API (12.5\%$\rightarrow$87.5\%), though exact-field-name generalization
+    remains a real, unresolved limitation.
+    \item All results are pilot-scale (3--4 APIs, 45--89 examples per experiment, a 0.5B
+    substitute model). Scaling to the full stratified sample, the target model size, and the
+    remaining baselines is the immediate next phase, not yet done.
+\end{itemize}
 
 \bibliographystyle{plain}
 \bibliography{references}
