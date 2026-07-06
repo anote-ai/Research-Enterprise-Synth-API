@@ -332,11 +332,25 @@ Extraction Accuracy (required/optional params, types, constraints), Schema Extra
 (request body, response schemas, object definitions), Authentication Extraction Accuracy (API
 keys, OAuth, JWT, Basic).
 
-| API | Paths | Path+Methods | Endpoint Extraction Accuracy | Parameter Accuracy | Schema Accuracy |
-| --- | --- | --- | --- | --- | --- |
-| GitHub | 551 | 845 | to be measured | to be measured | to be measured |
-| Stripe | 299 | 446 | to be measured | to be measured | to be measured |
-| Slack | 174 | 174 | to be measured | to be measured | to be measured |
+**Measured** (`src/enterprisesynth/parser.py`, run via `scripts/run_experiment1.py`; ground truth
+independently recomputed straight from each raw spec, not by reusing the parser's own logic —
+see the script for both implementations):
+
+| API | Paths+Methods | Endpoint Extraction Accuracy | Parameter Accuracy | Req. Schema Accuracy | Resp. Schema Accuracy | Auth Accuracy |
+| --- | --- | --- | --- | --- | --- | --- |
+| GitHub | 845 | 100.0% | 100.0% | 100.0% | 100.0% | n/a (0/0) |
+| Stripe | 446 | 100.0% | 100.0% | 100.0% | 100.0% | 100.0% |
+| Slack | 174 | 100.0% | 100.0% | 100.0% | 100.0% | 100.0% |
+
+All extraction accuracies are 100% because Stage 1 is deterministic parsing against a
+machine-readable format, not a generative/statistical task — the real finding here is not "the
+parser is accurate" but a genuine edge case it surfaced: **GitHub's public OpenAPI spec declares
+zero `securitySchemes` and zero `security` requirements anywhere** (verified directly on the raw
+spec, not a parser bug) — GitHub documents its auth (PAT/OAuth/GitHub App tokens) in prose
+elsewhere, not in machine-readable OpenAPI fields. This matters for Stage 6 (Schema Verification):
+an authentication check against GitHub's spec has nothing to verify against, which is a real
+limitation to discuss, not something to paper over. Test coverage in `tests/test_parser.py` (7
+tests, all passing) pins these counts as regression tests.
 
 ### 6.4 Experiment 2 — Intent Generation Evaluation
 

@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "enterprisesynth"
+version = "0.1.0"
+description = "Schema-aware agentic framework for generating verified SFT and evaluation datasets from OpenAPI specifications"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+    {name = "Rashmi Thimmaraju"},
+]
+keywords = [
+    "llm",
+    "openapi",
+    "tool-use",
+    "synthetic-data",
+    "sft",
+]
+dependencies = [
+    "pydantic>=2.0",
+    "networkx>=3.0",
+    "openapi-spec-validator>=0.7",
+    "PyYAML>=6.0",
+    "anthropic>=0.40",
+    "requests>=2.31",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+]
+
+[project.urls]
+Repository = "https://github.com/Rashmioffcialpage/enterprisesynth-api"
+"Design Doc" = "https://github.com/Rashmioffcialpage/enterprisesynth-api/blob/main/DESIGN_DOC.md"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
