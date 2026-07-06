@@ -215,8 +215,70 @@ emission is the artifact none of the five reviewed papers produce -- Orca-Bench,
 human-annotated evaluation set, and ToolEval are each constructed separately from the
 training-data-generation act, not mechanically derived from the same pass.
 
-% TODO next sections: Dataset (\S5 of DESIGN_DOC.md), Training \& Eval (\S6),
-% Results, Discussion, Limitations, Conclusion.
+\section{Experimental Setup}
+
+\subsection{Research Questions}
+\textbf{RQ1 (schema-valid generation):} Can EnterpriseSynth generate schema-valid SFT trajectories
+from OpenAPI specifications? \textbf{RQ2 (coverage vs.\ baselines):} Does EnterpriseSynth achieve
+broader endpoint and workflow coverage than prompt-only generation or instruction-generation
+baselines (Self-Instruct, AgentInstruct)? \textbf{RQ3 (verification value):} Does schema-aware
+verification improve the quality of generated trajectories over no verification, or over
+AgentInstruct's soft/post-hoc verification? \textbf{RQ4 (downstream utility):} Do models fine-tuned
+on EnterpriseSynth-generated data perform better on enterprise API-calling tasks than an untuned
+baseline? Cold-start generalization is not a fifth question -- it is the held-out-spec condition
+applied within RQ2 and RQ4 (Section~3.2).
+
+\subsection{Datasets}
+All experimental specs are sourced from a single, verified corpus rather than three separate
+ingestion pipelines. APIs.guru already ingests \texttt{Azure/azure-rest-api-specs} directly
+(672 confirmed \texttt{azure.com:*} entries) and converts Google's Discovery documents to OpenAPI
+(284 confirmed \texttt{google.com}/\texttt{googleapis.com:*} entries) -- a separate Azure or Google
+sourcing path is unnecessary, and the raw \texttt{googleapis/googleapis} repository is
+protobuf/gRPC, not OpenAPI, so it is not used. We draw a stratified sample of approximately 65
+specs from APIs.guru's verified category taxonomy (cloud, developer\_tools, financial/payment,
+ecommerce, collaboration, messaging, and the smaller enterprise/customer\_relation/security
+categories), guaranteeing inclusion of three flagship case studies -- GitHub, Stripe, and
+Kubernetes -- all confirmed present in the corpus already. A held-out slice of
+ToolBench~\cite{qin2023toolbench}'s RapidAPI pool serves as the execution-dependent comparison
+corpus, and a small hand-authored set of synthetic enterprise-internal specs (CRM, ticketing, HRIS,
+billing) serves as the cold-start validation set, since public specs may already be present in
+model pretraining data. Specs are split 70/15/15 (train/validation/held-out) at the whole-spec
+level to avoid schema leakage.
+
+\subsection{Baselines}
+We compare against prompt-only generation (a single zero-shot prompt, no pipeline, no
+verification), Self-Instruct~\cite{wang2022selfinstruct} (adapted to take API endpoints as seeds),
+AgentInstruct~\cite{mitra2024agentinstruct} (its \texttt{tool\_use} flow applied to the same
+specs, isolating the effect of real-spec grounding and hard verification), and
+ToolBench~\cite{qin2023toolbench} (execution-dependent, run only where a live sandbox is safely
+available -- by construction it cannot run against the cold-start validation set at all).
+API-Bank~\cite{li2023apibank}'s call/retrieval/plan scoring methodology is used for
+evaluation-style comparison rather than as a training-data baseline.
+
+\subsection{Models}
+The generation pipeline (Stages 3--5) uses Claude Sonnet 5 for the Intent Synthesis Agent, Agentic
+Planning Module, and Trajectory Generator. The Schema Verification Engine's primary gate is
+deliberately \textit{not} an LLM -- it is deterministic, schema-based validation -- since a
+non-LLM structural gate is the core methodological differentiator from AgentInstruct's LLM-judge
+verification (Section~2); an optional ablation arm layers Claude Haiku 4.5 as a cheap
+semantic-plausibility check on top of the deterministic gate to measure incremental value for RQ3.
+The fine-tuning target is a separate, open-weight model (Mistral-7B-Instruct-v0.3 or
+Llama-3-8B-Instruct via LoRA), since it must be open-weight to be fine-tuned at all. These are
+placeholder defaults pending final budget confirmation.
+
+\subsection{Evaluation Metrics}
+Schema validation rate, endpoint coverage, parameter correctness, workflow completeness, intent
+diversity, multi-step workflow coverage, verification pass rate, and downstream task success after
+SFT (held-out eval-record pass rate, fine-tuned vs.\ untuned).
+
+\subsection{Implementation Details}
+Python 3.12; Pydantic for schema modeling and Stage 6 validation, NetworkX for the Stage 2
+knowledge graph, \texttt{openapi-spec-validator}/PyYAML for Stage 1 parsing, and the Anthropic SDK
+for Stages 3--5. No GPU is required for generation (API-based models); a single GPU is needed only
+for the LoRA fine-tuning step. Runtime, trajectory counts, and eval-record counts are not yet
+measured and will be reported once the pipeline is implemented and run.
+
+% TODO next sections: Results, Discussion, Limitations, Conclusion.
 
 \bibliographystyle{plain}
 \bibliography{references}

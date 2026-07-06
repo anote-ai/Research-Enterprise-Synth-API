@@ -22,6 +22,21 @@ Confirmed present in the live directory (checked, not from memory): `github.com`
 example domain, it will need to be sourced separately (Discord does not publish an official
 OpenAPI spec; community-maintained unofficial specs exist but are a different licensing situation).
 
+**Azure and Google do not need separate ingestion pipelines** — both are already inside APIs.guru,
+confirmed live: 672 `azure.com:*` entries (APIs.guru ingests `Azure/azure-rest-api-specs` directly,
+MIT-licensed) and 284 `google.com`/`googleapis.com:*` entries (APIs.guru converts Google's
+Discovery documents to OpenAPI). Note: the raw `googleapis/googleapis` GitHub repo is
+**protobuf/gRPC service definitions, not OpenAPI/Swagger** — wrong format for this pipeline's
+Stage 1 parser; do not use it directly.
+
+Verified category populations (`x-apisguru-categories` metadata, live-checked 2026-07-06): cloud
+955, media 340, open_data 318, analytics 284, developer_tools 168, ecommerce 78, financial 72,
+messaging 62, entertainment 61, telecom 60, text 57, location 51, collaboration 38, payment 32,
+transport 29, hosting 20, security 19, iot 18, social 18, tools 16, marketing 13, email 13,
+enterprise 12, machine_learning 10, search 7, customer_relation 7, education 4, backend 3,
+monitoring 3, forms 2. Full stratified sampling plan (~65 specs across the enterprise-relevant
+categories) is in `DESIGN_DOC.md` §5.2.
+
 ## Baseline comparison corpus
 
 [ToolBench](https://github.com/OpenBMB/ToolBench) (Qin et al., 2023) — Apache License 2.0,

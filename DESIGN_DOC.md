@@ -164,44 +164,141 @@ Each stage maps onto a gap identified in the literature review (§3):
 
 ---
 
-## 5. Dataset Plan
+## 5. Experimental Setup
 
-Full detail and provenance in `data/README.md`. Summary:
+### 5.1 Research Questions (experimental)
 
-- **Primary source:** [APIs.guru](https://apis.guru/) / `openapi-directory` — verified live against
-  `api.apis.guru/v2/list.json` on 2026-07-06: **2,529 APIs, 3,992 spec versions**, CC0-1.0 for the
-  aggregator (individual specs retain their own source terms). Confirmed present: `github.com`,
-  `stripe.com`, `slack.com`, `twilio.com`, `spotify.com`, `zoom.us`, `kubernetes.io`, `openai.com`,
-  `digitalocean.com`. **Not present:** `discord.com` (no official OpenAPI spec published).
-- **Baseline comparison:** held-out slice of ToolLLM/ToolBench's RapidAPI pool (16,464 APIs,
-  Apache-2.0, confirmed via repo license metadata), to benchmark EnterpriseSynth's generated data
-  against an execution-dependent baseline.
+These operationalize §1's conceptual RQs into testable ones for Section 6 of the paper:
+
+- **RQ1 (schema-valid generation, operationalizes §1 RQ1):** Can EnterpriseSynth generate
+  schema-valid SFT trajectories from OpenAPI specifications?
+- **RQ2 (coverage vs. baselines):** Does EnterpriseSynth achieve broader endpoint and workflow
+  coverage than prompt-only generation or instruction-generation baselines (Self-Instruct,
+  AgentInstruct)?
+- **RQ3 (verification value, operationalizes §1 RQ2):** Does schema-aware verification (Stage 6)
+  improve the quality of generated trajectories over no verification, or over AgentInstruct-style
+  soft/post-hoc verification?
+- **RQ4 (downstream utility, operationalizes §1 RQ3):** Do models fine-tuned on
+  EnterpriseSynth-generated data perform better on enterprise API-calling tasks than an untuned
+  baseline?
+- §1's RQ4 (cold-start generalization) is not a separate experimental RQ — it is the held-out-spec
+  condition applied within RQ2 and RQ4 above (see §5.2 split protocol), not a fifth question.
+
+### 5.2 Datasets
+
+Full provenance in `data/README.md`. All API specs for the experimental set come from **one
+verified source** rather than three separate ingestion pipelines — checked live, not assumed:
+
+- **APIs.guru already contains both Azure's and Google's spec collections.** APIs.guru ingests
+  `Azure/azure-rest-api-specs` directly (672 `azure.com:*` entries confirmed in the live directory)
+  and converts Google's Discovery documents to OpenAPI (284 `google.com`/`googleapis.com:*` entries
+  confirmed). A separate Azure-repo scraper or Google ingestion path is therefore unnecessary.
+- **`googleapis/googleapis` (the raw GitHub repo) is protobuf/gRPC, not OpenAPI/Swagger** —
+  confirmed by inspecting the repo (Bazel build files, `gapic` client-config directories). It is
+  the wrong format for this pipeline's Stage 1 parser and is not used.
+- **Verified category populations** (from `x-apisguru-categories` metadata, live-checked
+  2026-07-06): cloud 955, media 340, open_data 318, analytics 284, developer_tools 168,
+  ecommerce 78, financial 72, messaging 62, payment 32, collaboration 38, security 19,
+  enterprise 12, customer_relation 7 (full list in `data/README.md`).
+
+Proposed stratified sample (~65 specs total, single source = APIs.guru), guaranteeing the three
+flagship case-study APIs are included (all three already confirmed present, so no separate
+sourcing is needed for them):
+
+| Domain (APIs.guru category) | Specs sampled | Notes |
+| --- | --- | --- |
+| cloud | 15 | includes `kubernetes.io` (flagship) |
+| developer_tools | 10 | includes `github.com` (flagship) |
+| financial + payment | 10 | includes `stripe.com` (flagship) |
+| ecommerce | 8 | |
+| collaboration | 8 | includes `slack.com` |
+| messaging | 5 | includes `twilio.com` |
+| enterprise + customer_relation + security | 9 | smallest categories, sampled near-exhaustively |
+
+This is a sampling **plan**, not a measured result — exact selection (which specs within each
+category) is not yet finalized.
+
+- **Baseline comparison corpus:** held-out slice of ToolLLM/ToolBench's RapidAPI pool (16,464
+  APIs, Apache-2.0, confirmed via repo license metadata).
 - **Cold-start validation set:** a small, hand-authored set of synthetic "enterprise-internal"
-  specs (CRM, ticketing, HRIS, internal billing) modeled on real enterprise API shapes — not yet
-  authored, tracked as an open item. Required because public specs may already be in pretraining
-  data; evaluating only on public specs would undermine RQ4's cold-start generalization claim.
-- **Split protocol:** 70% of API specs for training synthesis (prompt/template development happens
-  only against this split), 15% validation, 15% held out and untouched until final evaluation.
-  Split by whole spec, not by generated example, to avoid schema leakage across train/test.
-- **Per-spec scale:** not yet measured — will be reported once Stages 3–7 of the pipeline (§4)
-  exist and are run, not assumed in advance.
+  specs (CRM, ticketing, HRIS, internal billing) — not yet authored, tracked as an open item.
+  Required because public specs may already be in pretraining data.
+- **Split protocol:** 70% of sampled specs for training synthesis, 15% validation, 15% held out
+  and untouched until final evaluation — split by whole spec, not by generated example.
+
+### 5.3 Baselines
+
+- **Prompt-only generation** — a single zero-shot prompt asking an LLM to produce SFT/eval data
+  directly from the spec, no pipeline, no verification. Establishes the floor.
+- **Self-Instruct** (Wang et al., 2022) — reimplemented per its published protocol, adapted to
+  take API endpoints as seeds instead of generic tasks.
+- **AgentInstruct** (Mitra et al., 2024) — the closest execution-free baseline; its `tool_use` flow
+  applied to the same OpenAPI specs, for a controlled comparison isolating the effect of real-spec
+  grounding + hard verification vs. its code-seeded/soft-verified approach.
+- **ToolLLM/ToolBench** (Qin et al., 2023) — execution-dependent baseline, run against the same
+  APIs where a live sandbox is safely available (public APIs only — this baseline cannot run at
+  all against the cold-start validation set, which is itself part of the comparison's point).
+- **API-Bank** (Li et al., 2023) — used for evaluation-style comparison (its call/retrieval/plan
+  scoring methodology), not as a training-data baseline.
+
+### 5.4 Models
+
+Generation-pipeline models (Stages 3–5) use frontier API models (Claude), not the fine-tuning
+target model — these are separate roles:
+
+- **Intent Synthesis Agent, Agentic Planning Module, Trajectory Generator:** Claude Sonnet 5.
+- **Schema Verification Engine (primary):** **no LLM** — deterministic, code-based validation
+  (Pydantic/JSON Schema against the spec). This is the core methodological differentiator from
+  AgentInstruct's LLM-judge-only verification (§2), so the primary gate must stay non-LLM.
+- **Schema Verification Engine (ablation arm, for RQ3):** Claude Haiku 4.5 as a cheap, optional
+  LLM-based semantic-plausibility check layered *on top of* the deterministic gate — measuring
+  whether an LLM catches errors the structural check misses, not replacing it.
+- **Fine-tuning target model** (unchanged from §5.6): an open-weight model (Mistral-7B-Instruct-v0.3
+  or Llama-3-8B-Instruct) — must be open-weight since it needs to be fine-tuned, unlike the
+  generation-pipeline models above.
+
+This is a placeholder default pending actual budget confirmation, not a final commitment.
+
+### 5.5 Evaluation Metrics
+
+- **Schema validation rate** — % of generated trajectories passing Stage 6 with zero structural
+  violations (generalizes the earlier VJGR notion).
+- **Endpoint coverage** — % of a spec's endpoints exercised by at least one generated trajectory.
+- **Parameter correctness** — % of required parameters populated with the correct type per the
+  spec.
+- **Workflow completeness** — % of multi-step trajectories where dependent calls execute only
+  after their required parent parameters are available (generalizes the earlier SMR notion).
+- **Intent diversity** — distinct intent/task categories generated per spec (taxonomy coverage,
+  not just count).
+- **Multi-step workflow coverage** — % of graph dependency edges (§4 Stage 2) exercised by at
+  least one generated trajectory.
+- **Verification pass rate** — % passing Stage 6 on first generation attempt vs. after
+  regeneration.
+- **Downstream task success after SFT** — held-out eval-record pass rate, fine-tuned vs. untuned
+  baseline model (RQ4).
+
+### 5.6 Implementation Details
+
+- **Python:** 3.12.
+- **Libraries:** Pydantic (schema modeling + Stage 6 validation), NetworkX (Stage 2 knowledge
+  graph), `openapi-spec-validator`/PyYAML (Stage 1 parsing), Anthropic SDK (Stages 3–5 model
+  calls). `FastAPI` is not needed — this is an offline batch pipeline, not a served API; add it
+  only if a live-serving mode is wanted later.
+- **Hardware:** no GPU required for generation (API-based models); a single GPU (24GB+ for a
+  7–8B LoRA run) is needed only for the fine-tuning step in §5.7.
+- **Runtime, trajectory counts, eval-record counts:** not yet measured — to be reported once the
+  pipeline (§4) is implemented and run, not assumed in advance.
+
+### 5.7 Fine-Tuning Protocol
+
+- LoRA adapter on the open base model chosen in §5.4, 3 epochs, Paged AdamW, base LR 3e-4, cosine
+  annealing schedule.
+- Protocol: run untuned baseline and fine-tuned model against the held-out eval records (§5.2
+  split), score both through the Schema Verification Engine (§5.4) plus the metrics in §5.5.
 
 ---
 
-## 6. Training & Evaluation Plan
-
-- **Fine-tuning:** LoRA adapter on an open base model (Mistral-7B-Instruct-v0.3 or
-  Llama-3-8B-Instruct), 3 epochs, Paged AdamW, base LR 3e-4, cosine annealing schedule.
-- **Metrics:**
-  - **Valid JSON Generation Rate (VJGR)** — syntax/positioning-token error reduction.
-  - **API Sequence Match Rate (SMR)** — dependent child endpoints only called after correct parent
-    parameter initialization.
-- **Protocol:** run untuned baseline and fine-tuned model against the 1,000 held-out eval records,
-  score both through the Static Constraint Validator.
-
----
-
-## 7. Timeline
+## 6. Timeline
 
 | Date | Milestone |
 | --- | --- |
@@ -211,10 +308,12 @@ Full detail and provenance in `data/README.md`. Summary:
 
 ---
 
-## 8. Open Items
+## 7. Open Items
 
 - Resolve the EnterpriseBench naming collision (see flag at top).
 - Verify per-spec licensing before redistributing any derived dataset built on APIs.guru/ToolBench
   sources.
 - Confirm In-N-Out's released graph data isn't reusable outright for the Structural Graph Extractor
   before building a parser from scratch.
+- Finalize which specs within each §5.2 category are actually sampled (plan only, not yet chosen).
+- Confirm generation-pipeline model budget/access (§5.4 is a placeholder default).
