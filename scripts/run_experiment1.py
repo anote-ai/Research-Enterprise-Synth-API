@@ -21,6 +21,18 @@ SPECS = {
 }
 
 
+def _resolve_ref(spec: dict, ref: str) -> dict:
+    """Independent $ref resolver (deliberately separate from parser.py's, to keep this ground
+    truth check honest -- if both implementations shared a bug, this cross-check wouldn't catch it).
+    """
+    node = spec
+    for part in ref.lstrip("#/").split("/"):
+        if not isinstance(node, dict):
+            return {}
+        node = node.get(part, {})
+    return node if isinstance(node, dict) else {}
+
+
 def ground_truth_counts(spec: dict) -> dict:
     """Independently recomputes counts directly from the raw spec, without using SchemaParser."""
     total_endpoints = 0
@@ -43,8 +55,24 @@ def ground_truth_counts(spec: dict) -> dict:
                 continue
             total_endpoints += 1
 
-            all_params = [p for p in (path_params + op.get("parameters", [])) if isinstance(p, dict)]
+            all_params_raw = [p for p in (path_params + op.get("parameters", [])) if isinstance(p, dict)]
+            all_params = [
+                _resolve_ref(spec, p["$ref"]) if "$ref" in p else p for p in all_params_raw
+            ]
             total_required_params += sum(1 for p in all_params if p.get("required") is True)
+
+            rb = op.get("requestBody")
+            if isinstance(rb, dict):
+                body_content = rb.get("content", {})
+                body_schema = {}
+                for media in body_content.values():
+                    if isinstance(media, dict) and "schema" in media:
+                        body_schema = media["schema"]
+                        break
+                if isinstance(body_schema, dict) and "$ref" in body_schema:
+                    body_schema = _resolve_ref(spec, body_schema["$ref"])
+                if isinstance(body_schema, dict):
+                    total_required_params += len(body_schema.get("required", []))
 
             rb = op.get("requestBody")
             if isinstance(rb, dict):

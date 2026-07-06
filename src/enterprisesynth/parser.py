@@ -18,8 +18,22 @@ def _security_scheme_names(security: list[dict[str, Any]] | None) -> list[str]:
     return names
 
 
-def _parse_parameter(raw: dict[str, Any]) -> Parameter:
+def _resolve_ref(spec: dict[str, Any], ref: str) -> dict[str, Any]:
+    """Resolves a local JSON Schema $ref like '#/components/parameters/org' against the spec."""
+    node: Any = spec
+    for part in ref.lstrip("#/").split("/"):
+        if not isinstance(node, dict):
+            return {}
+        node = node.get(part, {})
+    return node if isinstance(node, dict) else {}
+
+
+def _parse_parameter(raw: dict[str, Any], spec: dict[str, Any]) -> Parameter:
+    if "$ref" in raw:
+        raw = _resolve_ref(spec, raw["$ref"])
     schema = raw.get("schema", {})
+    if isinstance(schema, dict) and "$ref" in schema:
+        schema = _resolve_ref(spec, schema["$ref"])
     return Parameter(
         name=raw.get("name", ""),
         location=raw.get("in", ""),
@@ -35,6 +49,45 @@ def _parse_request_body(raw: dict[str, Any] | None) -> tuple[bool, bool]:
     content = raw.get("content", {})
     schema_present = any("schema" in media for media in content.values())
     return required, schema_present
+
+
+def _parse_request_body_fields(raw: dict[str, Any] | None, spec: dict[str, Any]) -> list[Parameter]:
+    """Parses requestBody schema properties into Parameters (location='body').
+
+    Most POST/PUT/PATCH endpoints put their real payload fields here, not in the OpenAPI
+    'parameters' array -- e.g. Stripe's /v1/charges has zero 'parameters' and puts amount,
+    currency, customer, etc. entirely in requestBody.content[...].schema.properties.
+    """
+    if not raw:
+        return []
+    content = raw.get("content", {})
+    schema: dict[str, Any] = {}
+    for media in content.values():
+        if isinstance(media, dict) and "schema" in media:
+            schema = media["schema"]
+            break
+    if isinstance(schema, dict) and "$ref" in schema:
+        schema = _resolve_ref(spec, schema["$ref"])
+    if not isinstance(schema, dict):
+        return []
+
+    properties = schema.get("properties", {})
+    required_fields = set(schema.get("required", []))
+
+    fields: list[Parameter] = []
+    for name, field_schema in properties.items():
+        if isinstance(field_schema, dict) and "$ref" in field_schema:
+            field_schema = _resolve_ref(spec, field_schema["$ref"])
+        field_type = field_schema.get("type") if isinstance(field_schema, dict) else None
+        fields.append(
+            Parameter(
+                name=name,
+                location="body",
+                required=name in required_fields,
+                schema_type=field_type,
+            )
+        )
+    return fields
 
 
 def _parse_responses(raw: dict[str, Any] | None) -> dict[str, bool]:
@@ -68,8 +121,9 @@ class SchemaParser:
 
                 op_params_raw = path_level_params_raw + operation.get("parameters", [])
                 parameters = [
-                    _parse_parameter(p) for p in op_params_raw if isinstance(p, dict) and "$ref" not in p
+                    _parse_parameter(p, spec) for p in op_params_raw if isinstance(p, dict)
                 ]
+                parameters += _parse_request_body_fields(operation.get("requestBody"), spec)
 
                 req_required, req_schema_present = _parse_request_body(operation.get("requestBody"))
                 response_schemas = _parse_responses(operation.get("responses"))

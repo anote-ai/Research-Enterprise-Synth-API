@@ -317,12 +317,18 @@ object definitions), Authentication Extraction Accuracy (API keys, OAuth, JWT, B
 \textbf{Measured.} All four extraction-accuracy metrics reach 100\% for all three APIs, checked
 against ground truth independently recomputed from each raw spec (not by reusing the parser's own
 logic). This is expected: Stage 1 is deterministic parsing against a machine-readable format, not
-a generative task. The more informative finding is a genuine edge case Experiment 1 surfaced:
-GitHub's public OpenAPI specification declares zero \texttt{securitySchemes} and zero
+a generative task -- but that 100\% is only trustworthy because the ground truth was fixed
+alongside two real parser bugs Experiment 4's adversarial testing surfaced (Section~6.4): the
+parser originally dropped any parameter defined via \texttt{\$ref} (GitHub uses this extensively
+for shared parameters like \texttt{org}, \texttt{secret\_name}) and never parsed
+\texttt{requestBody} schema fields into typed parameters at all (most POST/PUT/PATCH endpoints,
+e.g. Stripe's \texttt{/v1/charges}, put their real payload fields there). The scale of the first
+fix alone: GitHub's independently-recomputed required-parameter count went from 67 to 1{,}721 once
+\texttt{\$ref} parameters were correctly resolved. A second, smaller finding survives from before
+these fixes: GitHub's public OpenAPI specification declares zero \texttt{securitySchemes} and zero
 \texttt{security} requirements anywhere -- verified directly on the raw spec, not a parsing bug --
-meaning its authentication is documented in prose rather than machine-readable OpenAPI fields.
-This is a real limitation for Stage 6 (Schema Verification): an authentication check against
-GitHub's spec has nothing to check against.
+meaning its authentication is documented in prose rather than machine-readable OpenAPI fields, so
+an authentication check against GitHub's spec has nothing to check against.
 
 \subsection{Experiment 2: Intent Generation Evaluation}
 Evaluates whether the Intent Synthesis Agent (Stage 3) generates realistic enterprise user intents.
@@ -369,9 +375,36 @@ human-authored or cross-model-generated intents and a larger sample.
 \subsection{Experiment 4: Schema-Based Verification}
 The central novelty claim: can the Schema Verification Engine (Stage 6) validate generated
 trajectories entirely offline, without executing any real API? Checks: endpoint validity, HTTP
-method validity, parameter validation (missing required fields, incorrect types, invalid enums),
-response validation. Results: to be measured (verification pass rate and invalid-cases-detected,
-per API).
+method validity, parameter validation (missing required fields, incorrect types, invalid enums).
+
+Testing the verifier only on already-correct Experiment 3 trajectories would be circular -- its
+actual job is catching \textit{bad} trajectories -- so we also generate a deliberately corrupted
+variant of each valid trajectory (wrong method, missing a required parameter, invalid path, or
+wrong parameter type, cycled deterministically) and check whether the verifier flags it.
+
+\textbf{Measured, final.} Verification Pass Rate on valid trajectories and Invalid Cases Detected
+on corrupted ones both reach 100\% for all three APIs (45 valid trajectories, 44 corrupted
+variants tested; some corruption types are occasionally skipped when a trajectory has no eligible
+parameter to corrupt).
+
+This 100\%/100\% was earned, not assumed: the first run of this experiment surfaced four real
+bugs, and reporting the first-run detection rates (57--80\%) without fixing them would have been
+misleading. (1) A verifier bug: declared type \texttt{"string"} was treated as accepting any
+value, including a nested object, so a wrong-type corruption injecting an object into a
+string-typed field was never caught (0/8 detected). (2) A test-harness bug: the missing-parameter
+corruption dropped an arbitrary dictionary key rather than a specifically \textit{required} one,
+so roughly half these corruptions were meaningless by construction. (3) The Stage 1 \texttt{\$ref}
+bug from Section~5.1: a corrupted-but-invisible parameter was never checked because it was not in
+the parsed parameter list at all. (4) The Stage 1 requestBody gap from Section~5.1: Stripe's
+\texttt{/v1/charges} had no \texttt{Parameter} object for the verifier to check the corrupted field
+against. All four are fixed, with regression tests in \texttt{tests/test\_parser.py} and
+\texttt{tests/test\_verifier.py} (15 tests total, all passing).
+
+The honest takeaway is not that the verifier is perfect -- it is that adversarial testing against
+a verifier is what actually validates one, and doing so surfaced real gaps in Stage 1 that
+Experiment 1's self-consistent ground truth had been silently sharing. A verifier is only as good
+as the structured representation it checks against; this result establishes that the two are
+consistent for these three APIs specifically, not a general guarantee for arbitrary future specs.
 
 \subsection{Experiment 5: Downstream LLM Agent Evaluation}
 The result most central to the paper's claim: does EnterpriseSynth-generated SFT data improve

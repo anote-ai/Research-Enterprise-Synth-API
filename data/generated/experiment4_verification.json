@@ -1,0 +1,1078 @@
+{
+  "GitHub": [
+    {
+      "intent": "Set up a rule so only admins can push release tags matching v*.* on our payments-service repo to prevent accidental overwrites in production.",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "wrong_method",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": false,
+          "required_params_present": false,
+          "param_types_valid": false
+        },
+        "errors": [
+          "Endpoint PATCH /repos/{owner}/{repo}/tags/protection does not exist in the spec."
+        ]
+      }
+    },
+    {
+      "intent": "We need to lock down tag creation on the acme-api repository so that our CI pipeline can't be tampered with\u2014please add tag protection for anything prefixed with 'release-'.",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "missing_param",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": false,
+          "param_types_valid": true
+        },
+        "errors": [
+          "Missing required parameters: ['owner']"
+        ]
+      }
+    },
+    {
+      "intent": "Can you configure our infrastructure-as-code repo so that deployment tags like 'prod-*' can only be created or deleted by repository admins going forward?",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "invalid_path",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": false,
+          "required_params_present": false,
+          "param_types_valid": false
+        },
+        "errors": [
+          "Endpoint POST /repos/{owner}/{repo}/tags/protection/nonexistent-suffix does not exist in the spec."
+        ]
+      }
+    },
+    {
+      "intent": "Update the list of repositories that can access our org-level DOCKER_REGISTRY_PASSWORD secret to include the three new microservice repos our team just created",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "wrong_type",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": false
+        },
+        "errors": [
+          "Parameter 'org' = {'unexpectedly': 'an object'} is not compatible with declared type 'string'"
+        ]
+      }
+    },
+    {
+      "intent": "We're rotating which teams have access to the shared AWS_DEPLOY_KEY secret - please restrict it to only the payments-api and payments-worker repositories going forward",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "wrong_method",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": false,
+          "required_params_present": false,
+          "param_types_valid": false
+        },
+        "errors": [
+          "Endpoint PATCH /orgs/{org}/actions/secrets/{secret_name}/repositories does not exist in the spec."
+        ]
+      }
+    },
+    {
+      "intent": "Grant the newly onboarded frontend-web and frontend-mobile repos access to the org's SENTRY_AUTH_TOKEN secret while removing the deprecated legacy-ui repo from that list",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "missing_param",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": false,
+          "param_types_valid": true
+        },
+        "errors": [
+          "Missing required parameters: ['org']"
+        ]
+      }
+    },
+    {
+      "intent": "Pull the latest public activity feed so I can check what's happening across the platform before our morning stand-up.",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "invalid_path",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": false,
+          "required_params_present": false,
+          "param_types_valid": false
+        },
+        "errors": [
+          "Endpoint GET /events/nonexistent-suffix does not exist in the spec."
+        ]
+      }
+    },
+    {
+      "intent": "Our compliance team needs a snapshot of recent public events on the network for this week's audit report.",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "wrong_type",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": false
+        },
+        "errors": [
+          "Parameter 'per_page' = {'unexpectedly': 'an object'} is not compatible with declared type 'integer'"
+        ]
+      }
+    },
+    {
+      "intent": "Can you fetch the current public timeline of activity? I want to scan it for anything relevant to our integration partners.",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "wrong_method",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": false,
+          "required_params_present": false,
+          "param_types_valid": false
+        },
+        "errors": [
+          "Endpoint PATCH /events does not exist in the spec."
+        ]
+      }
+    },
+    {
+      "intent": "Check the details of GPG key ID 481516 on my GitHub account to confirm it's the one I use for signing our release commits",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "missing_param",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": false,
+          "param_types_valid": true
+        },
+        "errors": [
+          "Missing required parameters: ['gpg_key_id']"
+        ]
+      }
+    },
+    {
+      "intent": "I need to verify the expiration date on one of my registered GPG keys before we rotate our commit signing credentials next quarter",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "invalid_path",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": false,
+          "required_params_present": false,
+          "param_types_valid": false
+        },
+        "errors": [
+          "Endpoint GET /user/gpg_keys/{gpg_key_id}/nonexistent-suffix does not exist in the spec."
+        ]
+      }
+    },
+    {
+      "intent": "Pull up the info for a specific GPG key on my profile so I can confirm its fingerprint matches what's documented in our security compliance records",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "wrong_type",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": false
+        },
+        "errors": [
+          "Parameter 'gpg_key_id' = {'unexpectedly': 'an object'} is not compatible with declared type 'integer'"
+        ]
+      }
+    },
+    {
+      "intent": "Can you pull up all the build artifacts stored in the 'payments-service' repo so I can check disk usage?",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "wrong_method",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": false,
+          "required_params_present": false,
+          "param_types_valid": false
+        },
+        "errors": [
+          "Endpoint PATCH /repos/{owner}/{repo}/actions/artifacts does not exist in the spec."
+        ]
+      }
+    },
+    {
+      "intent": "I need to find every artifact named 'coverage-report' generated in the frontend-dashboard repository this month.",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "missing_param",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": false,
+          "param_types_valid": true
+        },
+        "errors": [
+          "Missing required parameters: ['owner']"
+        ]
+      }
+    },
+    {
+      "intent": "Check the acme-corp/data-pipeline repo for all uploaded CI artifacts before we clean up old storage.",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "invalid_path",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": false,
+          "required_params_present": false,
+          "param_types_valid": false
+        },
+        "errors": [
+          "Endpoint GET /repos/{owner}/{repo}/actions/artifacts/nonexistent-suffix does not exist in the spec."
+        ]
+      }
+    }
+  ],
+  "Stripe": [
+    {
+      "intent": "Remove the extra seat license item si_1N3xYzABC from Acme Corp's subscription since they downgraded their team size this quarter.",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "wrong_method",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": false,
+          "required_params_present": false,
+          "param_types_valid": false
+        },
+        "errors": [
+          "Endpoint PATCH /v1/subscription_items/{item} does not exist in the spec."
+        ]
+      }
+    },
+    {
+      "intent": "We accidentally added a duplicate add-on line item to the Contoso account's billing subscription\u2014please delete subscription item si_9K2mTqLwe so they aren't double charged.",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "missing_param",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": false,
+          "param_types_valid": true
+        },
+        "errors": [
+          "Missing required parameters: ['item']"
+        ]
+      }
+    },
+    {
+      "intent": "Our customer canceled their premium support add-on effective immediately, so pull subscription item si_7Rp4WvnXZ off their active subscription.",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "invalid_path",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": false,
+          "required_params_present": false,
+          "param_types_valid": false
+        },
+        "errors": [
+          "Endpoint DELETE /v1/subscription_items/{item}/nonexistent-suffix does not exist in the spec."
+        ]
+      }
+    },
+    {
+      "intent": "Charge the customer's card on file $1,250 for invoice #4471 from Acme Corp's monthly subscription plan",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "wrong_type",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": false
+        },
+        "errors": [
+          "Parameter 'amount' = {'unexpectedly': 'an object'} is not compatible with declared type 'integer'"
+        ]
+      }
+    },
+    {
+      "intent": "We need to process a one-time payment of $89.99 for the premium upgrade that customer Jane Doe just requested over the phone",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "wrong_method",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": false,
+          "required_params_present": false,
+          "param_types_valid": false
+        },
+        "errors": [
+          "Endpoint PATCH /v1/charges does not exist in the spec."
+        ]
+      }
+    },
+    {
+      "intent": "Please bill our client's saved payment method $3,500 as a deposit for the upcoming consulting engagement",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "missing_param",
+      "corrupted_valid": null
+    },
+    {
+      "intent": "Can you check if card payments capability is active for our connected account acct_1Hx8Yz2eZvKYlo2C?",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "invalid_path",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": false,
+          "required_params_present": false,
+          "param_types_valid": false
+        },
+        "errors": [
+          "Endpoint GET /v1/accounts/{account}/capabilities/{capability}/nonexistent-suffix does not exist in the spec."
+        ]
+      }
+    },
+    {
+      "intent": "I need to confirm whether the transfers capability has been approved for merchant account acct_19HcGGBElhZTiJ3D before we enable payouts.",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "wrong_type",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": false
+        },
+        "errors": [
+          "Parameter 'account' = {'unexpectedly': 'an object'} is not compatible with declared type 'string'"
+        ]
+      }
+    },
+    {
+      "intent": "Pull up the current status of the legacy_payments capability on account acct_1F3sQeBElhZTiJ3D, and include the requirements details in the response.",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "wrong_method",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": false,
+          "required_params_present": false,
+          "param_types_valid": false
+        },
+        "errors": [
+          "Endpoint PATCH /v1/accounts/{account}/capabilities/{capability} does not exist in the spec."
+        ]
+      }
+    },
+    {
+      "intent": "We're about to run a QA pass on our subscription billing flows\u2014can you spin up a new test clock so we can simulate customer time moving forward without waiting for real billing cycles?",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "missing_param",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": false,
+          "param_types_valid": true
+        },
+        "errors": [
+          "Missing required parameters: ['frozen_time']"
+        ]
+      }
+    },
+    {
+      "intent": "Set up a fresh simulated clock in our sandbox environment so the QA team can test how annual subscription renewals behave a year from now.",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "invalid_path",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": false,
+          "required_params_present": false,
+          "param_types_valid": false
+        },
+        "errors": [
+          "Endpoint POST /v1/test_helpers/test_clocks/nonexistent-suffix does not exist in the spec."
+        ]
+      }
+    },
+    {
+      "intent": "I need to create a new test clock in Stripe's test mode so our engineers can validate trial-to-paid conversion logic before we ship the update.",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "wrong_type",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": false
+        },
+        "errors": [
+          "Parameter 'frozen_time' = {'unexpectedly': 'an object'} is not compatible with declared type 'integer'"
+        ]
+      }
+    },
+    {
+      "intent": "We already have enough evidence that dispute dp_1FcQ2kLxJ8 was accidental on the customer's end, so please close it out on our side since we're not submitting further evidence.",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "wrong_method",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": false,
+          "required_params_present": false,
+          "param_types_valid": false
+        },
+        "errors": [
+          "Endpoint PATCH /v1/disputes/{dispute}/close does not exist in the spec."
+        ]
+      }
+    },
+    {
+      "intent": "Mark the chargeback case dp_2Nk9RtA0Bq as closed in our system \u2014 the customer withdrew their claim after we spoke with them directly.",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "missing_param",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": false,
+          "param_types_valid": true
+        },
+        "errors": [
+          "Missing required parameters: ['dispute']"
+        ]
+      }
+    },
+    {
+      "intent": "Can you close out dispute ID dp_3Zx7YpWq1L for us? Finance decided it's not worth contesting given the low transaction amount.",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "invalid_path",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": false,
+          "required_params_present": false,
+          "param_types_valid": false
+        },
+        "errors": [
+          "Endpoint POST /v1/disputes/{dispute}/close/nonexistent-suffix does not exist in the spec."
+        ]
+      }
+    }
+  ],
+  "Slack": [
+    {
+      "intent": "Update my Slack status to show I'm out at a conference through Friday and won't be checking messages regularly",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "wrong_method",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": false,
+          "required_params_present": false,
+          "param_types_valid": false
+        },
+        "errors": [
+          "Endpoint PATCH /users.profile.set does not exist in the spec."
+        ]
+      }
+    },
+    {
+      "intent": "Change my displayed job title in Slack from 'Marketing Coordinator' to 'Senior Marketing Coordinator' now that my promotion went through",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "missing_param",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": false,
+          "param_types_valid": true
+        },
+        "errors": [
+          "Missing required parameters: ['token']"
+        ]
+      }
+    },
+    {
+      "intent": "Set my profile status to reflect that I'm working from the Chicago office this week so my team knows where to find me",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "invalid_path",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": false,
+          "required_params_present": false,
+          "param_types_valid": false
+        },
+        "errors": [
+          "Endpoint POST /users.profile.set/nonexistent-suffix does not exist in the spec."
+        ]
+      }
+    },
+    {
+      "intent": "Pull up the list of approved invite requests for our Slack workspace so I can confirm which external contractors were granted access last week",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "wrong_type",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": false
+        },
+        "errors": [
+          "Parameter 'token' = {'unexpectedly': 'an object'} is not compatible with declared type 'string'"
+        ]
+      }
+    },
+    {
+      "intent": "I need to audit all approved join requests for the marketing team's workspace\u2014can you fetch the first 50 and give me a cursor for the next batch?",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "wrong_method",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": false,
+          "required_params_present": false,
+          "param_types_valid": false
+        },
+        "errors": [
+          "Endpoint PATCH /admin.inviteRequests.approved.list does not exist in the spec."
+        ]
+      }
+    },
+    {
+      "intent": "Can you check which invite requests have already been approved for team T02ABCXYZ before I send the onboarding email to new hires?",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "missing_param",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": false,
+          "param_types_valid": true
+        },
+        "errors": [
+          "Missing required parameters: ['token']"
+        ]
+      }
+    },
+    {
+      "intent": "Our #general-announcements channel accidentally got created as public and it needs to be locked down to only invited members immediately, can you convert it to private?",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "invalid_path",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": false,
+          "required_params_present": false,
+          "param_types_valid": false
+        },
+        "errors": [
+          "Endpoint POST /admin.conversations.convertToPrivate/nonexistent-suffix does not exist in the spec."
+        ]
+      }
+    },
+    {
+      "intent": "Legal just flagged that the #project-atlas-merger channel contains sensitive M&A discussion and needs to be switched from public to private right now.",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "wrong_type",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": false
+        },
+        "errors": [
+          "Parameter 'token' = {'unexpectedly': 'an object'} is not compatible with declared type 'string'"
+        ]
+      }
+    },
+    {
+      "intent": "Can you change the #hr-complaints channel from public to private so only authorized HR staff can view past messages and join going forward?",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "wrong_method",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": false,
+          "required_params_present": false,
+          "param_types_valid": false
+        },
+        "errors": [
+          "Endpoint PATCH /admin.conversations.convertToPrivate does not exist in the spec."
+        ]
+      }
+    },
+    {
+      "intent": "Can you pull up the details for call ID R123456789 so I can verify the duration before invoicing the client?",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "missing_param",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": false,
+          "param_types_valid": true
+        },
+        "errors": [
+          "Missing required parameters: ['token']"
+        ]
+      }
+    },
+    {
+      "intent": "I need to check the status of the call logged under ID CALL-98213 to confirm it connected successfully with our support team.",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "invalid_path",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": false,
+          "required_params_present": false,
+          "param_types_valid": false
+        },
+        "errors": [
+          "Endpoint GET /calls.info/nonexistent-suffix does not exist in the spec."
+        ]
+      }
+    },
+    {
+      "intent": "Please retrieve the metadata for call record 4471-XZ so I can attach it to the compliance audit report we're preparing.",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "wrong_type",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": false
+        },
+        "errors": [
+          "Parameter 'token' = {'unexpectedly': 'an object'} is not compatible with declared type 'string'"
+        ]
+      }
+    },
+    {
+      "intent": "Pull up the list of users who currently have app permissions granted so we can review access before our security audit next week",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "wrong_method",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": false,
+          "required_params_present": false,
+          "param_types_valid": false
+        },
+        "errors": [
+          "Endpoint PATCH /apps.permissions.users.list does not exist in the spec."
+        ]
+      }
+    },
+    {
+      "intent": "I need to check which employees have been given permissions for our workspace apps as part of the quarterly compliance report, can you fetch the next page after cursor abc123 with up to 50 results?",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "missing_param",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": false,
+          "param_types_valid": true
+        },
+        "errors": [
+          "Missing required parameters: ['token']"
+        ]
+      }
+    },
+    {
+      "intent": "Can you get me the full roster of users with app-level permissions so I can cross-reference it against our HR offboarding list and revoke access for anyone who's left the company?",
+      "original_valid": {
+        "valid": true,
+        "checks": {
+          "endpoint_exists": true,
+          "required_params_present": true,
+          "param_types_valid": true
+        },
+        "errors": []
+      },
+      "corruption_type": "invalid_path",
+      "corrupted_valid": {
+        "valid": false,
+        "checks": {
+          "endpoint_exists": false,
+          "required_params_present": false,
+          "param_types_valid": false
+        },
+        "errors": [
+          "Endpoint GET /apps.permissions.users.list/nonexistent-suffix does not exist in the spec."
+        ]
+      }
+    }
+  ]
+}

@@ -54,3 +54,34 @@ def test_parameter_required_flag_preserved(specs):
 def test_method_is_uppercased(specs):
     schema = SchemaParser().parse(specs["github"])
     assert all(e.method == e.method.upper() for e in schema.endpoints)
+
+
+def test_request_body_fields_are_parsed(specs):
+    # Regression test: Stripe's /v1/charges has zero OpenAPI 'parameters' -- amount, currency,
+    # customer etc. live entirely in requestBody.content[...].schema.properties. The parser
+    # used to only track a boolean "schema present" flag and never parsed these into fields.
+    schema = SchemaParser().parse(specs["stripe"])
+    endpoint = next(e for e in schema.endpoints if e.path == "/v1/charges" and e.method == "POST")
+    param_names = {p.name for p in endpoint.parameters}
+    assert "amount" in param_names
+    assert "currency" in param_names
+    body_params = {p.name: p for p in endpoint.parameters if p.location == "body"}
+    assert body_params  # at least one body-derived field parsed
+    assert all(p.location == "body" for p in body_params.values())
+
+
+def test_ref_parameters_are_resolved(specs):
+    # Regression test: GitHub's spec defines many parameters (org, secret-name, ...) via
+    # $ref to #/components/parameters/*. The parser used to silently drop these entirely.
+    schema = SchemaParser().parse(specs["github"])
+    endpoint = next(
+        e
+        for e in schema.endpoints
+        if e.path == "/orgs/{org}/actions/secrets/{secret_name}/repositories" and e.method == "PUT"
+    )
+    param_names = {p.name for p in endpoint.parameters}
+    assert "org" in param_names
+    assert "secret_name" in param_names
+    org_param = next(p for p in endpoint.parameters if p.name == "org")
+    assert org_param.required is True
+    assert org_param.schema_type == "string"

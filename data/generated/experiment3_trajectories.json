@@ -6,13 +6,13 @@
       "trajectory": {
         "selected_method": "POST",
         "selected_path": "/repos/{owner}/{repo}/tags/protection",
-        "reasoning": "This endpoint creates a tag protection rule that restricts who can push matching tags, which aligns with restricting release tag pushes (v*.*) on the payments-service repo to admins only.",
+        "reasoning": "This tool creates a tag protection rule for a repository restricting who can push matching tags, which aligns with restricting release tag pushes to admins only.",
         "parameters": {
           "owner": "your-org",
           "repo": "payments-service",
           "pattern": "v*.*"
         },
-        "expected_response_summary": "Returns the newly created tag protection rule object including its id, pattern (v*.*), and creation timestamp, confirming that pushes to matching tags are now restricted."
+        "expected_response_summary": "Returns the newly created tag protection rule object, including its id, pattern, and creation timestamp, confirming that pushes to matching tags are now restricted."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -23,13 +23,13 @@
       "trajectory": {
         "selected_method": "POST",
         "selected_path": "/repos/{owner}/{repo}/tags/protection",
-        "reasoning": "This endpoint creates a tag protection rule for a repository, allowing restriction of tag creation/deletion to patterns like 'release-*', fulfilling the request to lock down CI-related tags.",
+        "reasoning": "This tool creates a tag protection rule for a repository matching a specified pattern, directly fulfilling the request to lock down tag creation for tags prefixed with 'release-'.",
         "parameters": {
           "owner": "acme-corp",
           "repo": "acme-api",
           "pattern": "release-*"
         },
-        "expected_response_summary": "Returns the newly created tag protection object, including its id, pattern, and creation timestamp, confirming that tags matching 'release-*' are now protected."
+        "expected_response_summary": "Returns the created tag protection rule, including its id, pattern, and creation timestamp, confirming that tags matching 'release-*' are now protected."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -40,13 +40,13 @@
       "trajectory": {
         "selected_method": "POST",
         "selected_path": "/repos/{owner}/{repo}/tags/protection",
-        "reasoning": "This tool creates a tag protection rule restricting the creation/deletion of matching tags to repository admins, matching the request for protecting 'prod-*' deployment tags.",
+        "reasoning": "This tool creates a tag protection rule for a matching pattern, restricting creation and deletion of matching tags to users with admin permissions on the repository.",
         "parameters": {
-          "owner": "my-org",
+          "owner": "acme-corp",
           "repo": "infra-as-code",
           "pattern": "prod-*"
         },
-        "expected_response_summary": "Returns the newly created tag protection rule, including its id, pattern, and creation metadata, confirming that only admins can create or delete matching tags."
+        "expected_response_summary": "Returns the newly created tag protection rule, including its id, pattern ('prod-*'), and creation timestamp, confirming that only admins can now create or delete matching tags."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -57,17 +57,18 @@
       "trajectory": {
         "selected_method": "PUT",
         "selected_path": "/orgs/{org}/actions/secrets/{secret_name}/repositories",
-        "reasoning": "This endpoint sets the full list of repositories permitted to access a selected org-level secret, allowing the team to update the list to include the new microservice repos.",
+        "reasoning": "This tool sets the full list of repositories permitted to access an org-level secret, which matches the need to update the access list to include the new microservice repos.",
         "parameters": {
           "org": "my-org",
           "secret_name": "DOCKER_REGISTRY_PASSWORD",
           "selected_repository_ids": [
             123456,
             123457,
-            123458
+            123458,
+            123459
           ]
         },
-        "expected_response_summary": "A 204 No Content response indicating the selected repositories list for the secret was successfully updated."
+        "expected_response_summary": "A 204 No Content response confirming the selected repositories list for the org secret has been updated."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -78,16 +79,16 @@
       "trajectory": {
         "selected_method": "PUT",
         "selected_path": "/orgs/{org}/actions/secrets/{secret_name}/repositories",
-        "reasoning": "This tool sets the exact list of repositories allowed to access an organization secret, matching the request to restrict AWS_DEPLOY_KEY to only payments-api and payments-worker.",
+        "reasoning": "This tool sets the exact list of repositories allowed to access an org-level secret, matching the request to restrict AWS_DEPLOY_KEY to only payments-api and payments-worker.",
         "parameters": {
-          "org": "acme-corp",
+          "org": "my-org",
           "secret_name": "AWS_DEPLOY_KEY",
           "selected_repository_ids": [
             123456,
             789012
           ]
         },
-        "expected_response_summary": "A 204 No Content response confirming the secret's accessible repositories have been updated to the specified list."
+        "expected_response_summary": "A 204 No Content response confirming the secret's visibility has been updated to only the specified repository IDs."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -98,16 +99,16 @@
       "trajectory": {
         "selected_method": "PUT",
         "selected_path": "/orgs/{org}/actions/secrets/{secret_name}/repositories",
-        "reasoning": "This endpoint replaces the entire list of repositories permitted to access an org secret, allowing us to add frontend-web and frontend-mobile while omitting legacy-ui in a single call.",
+        "reasoning": "This endpoint sets the complete list of repositories authorized to access an org secret, allowing us to add the two new frontend repos and exclude legacy-ui in a single call by providing the full desired repository ID list.",
         "parameters": {
           "org": "my-org",
           "secret_name": "SENTRY_AUTH_TOKEN",
           "selected_repository_ids": [
-            101,
-            102
+            123456,
+            234567
           ]
         },
-        "expected_response_summary": "A 204 No Content response confirming the secret's selected repository list was updated to only include frontend-web and frontend-mobile."
+        "expected_response_summary": "A 204 No Content response indicating the org secret's selected repository list was successfully updated to the new set of repository IDs."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -118,9 +119,12 @@
       "trajectory": {
         "selected_method": "GET",
         "selected_path": "/events",
-        "reasoning": "The user wants the latest public activity feed across the platform, which corresponds to the public events timeline endpoint rather than personalized feeds or repo-specific data.",
-        "parameters": {},
-        "expected_response_summary": "A list of recent public events (e.g., pushes, issues, pull requests) occurring across the platform, including actor, repo, and event type details."
+        "reasoning": "The user wants the latest public activity feed across the platform, which corresponds to the public events timeline endpoint rather than feed link discovery or org-specific data.",
+        "parameters": {
+          "per_page": 30,
+          "page": 1
+        },
+        "expected_response_summary": "A list of recent public events across the platform, including event type, actor, repo, and timestamp for each entry."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -131,9 +135,12 @@
       "trajectory": {
         "selected_method": "GET",
         "selected_path": "/events",
-        "reasoning": "The request asks for a snapshot of recent public events on the network, which directly matches the activity/list-public-events endpoint that returns a timeline of public GitHub activity.",
-        "parameters": {},
-        "expected_response_summary": "A JSON array of recent public events across GitHub, including event type, actor, repo, and timestamp for each entry."
+        "reasoning": "This tool lists recent public events across the network, which directly matches the request for a snapshot of public events for the audit report.",
+        "parameters": {
+          "per_page": 100,
+          "page": 1
+        },
+        "expected_response_summary": "A paginated list of recent public GitHub events, including event type, actor, repository, and timestamp."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -144,9 +151,12 @@
       "trajectory": {
         "selected_method": "GET",
         "selected_path": "/events",
-        "reasoning": "The user wants the current public timeline of activity, which corresponds to the public events feed listing recent public GitHub activity that can be scanned for integration partner relevance.",
-        "parameters": {},
-        "expected_response_summary": "A list of recent public events (e.g., pushes, issues, pull requests, forks) across GitHub, including actor, repo, and event type details."
+        "reasoning": "The request asks for the current public timeline of activity, which corresponds to listing public events across GitHub, allowing scanning for relevant integration partner activity.",
+        "parameters": {
+          "per_page": 30,
+          "page": 1
+        },
+        "expected_response_summary": "A paginated list of recent public GitHub events, including event types, actors, repositories, and timestamps."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -157,11 +167,11 @@
       "trajectory": {
         "selected_method": "GET",
         "selected_path": "/user/gpg_keys/{gpg_key_id}",
-        "reasoning": "The user wants to check details of a specific GPG key by its ID on their GitHub account, which matches the endpoint for retrieving a single GPG key for the authenticated user.",
+        "reasoning": "This endpoint retrieves details for a specific GPG key by its ID for the authenticated user, matching the request to confirm the key used for signing release commits.",
         "parameters": {
-          "gpg_key_id": "481516"
+          "gpg_key_id": 481516
         },
-        "expected_response_summary": "Returns the GPG key details including key ID, public key, associated emails, creation date, and whether it can be used for signing."
+        "expected_response_summary": "Returns details of the specified GPG key including its ID, public key, associated emails, creation date, and whether it can be used for signing."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -172,11 +182,11 @@
       "trajectory": {
         "selected_method": "GET",
         "selected_path": "/user/gpg_keys/{gpg_key_id}",
-        "reasoning": "This endpoint retrieves details of a specific GPG key registered to the authenticated user, including its expiration date, which is needed to verify before rotating commit signing credentials.",
+        "reasoning": "This tool retrieves details of a specific GPG key registered to the authenticated user, including its expiration date, which is needed before rotating commit signing credentials.",
         "parameters": {
-          "gpg_key_id": "1234567"
+          "gpg_key_id": 1234567
         },
-        "expected_response_summary": "Returns the GPG key details including key ID, public key, associated emails, creation date, and expiration date."
+        "expected_response_summary": "Returns the GPG key details including key ID, public key data, creation date, and expiration date."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -187,11 +197,11 @@
       "trajectory": {
         "selected_method": "GET",
         "selected_path": "/user/gpg_keys/{gpg_key_id}",
-        "reasoning": "This tool retrieves details for a specific GPG key associated with the authenticated user's profile, including its fingerprint, which is needed to verify against security compliance records.",
+        "reasoning": "This endpoint retrieves detailed information for a specific GPG key on the authenticated user's profile, including its fingerprint, which can be compared against security compliance records.",
         "parameters": {
-          "gpg_key_id": "1234567"
+          "gpg_key_id": 1234567
         },
-        "expected_response_summary": "Returns the GPG key details including key ID, fingerprint, associated emails, creation date, and expiration date."
+        "expected_response_summary": "Returns the GPG key details including key ID, fingerprint, public key, associated emails, and creation/expiration dates."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -202,12 +212,14 @@
       "trajectory": {
         "selected_method": "GET",
         "selected_path": "/repos/{owner}/{repo}/actions/artifacts",
-        "reasoning": "This tool lists all build artifacts stored in a given repository, allowing the user to review them and assess disk usage.",
+        "reasoning": "This tool lists all build artifacts stored in a repository, allowing the user to review artifact sizes and check disk usage for 'payments-service'.",
         "parameters": {
-          "owner": "your-org",
-          "repo": "payments-service"
+          "owner": "acme-corp",
+          "repo": "payments-service",
+          "per_page": 100,
+          "page": 1
         },
-        "expected_response_summary": "A JSON list of artifacts in the repo, including their names, sizes, creation dates, and expiration status, useful for evaluating disk usage."
+        "expected_response_summary": "A paginated list of artifacts in the repository, including each artifact's id, name, size_in_bytes, created_at, and expiration status."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -218,13 +230,15 @@
       "trajectory": {
         "selected_method": "GET",
         "selected_path": "/repos/{owner}/{repo}/actions/artifacts",
-        "reasoning": "This tool lists artifacts for a specific repository and supports filtering by name, allowing retrieval of all 'coverage-report' artifacts generated in the frontend-dashboard repo, which can then be filtered by date client-side.",
+        "reasoning": "This tool lists artifacts for a specific repository and supports filtering by artifact name, allowing retrieval of all 'coverage-report' artifacts from the frontend-dashboard repo; date filtering for 'this month' can be applied client-side on the returned created_at timestamps.",
         "parameters": {
-          "owner": "your-org",
+          "owner": "my-org",
           "repo": "frontend-dashboard",
-          "name": "coverage-report"
+          "name": "coverage-report",
+          "per_page": 100,
+          "page": 1
         },
-        "expected_response_summary": "A JSON list of artifact objects matching the name 'coverage-report', including metadata such as creation date, size, expiration, and download URL, which can be filtered to those created this month."
+        "expected_response_summary": "A paginated list of artifact objects matching the name 'coverage-report', including their id, name, size, created_at, expired status, and download URL."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -235,12 +249,14 @@
       "trajectory": {
         "selected_method": "GET",
         "selected_path": "/repos/{owner}/{repo}/actions/artifacts",
-        "reasoning": "This tool lists all CI artifacts uploaded for a given repository, matching the request to check artifacts in acme-corp/data-pipeline before cleanup.",
+        "reasoning": "This tool lists all CI artifacts uploaded for a given repository, which directly fulfills the request to check artifacts before cleanup.",
         "parameters": {
           "owner": "acme-corp",
-          "repo": "data-pipeline"
+          "repo": "data-pipeline",
+          "per_page": 100,
+          "page": 1
         },
-        "expected_response_summary": "A JSON list of artifact objects including their IDs, names, sizes, creation dates, and expiration status for the repository."
+        "expected_response_summary": "A list of artifact objects including their IDs, names, sizes, creation dates, and expiration status for the specified repository."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -253,11 +269,12 @@
       "trajectory": {
         "selected_method": "DELETE",
         "selected_path": "/v1/subscription_items/{item}",
-        "reasoning": "The request asks to remove a specific subscription item (seat license) identified by its item ID, which directly matches the DeleteSubscriptionItemsItem operation.",
+        "reasoning": "The request asks to remove a specific subscription item (extra seat license) identified by its item ID, which directly maps to the DeleteSubscriptionItemsItem operation.",
         "parameters": {
-          "item": "si_1N3xYzABC"
+          "item": "si_1N3xYzABC",
+          "proration_behavior": "create_prorations"
         },
-        "expected_response_summary": "A confirmation object indicating the subscription item was deleted, including its id and a 'deleted': true flag."
+        "expected_response_summary": "A confirmation object indicating the subscription item si_1N3xYzABC was successfully deleted, with the subscription's proration adjusted accordingly."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -268,11 +285,12 @@
       "trajectory": {
         "selected_method": "DELETE",
         "selected_path": "/v1/subscription_items/{item}",
-        "reasoning": "The request is to remove a specific duplicate subscription item, which matches the DeleteSubscriptionItemsItem endpoint that deletes a subscription item by its ID.",
+        "reasoning": "The user wants to remove a specific duplicate subscription item, which directly maps to the DeleteSubscriptionItemsItem endpoint that deletes a subscription item by its ID.",
         "parameters": {
-          "item": "si_9K2mTqLwe"
+          "item": "si_9K2mTqLwe",
+          "proration_behavior": "none"
         },
-        "expected_response_summary": "A confirmation object indicating the subscription item si_9K2mTqLwe was successfully deleted, removing it from the Contoso account's subscription and preventing further charges."
+        "expected_response_summary": "A confirmation object indicating the subscription item si_9K2mTqLwe was successfully deleted, with 'deleted': true."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -283,11 +301,13 @@
       "trajectory": {
         "selected_method": "DELETE",
         "selected_path": "/v1/subscription_items/{item}",
-        "reasoning": "The user wants to remove a specific subscription item (the premium support add-on) from an active subscription, which is exactly what deleting a subscription item accomplishes.",
+        "reasoning": "The request asks to remove a specific subscription item (si_7Rp4WvnXZ) from an active subscription immediately, which matches the DeleteSubscriptionItemsItem endpoint designed to remove a single item from a subscription.",
         "parameters": {
-          "item": "si_7Rp4WvnXZ"
+          "item": "si_7Rp4WvnXZ",
+          "proration_behavior": "none",
+          "clear_usage": true
         },
-        "expected_response_summary": "A deleted confirmation object containing the id 'si_7Rp4WvnXZ' and a boolean 'deleted': true, indicating the subscription item was removed successfully."
+        "expected_response_summary": "Returns a deleted confirmation object for the subscription item, indicating it was successfully removed from the subscription."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -298,18 +318,18 @@
       "trajectory": {
         "selected_method": "POST",
         "selected_path": "/v1/charges",
-        "reasoning": "Charging a customer's card on file for a specific amount is done by creating a charge object, referencing the customer and adding invoice metadata for tracking.",
+        "reasoning": "This tool directly charges a customer's card on file for a specific amount, matching the request to charge $1,250 for an invoice from Acme Corp's subscription plan.",
         "parameters": {
           "amount": 125000,
           "currency": "usd",
           "customer": "cus_AcmeCorp123",
-          "description": "Invoice #4471 - Acme Corp monthly subscription plan",
+          "description": "Invoice #4471 - Acme Corp Monthly Subscription",
           "metadata": {
             "invoice_number": "4471",
-            "company": "Acme Corp"
+            "customer_name": "Acme Corp"
           }
         },
-        "expected_response_summary": "A charge object confirming the $1,250 payment status, including charge ID, paid status, and associated customer and card details."
+        "expected_response_summary": "A charge object confirming the $1,250 payment was successfully processed against the customer's card on file, including charge ID, status, and payment details."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -324,10 +344,11 @@
         "parameters": {
           "amount": 8999,
           "currency": "usd",
-          "description": "Premium upgrade - one-time payment for Jane Doe",
-          "source": "tok_visa"
+          "customer": "cus_JaneDoe123",
+          "description": "One-time payment for Premium Upgrade requested via phone",
+          "receipt_email": "jane.doe@example.com"
         },
-        "expected_response_summary": "A charge object confirming the $89.99 payment was successfully processed, including charge ID, status, and payment details."
+        "expected_response_summary": "A Charge object confirming the $89.99 payment was successfully processed, including charge ID, status 'succeeded', and payment details."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -338,14 +359,15 @@
       "trajectory": {
         "selected_method": "POST",
         "selected_path": "/v1/charges",
-        "reasoning": "Charging a client's saved payment method for a one-time deposit amount is done by creating a charge against their customer ID, using the saved default payment source.",
+        "reasoning": "To bill a client's saved payment method for a specific amount as a one-time deposit, the Charges API is used, referencing the customer ID which has a default payment source/method on file.",
         "parameters": {
           "amount": 350000,
           "currency": "usd",
-          "customer": "cus_NffrFeUfNV2Hib",
-          "description": "Deposit for upcoming consulting engagement"
+          "customer": "cus_ABC123XYZ",
+          "description": "Deposit for upcoming consulting engagement",
+          "capture": true
         },
-        "expected_response_summary": "A charge object confirming the $3,500 payment was successfully processed against the customer's saved payment method, including status, amount captured, and receipt details."
+        "expected_response_summary": "A Charge object confirming the $3,500 payment was successfully processed against the customer's saved payment method, including charge ID, status 'succeeded', and receipt details."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -356,12 +378,12 @@
       "trajectory": {
         "selected_method": "GET",
         "selected_path": "/v1/accounts/{account}/capabilities/{capability}",
-        "reasoning": "To check the status of a specific capability like card_payments for a connected account, use the GET capability retrieval endpoint with the account and capability identifiers.",
+        "reasoning": "This retrieves the status of a specific capability (card_payments) for a connected account, which directly answers whether it is active.",
         "parameters": {
           "account": "acct_1Hx8Yz2eZvKYlo2C",
           "capability": "card_payments"
         },
-        "expected_response_summary": "Returns the capability object showing its status (e.g., active, pending, inactive) for the specified connected account."
+        "expected_response_summary": "Returns a capability object showing the id, account, and status (e.g., active, inactive, pending) of the card_payments capability."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -372,12 +394,12 @@
       "trajectory": {
         "selected_method": "GET",
         "selected_path": "/v1/accounts/{account}/capabilities/{capability}",
-        "reasoning": "This request is a read-only check to confirm the status of the 'transfers' capability on a connected account, which matches the GET capability retrieval endpoint.",
+        "reasoning": "The user wants to check the current status of the transfers capability for a specific merchant account, which is a read-only lookup rather than a request to modify or enable it.",
         "parameters": {
           "account": "acct_19HcGGBElhZTiJ3D",
           "capability": "transfers"
         },
-        "expected_response_summary": "Returns the capability object showing its status (e.g., active, pending, or inactive) for the transfers capability on the specified account."
+        "expected_response_summary": "Returns the capability object showing its status (e.g., active, pending, or inactive) and whether it has been requested/approved for the specified account."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -388,7 +410,7 @@
       "trajectory": {
         "selected_method": "GET",
         "selected_path": "/v1/accounts/{account}/capabilities/{capability}",
-        "reasoning": "The request asks to retrieve the current status of a specific capability on a connected account, which is a read operation matching the GET capability endpoint; expand can be used to include requirements details.",
+        "reasoning": "The user wants to view (not modify) the current status of a specific capability on a connected account, including requirements details, which matches the GET capability retrieval endpoint.",
         "parameters": {
           "account": "acct_1F3sQeBElhZTiJ3D",
           "capability": "legacy_payments",
@@ -396,7 +418,7 @@
             "requirements"
           ]
         },
-        "expected_response_summary": "Returns the capability object showing its current status (e.g., active, pending, inactive) along with detailed requirements information such as currently_due, past_due, and disabled_reason fields."
+        "expected_response_summary": "Returns the capability object showing its status (e.g., active, pending, inactive) along with detailed requirements information such as currently_due, past_due, and pending_verification fields."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -407,12 +429,12 @@
       "trajectory": {
         "selected_method": "POST",
         "selected_path": "/v1/test_helpers/test_clocks",
-        "reasoning": "The request asks to create a new test clock to simulate time progression for subscription testing, which directly matches the PostTestHelpersTestClocks operation.",
+        "reasoning": "Creating a new test clock allows QA to simulate the passage of time for subscriptions without waiting for real billing cycles, which directly matches the request to 'spin up a new test clock'.",
         "parameters": {
-          "frozen_time": 1717000000,
-          "name": "QA Billing Test Clock"
+          "frozen_time": 1717219200,
+          "name": "QA Billing Flow Test Clock"
         },
-        "expected_response_summary": "Returns a new test_clock object with its id, current frozen_time, status, and creation timestamp, ready to be advanced or attached to test customers/subscriptions."
+        "expected_response_summary": "A test clock object containing its unique ID, current frozen_time, status, and creation timestamp, which can then be attached to test customers/subscriptions and advanced via the /advance endpoint."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -423,12 +445,12 @@
       "trajectory": {
         "selected_method": "POST",
         "selected_path": "/v1/test_helpers/test_clocks",
-        "reasoning": "The request is to create a new simulated clock in the sandbox (test mode) so QA can later advance time to test annual renewal behavior; this endpoint creates that fresh test clock object.",
+        "reasoning": "Creating a new test clock lets the QA team simulate a fresh sandbox timeline frozen at a point one year in the future to test annual subscription renewal behavior.",
         "parameters": {
-          "frozen_time": 1735689600,
-          "name": "QA-Annual-Renewal-Clock"
+          "frozen_time": 1782000000,
+          "name": "QA-Annual-Renewal-Simulation"
         },
-        "expected_response_summary": "Returns a new test_clock object with its id, status 'ready', and the frozen_time set to the current timestamp, ready to be advanced later for renewal testing."
+        "expected_response_summary": "Returns a new test clock object with its id, status 'ready', and the frozen_time set to the specified future timestamp for use in sandbox subscription testing."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -439,12 +461,12 @@
       "trajectory": {
         "selected_method": "POST",
         "selected_path": "/v1/test_helpers/test_clocks",
-        "reasoning": "This endpoint creates a new test clock in Stripe's test mode, enabling engineers to simulate time-based subscription events like trial-to-paid conversions.",
+        "reasoning": "This tool creates a new test clock in Stripe's test mode, allowing simulation of time progression to validate trial-to-paid subscription conversion logic.",
         "parameters": {
-          "frozen_time": 1706745600,
+          "frozen_time": 1717200000,
           "name": "Trial-to-Paid Conversion Test Clock"
         },
-        "expected_response_summary": "Returns a test clock object containing its unique ID, current frozen_time, status, and creation timestamp for use in simulating time progression."
+        "expected_response_summary": "A test clock object containing its id, frozen_time, status, and creation timestamp, ready to be attached to test customers/subscriptions for simulating time-based billing events."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -455,7 +477,7 @@
       "trajectory": {
         "selected_method": "POST",
         "selected_path": "/v1/disputes/{dispute}/close",
-        "reasoning": "The user wants to close the dispute without submitting further evidence, which matches the dispute close endpoint that finalizes a dispute on the merchant's side.",
+        "reasoning": "The user wants to close out dispute dp_1FcQ2kLxJ8 without submitting further evidence, which directly corresponds to the dispute close endpoint.",
         "parameters": {
           "dispute": "dp_1FcQ2kLxJ8"
         },
@@ -470,11 +492,11 @@
       "trajectory": {
         "selected_method": "POST",
         "selected_path": "/v1/disputes/{dispute}/close",
-        "reasoning": "The chargeback case ID (dp_2Nk9RtA0Bq) corresponds to a dispute object, and closing it reflects the customer's withdrawal of the claim after direct communication.",
+        "reasoning": "The chargeback case ID (dp_2Nk9RtA0Bq) corresponds to a dispute object, and closing it is done via the disputes close endpoint since the customer withdrew their claim.",
         "parameters": {
           "dispute": "dp_2Nk9RtA0Bq"
         },
-        "expected_response_summary": "Returns the updated dispute object with its status field set to 'lost' or 'closed', reflecting that the dispute has been resolved and no further action is pending."
+        "expected_response_summary": "Returns the updated dispute object with its status set to 'lost' or 'closed', reflecting that the case has been resolved and no further action is needed."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -485,11 +507,11 @@
       "trajectory": {
         "selected_method": "POST",
         "selected_path": "/v1/disputes/{dispute}/close",
-        "reasoning": "The user wants to close a dispute by its ID, which directly matches the dispute close endpoint that accepts the dispute identifier as a path parameter.",
+        "reasoning": "The user wants to close a dispute rather than contest it, which directly matches the dispute close endpoint that accepts the dispute ID and marks it as resolved without further evidence submission.",
         "parameters": {
           "dispute": "dp_3Zx7YpWq1L"
         },
-        "expected_response_summary": "Returns the updated dispute object with its status changed to 'lost' (closed as not contested)."
+        "expected_response_summary": "Returns the updated dispute object with status set to 'lost' (indicating the merchant accepted the dispute) and closed details reflected in the response."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -502,12 +524,13 @@
       "trajectory": {
         "selected_method": "POST",
         "selected_path": "/users.profile.set",
-        "reasoning": "Updating a Slack status (text, emoji, and expiration) is done via the users.profile.set endpoint, which allows setting profile fields including status_text, status_emoji, and status_expiration.",
+        "reasoning": "Updating a Slack status message and emoji is done via the users.profile.set endpoint, which allows setting the profile status text, emoji, and expiration.",
         "parameters": {
           "token": "REDACTED_EXAMPLE_TOKEN",
-          "profile": "{\"status_text\": \"At a conference, back Monday\", \"status_emoji\": \":palm_tree:\", \"status_expiration\": 1718755200}"
+          "user": "U123456",
+          "profile": "{\"status_text\": \"At a conference, back Friday\", \"status_emoji\": \":date:\", \"status_expiration\": 1735142400}"
         },
-        "expected_response_summary": "A JSON response confirming the profile update with the new status text, emoji, and expiration timestamp reflected in the user's Slack profile."
+        "expected_response_summary": "Returns ok: true along with the updated profile object confirming the new status text, emoji, and expiration timestamp."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -518,12 +541,13 @@
       "trajectory": {
         "selected_method": "POST",
         "selected_path": "/users.profile.set",
-        "reasoning": "This tool updates a user's Slack profile fields, including the 'title' field, allowing the displayed job title to be changed to reflect the promotion.",
+        "reasoning": "This tool updates a user's Slack profile fields, including the job title field, making it the correct choice for changing a displayed job title.",
         "parameters": {
           "token": "REDACTED_EXAMPLE_TOKEN",
+          "user": "U12345678",
           "profile": "{\"title\": \"Senior Marketing Coordinator\"}"
         },
-        "expected_response_summary": "A JSON object confirming success (ok: true) and returning the updated user profile including the new title field."
+        "expected_response_summary": "A JSON response confirming the profile update was successful and returning the updated profile object with the new title field."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -534,12 +558,13 @@
       "trajectory": {
         "selected_method": "POST",
         "selected_path": "/users.profile.set",
-        "reasoning": "This tool allows updating the user's profile fields, including status text and emoji, which can be used to indicate working from the Chicago office this week.",
+        "reasoning": "This tool updates a user's profile, including status text and emoji, allowing the user to indicate they are working from the Chicago office this week.",
         "parameters": {
           "token": "REDACTED_EXAMPLE_TOKEN",
-          "profile": "{\"status_text\": \"Working from Chicago office this week\", \"status_emoji\": \":office:\", \"status_expiration\": 0}"
+          "user": "U12345678",
+          "profile": "{\"status_text\": \"Working from Chicago office this week\", \"status_emoji\": \":office:\", \"status_expiration\": 1717929600}"
         },
-        "expected_response_summary": "A success response confirming the profile status was updated, returning the updated profile object with the new status text and emoji."
+        "expected_response_summary": "A JSON response confirming the profile update was successful, including the updated status text, emoji, and expiration timestamp."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -550,13 +575,13 @@
       "trajectory": {
         "selected_method": "GET",
         "selected_path": "/admin.inviteRequests.approved.list",
-        "reasoning": "This tool retrieves the list of approved invite requests for a Slack workspace, allowing the user to review which external contractors were granted access.",
+        "reasoning": "This tool retrieves the list of approved invite requests for a Slack workspace, which is exactly what's needed to review which external contractors were granted access.",
         "parameters": {
           "token": "REDACTED_EXAMPLE_TOKEN",
-          "team_id": "T01234567",
+          "team_id": "T0123456",
           "limit": 50
         },
-        "expected_response_summary": "A JSON list of approved invite requests including requester email, invited user details, approval timestamp, and workspace/team info."
+        "expected_response_summary": "A list of approved invite requests, including requester details, email addresses, invite date, and approval status."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -567,13 +592,13 @@
       "trajectory": {
         "selected_method": "GET",
         "selected_path": "/admin.inviteRequests.approved.list",
-        "reasoning": "This tool lists approved invite/join requests for a workspace, supporting team_id filtering, pagination via cursor, and a limit parameter to fetch a specific batch size like 50.",
+        "reasoning": "This tool retrieves approved invite/join requests for a specific team/workspace, supporting pagination via limit and cursor, matching the request to audit approved join requests with a batch size of 50 and a cursor for the next page.",
         "parameters": {
           "token": "REDACTED_EXAMPLE_TOKEN",
-          "team_id": "T02MARKETING",
+          "team_id": "T0MARKETING1",
           "limit": 50
         },
-        "expected_response_summary": "Returns a list of up to 50 approved join requests for the marketing team's workspace, along with a next_cursor value for retrieving the next batch."
+        "expected_response_summary": "A list of up to 50 approved invite requests for the marketing team's workspace, along with a next_cursor value for fetching subsequent batches."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -584,13 +609,13 @@
       "trajectory": {
         "selected_method": "GET",
         "selected_path": "/admin.inviteRequests.approved.list",
-        "reasoning": "This tool retrieves the list of already-approved invite requests for a specified team, matching the user's need to verify approvals before sending onboarding emails.",
+        "reasoning": "This tool lists invite requests that have already been approved for a given team, matching the user's need to verify approvals before sending onboarding emails.",
         "parameters": {
           "token": "REDACTED_EXAMPLE_TOKEN",
           "team_id": "T02ABCXYZ",
-          "limit": 100
+          "limit": 50
         },
-        "expected_response_summary": "A list of approved invite requests for team T02ABCXYZ, including requester details, email addresses, and approval timestamps."
+        "expected_response_summary": "Returns a list of approved invite requests for team T02ABCXYZ, including requester details and approval metadata, along with a cursor for pagination if more results exist."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -601,12 +626,12 @@
       "trajectory": {
         "selected_method": "POST",
         "selected_path": "/admin.conversations.convertToPrivate",
-        "reasoning": "This tool directly converts a public channel to a private one, matching the request to lock down the #general-announcements channel.",
+        "reasoning": "This tool directly converts an existing public channel to a private one, which matches the request to lock down the #general-announcements channel immediately.",
         "parameters": {
           "token": "REDACTED_EXAMPLE_TOKEN",
-          "channel_id": "C012ABCDEF"
+          "channel_id": "C012ABCXYZ"
         },
-        "expected_response_summary": "A JSON response confirming success (ok: true) and indicating the channel has been converted to private."
+        "expected_response_summary": "A successful response confirms the channel was converted to private, returning the updated channel ID and privacy status."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -617,12 +642,12 @@
       "trajectory": {
         "selected_method": "POST",
         "selected_path": "/admin.conversations.convertToPrivate",
-        "reasoning": "This tool is specifically designed to convert a public channel to private, matching the request to switch #project-atlas-merger from public to private due to sensitive content.",
+        "reasoning": "This tool directly converts a public channel to private, which matches the request to switch #project-atlas-merger from public to private due to sensitive M&A content.",
         "parameters": {
           "token": "REDACTED_EXAMPLE_TOKEN",
-          "channel_id": "C0123ATLASMRG"
+          "channel_id": "C0123ATLASMERGER"
         },
-        "expected_response_summary": "A success confirmation indicating the channel has been converted to private, along with the channel ID."
+        "expected_response_summary": "A successful response confirms the channel has been converted to private, returning ok:true along with the channel ID."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -633,12 +658,12 @@
       "trajectory": {
         "selected_method": "POST",
         "selected_path": "/admin.conversations.convertToPrivate",
-        "reasoning": "This tool directly converts a public channel to a private one, matching the request to make #hr-complaints private so only authorized staff can view history and join.",
+        "reasoning": "This tool directly converts an existing public channel to a private one, restricting future access and visibility to invited members, matching the request to make #hr-complaints private.",
         "parameters": {
           "token": "REDACTED_EXAMPLE_TOKEN",
-          "channel_id": "C0123HRCOMPLAINTS"
+          "channel_id": "C012HRCOMP"
         },
-        "expected_response_summary": "Returns a confirmation object indicating the channel was successfully converted to private, including the channel ID and updated privacy status."
+        "expected_response_summary": "A success response confirming the channel has been converted to private, or an error object if the conversion failed."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -649,12 +674,12 @@
       "trajectory": {
         "selected_method": "GET",
         "selected_path": "/calls.info",
-        "reasoning": "The user wants to retrieve details, including duration, for a specific call ID, which matches the calls.info endpoint designed to fetch call metadata by ID.",
+        "reasoning": "The user wants to retrieve details, including duration, for a specific call ID, which matches the calls.info endpoint's purpose of fetching call metadata.",
         "parameters": {
           "token": "REDACTED_EXAMPLE_TOKEN",
           "id": "R123456789"
         },
-        "expected_response_summary": "Returns call details including duration, participants, creation time, and status for the specified call ID."
+        "expected_response_summary": "Returns call details including duration, participants, creation time, and other metadata for the specified call ID."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -665,12 +690,12 @@
       "trajectory": {
         "selected_method": "GET",
         "selected_path": "/calls.info",
-        "reasoning": "The calls.info endpoint retrieves details and status of a specific call by its ID, which fulfills the request to check the connection status of CALL-98213.",
+        "reasoning": "The user wants to check the status of a specific call by its ID, which is exactly what the calls.info endpoint provides.",
         "parameters": {
           "token": "REDACTED_EXAMPLE_TOKEN",
           "id": "CALL-98213"
         },
-        "expected_response_summary": "Returns call details including status, participants, and whether the call connected successfully."
+        "expected_response_summary": "Returns details about the specified call, including its connection status, participants, and timestamps confirming whether it connected successfully."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -681,12 +706,12 @@
       "trajectory": {
         "selected_method": "GET",
         "selected_path": "/calls.info",
-        "reasoning": "The request asks for metadata about a specific call record identified by ID, which matches the calls.info endpoint designed to retrieve call information by ID.",
+        "reasoning": "The request asks for metadata of a specific call record, which matches the calls.info endpoint that retrieves details for a call given its id.",
         "parameters": {
           "token": "REDACTED_EXAMPLE_TOKEN",
           "id": "4471-XZ"
         },
-        "expected_response_summary": "Returns call metadata including title, date/time, participants, and join URL for call record 4471-XZ."
+        "expected_response_summary": "Returns metadata about the specified call, including participants, duration, creation time, and other call details."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -697,12 +722,12 @@
       "trajectory": {
         "selected_method": "GET",
         "selected_path": "/apps.permissions.users.list",
-        "reasoning": "This tool retrieves the list of users who have granted app permissions, directly supporting the security audit review requested.",
+        "reasoning": "This tool retrieves the list of users who have granted app permissions, directly fulfilling the request to review access ahead of the security audit.",
         "parameters": {
           "token": "REDACTED_EXAMPLE_TOKEN",
           "limit": 100
         },
-        "expected_response_summary": "A paginated list of users who have granted permissions to the app, including user IDs and associated scopes, along with a cursor for further pagination if needed."
+        "expected_response_summary": "A paginated list of users who have granted permissions to the app, including user IDs and associated scopes."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -713,13 +738,13 @@
       "trajectory": {
         "selected_method": "GET",
         "selected_path": "/apps.permissions.users.list",
-        "reasoning": "This tool lists users who have granted permissions to workspace apps, which matches the compliance report need, and supports cursor-based pagination with a result limit.",
+        "reasoning": "This tool lists users who have granted permissions to workspace apps, matching the compliance report need, and supports pagination via cursor and limit.",
         "parameters": {
           "token": "REDACTED_EXAMPLE_TOKEN",
           "cursor": "abc123",
           "limit": 50
         },
-        "expected_response_summary": "A paginated list of users with their app permissions/grants, along with a next_cursor value for further pagination."
+        "expected_response_summary": "A JSON response listing users with app permissions granted, along with a next_cursor value for further pagination."
       },
       "selected_correct": true,
       "required_params_satisfied": true
@@ -730,12 +755,13 @@
       "trajectory": {
         "selected_method": "GET",
         "selected_path": "/apps.permissions.users.list",
-        "reasoning": "This tool retrieves the roster of users who have granted app-level permissions, which is exactly what's needed to cross-reference against the HR offboarding list before revoking access.",
+        "reasoning": "This tool retrieves the full list of users who have granted app-level permissions, which is exactly what's needed to cross-reference against the HR offboarding list before revoking access.",
         "parameters": {
           "token": "REDACTED_EXAMPLE_TOKEN",
-          "limit": 100
+          "limit": 200,
+          "cursor": ""
         },
-        "expected_response_summary": "A paginated list of users who have authorized app-level permissions, including user IDs and associated scopes, along with a cursor for retrieving additional pages if needed."
+        "expected_response_summary": "Returns a paginated list of users with app-level permissions, including their user IDs and associated scopes, along with a cursor for retrieving additional pages if needed."
       },
       "selected_correct": true,
       "required_params_satisfied": true
