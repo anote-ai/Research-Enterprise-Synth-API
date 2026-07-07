@@ -56,6 +56,13 @@ def test_method_is_uppercased(specs):
     assert all(e.method == e.method.upper() for e in schema.endpoints)
 
 
+def test_endpoint_description_is_parsed(specs):
+    schema = SchemaParser().parse(specs["stripe"])
+    endpoint = next(e for e in schema.endpoints if e.path == "/v1/charges" and e.method == "POST")
+    assert endpoint.description
+    assert isinstance(endpoint.description, str)
+
+
 def test_request_body_fields_are_parsed(specs):
     # Regression test: Stripe's /v1/charges has zero OpenAPI 'parameters' -- amount, currency,
     # customer etc. live entirely in requestBody.content[...].schema.properties. The parser

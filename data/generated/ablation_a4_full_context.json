@@ -1,0 +1,128 @@
+{
+  "GitHub": [
+    {
+      "endpoint": "POST /repos/{owner}/{repo}/tags/protection",
+      "intents": [
+        "We need to protect all our release tags matching the pattern 'v*.*.*' in the 'payments-service' repository under our organization 'fintech-corp' so that no one can delete or modify these tags once they're pushed, ensuring compliance with our audit requirements.",
+        "Set up tag protection for our 'production-*' tag pattern on the 'core-api' repository to prevent accidental deletion of production release markers, and let me know once this is configured so I can inform the release management team.",
+        "As part of onboarding a new microservice repository 'inventory-sync' into our enterprise's release governance process, please create a tag protection rule for the pattern 'release-*' to lock down historical release tags from being overwritten by developers."
+      ]
+    },
+    {
+      "endpoint": "PUT /orgs/{org}/actions/secrets/{secret_name}/repositories",
+      "intents": [
+        "We just rotated our shared NPM_TOKEN secret at the organization level, and it should now only be accessible to our 'payments-service' and 'billing-api' repositories instead of all repos in the org. Please update the visibility settings for that secret to restrict it to just those two repositories.",
+        "Our security team wants to lock down the DOCKER_REGISTRY_CREDENTIALS org secret so that only the newly onboarded microservices (repo IDs 4521098, 4521102, and 4521115) can use it during their CI/CD builds, removing access from all the legacy repos that previously had it.",
+        "We're setting up a new org-wide secret called STAGING_DEPLOY_KEY for use only in our staging deployment pipelines. After creating the secret, configure it so it's selectively shared with just the repositories tagged as staging environments (repo IDs 8834211 and 8834219), not the entire organization."
+      ]
+    },
+    {
+      "endpoint": "GET /events",
+      "intents": [
+        "Our security dashboard needs to poll GitHub's public events feed every few minutes to catch any newly published repositories or pushes we should index for compliance monitoring\u2014can you fetch the latest page of public events, using a larger per_page value to reduce the number of API calls we need to make?",
+        "I'm building a developer activity analytics report for our engineering leadership and need to pull several pages of the public events timeline (increasing the page number each time) so we can sample recent open-source activity trends across the platform.",
+        "As part of onboarding a new integration, I want to verify our API token can successfully retrieve the public events feed with a custom per_page size before we wire it into our internal event-ingestion pipeline\u2014please fetch a test page to confirm the response format."
+      ]
+    },
+    {
+      "endpoint": "GET /user/gpg_keys/{gpg_key_id}",
+      "intents": [
+        "I recently added a GPG key to my GitHub account for signing commits, but I want to verify its details\u2014like the key ID, public key data, and associated emails\u2014before configuring my local Git client to use it for commit signing. Can you retrieve the full details of that specific GPG key?",
+        "As part of our security compliance audit, I need to confirm that a particular GPG key registered under my account matches the fingerprint provided by our security team. Please fetch that key's information so I can validate it against our records.",
+        "I just uploaded a new GPG key to my account using the API, and now I want to pull back its full details to confirm it was registered correctly with the right algorithm and expiration date before I start signing releases with it."
+      ]
+    },
+    {
+      "endpoint": "GET /repos/{owner}/{repo}/actions/artifacts",
+      "intents": [
+        "We're running low on storage for our GitHub Actions artifacts in the 'data-pipeline' repo under our organization 'acme-corp'. Can you list all artifacts currently stored so we can review which ones are safe to delete?",
+        "For our compliance audit, I need a report of all build artifacts generated in the 'payment-service' repository over the last quarter, specifically filtering by the name 'release-build' to confirm we retained the required deployment packages.",
+        "Our CI pipeline for 'frontend-app' is generating too many artifacts per page during automated cleanup scripts. Can you fetch the artifacts list with pagination set to 50 per page, starting at page 2, so we can process them in batches?"
+      ]
+    }
+  ],
+  "Stripe": [
+    {
+      "endpoint": "DELETE /v1/subscription_items/{item}",
+      "intents": [
+        "We're downgrading a customer's subscription and need to remove the extra seats line item (si_1Nabc123XYZ) from their plan immediately, prorating the charges so they only pay for what they used this billing cycle.",
+        "A customer canceled one of their add-on products mid-cycle; please remove subscription item si_1Op9Kd45Lmn from their subscription, discard any unrecorded usage records for that item since it's metered billing, and don't create any proration adjustments since this was a goodwill removal.",
+        "Our sales team made an error adding a duplicate product line item (si_1Rt7Vw22Bcd) to a client's subscription yesterday at 3pm UTC. Please delete that subscription item and back-date the proration to that exact timestamp so the customer's invoice reflects the correct billing period."
+      ]
+    },
+    {
+      "endpoint": "POST /v1/charges",
+      "intents": [
+        "We just finished a new subscription setup for customer cus_JK8x2P via /v1/customers/{customer}/subscriptions, but for the first month we want to charge them a one-time onboarding fee of $500 directly to their card on file, separate from the subscription invoice, with the statement descriptor 'ONBOARD FEE' and metadata tagging the internal project code.",
+        "Our marketplace platform needs to charge a customer $1,200 for a service booking and automatically route $150 as an application fee to our platform while transferring the remainder to the connected account acct_1Hs8x2 as the destination, including a transfer_group so we can reconcile it later with the vendor's payout.",
+        "A high-risk enterprise client wants us to place a manual-capture authorization hold of $3,000 on their card for a large equipment rental, using radar_options for fraud risk assessment, and we'll capture the charge later once the equipment is returned in good condition -- please also attach shipping details and a receipt email for the transaction record."
+      ]
+    },
+    {
+      "endpoint": "GET /v1/accounts/{account}/capabilities/{capability}",
+      "intents": [
+        "Check whether the connected account acct_1MTd8fLkdIwHu7ix has the card_payments capability active before we enable checkout for their storefront, and include the requirements expansion so our onboarding dashboard can show any pending verification steps.",
+        "Our platform's compliance team needs to audit the transfers capability status for connected account acct_1N2kQ9LrHu9tYbXz prior to approving their first payout batch; pull the capability details with expanded requirements.due to surface any outstanding documentation deadlines.",
+        "Before automatically creating a subscription for a newly onboarded connected account, verify that their us_bank_account_ach_payments capability on account acct_1P0hTdRxYaBcD3Ef is active, and if it's still pending, flag the account for manual review instead of proceeding with subscription creation."
+      ]
+    },
+    {
+      "endpoint": "POST /v1/test_helpers/test_clocks",
+      "intents": [
+        "We're building automated QA tests for our subscription billing pipeline and need to create a new test clock frozen at next month's billing date so we can simulate a customer's first renewal cycle before we advance time and verify the invoice generation logic.",
+        "Our engineering team is validating trial-to-paid conversion flows for the enterprise SaaS tier. Please spin up a named test clock frozen at today's timestamp labeled 'trial-conversion-test-q3' so we can attach test customers and subscriptions to it, then advance it forward to confirm the trial expires and the first paid invoice is charged correctly.",
+        "For our dunning and failed-payment retry logic testing, create a test clock frozen at a specific date three days before a subscription's renewal so we can simulate the renewal attempt, force a card decline, and then advance the clock to confirm our retry schedule and subscription status transitions work as expected."
+      ]
+    },
+    {
+      "endpoint": "POST /v1/disputes/{dispute}/close",
+      "intents": [
+        "We received a chargeback from a customer claiming they never received the product, but our records show it was delivered and signed for\u2014please close out dispute dp_1NxYzABC123 since we're not going to submit further evidence and want to accept the loss.",
+        "Our finance team reviewed dispute dp_1MZqLm456DEF and determined the transaction amount is too small to justify the time spent fighting it, so go ahead and close it, then pull the setup intent seti_1PabCDE789 tied to that customer to check if their payment method needs updating.",
+        "The evidence submission deadline passed on dispute dp_1LxWvT321GHI and we already know we're going to lose this one, so close it out now and expand the balance_transaction field in the response so we can reconcile it against our ledger."
+      ]
+    }
+  ],
+  "Slack": [
+    {
+      "endpoint": "POST /users.profile.set",
+      "intents": [
+        "Update my Slack display name and title to reflect my new role as 'Senior Product Manager' following this week's promotion announcement.",
+        "For our new hire onboarding process, set the profile field 'Start Date' to today's date and update the status text to 'New team member - say hi!' for the incoming employee's account.",
+        "As part of our quarterly org-wide title refresh, I need to update the 'Department' custom profile field to 'Global Marketing' for a specific user account using their user ID before we run the accessLogs report to confirm changes propagated."
+      ]
+    },
+    {
+      "endpoint": "GET /admin.inviteRequests.approved.list",
+      "intents": [
+        "As a workspace admin, I need to pull a list of all approved invite requests for our 'engineering' team so I can audit who has been granted access over the past quarter and cross-check it against our HR onboarding records.",
+        "We just completed a bulk approval of pending invite requests using admin.inviteRequests.approve, and now I need to fetch the paginated list of approved invites to confirm all of them went through successfully and generate a confirmation report for compliance.",
+        "Our IT team wants a scheduled job that retrieves the approved invite requests list every morning, using cursor-based pagination to handle large result sets, so we can sync newly approved external collaborators into our internal identity management system."
+      ]
+    },
+    {
+      "endpoint": "POST /admin.conversations.convertToPrivate",
+      "intents": [
+        "Our #public-incident-response channel accidentally exposed sensitive customer data to the whole workspace. Please convert it to a private channel immediately so only the incident team can access it going forward.",
+        "We're onboarding a new finance team and need #q4-budget-planning locked down before we invite external auditors. Convert it to private, then check admin.emoji.list isn't a factor here\u2014just make sure the channel visibility is restricted and confirm via team.accessLogs that no unauthorized users accessed it while it was public.",
+        "As part of our compliance review, convert the #exec-leadership channel to private, then update the default channels list for the Executive Team using admin.teams.settings.setDefaultChannels so new members aren't auto-added to a channel that should now be restricted."
+      ]
+    },
+    {
+      "endpoint": "GET /calls.info",
+      "intents": [
+        "I have a call ID from our incident channel's bridge log\u2014can you pull up the details of that Slack call so I can confirm the start time and participants for our compliance report?",
+        "A team lead reported an issue with a huddle that took place in one of our shared channels; first look up the relevant conversation via users.conversations to find the call reference, then fetch the full call info so we can see who joined and the call's duration.",
+        "For our security audit, cross-reference the team access logs to find when a specific external call was initiated, then retrieve the detailed call info using that call ID so we can verify it matches our approved vendor communication policy."
+      ]
+    },
+    {
+      "endpoint": "GET /apps.permissions.users.list",
+      "intents": [
+        "We're conducting a quarterly security audit of our Slack workspace and need to see a complete list of users along with the permissions each has granted to installed apps, so we can identify any overly broad access that should be revoked.",
+        "Before rolling out our new compliance policy, I need to pull all users who have granted permissions to third-party apps, paginate through the full list since we have thousands of members, and cross-reference it with app permission requests to see which approvals are still pending.",
+        "Our security team flagged a potentially risky Slack app, and I need to first check what permissions it's requesting via the apps permissions request endpoint, then list all users who currently have that app authorized so we can reach out and have them revoke access if needed."
+      ]
+    }
+  ]
+}

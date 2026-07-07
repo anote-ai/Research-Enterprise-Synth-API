@@ -1,0 +1,601 @@
+{
+  "GitHub": [
+    {
+      "endpoint": "POST /repos/{owner}/{repo}/tags/protection",
+      "output": {
+        "instruction": "Protect all release tags matching the pattern 'v*' in the 'octo-app' repository owned by 'octo-org' so that only admins can delete or modify them.",
+        "parameters": {
+          "owner": "octo-org",
+          "repo": "octo-app",
+          "pattern": "v*"
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "POST /repos/{owner}/{repo}/tags/protection",
+      "output": {
+        "instruction": "In the 'acme-widgets' repo owned by 'acme-corp', protect all version tags matching the pattern 'v*' so they can't be deleted or modified by anyone without admin permissions.",
+        "parameters": {
+          "owner": "acme-corp",
+          "repo": "acme-widgets",
+          "pattern": "v*"
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "POST /repos/{owner}/{repo}/tags/protection",
+      "output": {
+        "instruction": "In the 'payments-service' repo owned by 'acme-corp', set up tag protection so only admins can create or delete tags matching the pattern 'v*'.",
+        "parameters": {
+          "owner": "acme-corp",
+          "repo": "payments-service",
+          "pattern": "v*"
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "PUT /orgs/{org}/actions/secrets/{secret_name}/repositories",
+      "output": {
+        "instruction": "Update the 'DEPLOY_TOKEN' organization secret in the 'acme-corp' org so that only the repositories with IDs 123456, 789012, and 345678 have access to it.",
+        "parameters": {
+          "org": "acme-corp",
+          "secret_name": "DEPLOY_TOKEN",
+          "selected_repository_ids": [
+            123456,
+            789012,
+            345678
+          ]
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "PUT /orgs/{org}/actions/secrets/{secret_name}/repositories",
+      "output": {
+        "instruction": "Update the org secret DEPLOY_API_KEY in our 'acme-corp' organization so that only the repositories with IDs 1296269, 35129377, and 42917341 have access to it.",
+        "parameters": {
+          "org": "acme-corp",
+          "secret_name": "DEPLOY_API_KEY",
+          "selected_repository_ids": [
+            1296269,
+            35129377,
+            42917341
+          ]
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "PUT /orgs/{org}/actions/secrets/{secret_name}/repositories",
+      "output": {
+        "instruction": "Update the org secret DEPLOY_API_KEY in the 'acme-corp' organization so that it's only accessible to repositories with IDs 1296269, 1296270, and 1296271.",
+        "parameters": {
+          "org": "acme-corp",
+          "secret_name": "DEPLOY_API_KEY",
+          "selected_repository_ids": [
+            1296269,
+            1296270,
+            1296271
+          ]
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "GET /events",
+      "output": {
+        "instruction": "Show me the second page of public GitHub events, with 50 events per page.",
+        "parameters": {
+          "per_page": 50,
+          "page": 2
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "GET /events",
+      "output": {
+        "instruction": "Show me the second page of public GitHub activity events, with 50 events per page.",
+        "parameters": {
+          "per_page": 50,
+          "page": 2
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "GET /events",
+      "output": {
+        "instruction": "Show me the second page of public GitHub events, with 50 events per page.",
+        "parameters": {
+          "per_page": 50,
+          "page": 2
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "GET /user/gpg_keys/{gpg_key_id}",
+      "output": {
+        "instruction": "Can you show me the details of the GPG key with ID 1234567 on my GitHub account?",
+        "parameters": {
+          "gpg_key_id": 1234567
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "GET /user/gpg_keys/{gpg_key_id}",
+      "output": {
+        "instruction": "Show me the details of my GPG key with ID 12345678 so I can verify its fingerprint and associated email addresses.",
+        "parameters": {
+          "gpg_key_id": "12345678"
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "GET /user/gpg_keys/{gpg_key_id}",
+      "output": {
+        "instruction": "Can you show me the details of my GPG key with the ID 1234567?",
+        "parameters": {
+          "gpg_key_id": 1234567
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "GET /repos/{owner}/{repo}/actions/artifacts",
+      "output": {
+        "instruction": "List all build artifacts named 'release-build' from the 'octo-org/inventory-service' repository, showing 50 results per page.",
+        "parameters": {
+          "owner": "octo-org",
+          "repo": "inventory-service",
+          "name": "release-build",
+          "per_page": 50,
+          "page": 1
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "GET /repos/{owner}/{repo}/actions/artifacts",
+      "output": {
+        "instruction": "List all the build artifacts named 'production-build' in the 'octo-org/frontend-app' repository, showing 50 results per page.",
+        "parameters": {
+          "owner": "octo-org",
+          "repo": "frontend-app",
+          "name": "production-build",
+          "per_page": 50,
+          "page": 1
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "GET /repos/{owner}/{repo}/actions/artifacts",
+      "output": {
+        "instruction": "List all the build artifacts named 'production-build' for the repo octocat/hello-world, showing 50 per page.",
+        "parameters": {
+          "owner": "octocat",
+          "repo": "hello-world",
+          "per_page": 50,
+          "page": 1,
+          "name": "production-build"
+        }
+      },
+      "param_valid": true
+    }
+  ],
+  "Stripe": [
+    {
+      "endpoint": "DELETE /v1/subscription_items/{item}",
+      "output": {
+        "instruction": "Remove the subscription item 'si_NpM8302jK3dRfL' from the customer's subscription, clearing any pending usage records and crediting the customer with a prorated amount as of now.",
+        "parameters": {
+          "item": "si_NpM8302jK3dRfL",
+          "clear_usage": true,
+          "proration_behavior": "create_prorations",
+          "proration_date": 1717430400
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "DELETE /v1/subscription_items/{item}",
+      "output": {
+        "instruction": "Please remove the subscription item si_1Q2ZK9LkjhASdf12 from the customer's subscription, clear any pending usage records, and prorate the charges as of now.",
+        "parameters": {
+          "item": "si_1Q2ZK9LkjhASdf12",
+          "clear_usage": true,
+          "proration_behavior": "create_prorations",
+          "proration_date": 1718880000
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "DELETE /v1/subscription_items/{item}",
+      "output": {
+        "instruction": "Remove the subscription item si_NxT8kY2Jm4qLoZ from the customer's subscription, clear any pending usage records, and create prorations as of the current time.",
+        "parameters": {
+          "item": "si_NxT8kY2Jm4qLoZ",
+          "clear_usage": true,
+          "proration_behavior": "create_prorations",
+          "proration_date": 1719849600
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "POST /v1/charges",
+      "output": {
+        "instruction": "Charge $45.00 USD to customer cus_Hk29XyZ4nQ2b3d for their premium subscription order, sending a receipt to their email.",
+        "parameters": {
+          "amount": 4500,
+          "currency": "usd",
+          "customer": "cus_Hk29XyZ4nQ2b3d",
+          "description": "Premium subscription order #10234",
+          "capture": true,
+          "receipt_email": "jane.doe@example.com",
+          "statement_descriptor_suffix": "PREM SUB",
+          "metadata": {
+            "order_id": "10234",
+            "plan": "premium_monthly"
+          }
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "POST /v1/charges",
+      "output": {
+        "instruction": "Charge $45.00 USD to customer cus_Jk8xQ2LmN0pR7s for their premium subscription order, using their saved card and sending a receipt to their email.",
+        "parameters": {
+          "amount": 4500,
+          "currency": "usd",
+          "customer": "cus_Jk8xQ2LmN0pR7s",
+          "description": "Premium subscription order #10234",
+          "receipt_email": "jane.doe@example.com",
+          "capture": true,
+          "statement_descriptor_suffix": "PREMSUB",
+          "metadata": {
+            "order_id": "10234",
+            "plan": "premium_monthly"
+          }
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "POST /v1/charges",
+      "output": {
+        "instruction": "Charge the customer cus_H8k2LmN9pQ3rT4 a total of $49.99 USD for their premium subscription order, sending a receipt to their email and capturing the payment immediately.",
+        "parameters": {
+          "amount": 4999,
+          "currency": "usd",
+          "customer": "cus_H8k2LmN9pQ3rT4",
+          "description": "Premium subscription order #10234",
+          "capture": true,
+          "receipt_email": "jane.doe@example.com",
+          "statement_descriptor_suffix": "PREMSUB",
+          "metadata": {
+            "order_id": "10234",
+            "plan": "premium_monthly"
+          }
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "GET /v1/accounts/{account}/capabilities/{capability}",
+      "output": {
+        "instruction": "Check whether card payments capability is active for our connected account acct_1NV9uK2eZvKYlo2C, and include expanded details on the account object.",
+        "parameters": {
+          "account": "acct_1NV9uK2eZvKYlo2C",
+          "capability": "card_payments",
+          "expand": [
+            "account"
+          ]
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "GET /v1/accounts/{account}/capabilities/{capability}",
+      "output": {
+        "instruction": "Check whether card payments capability is active for our connected account acct_1Hxy2ZLkjhASdf3f, and include the account details in the response.",
+        "parameters": {
+          "account": "acct_1Hxy2ZLkjhASdf3f",
+          "capability": "card_payments",
+          "expand": [
+            "account"
+          ]
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "GET /v1/accounts/{account}/capabilities/{capability}",
+      "output": {
+        "instruction": "Check whether card payments capability is active for our connected account acct_1NX8yz2eZvKYlo2C, and include the account details in the response.",
+        "parameters": {
+          "account": "acct_1NX8yz2eZvKYlo2C",
+          "capability": "card_payments",
+          "expand": [
+            "account"
+          ]
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "POST /v1/test_helpers/test_clocks",
+      "output": {
+        "instruction": "Create a new test clock frozen at July 1, 2024 12:00:00 UTC named 'QA Subscription Renewal Test' so I can simulate subscription billing cycles in my Stripe test environment.",
+        "parameters": {
+          "frozen_time": 1719835200,
+          "name": "QA Subscription Renewal Test",
+          "expand": [
+            "status"
+          ]
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "POST /v1/test_helpers/test_clocks",
+      "output": {
+        "instruction": "Create a new test clock frozen at January 1, 2024 named 'QA Subscription Renewal Test' so I can simulate subscription billing cycles in our sandbox environment.",
+        "parameters": {
+          "frozen_time": 1704067200,
+          "name": "QA Subscription Renewal Test",
+          "expand": [
+            "status"
+          ]
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "POST /v1/test_helpers/test_clocks",
+      "output": {
+        "instruction": "Create a new test clock frozen at July 1, 2024 12:00:00 UTC named 'QA Subscription Renewal Test' so we can simulate subscription billing cycles in our sandbox environment.",
+        "parameters": {
+          "frozen_time": 1719835200,
+          "name": "QA Subscription Renewal Test",
+          "expand": [
+            "status"
+          ]
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "POST /v1/disputes/{dispute}/close",
+      "output": {
+        "instruction": "Close the dispute dp_1FQqR2Eq0X9j8YtCz3vHnA8L since we don't have enough evidence to contest it and want to accept the loss.",
+        "parameters": {
+          "dispute": "dp_1FQqR2Eq0X9j8YtCz3vHnA8L",
+          "expand": [
+            "charge",
+            "balance_transaction"
+          ]
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "POST /v1/disputes/{dispute}/close",
+      "output": {
+        "instruction": "Please close the dispute dp_1FZ9kL2eZvKYlo2CQxrTb9Ac since we've already submitted our evidence and don't want to contest it further.",
+        "parameters": {
+          "dispute": "dp_1FZ9kL2eZvKYlo2CQxrTb9Ac",
+          "expand": [
+            "charge"
+          ]
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "POST /v1/disputes/{dispute}/close",
+      "output": {
+        "instruction": "Please close the dispute with ID dp_1Hh1Y2eZvKYlo2CoJ9dQeXbG since we've decided not to contest it further.",
+        "parameters": {
+          "dispute": "dp_1Hh1Y2eZvKYlo2CoJ9dQeXbG",
+          "expand": [
+            "balance_transaction"
+          ]
+        }
+      },
+      "param_valid": true
+    }
+  ],
+  "Slack": [
+    {
+      "endpoint": "POST /users.profile.set",
+      "output": {
+        "instruction": "Update my Slack profile so my title shows 'Senior Developer' and my status text says 'Heads down coding'.",
+        "parameters": {
+          "token": "REDACTED_EXAMPLE_TOKEN",
+          "profile": {
+            "title": "Senior Developer",
+            "status_text": "Heads down coding",
+            "status_emoji": ":computer:"
+          },
+          "user": "U0123ABC456"
+        }
+      },
+      "param_valid": false
+    },
+    {
+      "endpoint": "POST /users.profile.set",
+      "output": {
+        "instruction": "Update my Slack profile so my status text shows 'Working remotely today' with the house emoji.",
+        "parameters": {
+          "token": "REDACTED_EXAMPLE_TOKEN",
+          "name": "status_text",
+          "value": "Working remotely today",
+          "profile": "{\"status_text\": \"Working remotely today\", \"status_emoji\": \":house:\", \"status_expiration\": 0}",
+          "user": "U012ABCDEF"
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "POST /users.profile.set",
+      "output": {
+        "instruction": "Update my Slack status field 'title' to 'Senior Product Manager'.",
+        "parameters": {
+          "token": "REDACTED_EXAMPLE_TOKEN",
+          "name": "title",
+          "value": "Senior Product Manager",
+          "user": "U012ABCDEF"
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "GET /admin.inviteRequests.approved.list",
+      "output": {
+        "instruction": "Show me the list of approved invite requests for our team workspace, limited to 50 results.",
+        "parameters": {
+          "token": "REDACTED_EXAMPLE_TOKEN",
+          "team_id": "T012AB3CD",
+          "cursor": "",
+          "limit": 50
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "GET /admin.inviteRequests.approved.list",
+      "output": {
+        "instruction": "Show me the list of approved invite requests for our workspace, limited to 20 results.",
+        "parameters": {
+          "token": "REDACTED_EXAMPLE_TOKEN",
+          "team_id": "T012AB3CD",
+          "limit": 20
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "GET /admin.inviteRequests.approved.list",
+      "output": {
+        "instruction": "Show me the list of approved invite requests for our workspace, limited to 20 results.",
+        "parameters": {
+          "token": "REDACTED_EXAMPLE_TOKEN",
+          "team_id": "T02FQKX8A",
+          "limit": 20
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "POST /admin.conversations.convertToPrivate",
+      "output": {
+        "instruction": "Convert the public channel #project-falcon into a private channel so only invited members can access it.",
+        "parameters": {
+          "token": "REDACTED_EXAMPLE_TOKEN",
+          "channel_id": "C0G9QF9J3"
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "POST /admin.conversations.convertToPrivate",
+      "output": {
+        "instruction": "Convert our public #project-falcon channel to a private channel so outside teams can no longer view its contents.",
+        "parameters": {
+          "token": "REDACTED_EXAMPLE_TOKEN",
+          "channel_id": "C0PF4LC0N9"
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "POST /admin.conversations.convertToPrivate",
+      "output": {
+        "instruction": "Convert the public channel #project-alpha-launch to a private channel so external contractors can no longer see it.",
+        "parameters": {
+          "token": "REDACTED_EXAMPLE_TOKEN",
+          "channel_id": "C0123ABCD45"
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "GET /calls.info",
+      "output": {
+        "instruction": "Get the details of the call with ID R0E349MHR to check who joined and its duration.",
+        "parameters": {
+          "token": "REDACTED_EXAMPLE_TOKEN",
+          "id": "R0E349MHR"
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "GET /calls.info",
+      "output": {
+        "instruction": "Can you pull up the details for the call with ID R0123456789?",
+        "parameters": {
+          "token": "REDACTED_EXAMPLE_TOKEN",
+          "id": "R0123456789"
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "GET /calls.info",
+      "output": {
+        "instruction": "Can you pull up the details for the call with ID R1234567890?",
+        "parameters": {
+          "token": "REDACTED_EXAMPLE_TOKEN",
+          "id": "R1234567890"
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "GET /apps.permissions.users.list",
+      "output": {
+        "instruction": "Can you list the first 50 users who have granted permissions to our Slack app?",
+        "parameters": {
+          "token": "REDACTED_EXAMPLE_TOKEN",
+          "limit": 50
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "GET /apps.permissions.users.list",
+      "output": {
+        "instruction": "Show me the list of users who have granted permissions to our Slack app, starting from the last page I viewed, with up to 50 results.",
+        "parameters": {
+          "token": "REDACTED_EXAMPLE_TOKEN",
+          "cursor": "dGVhbTpDMDYxRkE1UEI=",
+          "limit": 50
+        }
+      },
+      "param_valid": true
+    },
+    {
+      "endpoint": "GET /apps.permissions.users.list",
+      "output": {
+        "instruction": "Show me the list of users who have granted permissions to our Slack app, limited to 50 results per page.",
+        "parameters": {
+          "token": "REDACTED_EXAMPLE_TOKEN",
+          "cursor": "dXNlcjpVMDYxTkZUVDI=",
+          "limit": 50
+        }
+      },
+      "param_valid": true
+    }
+  ]
+}

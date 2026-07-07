@@ -1,0 +1,143 @@
+{
+  "GitHub": [
+    {
+      "endpoint": "POST /repos/{owner}/{repo}/tags/protection",
+      "description": "This creates a tag protection state for a repository.\nThis endpoint is only available to repository administrators.",
+      "intents": [
+        "We need to lock down our release tags on the 'payments-service' repo so only admins can create or delete tags matching 'v*.*.*' \u2014 can you set that up?",
+        "Please add a tag protection rule to the 'infra-terraform' repository that restricts creation and deletion of tags matching the pattern 'prod-*' to repo admins only.",
+        "Our compliance team wants to prevent accidental deletion of hotfix tags in the 'mobile-app' repo. Can you create a tag protection rule for the pattern 'hotfix-*'?"
+      ]
+    },
+    {
+      "endpoint": "PUT /orgs/{org}/actions/secrets/{secret_name}/repositories",
+      "description": "Replaces all repositories for an organization secret when the `visibility` for repository access is set to `selected`. The visibility is set when you [Create or update an organization secret](https://docs.github.com/rest/reference/actions#create-or-update-an-organization-secret). You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `secrets` organization permission to use this endpoint.",
+      "intents": [
+        "We just rotated our shared Docker registry password stored as the org secret DOCKER_REGISTRY_PASSWORD. Please update it so only the 'payments-service', 'inventory-api', and 'checkout-frontend' repos (IDs 34521, 34522, 34890) have access to it.",
+        "Our security team wants to lock down the org-level secret PROD_DEPLOY_KEY to only the three repositories in our release pipeline. Can you set the selected repositories to just repo IDs 5521090, 5521144, and 5521200, replacing whatever is currently configured?",
+        "We onboarded two new microservices this sprint that need access to the shared NPM_TOKEN secret at the org level. Please update the allowed repository list for that secret to include the existing repos plus the new ones (IDs 771234 and 771245)."
+      ]
+    },
+    {
+      "endpoint": "GET /events",
+      "description": "We delay the public events feed by five minutes, which means the most recent event returned by the public events API actually occurred at least five minutes ago.",
+      "intents": [
+        "Pull the latest public GitHub activity feed so we can log it in our internal audit dashboard, showing about 50 events per page.",
+        "I need to check recent public events across the platform for our security monitoring tool\u2014can you fetch the second page of results?",
+        "Grab the most recent public events feed for our compliance team's weekly report, keeping in mind there's a five-minute delay on the data."
+      ]
+    },
+    {
+      "endpoint": "GET /user/gpg_keys/{gpg_key_id}",
+      "description": "View extended details for a single GPG key. Requires that you are authenticated via Basic Auth or via OAuth with at least `read:gpg_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).",
+      "intents": [
+        "Can you pull up the details for GPG key ID 3821479 that I have registered on my GitHub account? I need to verify the fingerprint before sharing it with our security team.",
+        "I'm auditing our engineering team's commit signing setup\u2014please retrieve the full metadata for my GPG key with ID 91827364 so I can confirm its expiration date.",
+        "Before I rotate my signing key, I need to check the current details of GPG key 4567123 attached to my account, including its associated email addresses and creation date."
+      ]
+    },
+    {
+      "endpoint": "GET /repos/{owner}/{repo}/actions/artifacts",
+      "description": "Lists all artifacts for a repository. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.",
+      "intents": [
+        "Can you pull up all the build artifacts stored in our 'payments-service' repo? I need to check which ones are still around before our storage cleanup next week.",
+        "I'm trying to find the artifact named 'release-candidate-v2.3' in the 'frontend-app' repository\u2014can you list the artifacts there so I can locate it?",
+        "For the compliance audit, get me a list of all artifacts generated in the 'infra-automation' repo, starting with the second page since we already reviewed the first batch."
+      ]
+    }
+  ],
+  "Stripe": [
+    {
+      "endpoint": "DELETE /v1/subscription_items/{item}",
+      "description": "<p>Deletes an item from the subscription. Removing a subscription item from a subscription will not cancel the subscription.</p>",
+      "intents": [
+        "We're downgrading a customer's plan and need to remove the extra API calls add-on from subscription item si_LmnO456; please also clear any recorded usage for it.",
+        "Can you delete subscription item si_9f8Grt2 for the Acme Corp account? They dropped one of their seat licenses and we shouldn't prorate the charge for it.",
+        "A client canceled their premium support add-on mid-cycle. Remove subscription item si_Xy12Ab from their subscription and prorate the credit back to them as of today."
+      ]
+    },
+    {
+      "endpoint": "POST /v1/charges",
+      "description": "<p>To charge a credit card or other payment source, you create a <code>Charge</code> object. If your API key is in test mode, the supplied payment source (e.g., card) won\u2019t actually be charged, although everything else will occur as if in live mode. (Stripe assumes that the charge would have completed successfully).</p>",
+      "intents": [
+        "Charge our customer cus_H8j2KfL9x2m3Qp a one-time fee of $250.00 USD for the annual platform license, and use 'ANNUAL-LICENSE-2024' as the statement descriptor suffix so it's clear on their card statement.",
+        "We need to process a payment of $1,200 on behalf of our connected vendor account acct_1H8kLfKjX2m9Qp3z for a marketplace order, taking a 5% application fee for our platform, and tagging it with the order ID in metadata for reconciliation.",
+        "Please create a $89.99 charge against customer cus_K3n8LpQz9X2m4Rt's saved card, send the receipt to billing@acmecorp.com, and include our internal invoice number in the transfer group so finance can match it up later."
+      ]
+    },
+    {
+      "endpoint": "GET /v1/accounts/{account}/capabilities/{capability}",
+      "description": "<p>Retrieves information about the specified Account Capability.</p>",
+      "intents": [
+        "Can you check whether card payments have been approved for our connected account acct_1Nx29pKq? I need to confirm the capability status before we enable checkout.",
+        "Pull up the status of the transfers capability for merchant account acct_1M8fkLq2 so I can see if it's still pending review or fully active.",
+        "We're onboarding a new seller (account acct_1P3qLmRt) and need to verify their us_bank_account_ach_payments capability is active before we route payouts to them."
+      ]
+    },
+    {
+      "endpoint": "POST /v1/test_helpers/test_clocks",
+      "description": "<p>Creates a new test clock that can be attached to new customers and quotes.</p>",
+      "intents": [
+        "Set up a new test clock frozen at the start of next month so our QA team can simulate subscription renewals for the enterprise plan without waiting for real time to pass.",
+        "Create a test clock named 'Q3-Billing-Simulation' starting at July 1st 9am UTC so we can validate our invoicing workflow changes before the quarterly billing run.",
+        "I need a sandbox test clock frozen at a specific timestamp to test how our new customer's trial period converts to a paid subscription in Stripe."
+      ]
+    },
+    {
+      "endpoint": "POST /v1/disputes/{dispute}/close",
+      "description": "<p>Closing the dispute for a charge indicates that you do not have any evidence to submit and are essentially dismissing the dispute, acknowledging it as lost.</p>\n\n<p>The status of the dispute will change from <code>needs_response</code> to <code>lost</code>. <em>Closing a dispute is irreversible</em>.</p>",
+      "intents": [
+        "We received a dispute on charge dp_1MZ9xR2eZvKYlo2C for a customer transaction, but we don't have any compelling evidence to fight it. Please close out dispute dp_1MZ9xR2eZvKYlo2C so we can move on.",
+        "Our finance team reviewed dispute dp_1N4tPz2eZvKYlo2C and confirmed we're conceding this one since the merchandise was indeed never delivered. Go ahead and mark that dispute as closed/lost.",
+        "Can you close the Stripe dispute with ID dp_1O8kLm2eZvKYlo2C? We already know we'll lose this chargeback and don't want to waste time submitting evidence."
+      ]
+    }
+  ],
+  "Slack": [
+    {
+      "endpoint": "POST /users.profile.set",
+      "description": "Set the profile information for a user.",
+      "intents": [
+        "Update my Slack status field to show 'Out of office until Monday' for the customer support team's visibility",
+        "Can you set John Doe's job title field on his profile to 'Senior Product Manager' after his promotion?",
+        "Please change the phone number listed on my profile to my new company-issued cell number"
+      ]
+    },
+    {
+      "endpoint": "GET /admin.inviteRequests.approved.list",
+      "description": "List all approved workspace invite requests.",
+      "intents": [
+        "Can you pull up the list of workspace invite requests that have already been approved for our team?",
+        "I need to audit all approved invite requests for the marketing team's workspace\u2014can you fetch the first 50 and give me a cursor for the rest?",
+        "Show me every approved member invite request across the organization so I can cross-check them against our onboarding tracker."
+      ]
+    },
+    {
+      "endpoint": "POST /admin.conversations.convertToPrivate",
+      "description": "Convert a public channel to a private channel.",
+      "intents": [
+        "We accidentally created the #legal-contracts channel as public\u2014can you switch it to private right away so only authorized staff can see it?",
+        "The #q4-layoffs discussion needs to be locked down immediately; please convert that public channel to a private one before more people join.",
+        "Our compliance team flagged that #customer-pii-incidents should never have been public. Please change it to a private channel using channel ID C0458XYZ12."
+      ]
+    },
+    {
+      "endpoint": "GET /calls.info",
+      "description": "Returns information about a Call.",
+      "intents": [
+        "Can you pull up the details for call ID R1234567890 from our Slack call logs?",
+        "I need to check the status and participants of a specific call for a customer escalation review, here's the call ID.",
+        "Get me the info on that call record so I can verify the duration for billing purposes."
+      ]
+    },
+    {
+      "endpoint": "GET /apps.permissions.users.list",
+      "description": "Returns list of user grants and corresponding scopes this app has on a team.",
+      "intents": [
+        "Can you pull a list of all users who've granted permissions to our Slack app, along with what scopes each of them approved?",
+        "I need to audit which team members have authorized our internal app and what level of access each one has \u2014 can you generate that report?",
+        "We're preparing for a security review and need to see every user grant tied to our app on this workspace, including their associated scopes. Show the first 50 and I'll page through the rest."
+      ]
+    }
+  ]
+}

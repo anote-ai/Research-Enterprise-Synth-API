@@ -36,9 +36,14 @@ possess the theoretical capacity to orchestrate highly complex enterprise operat
 
 \begin{figure}[t]
 \centering
-% TODO: replace with local system vector graphic mapping graph parsing logic
+% TODO: replace with local system vector graphic. This is the TARGET architecture (Section 3.2),
+% including the Knowledge Graph and Planner stages that are NOT implemented -- do not caption or
+% present this as the implemented system. The implemented system is the 4-stage diagram in
+% Section 3.1.
 \includegraphics[width=\columnwidth]{enterprisesynth_pipeline_diagram.pdf}
-\caption{The EnterpriseSynth Zero-Execution Architectural Matrix vs Traditional Live Pipelines.}
+\caption{The EnterpriseSynth target architecture (Section~3.2) vs.\ traditional live pipelines.
+Note: includes the Knowledge Graph and Planner stages, which are not yet implemented -- see
+Section~3.1 for the four-stage system that Sections 6--8 actually measure.}
 \label{fig:pipeline_matrix}
 \end{figure}
 
@@ -93,19 +98,25 @@ ToolBench via roughly 470,000 live RapidAPI calls during annotation), which is e
 dependency the Execution Paradox rules out for most enterprise API surfaces.
 
 \subsection{Summary of Contributions}
-Our core architectural contributions to the research frontier are structured as follows:
+Our contributions, scoped to what is actually implemented and measured (Section~8 gives the full
+ablation-study accounting of what is and is not built):
 \begin{itemize}
-    \item We introduce a formal software framework for zero-execution agent data generation that
-    ingests production-tier OpenAPI schemas to output multi-turn instruction traces without a
-    single live backend connection.
-    \item We detail a deterministic relational graph engine that translates structural parameter
-    schemas into explicit dependency chains to guide agent sequencing without data
-    hallucinations.
-    \item We release a programmatic static constraint validator that mimics compiler-level
-    firewalls to verify schema parameters, JSON syntax configurations, and variable types
-    completely offline.
-    \item We demonstrate that models optimized with our synthetic data distribution achieve
-    significant improvements in tool-sequencing success rates on our evaluation suite.
+    \item We implement a zero-execution pipeline -- Schema Parser, Intent Synthesis Agent,
+    Trajectory Generator, and Schema Verification Engine -- that ingests real OpenAPI specs to
+    produce multi-turn instruction traces without a single live backend connection.
+    \item We release a deterministic, non-LLM static constraint validator that checks generated
+    trajectories against the spec's declared endpoint/method/parameter-type/required-field
+    structure completely offline, and show via adversarial (corruption-based) testing that it
+    reaches 100\% detection of planted errors -- after fixing four real bugs the testing itself
+    surfaced (Section~6.6).
+    \item We show, on a hardware-scoped pilot, that fine-tuning a small open model on
+    EnterpriseSynth-generated, verified trajectories measurably improves tool-selection accuracy
+    on a genuinely held-out API (Section~6.7).
+    \item We do \textbf{not} yet claim a dependency-graph-based planning layer or a separate
+    agentic planning module as delivered contributions -- an API Knowledge Graph (Stage 2) and a
+    standalone Planner (Stage 4) are part of the target architecture (Section~3) but are not
+    implemented in the current system; Section~8's ablation study is scoped to the four stages
+    that actually exist.
     % NOTE: eval-suite name TBD pending the EnterpriseBench naming-collision decision --
     % see DESIGN_DOC.md's open item. Do not finalize "EnterpriseBench" as the name here
     % without resolving that first.
@@ -176,44 +187,61 @@ OpenAPI specifications, enabling enterprises to bootstrap both agent training an
 API documentation alone.
 
 \section{Methodology}
-EnterpriseSynth is a seven-stage offline pipeline (Figure~\ref{fig:pipeline_matrix}), each stage
-addressing a specific gap identified in Section~2's research-gap analysis.
+
+\subsection{Implemented System}
+What is actually built and measured (Sections 6--8) is a four-stage pipeline:
+
+\begin{center}
+OpenAPI Spec $\rightarrow$ API Schema Parser $\rightarrow$ Intent Generation Agent
+$\rightarrow$ Trajectory Generation Agent $\rightarrow$ Schema-Aware Verification Engine
+$\rightarrow$ \{SFT Dataset, Evaluation Dataset\}
+\end{center}
 
 \textbf{1. API Schema Parser.} Ingests the OpenAPI/Swagger spec and extracts endpoints,
-parameters, authentication requirements, and response schemas.
+parameters (including \texttt{\$ref}-resolved and \texttt{requestBody}-derived fields, Section~6.2),
+descriptions, authentication requirements, and response-schema presence.
 
-\textbf{2. API Knowledge Graph Builder.} Constructs a directed graph
-$\mathcal{G} = (\mathcal{V}, \mathcal{E})$ with endpoints, objects, and parameters as nodes, and
-dependency, sequential-workflow, and object-relation edges. Unlike
-AgentInstruct~\cite{mitra2024agentinstruct}'s \texttt{tool\_use} flow, which must synthesize or
-hypothesize an API description when seeded only from code, this graph is derived directly from the
-real spec: there is nothing to hallucinate.
+\textbf{2. Intent Generation Agent.} Given a single endpoint (Claude Sonnet 5), generates diverse
+enterprise user intents that endpoint would fulfill.
 
-\textbf{3. Intent Synthesis Agent.} Generates user intents ranging from simple single-endpoint
-tasks to multi-step enterprise workflows, by traversing $\mathcal{G}$.
+\textbf{3. Trajectory Generation Agent.} Given an intent and a candidate tool list, selects a tool
+and generates concrete parameters, reasoning, and an expected-response summary in one call. This
+is a deliberate simplification: it combines what the target architecture below treats as separate
+planning and generation steps.
 
-\textbf{4. Agentic Planning Module.} Decomposes each intent into a concrete API workflow plan:
-task decomposition, endpoint selection, and tool ordering. Stages 3 and 4 together are the
-schema-grounded analog of AgentInstruct's taxonomy-driven seed generation and
-Evol-Instruct~\cite{xu2023wizardlm}'s "complicate input" evolution step, except task complexity is
-derived from real dependency depth in $\mathcal{G}$ rather than a heuristic evolution rule.
-
-\textbf{5. Trajectory Generator.} Synthesizes the reasoning trace, tool calls, parameters, and
-expected responses for each planned workflow -- the raw SFT trajectory.
-
-\textbf{6. Schema Verification Engine.} A compiler-style firewall validating every generated
-trajectory against the spec itself: endpoint existence, HTTP method, required parameters,
-parameter types, response schema, and authentication -- entirely offline. Where
+\textbf{4. Schema Verification Engine.} A compiler-style firewall validating every generated
+trajectory against the spec itself: endpoint existence, HTTP method, required parameters, and
+parameter types -- entirely offline, and, critically, \textbf{not an LLM call}. Where
 Self-Instruct~\cite{wang2022selfinstruct} and Evol-Instruct filter with text heuristics (ROUGE
 similarity, keyword rules, degeneracy checks) and AgentInstruct verifies only via soft editorial
 refinement plus a post-hoc held-out judge (Orca-Bench), this is a hard, per-sample structural gate.
 
-\textbf{7. Dataset Constructor.} Emits four jointly-derived artifacts from a single generation
-pass: the SFT dataset, the evaluation dataset, verification metadata, and the intent
-specifications tying each SFT trace to its paired eval record. This joint, intent-spec-linked
-emission is the artifact none of the five reviewed papers produce -- Orca-Bench, API-Bank's
+\subsection{Target Architecture}
+The eventual design (Figure~\ref{fig:pipeline_matrix}) extends the implemented system with two
+stages that \textbf{do not exist in the current codebase} and are not part of any claim in
+Sections 6--8:
+
+\textbf{API Knowledge Graph Builder} (not implemented) -- would construct a directed graph
+$\mathcal{G} = (\mathcal{V}, \mathcal{E})$ with endpoints, objects, and parameters as nodes, and
+dependency, sequential-workflow, and object-relation edges, so that intent generation and planning
+could be graph-aware rather than single-endpoint-aware. Unlike
+AgentInstruct~\cite{mitra2024agentinstruct}'s \texttt{tool\_use} flow, which must synthesize or
+hypothesize an API description when seeded only from code, this graph would be derived directly
+from the real spec: there would be nothing to hallucinate. Ablation A4 (Section~8.4) is a first,
+inconclusive probe at whether the graph's benefit (multi-step workflow awareness) shows up even
+without building the graph itself, by giving the existing Intent Agent the other endpoints in the
+API as flat context.
+
+\textbf{Agentic Planning Module} (not implemented as a separate stage) -- would decompose each
+intent into an explicit workflow plan (task decomposition, endpoint selection, tool ordering)
+before trajectory generation, rather than doing both in one call as the current Trajectory
+Generation Agent does.
+
+\textbf{Dataset Constructor.} Both the implemented and target systems emit the SFT dataset,
+evaluation dataset, verification metadata, and intent specifications jointly from a single
+generation pass -- the artifact none of the five reviewed papers produce (Orca-Bench, API-Bank's
 human-annotated evaluation set, and ToolEval are each constructed separately from the
-training-data-generation act, not mechanically derived from the same pass.
+training-data-generation act, not mechanically derived from the same pass).
 
 \section{Experimental Setup}
 
@@ -272,11 +300,12 @@ diversity, multi-step workflow coverage, verification pass rate, and downstream 
 SFT (held-out eval-record pass rate, fine-tuned vs.\ untuned).
 
 \subsection{Implementation Details}
-Python 3.12; Pydantic for schema modeling and Stage 6 validation, NetworkX for the Stage 2
-knowledge graph, \texttt{openapi-spec-validator}/PyYAML for Stage 1 parsing, and the Anthropic SDK
-for Stages 3--5. No GPU is required for generation (API-based models); a single GPU is needed only
-for the LoRA fine-tuning step. Runtime, trajectory counts, and eval-record counts are not yet
-measured and will be reported once the pipeline is implemented and run.
+Python 3.12; Pydantic for schema modeling and Stage 6 validation, PyYAML for Stage 1 parsing, and
+the Anthropic SDK (Claude Sonnet 5) for Stages 2--3. NetworkX is listed in the project's
+dependencies for the target architecture's Knowledge Graph but is not yet used by any implemented
+code. No GPU is required for generation (API-based models); a single GPU is needed only for the
+LoRA fine-tuning step. Exact runtime and trajectory/eval-record counts for each experiment are
+reported in Sections 6 and 8.
 
 \section{Experiments}
 This section is an experimental \textit{protocol} -- what will be measured once the pipeline
@@ -611,6 +640,96 @@ Schema-based verification & No & Limited & No & Yes \\
     substitute model). Scaling to the full stratified sample, the target model size, and the
     remaining baselines is the immediate next phase, not yet done.
 \end{itemize}
+
+\section{Ablation Study}
+
+\subsection{Purpose and Scope}
+Which components of EnterpriseSynth actually contribute to generating high-quality verified data?
+This section is scoped strictly to the four-stage system that is actually implemented
+(Section~3.1). Three ablations from an earlier draft of this section are dropped, with reasons:
+a \textbf{Knowledge Graph} ablation (no graph module exists), a \textbf{Planner} ablation
+(planning and trajectory generation were combined into one call from the start), and a
+\textbf{Response Schema Modeling} ablation (Stage 1 only tracks a boolean "schema present" flag,
+never a structured response schema). Four ablations are real, implemented, and run against actual
+data.
+
+\subsection{A1 --- Without Intent Generation}
+A trajectory-generation agent that receives only an endpoint (no user intent) and must invent both
+an instruction and parameters in one step, run on the same 45 endpoint samples as Experiments 2--3.
+
+\begin{center}
+\begin{tabular}{lll}
+\textbf{API} & \textbf{Parameter Validity} & \textbf{Instruction Diversity} \\
+GitHub & 100.0\% & 93.3\% \\
+Stripe & 100.0\% & 100.0\% \\
+Slack & 93.3\% & 93.3\% \\
+\end{tabular}
+\end{center}
+
+Compare to the full pipeline's 100\%/100\%/100\% (Experiments 2--3). The drop is small but real:
+without an intent to ground it, the model generated Slack's \texttt{POST /users.profile.set} call
+with an invented \texttt{token} field and a parameter shape that didn't validate -- something the
+intent-grounded pipeline did not do in 45/45 trials. Explicit intent generation provides real,
+if modest at this sample size, grounding that improves both diversity and correctness.
+
+\subsection{A2 --- Without Verification Engine}
+Reuses Experiment 4's corruption data directly: without a verifier, none of the 44 planted errors
+would be caught (by construction); with one, all 44 are.
+
+\begin{center}
+\begin{tabular}{ll}
+\textbf{Configuration} & \textbf{Invalid trajectories retained (of 44)} \\
+Without verification & 44/44 (100\%) \\
+With verification & 0/44 (0\%) \\
+\end{tabular}
+\end{center}
+
+The strongest and clearest ablation in the paper: every planted structural error survives into the
+dataset with no verification step, and none do with one.
+
+\subsection{A3 --- Without vs.\ With API Descriptions}
+Adding the endpoint's OpenAPI description to the Intent Agent's prompt (confirmed absent from
+every prior experiment) leaves Coverage and exact-string Diversity unchanged at 100\% for all
+three APIs -- a ceiling effect in these metrics, not evidence of no effect. Qualitative
+inspection shows a real, modest difference: for GitHub's
+\texttt{PUT /orgs/\{org\}/actions/secrets/\{secret\_name\}/repositories} (description:
+\textit{"Replaces all repositories... requires \texttt{admin:org} scope"}), the description-aware
+intent more explicitly reflects the "replaces the full list" semantics and uses concrete numeric
+repo IDs rather than names alone. Inconclusive by the metrics used; a real qualitative signal
+exists and needs an LLM-judged specificity metric to quantify -- reported as inconclusive, not as
+a positive finding the numbers don't actually support.
+
+\subsection{A4 --- Endpoint-Only vs.\ Full-API Context}
+Adding the API's other endpoints as context, with an explicit invitation to describe multi-step
+workflows, again leaves Coverage and Diversity unchanged (same ceiling effect). A "sequencing-
+language" proxy metric we built to detect multi-step awareness initially looked promising
+(6--7 "mentions" per API) but, on inspection of the actual flagged intents, proved to be entirely
+false positives -- incidental temporal phrasing in single-step requests, not genuine multi-endpoint
+chaining. No measurable effect is detected at this pilot scale with the metrics available; the
+proxy metric is reported as invalid rather than kept as a false positive result.
+
+\subsection{Ablation Results Table}
+
+\begin{center}
+\begin{tabular}{llll}
+\textbf{Variant} & \textbf{Validity} & \textbf{Diversity} & \textbf{Verif. Pass} \\
+Full pipeline & 100\% & 100\% & 100\% \\
+A1: $-$ Intent Gen. & 93.3--100\% & 93.3--100\% & n/a \\
+A2: $-$ Verification & n/a & n/a & 0\% \\
+A3: $+$ Descriptions & unchanged & unchanged (qual.\ diff.) & n/a \\
+A4: $+$ Full context & unchanged & unchanged (no signal) & n/a \\
+\end{tabular}
+\end{center}
+
+\subsection{Why This Matters}
+Without this study, reviewers will reasonably ask why not just prompt an LLM with the OpenAPI file
+directly. The honest, per-component answer: Intent Generation provides real grounding that
+improves diversity and correctness (A1). Verification is unambiguously necessary -- the difference
+between 0\% and 100\% of planted errors surviving into the dataset (A2). Descriptions and full-API
+context show no effect on the metrics used so far (A3, A4), which is itself useful: it means
+current metrics are too coarse to detect what may still be a real qualitative effect, and that
+better metrics or deliberately multi-step task construction are needed before those ablations can
+be judged either way.
 
 \bibliographystyle{plain}
 \bibliography{references}

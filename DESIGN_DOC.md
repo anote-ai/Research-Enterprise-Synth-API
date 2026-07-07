@@ -108,7 +108,15 @@ Full per-paper breakdown is in `paper/related_work_audit.md`.
 
 ---
 
-## 4. Methodology — Seven-Stage Pipeline
+## 4. Methodology — Seven-Stage Pipeline (Target Architecture)
+
+**Implementation status, stated plainly:** stages 2 (API Knowledge Graph Builder) and 4 (Agentic
+Planning Module) below are **not implemented** — no graph module exists in the codebase, and
+Stage 4 was combined with Stage 5 into a single call from the start (`trajectory_agent.py`).
+What's actually built and measured in §6/§7/§8 is a **four-stage** pipeline: Parser → Intent
+Agent → Trajectory Agent → Verifier. The seven-stage diagram below is the target architecture,
+not a claim about the current system — see §8's ablation study for the full accounting of real
+vs. planned components.
 
 ```text
 OpenAPI/Swagger Spec
@@ -736,7 +744,142 @@ verification or a purpose-built eval artifact tied to its own generation process
 
 ---
 
-## 8. Timeline
+## 8. Ablation Study
+
+### 8.1 Purpose and Scope
+
+The question: which components of EnterpriseSynth actually contribute to generating high-quality
+verified SFT and evaluation data? This section is scoped strictly to what is **actually
+implemented** — the four-stage pipeline (Parser → Intent Agent → Trajectory Agent → Verifier).
+
+**Three ablations proposed in an earlier pass of this section are explicitly dropped, and stated
+why:**
+
+- ❌ **Knowledge Graph ablation** — does not exist. No graph module (Stage 2) has been built;
+  Stages 3–5 operate on the flat parsed endpoint list.
+- ❌ **Planner ablation** — does not exist as a separate component. Planning and trajectory
+  generation were combined into one call (`trajectory_agent.py`) from the start.
+- ❌ **Response Schema Modeling ablation** — not implemented. Stage 1 only tracks a boolean
+  "schema present" flag for responses, never a structured, checkable response schema.
+
+Four ablations **are** real, implemented, and run against actual data:
+
+### 8.2 A1 — Without Intent Generation
+
+**Setup:** `NoIntentTrajectoryAgent` (`src/enterprisesynth/ablation_agents.py`) receives only an
+endpoint (no user intent) and must invent both an instruction and concrete parameters in one
+step. Run on the same 45 endpoint samples (15 per API) as Experiments 2–3, via
+`scripts/run_ablation_study.py`.
+
+**Result:**
+
+| API | Trials | Parameter Validity | Instruction Diversity (exact-string) |
+| --- | --- | --- | --- |
+| GitHub | 15 | 100.0% | 93.3% |
+| Stripe | 15 | 100.0% | 100.0% |
+| Slack | 15 | **93.3%** | 93.3% |
+
+Compare to the full pipeline's baseline (Experiments 2+3): 100% coverage, 100% diversity, 100%
+parameter validity across all three APIs. The drop is small but real and not noise — inspecting
+the one Slack parameter-validity failure directly: without an intent to ground it, the model
+generated Slack's `POST /users.profile.set` call with an invented `token` field and a nested
+`profile` object shape that didn't validate against the declared parameter schema, something the
+full (intent-grounded) pipeline did not do in Experiment 3's 45/45 trials. **Conclusion:** explicit
+intent generation provides real, if modest at this sample size, grounding that improves both
+output diversity and parameter correctness over generating directly from a bare endpoint
+description.
+
+### 8.3 A2 — Without Verification Engine
+
+**Setup:** no new run needed — this reuses Experiment 4's corruption-testing data directly
+(§6.6/§7.5). Without a verifier, none of the 44 deliberately-planted errors would be caught (by
+construction — there is nothing filtering them); with `SchemaVerificationEngine`, 44/44 are.
+
+| Configuration | Invalid trajectories retained (of 44 planted) |
+| --- | --- |
+| Without verification | 44/44 (100% — nothing is filtered) |
+| With verification | 0/44 (0% — all caught) |
+
+**Conclusion:** this is the strongest and clearest ablation in the paper. Every planted structural
+error (wrong method, missing required parameter, invalid path, wrong parameter type) survives into
+the dataset with no verification step, and none do with one. Full detail, including the four real
+bugs found and fixed to get to 100%, is in §6.6.
+
+### 8.4 A3 — Without vs. With API Descriptions
+
+**Setup:** `DescriptionAwareIntentAgent` adds the endpoint's OpenAPI `description`/`summary` field
+(confirmed absent from every prior experiment — no `description` field existed anywhere in the
+codebase before this ablation was built) to the Intent Agent's prompt. Run on the same 45 endpoint
+samples.
+
+**Result:** Coverage and exact-string diversity are **unchanged** — 100%/100%/100% for all three
+APIs, identical to the no-description baseline. This is a ceiling effect in the chosen metrics,
+not evidence of no effect: both conditions already saturate these particular numbers.
+**Qualitative inspection tells a different, real story.** For GitHub's
+`PUT /orgs/{org}/actions/secrets/{secret_name}/repositories` (description: *"Replaces all
+repositories for an organization secret when visibility is set to `selected`... requires an access
+token with the `admin:org` scope"*):
+
+- **Without description (baseline):** "Update the list of repositories that can access our
+  org-level DOCKER_REGISTRY_PASSWORD secret to include the three new microservice repos..."
+- **With description:** "We just rotated our shared Docker registry password stored as the org
+  secret DOCKER_REGISTRY_PASSWORD. Please update it so only the 'payments-service',
+  'inventory-api', and 'checkout-frontend' repos (IDs 34521, 34522, 34890) have access to it..."
+
+Both are realistic and well-scoped. The description-aware version more explicitly reflects the
+"replaces the full list" semantics and uses concrete numeric repo IDs rather than names alone.
+**Conclusion:** inconclusive by the quantitative metrics used (they don't have headroom to show a
+difference); a real but modest qualitative signal exists and needs a better metric (e.g.
+LLM-judged specificity/faithfulness-to-description scoring) to quantify properly. Reported as
+inconclusive, not as a positive finding, since the numbers don't actually support one.
+
+### 8.5 A4 — Endpoint-Only vs. Full-API Context
+
+**Setup:** `FullContextIntentAgent` adds the other endpoints in the same API (the same
+distractor set used in Experiment 3) as context, and is explicitly invited to describe multi-step
+workflows spanning them. Run on the same 45 samples.
+
+**Result:** Coverage and diversity are again unchanged (100%/100%/100%, same ceiling effect as
+A3). We additionally built a "sequencing-language" proxy metric (keyword search for
+then/after/once/followed by/before) to detect apparent multi-step awareness, which initially
+looked promising (6–7 "mentions" per API). **Inspecting the actual flagged intents showed this
+metric is invalid** — every flagged example was a false positive: incidental temporal phrasing in
+an otherwise single-step request (e.g. "...and let me know *once* this is configured so I can
+inform the release management team" — a side comment, not a second API call), not genuine
+multi-endpoint chaining. **Conclusion:** no measurable effect detected at this pilot scale with
+the metrics available; the attempted proxy metric was checked against real output, found unsound,
+and is reported as invalid rather than kept as a false positive result. Testing whether full-API
+context (or, better, an actual Knowledge Graph, §4) helps multi-step workflow generation requires
+either better metrics or intents deliberately constructed to need multiple endpoints — neither
+exists yet.
+
+### 8.6 Ablation Results Table
+
+| Variant | Parameter/Endpoint Validity | Instruction/Intent Diversity | Verification Pass |
+| --- | --- | --- | --- |
+| Full pipeline (baseline) | 100% (Exp. 3) | 100% (Exp. 2) | 100% (Exp. 4, post-fix) |
+| A1: − Intent Generation | 93.3–100% | 93.3–100% | n/a (not tested through Stage 6) |
+| A2: − Verification | n/a | n/a | 0% (nothing filtered) |
+| A3: + Descriptions | unchanged (ceiling) | unchanged (ceiling); qualitative diff. observed | n/a |
+| A4: + Full-API context | unchanged (ceiling) | unchanged (ceiling); no valid signal detected | n/a |
+
+### 8.7 Why This Matters
+
+Without an ablation study, reviewers will reasonably ask: "why do you need all these components —
+why not just prompt an LLM with the OpenAPI file directly?" The honest answer, per component
+actually tested: **Intent Generation** provides real (if modest, at 45-example pilot scale)
+grounding that improves both diversity and parameter correctness (A1). **Verification** is
+unambiguously necessary — it is the difference between 0% and 100% of planted errors surviving
+into the dataset (A2). **Descriptions** and **full-API context** show no effect on the metrics
+used so far (A3, A4) — which is itself useful information: it means the current quantitative
+metrics (coverage, exact-string diversity) are too coarse to detect what may still be a real
+qualitative effect for descriptions, and that either better metrics or deliberately multi-step
+task construction is needed before context/graph-awareness ablations can be judged one way or the
+other.
+
+---
+
+## 9. Timeline
 
 | Date | Milestone |
 | --- | --- |
@@ -746,7 +889,7 @@ verification or a purpose-built eval artifact tied to its own generation process
 
 ---
 
-## 9. Open Items
+## 10. Open Items
 
 - Resolve the EnterpriseBench naming collision (see flag at top).
 - Verify per-spec licensing before redistributing any derived dataset built on APIs.guru/ToolBench

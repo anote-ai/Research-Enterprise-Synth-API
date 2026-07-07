@@ -138,6 +138,7 @@ class SchemaParser:
                         path=path,
                         method=method.upper(),
                         operation_id=operation.get("operationId"),
+                        description=operation.get("description") or operation.get("summary"),
                         parameters=parameters,
                         request_body_required=req_required,
                         request_body_schema_present=req_schema_present,

@@ -1,0 +1,65 @@
+{
+  "A1": [
+    {
+      "API": "GitHub",
+      "Trials": 15,
+      "Parameter Validity (%)": 100.0,
+      "Instruction Diversity (%, exact-string)": 93.3
+    },
+    {
+      "API": "Stripe",
+      "Trials": 15,
+      "Parameter Validity (%)": 100.0,
+      "Instruction Diversity (%, exact-string)": 100.0
+    },
+    {
+      "API": "Slack",
+      "Trials": 15,
+      "Parameter Validity (%)": 93.3,
+      "Instruction Diversity (%, exact-string)": 93.3
+    }
+  ],
+  "A3": [
+    {
+      "API": "GitHub",
+      "Coverage (%)": 100.0,
+      "Total intents": 15,
+      "Diversity (%, exact-string)": 100.0
+    },
+    {
+      "API": "Stripe",
+      "Coverage (%)": 100.0,
+      "Total intents": 15,
+      "Diversity (%, exact-string)": 100.0
+    },
+    {
+      "API": "Slack",
+      "Coverage (%)": 100.0,
+      "Total intents": 15,
+      "Diversity (%, exact-string)": 100.0
+    }
+  ],
+  "A4": [
+    {
+      "API": "GitHub",
+      "Coverage (%)": 100.0,
+      "Total intents": 15,
+      "Diversity (%, exact-string)": 100.0,
+      "Sequencing-language mentions": 6
+    },
+    {
+      "API": "Stripe",
+      "Coverage (%)": 100.0,
+      "Total intents": 15,
+      "Diversity (%, exact-string)": 100.0,
+      "Sequencing-language mentions": 7
+    },
+    {
+      "API": "Slack",
+      "Coverage (%)": 100.0,
+      "Total intents": 15,
+      "Diversity (%, exact-string)": 100.0,
+      "Sequencing-language mentions": 7
+    }
+  ]
+}

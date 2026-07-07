@@ -14,6 +14,7 @@ class Endpoint(BaseModel):
     path: str
     method: str
     operation_id: str | None = None
+    description: str | None = None
     parameters: list[Parameter] = Field(default_factory=list)
     request_body_required: bool = False
     request_body_schema_present: bool = False
