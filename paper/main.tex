@@ -831,6 +831,136 @@ current metrics are too coarse to detect what may still be a real qualitative ef
 better metrics or deliberately multi-step task construction are needed before those ablations can
 be judged either way.
 
+\section{Discussion}
+
+\subsection{What Actually Works, and Why}
+Two results in this paper are load-bearing, not decorative. First, Schema Verification (Stage 4)
+is unambiguously necessary: A2 shows a binary 0\%-vs-100\% gap between no verification and ours --
+every planted structural error survives without a gate, and none do with one. Second, that 100\%
+was earned through adversarial testing, not assumed: the first run of Experiment 4 caught only
+57--80\% of planted errors, and chasing down why surfaced four real bugs spanning the verifier, the
+test harness, and Stage 1's parser (Sections 6.5--6.6). The methodological point generalizes beyond
+this codebase: a static verifier's correctness cannot be established by checking that it accepts
+good input -- it has to be adversarially tested against bad input it is specifically supposed to
+reject. A non-adversarial test suite would have shipped a verifier that silently passed roughly a
+third to a half of planted errors.
+
+\subsection{Verification Has Limits by Design, and the Haiku Arm Quantifies Them}
+The deterministic gate checks structure, not semantics -- it cannot know that a negated charge
+amount or a placeholder field value is wrong, because both are still well-typed. The Haiku 4.5
+ablation (Section~6.5.1) both confirms this blind spot (100\% of semantically-corrupted
+trajectories pass Stage 4 structurally) and shows a cheap LLM can close part of the gap (100\%
+caught). But the same experiment shows this is not a free upgrade: a 33\% false-positive rate on
+GitHub, traced to the model being overly literal about things the underlying tool call did not
+need to prove (e.g. that a numeric repository ID "really" corresponds to a named repository).
+The practical implication is a two-tier design, not a wholesale replacement: keep the deterministic
+gate as the hard, blocking filter, and treat an LLM semantic check as an advisory or re-ranking
+signal until it is calibrated per parameter type (e.g. restricted to amounts, dates, and other
+fields where "plausibility" is well-defined) -- exactly the shape ToolACE's and AgentInstruct's
+own dual-layer designs converge on, for related reasons.
+
+\subsection{The Downstream Effect Is Real but Not Uniform, and That Is Itself a Finding}
+Experiment 5's single-Zoom result (12.5\%$\rightarrow$87.5\%) was the strongest number in an
+earlier draft of this paper. Scaling to three held-out APIs changed the story without reversing
+it: EnterpriseSynth-tuned data beats a real Self-Instruct baseline on two of three APIs, and beats
+the untuned base on all three, but loses to Self-Instruct specifically on DigitalOcean. We do not
+believe this is noise to explain away -- Self-Instruct's own bootstrap was shown (Section~6.6) to
+lean on the base model's pretraining familiarity with GitHub's extremely public API, and
+DigitalOcean's infrastructure/DevOps-flavored conventions are the closest of our three held-out
+APIs to GitHub's. If that hypothesis holds under further testing, it says something uncomfortable
+but important about the field's usual practice of benchmarking tool-use methods on well-known
+public APIs (GitHub, Stripe, Slack, and here, apparently, DigitalOcean by proxy): a base model's
+prior exposure to an API's public documentation can substitute for genuine schema grounding in a
+way that will not be available for the private, undocumented internal APIs EnterpriseSynth is
+actually built for. If anything, this strengthens rather than weakens the cold-start motivation --
+but it also means our own pilot cannot yet distinguish "EnterpriseSynth generalizes better" from
+"EnterpriseSynth generalizes better specifically on APIs unlike ones the base model already knows,"
+and only a genuinely private, unpublished spec (Section~4.2's cold-start validation set, not yet
+built) can settle that.
+
+\subsection{Positioning Relative to AgentInstruct}
+We adapted AgentInstruct's agentic-flow architecture rather than starting from scratch because it
+is the only reviewed method that is both agentic and execution-free. The two changes we made --
+real-spec grounding instead of code-seeded hallucination, and a hard structural gate instead of a
+soft editorial-plus-post-hoc-judge pipeline -- are not merely stylistic. Section~6.2's finding that
+Stage 1 initially mishandled \texttt{\$ref} parameters and \texttt{requestBody} fields shows that
+even "just parse the real spec" is a nontrivial engineering problem for production-scale OpenAPI
+documents; AgentInstruct's decision to let the model invent an API surface sidesteps that
+complexity entirely, at the cost of the hallucination risk we removed it to avoid. Our Static
+Constraint Validator is functionally close to ToolACE's Dual-Layer Verification design (rule-based
+plus model-based checking) though we arrived at the model-based layer later, as an explicit
+ablation (A5) rather than a built-in default -- a design choice that let us measure its marginal
+value and cost separately, which Section~6.5.1 shows was worth doing.
+
+\section{Limitations}
+
+\begin{enumerate}
+    \item \textbf{Pilot scale throughout.} All five experiments and five ablations run on 3--5
+    real APIs and 45--89 examples each, not the full $\sim$65-spec stratified sample specified in
+    Section~4.2. Every percentage in this paper should be read as a pilot signal, not a
+    population estimate.
+    \item \textbf{Experiment 3's self-consistency confound.} The same model (Claude Sonnet 5)
+    both generated the intents (Experiment 2) and performed tool selection against them
+    (Experiment 3), so its 100\% figures measure whether the model can recover its own intent,
+    not whether it handles independently-authored or adversarial requests.
+    \item \textbf{Experiment 5's model-scale gap.} The downstream fine-tuning result uses
+    Qwen2.5-0.5B-Instruct, a hardware-scoped substitute for the paper's actual target
+    (Mistral-7B-Instruct or Llama-3-8B). Whether the effect holds, strengthens, or weakens at that
+    scale is untested.
+    \item \textbf{Missing baselines.} ToolBench and a prompt-only agent are specified in
+    Section~4.3 but not yet implemented for any experiment; only Self-Instruct has been run as a
+    real comparison.
+    \item \textbf{No Knowledge Graph or Planner.} Multi-step, dependency-aware workflow
+    generation is entirely untested -- Ablation A4's attempt to probe this by giving the Intent
+    Agent flat (non-graph) context on other endpoints showed no measurable effect, but this does
+    not confirm the graph itself would not help; it only shows that a cheaper substitute for it,
+    at this pilot scale, did not.
+    \item \textbf{A3 and A4 are inconclusive by the metrics used, not resolved.} Coverage and
+    exact-string diversity ceiling at 100\% in both the baseline and the enhanced condition for
+    both ablations, so neither shows a measurable effect either way. A3's manual inspection
+    suggests a real qualitative difference exists; A4's attempted proxy metric was found invalid
+    on inspection.
+    \item \textbf{The Haiku semantic-check false-positive rate is uncalibrated.} 33\% on GitHub
+    is high enough that the arm cannot be deployed as a blocking gate without further tuning
+    (Section~6.5.1).
+    \item \textbf{The downstream effect does not generalize uniformly.} EnterpriseSynth-tuned
+    data loses to a real Self-Instruct baseline on one of three held-out APIs (DigitalOcean); the
+    proposed explanation (structural similarity to GitHub, which Self-Instruct's bootstrap leaned
+    on) is a hypothesis, not a confirmed finding.
+    \item \textbf{No cost or latency accounting.} The pipeline's per-spec generation cost (API
+    calls, wall-clock time) at the target $\sim$65-spec scale has not been measured.
+    \item \textbf{EnterpriseSynth-Eval is not itself validated.} We have not checked whether
+    performance on our generated evaluation records correlates with performance on real,
+    human-graded enterprise tasks -- only that the records are schema-valid.
+    \item \textbf{Mostly single-seed runs.} Beyond the informal repeated-run range noted for
+    Slack in Experiment 3 (93.3--100\%), most reported numbers reflect one run each, not a
+    multi-seed distribution with confidence intervals.
+\end{enumerate}
+
+\section{Conclusion}
+We presented EnterpriseSynth, a schema-aware, zero-execution pipeline that ingests an OpenAPI
+specification and jointly emits verified SFT trajectories and a paired evaluation dataset,
+EnterpriseSynth-Eval, without ever calling a live API. Against a scoped review of the closest five
+prior methods, EnterpriseSynth's specific contribution is combining three properties none of them
+combine: grounding in a real target spec (unlike AgentInstruct, which can hallucinate an API
+surface when seeded from code), a hard structural verification gate rather than a soft or
+post-hoc one (unlike AgentInstruct's editorial-refinement-plus-held-out-judge design), and no
+dependency on live execution at any stage (unlike API-Bank and ToolBench, both of which ground
+their training data in real API calls).
+
+At pilot scale, three findings stand on their own: schema-based verification is necessary, not
+optional, closing a 0\%-to-100\% gap on planted structural errors, and only reached 100\% after
+adversarial testing surfaced and forced fixes to real bugs; explicit intent generation provides
+real, measurable grounding over generating directly from a bare endpoint; and fine-tuning on
+EnterpriseSynth-generated data measurably outperforms both an untuned baseline and a real
+Self-Instruct baseline on most, though not all, held-out APIs tested. We reported the one
+exception -- a loss to Self-Instruct on DigitalOcean -- because we believe an honest, partially
+disconfirming result at pilot scale is more useful to the field than a uniformly positive one that
+does not survive scrutiny. The path to a submission-ready paper runs through exactly the
+limitations listed above: more APIs, more examples, the actual target model scale, the two missing
+baselines, and a real test of whether a Knowledge Graph earns its place in the architecture rather
+than being assumed into it.
+
 \bibliographystyle{plain}
 \bibliography{references}
 
