@@ -1,0 +1,1954 @@
+[
+  {
+    "intent": "Pull the details for the podcast show with ID 3DDfEEqIw2FGiA1a7Wr6GV so I can confirm its description before we feature it in this week's internal content newsletter.",
+    "ground_truth_method": "GET",
+    "ground_truth_path": "/shows/{id}",
+    "candidates": [
+      {
+        "method": "GET",
+        "path": "/shows/{id}",
+        "operation_id": "get-a-show"
+      },
+      {
+        "method": "GET",
+        "path": "/browse/categories",
+        "operation_id": "get-categories"
+      },
+      {
+        "method": "GET",
+        "path": "/artists",
+        "operation_id": "get-multiple-artists"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/episodes",
+        "operation_id": "remove-episodes-user"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/audiobooks",
+        "operation_id": "remove-audiobooks-user"
+      },
+      {
+        "method": "GET",
+        "path": "/me/albums/contains",
+        "operation_id": "check-users-saved-albums"
+      },
+      {
+        "method": "GET",
+        "path": "/browse/featured-playlists",
+        "operation_id": "get-featured-playlists"
+      },
+      {
+        "method": "GET",
+        "path": "/audiobooks/{id}/chapters",
+        "operation_id": "get-audiobook-chapters"
+      },
+      {
+        "method": "DELETE",
+        "path": "/playlists/{playlist_id}/tracks",
+        "operation_id": "remove-tracks-playlist"
+      },
+      {
+        "method": "GET",
+        "path": "/audiobooks/{id}",
+        "operation_id": "get-an-audiobook"
+      },
+      {
+        "method": "GET",
+        "path": "/tracks",
+        "operation_id": "get-several-tracks"
+      },
+      {
+        "method": "GET",
+        "path": "/me/top/{type}",
+        "operation_id": "get-users-top-artists-and-tracks"
+      },
+      {
+        "method": "GET",
+        "path": "/artists/{id}/albums",
+        "operation_id": "get-an-artists-albums"
+      },
+      {
+        "method": "GET",
+        "path": "/artists/{id}",
+        "operation_id": "get-an-artist"
+      },
+      {
+        "method": "GET",
+        "path": "/users/{user_id}/playlists",
+        "operation_id": "get-list-users-playlists"
+      },
+      {
+        "method": "GET",
+        "path": "/me/episodes",
+        "operation_id": "get-users-saved-episodes"
+      },
+      {
+        "method": "GET",
+        "path": "/me/episodes/contains",
+        "operation_id": "check-users-saved-episodes"
+      },
+      {
+        "method": "GET",
+        "path": "/playlists/{playlist_id}/images",
+        "operation_id": "get-playlist-cover"
+      },
+      {
+        "method": "GET",
+        "path": "/shows/{id}/episodes",
+        "operation_id": "get-a-shows-episodes"
+      },
+      {
+        "method": "PUT",
+        "path": "/me/audiobooks",
+        "operation_id": "save-audiobooks-user"
+      },
+      {
+        "method": "GET",
+        "path": "/me/shows/contains",
+        "operation_id": "check-users-saved-shows"
+      },
+      {
+        "method": "PUT",
+        "path": "/me/episodes",
+        "operation_id": "save-episodes-user"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/tracks",
+        "operation_id": "remove-tracks-user"
+      }
+    ]
+  },
+  {
+    "intent": "Our licensing team needs to verify availability of show 4rOoJ6Egrf8K2IrywzwOMk in the German market before we finalize the regional marketing agreement.",
+    "ground_truth_method": "GET",
+    "ground_truth_path": "/shows/{id}",
+    "candidates": [
+      {
+        "method": "GET",
+        "path": "/shows/{id}",
+        "operation_id": "get-a-show"
+      },
+      {
+        "method": "GET",
+        "path": "/browse/categories",
+        "operation_id": "get-categories"
+      },
+      {
+        "method": "GET",
+        "path": "/artists",
+        "operation_id": "get-multiple-artists"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/episodes",
+        "operation_id": "remove-episodes-user"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/audiobooks",
+        "operation_id": "remove-audiobooks-user"
+      },
+      {
+        "method": "GET",
+        "path": "/me/albums/contains",
+        "operation_id": "check-users-saved-albums"
+      },
+      {
+        "method": "GET",
+        "path": "/browse/featured-playlists",
+        "operation_id": "get-featured-playlists"
+      },
+      {
+        "method": "GET",
+        "path": "/audiobooks/{id}/chapters",
+        "operation_id": "get-audiobook-chapters"
+      },
+      {
+        "method": "DELETE",
+        "path": "/playlists/{playlist_id}/tracks",
+        "operation_id": "remove-tracks-playlist"
+      },
+      {
+        "method": "GET",
+        "path": "/audiobooks/{id}",
+        "operation_id": "get-an-audiobook"
+      },
+      {
+        "method": "GET",
+        "path": "/tracks",
+        "operation_id": "get-several-tracks"
+      },
+      {
+        "method": "GET",
+        "path": "/me/top/{type}",
+        "operation_id": "get-users-top-artists-and-tracks"
+      },
+      {
+        "method": "GET",
+        "path": "/artists/{id}/albums",
+        "operation_id": "get-an-artists-albums"
+      },
+      {
+        "method": "GET",
+        "path": "/artists/{id}",
+        "operation_id": "get-an-artist"
+      },
+      {
+        "method": "GET",
+        "path": "/users/{user_id}/playlists",
+        "operation_id": "get-list-users-playlists"
+      },
+      {
+        "method": "GET",
+        "path": "/me/episodes",
+        "operation_id": "get-users-saved-episodes"
+      },
+      {
+        "method": "GET",
+        "path": "/me/episodes/contains",
+        "operation_id": "check-users-saved-episodes"
+      },
+      {
+        "method": "GET",
+        "path": "/playlists/{playlist_id}/images",
+        "operation_id": "get-playlist-cover"
+      },
+      {
+        "method": "GET",
+        "path": "/shows/{id}/episodes",
+        "operation_id": "get-a-shows-episodes"
+      },
+      {
+        "method": "PUT",
+        "path": "/me/audiobooks",
+        "operation_id": "save-audiobooks-user"
+      },
+      {
+        "method": "GET",
+        "path": "/me/shows/contains",
+        "operation_id": "check-users-saved-shows"
+      },
+      {
+        "method": "PUT",
+        "path": "/me/episodes",
+        "operation_id": "save-episodes-user"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/tracks",
+        "operation_id": "remove-tracks-user"
+      }
+    ]
+  },
+  {
+    "intent": "Pull the list of product categories available for the US storefront so our merchandising team can map them to our internal taxonomy, and just grab the first 50 for now.",
+    "ground_truth_method": "GET",
+    "ground_truth_path": "/browse/categories",
+    "candidates": [
+      {
+        "method": "GET",
+        "path": "/shows/{id}",
+        "operation_id": "get-a-show"
+      },
+      {
+        "method": "GET",
+        "path": "/browse/categories",
+        "operation_id": "get-categories"
+      },
+      {
+        "method": "GET",
+        "path": "/artists",
+        "operation_id": "get-multiple-artists"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/episodes",
+        "operation_id": "remove-episodes-user"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/audiobooks",
+        "operation_id": "remove-audiobooks-user"
+      },
+      {
+        "method": "GET",
+        "path": "/me/albums/contains",
+        "operation_id": "check-users-saved-albums"
+      },
+      {
+        "method": "GET",
+        "path": "/browse/featured-playlists",
+        "operation_id": "get-featured-playlists"
+      },
+      {
+        "method": "GET",
+        "path": "/audiobooks/{id}/chapters",
+        "operation_id": "get-audiobook-chapters"
+      },
+      {
+        "method": "DELETE",
+        "path": "/playlists/{playlist_id}/tracks",
+        "operation_id": "remove-tracks-playlist"
+      },
+      {
+        "method": "GET",
+        "path": "/audiobooks/{id}",
+        "operation_id": "get-an-audiobook"
+      },
+      {
+        "method": "GET",
+        "path": "/tracks",
+        "operation_id": "get-several-tracks"
+      },
+      {
+        "method": "GET",
+        "path": "/me/top/{type}",
+        "operation_id": "get-users-top-artists-and-tracks"
+      },
+      {
+        "method": "GET",
+        "path": "/artists/{id}/albums",
+        "operation_id": "get-an-artists-albums"
+      },
+      {
+        "method": "GET",
+        "path": "/artists/{id}",
+        "operation_id": "get-an-artist"
+      },
+      {
+        "method": "GET",
+        "path": "/users/{user_id}/playlists",
+        "operation_id": "get-list-users-playlists"
+      },
+      {
+        "method": "GET",
+        "path": "/me/episodes",
+        "operation_id": "get-users-saved-episodes"
+      },
+      {
+        "method": "GET",
+        "path": "/me/episodes/contains",
+        "operation_id": "check-users-saved-episodes"
+      },
+      {
+        "method": "GET",
+        "path": "/playlists/{playlist_id}/images",
+        "operation_id": "get-playlist-cover"
+      },
+      {
+        "method": "GET",
+        "path": "/shows/{id}/episodes",
+        "operation_id": "get-a-shows-episodes"
+      },
+      {
+        "method": "PUT",
+        "path": "/me/audiobooks",
+        "operation_id": "save-audiobooks-user"
+      },
+      {
+        "method": "GET",
+        "path": "/me/shows/contains",
+        "operation_id": "check-users-saved-shows"
+      },
+      {
+        "method": "PUT",
+        "path": "/me/episodes",
+        "operation_id": "save-episodes-user"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/tracks",
+        "operation_id": "remove-tracks-user"
+      }
+    ]
+  },
+  {
+    "intent": "I need to see what browse categories exist for the German locale (de-DE) so we can plan localized landing pages\u2014can you fetch the next batch starting after item 100?",
+    "ground_truth_method": "GET",
+    "ground_truth_path": "/browse/categories",
+    "candidates": [
+      {
+        "method": "GET",
+        "path": "/shows/{id}",
+        "operation_id": "get-a-show"
+      },
+      {
+        "method": "GET",
+        "path": "/browse/categories",
+        "operation_id": "get-categories"
+      },
+      {
+        "method": "GET",
+        "path": "/artists",
+        "operation_id": "get-multiple-artists"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/episodes",
+        "operation_id": "remove-episodes-user"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/audiobooks",
+        "operation_id": "remove-audiobooks-user"
+      },
+      {
+        "method": "GET",
+        "path": "/me/albums/contains",
+        "operation_id": "check-users-saved-albums"
+      },
+      {
+        "method": "GET",
+        "path": "/browse/featured-playlists",
+        "operation_id": "get-featured-playlists"
+      },
+      {
+        "method": "GET",
+        "path": "/audiobooks/{id}/chapters",
+        "operation_id": "get-audiobook-chapters"
+      },
+      {
+        "method": "DELETE",
+        "path": "/playlists/{playlist_id}/tracks",
+        "operation_id": "remove-tracks-playlist"
+      },
+      {
+        "method": "GET",
+        "path": "/audiobooks/{id}",
+        "operation_id": "get-an-audiobook"
+      },
+      {
+        "method": "GET",
+        "path": "/tracks",
+        "operation_id": "get-several-tracks"
+      },
+      {
+        "method": "GET",
+        "path": "/me/top/{type}",
+        "operation_id": "get-users-top-artists-and-tracks"
+      },
+      {
+        "method": "GET",
+        "path": "/artists/{id}/albums",
+        "operation_id": "get-an-artists-albums"
+      },
+      {
+        "method": "GET",
+        "path": "/artists/{id}",
+        "operation_id": "get-an-artist"
+      },
+      {
+        "method": "GET",
+        "path": "/users/{user_id}/playlists",
+        "operation_id": "get-list-users-playlists"
+      },
+      {
+        "method": "GET",
+        "path": "/me/episodes",
+        "operation_id": "get-users-saved-episodes"
+      },
+      {
+        "method": "GET",
+        "path": "/me/episodes/contains",
+        "operation_id": "check-users-saved-episodes"
+      },
+      {
+        "method": "GET",
+        "path": "/playlists/{playlist_id}/images",
+        "operation_id": "get-playlist-cover"
+      },
+      {
+        "method": "GET",
+        "path": "/shows/{id}/episodes",
+        "operation_id": "get-a-shows-episodes"
+      },
+      {
+        "method": "PUT",
+        "path": "/me/audiobooks",
+        "operation_id": "save-audiobooks-user"
+      },
+      {
+        "method": "GET",
+        "path": "/me/shows/contains",
+        "operation_id": "check-users-saved-shows"
+      },
+      {
+        "method": "PUT",
+        "path": "/me/episodes",
+        "operation_id": "save-episodes-user"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/tracks",
+        "operation_id": "remove-tracks-user"
+      }
+    ]
+  },
+  {
+    "intent": "Our licensing team needs metadata for these 12 artist IDs from last quarter's royalty report so we can reconcile them against the payout spreadsheet\u2014can you pull that up?",
+    "ground_truth_method": "GET",
+    "ground_truth_path": "/artists",
+    "candidates": [
+      {
+        "method": "GET",
+        "path": "/shows/{id}",
+        "operation_id": "get-a-show"
+      },
+      {
+        "method": "GET",
+        "path": "/browse/categories",
+        "operation_id": "get-categories"
+      },
+      {
+        "method": "GET",
+        "path": "/artists",
+        "operation_id": "get-multiple-artists"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/episodes",
+        "operation_id": "remove-episodes-user"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/audiobooks",
+        "operation_id": "remove-audiobooks-user"
+      },
+      {
+        "method": "GET",
+        "path": "/me/albums/contains",
+        "operation_id": "check-users-saved-albums"
+      },
+      {
+        "method": "GET",
+        "path": "/browse/featured-playlists",
+        "operation_id": "get-featured-playlists"
+      },
+      {
+        "method": "GET",
+        "path": "/audiobooks/{id}/chapters",
+        "operation_id": "get-audiobook-chapters"
+      },
+      {
+        "method": "DELETE",
+        "path": "/playlists/{playlist_id}/tracks",
+        "operation_id": "remove-tracks-playlist"
+      },
+      {
+        "method": "GET",
+        "path": "/audiobooks/{id}",
+        "operation_id": "get-an-audiobook"
+      },
+      {
+        "method": "GET",
+        "path": "/tracks",
+        "operation_id": "get-several-tracks"
+      },
+      {
+        "method": "GET",
+        "path": "/me/top/{type}",
+        "operation_id": "get-users-top-artists-and-tracks"
+      },
+      {
+        "method": "GET",
+        "path": "/artists/{id}/albums",
+        "operation_id": "get-an-artists-albums"
+      },
+      {
+        "method": "GET",
+        "path": "/artists/{id}",
+        "operation_id": "get-an-artist"
+      },
+      {
+        "method": "GET",
+        "path": "/users/{user_id}/playlists",
+        "operation_id": "get-list-users-playlists"
+      },
+      {
+        "method": "GET",
+        "path": "/me/episodes",
+        "operation_id": "get-users-saved-episodes"
+      },
+      {
+        "method": "GET",
+        "path": "/me/episodes/contains",
+        "operation_id": "check-users-saved-episodes"
+      },
+      {
+        "method": "GET",
+        "path": "/playlists/{playlist_id}/images",
+        "operation_id": "get-playlist-cover"
+      },
+      {
+        "method": "GET",
+        "path": "/shows/{id}/episodes",
+        "operation_id": "get-a-shows-episodes"
+      },
+      {
+        "method": "PUT",
+        "path": "/me/audiobooks",
+        "operation_id": "save-audiobooks-user"
+      },
+      {
+        "method": "GET",
+        "path": "/me/shows/contains",
+        "operation_id": "check-users-saved-shows"
+      },
+      {
+        "method": "PUT",
+        "path": "/me/episodes",
+        "operation_id": "save-episodes-user"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/tracks",
+        "operation_id": "remove-tracks-user"
+      }
+    ]
+  },
+  {
+    "intent": "For the playlist curation dashboard, grab the artist details for this batch of Spotify IDs we scraped from the trending chart so marketing can review genre tags before tomorrow's sync meeting.",
+    "ground_truth_method": "GET",
+    "ground_truth_path": "/artists",
+    "candidates": [
+      {
+        "method": "GET",
+        "path": "/shows/{id}",
+        "operation_id": "get-a-show"
+      },
+      {
+        "method": "GET",
+        "path": "/browse/categories",
+        "operation_id": "get-categories"
+      },
+      {
+        "method": "GET",
+        "path": "/artists",
+        "operation_id": "get-multiple-artists"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/episodes",
+        "operation_id": "remove-episodes-user"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/audiobooks",
+        "operation_id": "remove-audiobooks-user"
+      },
+      {
+        "method": "GET",
+        "path": "/me/albums/contains",
+        "operation_id": "check-users-saved-albums"
+      },
+      {
+        "method": "GET",
+        "path": "/browse/featured-playlists",
+        "operation_id": "get-featured-playlists"
+      },
+      {
+        "method": "GET",
+        "path": "/audiobooks/{id}/chapters",
+        "operation_id": "get-audiobook-chapters"
+      },
+      {
+        "method": "DELETE",
+        "path": "/playlists/{playlist_id}/tracks",
+        "operation_id": "remove-tracks-playlist"
+      },
+      {
+        "method": "GET",
+        "path": "/audiobooks/{id}",
+        "operation_id": "get-an-audiobook"
+      },
+      {
+        "method": "GET",
+        "path": "/tracks",
+        "operation_id": "get-several-tracks"
+      },
+      {
+        "method": "GET",
+        "path": "/me/top/{type}",
+        "operation_id": "get-users-top-artists-and-tracks"
+      },
+      {
+        "method": "GET",
+        "path": "/artists/{id}/albums",
+        "operation_id": "get-an-artists-albums"
+      },
+      {
+        "method": "GET",
+        "path": "/artists/{id}",
+        "operation_id": "get-an-artist"
+      },
+      {
+        "method": "GET",
+        "path": "/users/{user_id}/playlists",
+        "operation_id": "get-list-users-playlists"
+      },
+      {
+        "method": "GET",
+        "path": "/me/episodes",
+        "operation_id": "get-users-saved-episodes"
+      },
+      {
+        "method": "GET",
+        "path": "/me/episodes/contains",
+        "operation_id": "check-users-saved-episodes"
+      },
+      {
+        "method": "GET",
+        "path": "/playlists/{playlist_id}/images",
+        "operation_id": "get-playlist-cover"
+      },
+      {
+        "method": "GET",
+        "path": "/shows/{id}/episodes",
+        "operation_id": "get-a-shows-episodes"
+      },
+      {
+        "method": "PUT",
+        "path": "/me/audiobooks",
+        "operation_id": "save-audiobooks-user"
+      },
+      {
+        "method": "GET",
+        "path": "/me/shows/contains",
+        "operation_id": "check-users-saved-shows"
+      },
+      {
+        "method": "PUT",
+        "path": "/me/episodes",
+        "operation_id": "save-episodes-user"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/tracks",
+        "operation_id": "remove-tracks-user"
+      }
+    ]
+  },
+  {
+    "intent": "Remove the three onboarding podcast episodes with IDs 4kYCRYJ5pGwtDrHnhAoXd1, 7hf9dLj2ktH0k1p1M0k1p1, and 2vXk1p1M0k1p1M0k1p1M0 from my saved episodes now that the new hire training is complete.",
+    "ground_truth_method": "DELETE",
+    "ground_truth_path": "/me/episodes",
+    "candidates": [
+      {
+        "method": "GET",
+        "path": "/shows/{id}",
+        "operation_id": "get-a-show"
+      },
+      {
+        "method": "GET",
+        "path": "/browse/categories",
+        "operation_id": "get-categories"
+      },
+      {
+        "method": "GET",
+        "path": "/artists",
+        "operation_id": "get-multiple-artists"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/episodes",
+        "operation_id": "remove-episodes-user"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/audiobooks",
+        "operation_id": "remove-audiobooks-user"
+      },
+      {
+        "method": "GET",
+        "path": "/me/albums/contains",
+        "operation_id": "check-users-saved-albums"
+      },
+      {
+        "method": "GET",
+        "path": "/browse/featured-playlists",
+        "operation_id": "get-featured-playlists"
+      },
+      {
+        "method": "GET",
+        "path": "/audiobooks/{id}/chapters",
+        "operation_id": "get-audiobook-chapters"
+      },
+      {
+        "method": "DELETE",
+        "path": "/playlists/{playlist_id}/tracks",
+        "operation_id": "remove-tracks-playlist"
+      },
+      {
+        "method": "GET",
+        "path": "/audiobooks/{id}",
+        "operation_id": "get-an-audiobook"
+      },
+      {
+        "method": "GET",
+        "path": "/tracks",
+        "operation_id": "get-several-tracks"
+      },
+      {
+        "method": "GET",
+        "path": "/me/top/{type}",
+        "operation_id": "get-users-top-artists-and-tracks"
+      },
+      {
+        "method": "GET",
+        "path": "/artists/{id}/albums",
+        "operation_id": "get-an-artists-albums"
+      },
+      {
+        "method": "GET",
+        "path": "/artists/{id}",
+        "operation_id": "get-an-artist"
+      },
+      {
+        "method": "GET",
+        "path": "/users/{user_id}/playlists",
+        "operation_id": "get-list-users-playlists"
+      },
+      {
+        "method": "GET",
+        "path": "/me/episodes",
+        "operation_id": "get-users-saved-episodes"
+      },
+      {
+        "method": "GET",
+        "path": "/me/episodes/contains",
+        "operation_id": "check-users-saved-episodes"
+      },
+      {
+        "method": "GET",
+        "path": "/playlists/{playlist_id}/images",
+        "operation_id": "get-playlist-cover"
+      },
+      {
+        "method": "GET",
+        "path": "/shows/{id}/episodes",
+        "operation_id": "get-a-shows-episodes"
+      },
+      {
+        "method": "PUT",
+        "path": "/me/audiobooks",
+        "operation_id": "save-audiobooks-user"
+      },
+      {
+        "method": "GET",
+        "path": "/me/shows/contains",
+        "operation_id": "check-users-saved-shows"
+      },
+      {
+        "method": "PUT",
+        "path": "/me/episodes",
+        "operation_id": "save-episodes-user"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/tracks",
+        "operation_id": "remove-tracks-user"
+      }
+    ]
+  },
+  {
+    "intent": "Our L&D team finished the compliance audio series\u2014please clear episode IDs 3nQm2p1M0k1p1M0k1p1M0 and 5zXk1p1M0k1p1M0k1p1M0 from my saved list so they don't clutter the shared training account's library.",
+    "ground_truth_method": "DELETE",
+    "ground_truth_path": "/me/episodes",
+    "candidates": [
+      {
+        "method": "GET",
+        "path": "/shows/{id}",
+        "operation_id": "get-a-show"
+      },
+      {
+        "method": "GET",
+        "path": "/browse/categories",
+        "operation_id": "get-categories"
+      },
+      {
+        "method": "GET",
+        "path": "/artists",
+        "operation_id": "get-multiple-artists"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/episodes",
+        "operation_id": "remove-episodes-user"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/audiobooks",
+        "operation_id": "remove-audiobooks-user"
+      },
+      {
+        "method": "GET",
+        "path": "/me/albums/contains",
+        "operation_id": "check-users-saved-albums"
+      },
+      {
+        "method": "GET",
+        "path": "/browse/featured-playlists",
+        "operation_id": "get-featured-playlists"
+      },
+      {
+        "method": "GET",
+        "path": "/audiobooks/{id}/chapters",
+        "operation_id": "get-audiobook-chapters"
+      },
+      {
+        "method": "DELETE",
+        "path": "/playlists/{playlist_id}/tracks",
+        "operation_id": "remove-tracks-playlist"
+      },
+      {
+        "method": "GET",
+        "path": "/audiobooks/{id}",
+        "operation_id": "get-an-audiobook"
+      },
+      {
+        "method": "GET",
+        "path": "/tracks",
+        "operation_id": "get-several-tracks"
+      },
+      {
+        "method": "GET",
+        "path": "/me/top/{type}",
+        "operation_id": "get-users-top-artists-and-tracks"
+      },
+      {
+        "method": "GET",
+        "path": "/artists/{id}/albums",
+        "operation_id": "get-an-artists-albums"
+      },
+      {
+        "method": "GET",
+        "path": "/artists/{id}",
+        "operation_id": "get-an-artist"
+      },
+      {
+        "method": "GET",
+        "path": "/users/{user_id}/playlists",
+        "operation_id": "get-list-users-playlists"
+      },
+      {
+        "method": "GET",
+        "path": "/me/episodes",
+        "operation_id": "get-users-saved-episodes"
+      },
+      {
+        "method": "GET",
+        "path": "/me/episodes/contains",
+        "operation_id": "check-users-saved-episodes"
+      },
+      {
+        "method": "GET",
+        "path": "/playlists/{playlist_id}/images",
+        "operation_id": "get-playlist-cover"
+      },
+      {
+        "method": "GET",
+        "path": "/shows/{id}/episodes",
+        "operation_id": "get-a-shows-episodes"
+      },
+      {
+        "method": "PUT",
+        "path": "/me/audiobooks",
+        "operation_id": "save-audiobooks-user"
+      },
+      {
+        "method": "GET",
+        "path": "/me/shows/contains",
+        "operation_id": "check-users-saved-shows"
+      },
+      {
+        "method": "PUT",
+        "path": "/me/episodes",
+        "operation_id": "save-episodes-user"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/tracks",
+        "operation_id": "remove-tracks-user"
+      }
+    ]
+  },
+  {
+    "intent": "Please remove the audiobook titles with IDs 3PFyzEcH1MHrRlbODMB5xw and 7lz2zK9y8kFwZjX3vN4Qpq from our corporate L&D Spotify library now that the leadership training course has concluded.",
+    "ground_truth_method": "DELETE",
+    "ground_truth_path": "/me/audiobooks",
+    "candidates": [
+      {
+        "method": "GET",
+        "path": "/shows/{id}",
+        "operation_id": "get-a-show"
+      },
+      {
+        "method": "GET",
+        "path": "/browse/categories",
+        "operation_id": "get-categories"
+      },
+      {
+        "method": "GET",
+        "path": "/artists",
+        "operation_id": "get-multiple-artists"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/episodes",
+        "operation_id": "remove-episodes-user"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/audiobooks",
+        "operation_id": "remove-audiobooks-user"
+      },
+      {
+        "method": "GET",
+        "path": "/me/albums/contains",
+        "operation_id": "check-users-saved-albums"
+      },
+      {
+        "method": "GET",
+        "path": "/browse/featured-playlists",
+        "operation_id": "get-featured-playlists"
+      },
+      {
+        "method": "GET",
+        "path": "/audiobooks/{id}/chapters",
+        "operation_id": "get-audiobook-chapters"
+      },
+      {
+        "method": "DELETE",
+        "path": "/playlists/{playlist_id}/tracks",
+        "operation_id": "remove-tracks-playlist"
+      },
+      {
+        "method": "GET",
+        "path": "/audiobooks/{id}",
+        "operation_id": "get-an-audiobook"
+      },
+      {
+        "method": "GET",
+        "path": "/tracks",
+        "operation_id": "get-several-tracks"
+      },
+      {
+        "method": "GET",
+        "path": "/me/top/{type}",
+        "operation_id": "get-users-top-artists-and-tracks"
+      },
+      {
+        "method": "GET",
+        "path": "/artists/{id}/albums",
+        "operation_id": "get-an-artists-albums"
+      },
+      {
+        "method": "GET",
+        "path": "/artists/{id}",
+        "operation_id": "get-an-artist"
+      },
+      {
+        "method": "GET",
+        "path": "/users/{user_id}/playlists",
+        "operation_id": "get-list-users-playlists"
+      },
+      {
+        "method": "GET",
+        "path": "/me/episodes",
+        "operation_id": "get-users-saved-episodes"
+      },
+      {
+        "method": "GET",
+        "path": "/me/episodes/contains",
+        "operation_id": "check-users-saved-episodes"
+      },
+      {
+        "method": "GET",
+        "path": "/playlists/{playlist_id}/images",
+        "operation_id": "get-playlist-cover"
+      },
+      {
+        "method": "GET",
+        "path": "/shows/{id}/episodes",
+        "operation_id": "get-a-shows-episodes"
+      },
+      {
+        "method": "PUT",
+        "path": "/me/audiobooks",
+        "operation_id": "save-audiobooks-user"
+      },
+      {
+        "method": "GET",
+        "path": "/me/shows/contains",
+        "operation_id": "check-users-saved-shows"
+      },
+      {
+        "method": "PUT",
+        "path": "/me/episodes",
+        "operation_id": "save-episodes-user"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/tracks",
+        "operation_id": "remove-tracks-user"
+      }
+    ]
+  },
+  {
+    "intent": "Our internal training account has accumulated old compliance audiobooks we no longer use\u2014can you clear IDs 1a2B3c4D5e6F and 6z5Y4x3W2v1U from the saved list to free up space for this quarter's onboarding materials?",
+    "ground_truth_method": "DELETE",
+    "ground_truth_path": "/me/audiobooks",
+    "candidates": [
+      {
+        "method": "GET",
+        "path": "/shows/{id}",
+        "operation_id": "get-a-show"
+      },
+      {
+        "method": "GET",
+        "path": "/browse/categories",
+        "operation_id": "get-categories"
+      },
+      {
+        "method": "GET",
+        "path": "/artists",
+        "operation_id": "get-multiple-artists"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/episodes",
+        "operation_id": "remove-episodes-user"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/audiobooks",
+        "operation_id": "remove-audiobooks-user"
+      },
+      {
+        "method": "GET",
+        "path": "/me/albums/contains",
+        "operation_id": "check-users-saved-albums"
+      },
+      {
+        "method": "GET",
+        "path": "/browse/featured-playlists",
+        "operation_id": "get-featured-playlists"
+      },
+      {
+        "method": "GET",
+        "path": "/audiobooks/{id}/chapters",
+        "operation_id": "get-audiobook-chapters"
+      },
+      {
+        "method": "DELETE",
+        "path": "/playlists/{playlist_id}/tracks",
+        "operation_id": "remove-tracks-playlist"
+      },
+      {
+        "method": "GET",
+        "path": "/audiobooks/{id}",
+        "operation_id": "get-an-audiobook"
+      },
+      {
+        "method": "GET",
+        "path": "/tracks",
+        "operation_id": "get-several-tracks"
+      },
+      {
+        "method": "GET",
+        "path": "/me/top/{type}",
+        "operation_id": "get-users-top-artists-and-tracks"
+      },
+      {
+        "method": "GET",
+        "path": "/artists/{id}/albums",
+        "operation_id": "get-an-artists-albums"
+      },
+      {
+        "method": "GET",
+        "path": "/artists/{id}",
+        "operation_id": "get-an-artist"
+      },
+      {
+        "method": "GET",
+        "path": "/users/{user_id}/playlists",
+        "operation_id": "get-list-users-playlists"
+      },
+      {
+        "method": "GET",
+        "path": "/me/episodes",
+        "operation_id": "get-users-saved-episodes"
+      },
+      {
+        "method": "GET",
+        "path": "/me/episodes/contains",
+        "operation_id": "check-users-saved-episodes"
+      },
+      {
+        "method": "GET",
+        "path": "/playlists/{playlist_id}/images",
+        "operation_id": "get-playlist-cover"
+      },
+      {
+        "method": "GET",
+        "path": "/shows/{id}/episodes",
+        "operation_id": "get-a-shows-episodes"
+      },
+      {
+        "method": "PUT",
+        "path": "/me/audiobooks",
+        "operation_id": "save-audiobooks-user"
+      },
+      {
+        "method": "GET",
+        "path": "/me/shows/contains",
+        "operation_id": "check-users-saved-shows"
+      },
+      {
+        "method": "PUT",
+        "path": "/me/episodes",
+        "operation_id": "save-episodes-user"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/tracks",
+        "operation_id": "remove-tracks-user"
+      }
+    ]
+  },
+  {
+    "intent": "Before our marketing team drafts the internal playlist newsletter, check whether these five album IDs are already saved in the shared curator Spotify account's library so we don't duplicate entries.",
+    "ground_truth_method": "GET",
+    "ground_truth_path": "/me/albums/contains",
+    "candidates": [
+      {
+        "method": "GET",
+        "path": "/shows/{id}",
+        "operation_id": "get-a-show"
+      },
+      {
+        "method": "GET",
+        "path": "/browse/categories",
+        "operation_id": "get-categories"
+      },
+      {
+        "method": "GET",
+        "path": "/artists",
+        "operation_id": "get-multiple-artists"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/episodes",
+        "operation_id": "remove-episodes-user"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/audiobooks",
+        "operation_id": "remove-audiobooks-user"
+      },
+      {
+        "method": "GET",
+        "path": "/me/albums/contains",
+        "operation_id": "check-users-saved-albums"
+      },
+      {
+        "method": "GET",
+        "path": "/browse/featured-playlists",
+        "operation_id": "get-featured-playlists"
+      },
+      {
+        "method": "GET",
+        "path": "/audiobooks/{id}/chapters",
+        "operation_id": "get-audiobook-chapters"
+      },
+      {
+        "method": "DELETE",
+        "path": "/playlists/{playlist_id}/tracks",
+        "operation_id": "remove-tracks-playlist"
+      },
+      {
+        "method": "GET",
+        "path": "/audiobooks/{id}",
+        "operation_id": "get-an-audiobook"
+      },
+      {
+        "method": "GET",
+        "path": "/tracks",
+        "operation_id": "get-several-tracks"
+      },
+      {
+        "method": "GET",
+        "path": "/me/top/{type}",
+        "operation_id": "get-users-top-artists-and-tracks"
+      },
+      {
+        "method": "GET",
+        "path": "/artists/{id}/albums",
+        "operation_id": "get-an-artists-albums"
+      },
+      {
+        "method": "GET",
+        "path": "/artists/{id}",
+        "operation_id": "get-an-artist"
+      },
+      {
+        "method": "GET",
+        "path": "/users/{user_id}/playlists",
+        "operation_id": "get-list-users-playlists"
+      },
+      {
+        "method": "GET",
+        "path": "/me/episodes",
+        "operation_id": "get-users-saved-episodes"
+      },
+      {
+        "method": "GET",
+        "path": "/me/episodes/contains",
+        "operation_id": "check-users-saved-episodes"
+      },
+      {
+        "method": "GET",
+        "path": "/playlists/{playlist_id}/images",
+        "operation_id": "get-playlist-cover"
+      },
+      {
+        "method": "GET",
+        "path": "/shows/{id}/episodes",
+        "operation_id": "get-a-shows-episodes"
+      },
+      {
+        "method": "PUT",
+        "path": "/me/audiobooks",
+        "operation_id": "save-audiobooks-user"
+      },
+      {
+        "method": "GET",
+        "path": "/me/shows/contains",
+        "operation_id": "check-users-saved-shows"
+      },
+      {
+        "method": "PUT",
+        "path": "/me/episodes",
+        "operation_id": "save-episodes-user"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/tracks",
+        "operation_id": "remove-tracks-user"
+      }
+    ]
+  },
+  {
+    "intent": "Our digital media licensing team needs to confirm if the album IDs from this vendor's catalog spreadsheet are already saved to our corporate music research account before we request additional review copies.",
+    "ground_truth_method": "GET",
+    "ground_truth_path": "/me/albums/contains",
+    "candidates": [
+      {
+        "method": "GET",
+        "path": "/shows/{id}",
+        "operation_id": "get-a-show"
+      },
+      {
+        "method": "GET",
+        "path": "/browse/categories",
+        "operation_id": "get-categories"
+      },
+      {
+        "method": "GET",
+        "path": "/artists",
+        "operation_id": "get-multiple-artists"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/episodes",
+        "operation_id": "remove-episodes-user"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/audiobooks",
+        "operation_id": "remove-audiobooks-user"
+      },
+      {
+        "method": "GET",
+        "path": "/me/albums/contains",
+        "operation_id": "check-users-saved-albums"
+      },
+      {
+        "method": "GET",
+        "path": "/browse/featured-playlists",
+        "operation_id": "get-featured-playlists"
+      },
+      {
+        "method": "GET",
+        "path": "/audiobooks/{id}/chapters",
+        "operation_id": "get-audiobook-chapters"
+      },
+      {
+        "method": "DELETE",
+        "path": "/playlists/{playlist_id}/tracks",
+        "operation_id": "remove-tracks-playlist"
+      },
+      {
+        "method": "GET",
+        "path": "/audiobooks/{id}",
+        "operation_id": "get-an-audiobook"
+      },
+      {
+        "method": "GET",
+        "path": "/tracks",
+        "operation_id": "get-several-tracks"
+      },
+      {
+        "method": "GET",
+        "path": "/me/top/{type}",
+        "operation_id": "get-users-top-artists-and-tracks"
+      },
+      {
+        "method": "GET",
+        "path": "/artists/{id}/albums",
+        "operation_id": "get-an-artists-albums"
+      },
+      {
+        "method": "GET",
+        "path": "/artists/{id}",
+        "operation_id": "get-an-artist"
+      },
+      {
+        "method": "GET",
+        "path": "/users/{user_id}/playlists",
+        "operation_id": "get-list-users-playlists"
+      },
+      {
+        "method": "GET",
+        "path": "/me/episodes",
+        "operation_id": "get-users-saved-episodes"
+      },
+      {
+        "method": "GET",
+        "path": "/me/episodes/contains",
+        "operation_id": "check-users-saved-episodes"
+      },
+      {
+        "method": "GET",
+        "path": "/playlists/{playlist_id}/images",
+        "operation_id": "get-playlist-cover"
+      },
+      {
+        "method": "GET",
+        "path": "/shows/{id}/episodes",
+        "operation_id": "get-a-shows-episodes"
+      },
+      {
+        "method": "PUT",
+        "path": "/me/audiobooks",
+        "operation_id": "save-audiobooks-user"
+      },
+      {
+        "method": "GET",
+        "path": "/me/shows/contains",
+        "operation_id": "check-users-saved-shows"
+      },
+      {
+        "method": "PUT",
+        "path": "/me/episodes",
+        "operation_id": "save-episodes-user"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/tracks",
+        "operation_id": "remove-tracks-user"
+      }
+    ]
+  },
+  {
+    "intent": "Pull the top 15 featured playlists for our German market storefront so the regional marketing team can review this week's curated content for the newsletter.",
+    "ground_truth_method": "GET",
+    "ground_truth_path": "/browse/featured-playlists",
+    "candidates": [
+      {
+        "method": "GET",
+        "path": "/shows/{id}",
+        "operation_id": "get-a-show"
+      },
+      {
+        "method": "GET",
+        "path": "/browse/categories",
+        "operation_id": "get-categories"
+      },
+      {
+        "method": "GET",
+        "path": "/artists",
+        "operation_id": "get-multiple-artists"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/episodes",
+        "operation_id": "remove-episodes-user"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/audiobooks",
+        "operation_id": "remove-audiobooks-user"
+      },
+      {
+        "method": "GET",
+        "path": "/me/albums/contains",
+        "operation_id": "check-users-saved-albums"
+      },
+      {
+        "method": "GET",
+        "path": "/browse/featured-playlists",
+        "operation_id": "get-featured-playlists"
+      },
+      {
+        "method": "GET",
+        "path": "/audiobooks/{id}/chapters",
+        "operation_id": "get-audiobook-chapters"
+      },
+      {
+        "method": "DELETE",
+        "path": "/playlists/{playlist_id}/tracks",
+        "operation_id": "remove-tracks-playlist"
+      },
+      {
+        "method": "GET",
+        "path": "/audiobooks/{id}",
+        "operation_id": "get-an-audiobook"
+      },
+      {
+        "method": "GET",
+        "path": "/tracks",
+        "operation_id": "get-several-tracks"
+      },
+      {
+        "method": "GET",
+        "path": "/me/top/{type}",
+        "operation_id": "get-users-top-artists-and-tracks"
+      },
+      {
+        "method": "GET",
+        "path": "/artists/{id}/albums",
+        "operation_id": "get-an-artists-albums"
+      },
+      {
+        "method": "GET",
+        "path": "/artists/{id}",
+        "operation_id": "get-an-artist"
+      },
+      {
+        "method": "GET",
+        "path": "/users/{user_id}/playlists",
+        "operation_id": "get-list-users-playlists"
+      },
+      {
+        "method": "GET",
+        "path": "/me/episodes",
+        "operation_id": "get-users-saved-episodes"
+      },
+      {
+        "method": "GET",
+        "path": "/me/episodes/contains",
+        "operation_id": "check-users-saved-episodes"
+      },
+      {
+        "method": "GET",
+        "path": "/playlists/{playlist_id}/images",
+        "operation_id": "get-playlist-cover"
+      },
+      {
+        "method": "GET",
+        "path": "/shows/{id}/episodes",
+        "operation_id": "get-a-shows-episodes"
+      },
+      {
+        "method": "PUT",
+        "path": "/me/audiobooks",
+        "operation_id": "save-audiobooks-user"
+      },
+      {
+        "method": "GET",
+        "path": "/me/shows/contains",
+        "operation_id": "check-users-saved-shows"
+      },
+      {
+        "method": "PUT",
+        "path": "/me/episodes",
+        "operation_id": "save-episodes-user"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/tracks",
+        "operation_id": "remove-tracks-user"
+      }
+    ]
+  },
+  {
+    "intent": "Our social media team needs a snapshot of Spotify's featured playlists in the US as of this morning at 9am to compare against last week's lineup for the trend report.",
+    "ground_truth_method": "GET",
+    "ground_truth_path": "/browse/featured-playlists",
+    "candidates": [
+      {
+        "method": "GET",
+        "path": "/shows/{id}",
+        "operation_id": "get-a-show"
+      },
+      {
+        "method": "GET",
+        "path": "/browse/categories",
+        "operation_id": "get-categories"
+      },
+      {
+        "method": "GET",
+        "path": "/artists",
+        "operation_id": "get-multiple-artists"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/episodes",
+        "operation_id": "remove-episodes-user"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/audiobooks",
+        "operation_id": "remove-audiobooks-user"
+      },
+      {
+        "method": "GET",
+        "path": "/me/albums/contains",
+        "operation_id": "check-users-saved-albums"
+      },
+      {
+        "method": "GET",
+        "path": "/browse/featured-playlists",
+        "operation_id": "get-featured-playlists"
+      },
+      {
+        "method": "GET",
+        "path": "/audiobooks/{id}/chapters",
+        "operation_id": "get-audiobook-chapters"
+      },
+      {
+        "method": "DELETE",
+        "path": "/playlists/{playlist_id}/tracks",
+        "operation_id": "remove-tracks-playlist"
+      },
+      {
+        "method": "GET",
+        "path": "/audiobooks/{id}",
+        "operation_id": "get-an-audiobook"
+      },
+      {
+        "method": "GET",
+        "path": "/tracks",
+        "operation_id": "get-several-tracks"
+      },
+      {
+        "method": "GET",
+        "path": "/me/top/{type}",
+        "operation_id": "get-users-top-artists-and-tracks"
+      },
+      {
+        "method": "GET",
+        "path": "/artists/{id}/albums",
+        "operation_id": "get-an-artists-albums"
+      },
+      {
+        "method": "GET",
+        "path": "/artists/{id}",
+        "operation_id": "get-an-artist"
+      },
+      {
+        "method": "GET",
+        "path": "/users/{user_id}/playlists",
+        "operation_id": "get-list-users-playlists"
+      },
+      {
+        "method": "GET",
+        "path": "/me/episodes",
+        "operation_id": "get-users-saved-episodes"
+      },
+      {
+        "method": "GET",
+        "path": "/me/episodes/contains",
+        "operation_id": "check-users-saved-episodes"
+      },
+      {
+        "method": "GET",
+        "path": "/playlists/{playlist_id}/images",
+        "operation_id": "get-playlist-cover"
+      },
+      {
+        "method": "GET",
+        "path": "/shows/{id}/episodes",
+        "operation_id": "get-a-shows-episodes"
+      },
+      {
+        "method": "PUT",
+        "path": "/me/audiobooks",
+        "operation_id": "save-audiobooks-user"
+      },
+      {
+        "method": "GET",
+        "path": "/me/shows/contains",
+        "operation_id": "check-users-saved-shows"
+      },
+      {
+        "method": "PUT",
+        "path": "/me/episodes",
+        "operation_id": "save-episodes-user"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/tracks",
+        "operation_id": "remove-tracks-user"
+      }
+    ]
+  },
+  {
+    "intent": "Pull the full chapter list for audiobook ID 3XzR7WQmVsdaMgP4tOsx0J so our content team can verify chapter titles and durations before we feature it in next week's newsletter.",
+    "ground_truth_method": "GET",
+    "ground_truth_path": "/audiobooks/{id}/chapters",
+    "candidates": [
+      {
+        "method": "GET",
+        "path": "/shows/{id}",
+        "operation_id": "get-a-show"
+      },
+      {
+        "method": "GET",
+        "path": "/browse/categories",
+        "operation_id": "get-categories"
+      },
+      {
+        "method": "GET",
+        "path": "/artists",
+        "operation_id": "get-multiple-artists"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/episodes",
+        "operation_id": "remove-episodes-user"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/audiobooks",
+        "operation_id": "remove-audiobooks-user"
+      },
+      {
+        "method": "GET",
+        "path": "/me/albums/contains",
+        "operation_id": "check-users-saved-albums"
+      },
+      {
+        "method": "GET",
+        "path": "/browse/featured-playlists",
+        "operation_id": "get-featured-playlists"
+      },
+      {
+        "method": "GET",
+        "path": "/audiobooks/{id}/chapters",
+        "operation_id": "get-audiobook-chapters"
+      },
+      {
+        "method": "DELETE",
+        "path": "/playlists/{playlist_id}/tracks",
+        "operation_id": "remove-tracks-playlist"
+      },
+      {
+        "method": "GET",
+        "path": "/audiobooks/{id}",
+        "operation_id": "get-an-audiobook"
+      },
+      {
+        "method": "GET",
+        "path": "/tracks",
+        "operation_id": "get-several-tracks"
+      },
+      {
+        "method": "GET",
+        "path": "/me/top/{type}",
+        "operation_id": "get-users-top-artists-and-tracks"
+      },
+      {
+        "method": "GET",
+        "path": "/artists/{id}/albums",
+        "operation_id": "get-an-artists-albums"
+      },
+      {
+        "method": "GET",
+        "path": "/artists/{id}",
+        "operation_id": "get-an-artist"
+      },
+      {
+        "method": "GET",
+        "path": "/users/{user_id}/playlists",
+        "operation_id": "get-list-users-playlists"
+      },
+      {
+        "method": "GET",
+        "path": "/me/episodes",
+        "operation_id": "get-users-saved-episodes"
+      },
+      {
+        "method": "GET",
+        "path": "/me/episodes/contains",
+        "operation_id": "check-users-saved-episodes"
+      },
+      {
+        "method": "GET",
+        "path": "/playlists/{playlist_id}/images",
+        "operation_id": "get-playlist-cover"
+      },
+      {
+        "method": "GET",
+        "path": "/shows/{id}/episodes",
+        "operation_id": "get-a-shows-episodes"
+      },
+      {
+        "method": "PUT",
+        "path": "/me/audiobooks",
+        "operation_id": "save-audiobooks-user"
+      },
+      {
+        "method": "GET",
+        "path": "/me/shows/contains",
+        "operation_id": "check-users-saved-shows"
+      },
+      {
+        "method": "PUT",
+        "path": "/me/episodes",
+        "operation_id": "save-episodes-user"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/tracks",
+        "operation_id": "remove-tracks-user"
+      }
+    ]
+  },
+  {
+    "intent": "For our localized podcast app, fetch the first 20 chapters of that leadership audiobook, filtered for the German market, so we can check regional availability before launch.",
+    "ground_truth_method": "GET",
+    "ground_truth_path": "/audiobooks/{id}/chapters",
+    "candidates": [
+      {
+        "method": "GET",
+        "path": "/shows/{id}",
+        "operation_id": "get-a-show"
+      },
+      {
+        "method": "GET",
+        "path": "/browse/categories",
+        "operation_id": "get-categories"
+      },
+      {
+        "method": "GET",
+        "path": "/artists",
+        "operation_id": "get-multiple-artists"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/episodes",
+        "operation_id": "remove-episodes-user"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/audiobooks",
+        "operation_id": "remove-audiobooks-user"
+      },
+      {
+        "method": "GET",
+        "path": "/me/albums/contains",
+        "operation_id": "check-users-saved-albums"
+      },
+      {
+        "method": "GET",
+        "path": "/browse/featured-playlists",
+        "operation_id": "get-featured-playlists"
+      },
+      {
+        "method": "GET",
+        "path": "/audiobooks/{id}/chapters",
+        "operation_id": "get-audiobook-chapters"
+      },
+      {
+        "method": "DELETE",
+        "path": "/playlists/{playlist_id}/tracks",
+        "operation_id": "remove-tracks-playlist"
+      },
+      {
+        "method": "GET",
+        "path": "/audiobooks/{id}",
+        "operation_id": "get-an-audiobook"
+      },
+      {
+        "method": "GET",
+        "path": "/tracks",
+        "operation_id": "get-several-tracks"
+      },
+      {
+        "method": "GET",
+        "path": "/me/top/{type}",
+        "operation_id": "get-users-top-artists-and-tracks"
+      },
+      {
+        "method": "GET",
+        "path": "/artists/{id}/albums",
+        "operation_id": "get-an-artists-albums"
+      },
+      {
+        "method": "GET",
+        "path": "/artists/{id}",
+        "operation_id": "get-an-artist"
+      },
+      {
+        "method": "GET",
+        "path": "/users/{user_id}/playlists",
+        "operation_id": "get-list-users-playlists"
+      },
+      {
+        "method": "GET",
+        "path": "/me/episodes",
+        "operation_id": "get-users-saved-episodes"
+      },
+      {
+        "method": "GET",
+        "path": "/me/episodes/contains",
+        "operation_id": "check-users-saved-episodes"
+      },
+      {
+        "method": "GET",
+        "path": "/playlists/{playlist_id}/images",
+        "operation_id": "get-playlist-cover"
+      },
+      {
+        "method": "GET",
+        "path": "/shows/{id}/episodes",
+        "operation_id": "get-a-shows-episodes"
+      },
+      {
+        "method": "PUT",
+        "path": "/me/audiobooks",
+        "operation_id": "save-audiobooks-user"
+      },
+      {
+        "method": "GET",
+        "path": "/me/shows/contains",
+        "operation_id": "check-users-saved-shows"
+      },
+      {
+        "method": "PUT",
+        "path": "/me/episodes",
+        "operation_id": "save-episodes-user"
+      },
+      {
+        "method": "DELETE",
+        "path": "/me/tracks",
+        "operation_id": "remove-tracks-user"
+      }
+    ]
+  }
+]

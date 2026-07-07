@@ -380,7 +380,7 @@ diversity (15/15 unique) for all three APIs. Exact-string uniqueness is a weak d
 it only rules out literal duplication -- so this number should not be over-read; semantic-
 similarity clustering is not yet implemented. Manual inspection of the generated intents (not just
 the aggregate metric) is more informative: for GitHub's
-\texttt{PUT /orgs/\{org\}/actions/secrets/\{secret\_name\}/repositories}, generated intents
+\texttt{PUT /orgs/\{org\}/\allowbreak actions/secrets/\allowbreak\{secret\_name\}/repositories}, generated intents
 included distinct, correctly-scoped enterprise scenarios (rotating access to a
 \texttt{DOCKER\_REGISTRY\_PASSWORD} secret; restricting an \texttt{AWS\_DEPLOY\_KEY} secret to
 specific repos) rather than template-filled restatements of the same request. This is a
@@ -478,8 +478,9 @@ replace a string parameter with an obvious placeholder) that we confirm still pa
 deterministic verifier structurally, then ask the same question of the corrupted version.
 
 \begin{center}
-\begin{tabular}{llll}
-\textbf{API} & \textbf{Valid judged plausible} & \textbf{Corruption still structurally valid} & \textbf{...caught by Haiku} \\
+\small
+\begin{tabular}{lccc}
+\textbf{API} & \textbf{Valid $\rightarrow$ plausible} & \textbf{Corrupted $\rightarrow$ still valid} & \textbf{...caught by Haiku} \\
 GitHub & 10/15 (66.7\%) & 15/15 (100\%) & 15/15 (100\%) \\
 Stripe & 15/15 (100\%) & 15/15 (100\%) & 15/15 (100\%) \\
 Slack & 13/15 (86.7\%) & 15/15 (100\%) & 15/15 (100\%) \\
@@ -520,8 +521,9 @@ never touched by any prior experiment or by the training data.
 Self-Instruct now is -- closing the RQ2 gap flagged in a repo audit).}
 
 \begin{center}
-\begin{tabular}{lll}
-\textbf{Model} & \textbf{Tool Selection Acc.} & \textbf{Param. Validity (of correct)} \\
+\small
+\begin{tabular}{lcc}
+\textbf{Model} & \textbf{Tool Selection Acc.} & \textbf{Param. Validity} \\
 Base (zero-shot, untuned) & 12.5\% (2/16) & 0.0\% \\
 + LoRA on Self-Instruct data & 25.0\% (4/16) & 50.0\% (2/4) \\
 + LoRA on EnterpriseSynth data & 87.5\% (14/16) & 57.1\% (8/14) \\
@@ -571,8 +573,9 @@ Right: training loss across the 3 fine-tuning epochs.}
 
 \subsection{What Comes After Experiments}
 Once Experiments 1--5 run, the remaining sections analyze the results. Results (below) covers
-quantitative findings across all five experiments; Ablation Study, Case Studies, Discussion, and
-Conclusion are not yet written, pending the full-scale run described at the end of Section~8.
+quantitative findings across all five experiments; the Ablation Study (Section~7) covers which
+components actually contribute. Case Studies, Discussion, and Conclusion are not yet written,
+pending the full-scale run described at the end of Section~7.
 
 \section{Results and Analysis}
 
@@ -660,6 +663,7 @@ verification exists to catch downstream.
 \subsection{Comparison With Existing Approaches}
 
 \begin{center}
+\small
 \begin{tabular}{lccccc}
 \textbf{Capability} & \textbf{ToolBench} & \textbf{API-Bank} & \textbf{AgentInstruct} & \textbf{Ours} \\
 Uses OpenAPI specs & Partial & No & No & Yes \\
@@ -740,7 +744,7 @@ Adding the endpoint's OpenAPI description to the Intent Agent's prompt (confirme
 every prior experiment) leaves Coverage and exact-string Diversity unchanged at 100\% for all
 three APIs -- a ceiling effect in these metrics, not evidence of no effect. Qualitative
 inspection shows a real, modest difference: for GitHub's
-\texttt{PUT /orgs/\{org\}/actions/secrets/\{secret\_name\}/repositories} (description:
+\texttt{PUT /orgs/\{org\}/\allowbreak actions/secrets/\allowbreak\{secret\_name\}/repositories} (description:
 \textit{"Replaces all repositories... requires \texttt{admin:org} scope"}), the description-aware
 intent more explicitly reflects the "replaces the full list" semantics and uses concrete numeric
 repo IDs rather than names alone. Inconclusive by the metrics used; a real qualitative signal
@@ -759,6 +763,7 @@ proxy metric is reported as invalid rather than kept as a false positive result.
 \subsection{Ablation Results Table}
 
 \begin{center}
+\small
 \begin{tabular}{llll}
 \textbf{Variant} & \textbf{Validity} & \textbf{Diversity} & \textbf{Verif. Pass} \\
 Full pipeline & 100\% & 100\% & 100\% \\

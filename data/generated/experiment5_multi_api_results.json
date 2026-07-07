@@ -1,0 +1,2015 @@
+{
+  "Zoom": {
+    "base": {
+      "n": 16,
+      "tool_selection_accuracy": 12.5,
+      "parameter_validity_among_correct": 0.0,
+      "results": [
+        {
+          "intent": "Reset the password for user 48213 to a temporary value since they got locked out after forgetting their login credentials",
+          "ground_truth": "PUT /users/{userId}/password",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/users/48213/password\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "PUT",
+            "selected_path": "/users/48213/password",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "As part of our quarterly security policy, update employee jsmith's account password to comply with the new complexity requirements",
+          "ground_truth": "PUT /users/{userId}/password",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/users/{userId}/password\", \"parameters\": {\"userId\": \"smith\"}}\n\nReasoning: The selected method is \"PUT\" as it allows updating an existing user's password. The selected path is \"/users/{userId}/password\" which corresponds to the userId parameter in the request. The parameters are provided as {userId: \"smith\"}, where \"smith\" should be replaced with the actual username or email address of the user whose password needs to be updated. This ensures that only the specified user's password is being modified according to the given requirement.",
+          "parsed": null,
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Update the name and description of the #project-atlas channel for my user account to reflect the new product launch phase",
+          "ground_truth": "PATCH /chat/users/{userId}/channels/{channelId}",
+          "raw_response": " {\"selected_method\": \"PATCH\", \"selected_path\": \"/chat/users/me/contacts\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "PATCH",
+            "selected_path": "/chat/users/me/contacts",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "As an admin, mute notification settings and rename the support-escalations channel under my profile to archive-support-escalations",
+          "ground_truth": "PATCH /chat/users/{userId}/channels/{channelId}",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/chat/users/me/contacts\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "PUT",
+            "selected_path": "/chat/users/me/contacts",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Our team lead Sarah is going on extended maternity leave starting next week, so please transfer ownership of account 88213 to her backup, mike.chen@acmecorp.com",
+          "ground_truth": "PUT /accounts/{accountId}/owner",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/accounts/{accountId}/owner\", \"parameters\": {\"userId\": \"88213\", \"backup\": \"mike.chen@acmecorp.com\"}}",
+          "parsed": {
+            "selected_method": "PUT",
+            "selected_path": "/accounts/{accountId}/owner",
+            "parameters": {
+              "userId": "88213",
+              "backup": "mike.chen@acmecorp.com"
+            }
+          },
+          "tool_correct": true,
+          "param_valid": false
+        },
+        {
+          "intent": "We're restructuring the west region sales division and need to reassign account 44210's owner to the new regional director, jennifer.oyelaran@company.com",
+          "ground_truth": "PUT /accounts/{accountId}/owner",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/accounts/44210/owner\", \"parameters\": {\"newOwner\": \"jennifer.oyelaran@company.com\"}}",
+          "parsed": {
+            "selected_method": "PUT",
+            "selected_path": "/accounts/44210/owner",
+            "parameters": {
+              "newOwner": "jennifer.oyelaran@company.com"
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Pull up the issue history for our 3rd floor Zoom Room from March 1st to March 15th so I can see what's been going wrong with the connection lately.",
+          "ground_truth": "GET /metrics/issues/zoomrooms/{zoomroomId}",
+          "raw_response": " {\"selected_method\": \"DELETE\", \"selected_path\": \"/rooms/locations/{locationId}/location\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "DELETE",
+            "selected_path": "/rooms/locations/{locationId}/location",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "I need a report on all reported problems for the executive boardroom Zoom Room between last Monday and today, can you fetch up to 50 records at a time?",
+          "ground_truth": "GET /metrics/issues/zoomrooms/{zoomroomId}",
+          "raw_response": " {\"selected_method\": \"DELETE\", \"selected_path\": \"/rooms/locations/{locationId}/location\", \"parameters\": {}}\n{\"selected_method\": \"GET\", \"selected_path\": \"/rooms/locations/{locationId}/location\", \"parameters\": {}}",
+          "parsed": null,
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "We accidentally recorded a confidential client negotiation on meeting 88213 \u2014 please permanently delete recording rec_4471 from it right away.",
+          "ground_truth": "DELETE /meetings/{meetingId}/recordings/{recordingId}",
+          "raw_response": " {\"selected_method\": \"DELETE\", \"selected_path\": \"/meetings/recording/delete\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "DELETE",
+            "selected_path": "/meetings/recording/delete",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Compliance flagged that the training session recording (ID rec_9032) under meeting 55210 contains PII that shouldn't be retained. Can you trash that recording instead of just archiving it?",
+          "ground_truth": "DELETE /meetings/{meetingId}/recordings/{recordingId}",
+          "raw_response": " {\"selected_method\": \"DELETE\", \"selected_path\": \"/meetings/{meetingId}/recordings/{recordingId}\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "DELETE",
+            "selected_path": "/meetings/{meetingId}/recordings/{recordingId}",
+            "parameters": {}
+          },
+          "tool_correct": true,
+          "param_valid": false
+        },
+        {
+          "intent": "We accidentally created a duplicate poll for tomorrow's all-hands meeting, can you remove poll ID 8842 from meeting 3391 so attendees aren't confused?",
+          "ground_truth": "DELETE /meetings/{meetingId}/polls/{pollId}",
+          "raw_response": " {\"selected_method\": \"DELETE\", \"selected_path\": \"/meetings/3391/polls/8842\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "DELETE",
+            "selected_path": "/meetings/3391/polls/8842",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "The product feedback poll we set up for the Q3 roadmap review is no longer needed since we're covering it live now, please delete poll 5567 from meeting 1204.",
+          "ground_truth": "DELETE /meetings/{meetingId}/polls/{pollId}",
+          "raw_response": " {\"selected_method\": \"DELETE\", \"selected_path\": \"/meetings/1204/polls/5567\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "DELETE",
+            "selected_path": "/meetings/1204/polls/5567",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "We just finished migrating everyone out of the 'Contractors-2019' access group into the new system, so go ahead and delete that old group now.",
+          "ground_truth": "DELETE /groups/{groupId}",
+          "raw_response": " {\"selected_method\": \"DELETE\", \"selected_path\": \"/groups/Contractors-2019\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "DELETE",
+            "selected_path": "/groups/Contractors-2019",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Can you remove the 'Marketing-Interns-Summer' group from our directory? The internship program ended and we don't need that group cluttering up the permissions list anymore.",
+          "ground_truth": "DELETE /groups/{groupId}",
+          "raw_response": " {\"selected_method\": \"DELETE\", \"selected_path\": \"/groups/Marketing-Interns-Summer\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "DELETE",
+            "selected_path": "/groups/Marketing-Interns-Summer",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Pull up the first page of my external contacts so I can see which vendor reps I've chatted with before scheduling the renewal call",
+          "ground_truth": "GET /chat/users/me/contacts",
+          "raw_response": " {\"selected_method\": \"POST\", \"selected_path\": \"/chat/users/me/contacts\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "POST",
+            "selected_path": "/chat/users/me/contacts",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "I need a list of all my internal coworker contacts in chat, limited to 50 per page, to cross-check who's already on our project channel",
+          "ground_truth": "GET /chat/users/me/contacts",
+          "raw_response": " {\"selected_method\": \"GET /chat/users/me/contacts\", \"selected_path\": \"/chat/users/me/contacts\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "GET /chat/users/me/contacts",
+            "selected_path": "/chat/users/me/contacts",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        }
+      ]
+    },
+    "self_instruct": {
+      "n": 16,
+      "tool_selection_accuracy": 25.0,
+      "parameter_validity_among_correct": 50.0,
+      "results": [
+        {
+          "intent": "Reset the password for user 48213 to a temporary value since they got locked out after forgetting their login credentials",
+          "ground_truth": "PUT /users/{userId}/password",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/users/{userId}/password\", \"parameters\": {\"userId\": \"48213\", \"new_password\": \"NewPassword123!\", \"force_rehash\": true}}",
+          "parsed": {
+            "selected_method": "PUT",
+            "selected_path": "/users/{userId}/password",
+            "parameters": {
+              "userId": "48213",
+              "new_password": "NewPassword123!",
+              "force_rehash": true
+            }
+          },
+          "tool_correct": true,
+          "param_valid": false
+        },
+        {
+          "intent": "As part of our quarterly security policy, update employee jsmith's account password to comply with the new complexity requirements",
+          "ground_truth": "PUT /users/{userId}/password",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/users/{userId}/password\", \"parameters\": {\"userId\": \"56789\", \"new_password\": \"ChangeMe123!\", \"confirm_new_password\": \"ChangeMe123!\"}}",
+          "parsed": {
+            "selected_method": "PUT",
+            "selected_path": "/users/{userId}/password",
+            "parameters": {
+              "userId": "56789",
+              "new_password": "ChangeMe123!",
+              "confirm_new_password": "ChangeMe123!"
+            }
+          },
+          "tool_correct": true,
+          "param_valid": false
+        },
+        {
+          "intent": "Update the name and description of the #project-atlas channel for my user account to reflect the new product launch phase",
+          "ground_truth": "PATCH /chat/users/{userId}/channels/{channelId}",
+          "raw_response": " {\"selected_method\": \"PATCH\", \"selected_path\": \"/chat/users/{userId}/channels/{channelId}\", \"parameters\": {\"userId\": \"acceded_user_account_id\", \"channelId\": \"project_atlas_channel_id\"}}",
+          "parsed": {
+            "selected_method": "PATCH",
+            "selected_path": "/chat/users/{userId}/channels/{channelId}",
+            "parameters": {
+              "userId": "acceded_user_account_id",
+              "channelId": "project_atlas_channel_id"
+            }
+          },
+          "tool_correct": true,
+          "param_valid": true
+        },
+        {
+          "intent": "As an admin, mute notification settings and rename the support-escalations channel under my profile to archive-support-escalations",
+          "ground_truth": "PATCH /chat/users/{userId}/channels/{channelId}",
+          "raw_response": " {\"selected_method\": \"PATCH\", \"selected_path\": \"/chat/users/{userId}/channels/{userId}\", \"parameters\": {\"userId\": \"me\", \"channelId\": \"archived-support-escalations\"}}",
+          "parsed": {
+            "selected_method": "PATCH",
+            "selected_path": "/chat/users/{userId}/channels/{userId}",
+            "parameters": {
+              "userId": "me",
+              "channelId": "archived-support-escalations"
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Our team lead Sarah is going on extended maternity leave starting next week, so please transfer ownership of account 88213 to her backup, mike.chen@acmecorp.com",
+          "ground_truth": "PUT /accounts/{accountId}/owner",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/accounts/{accountId}/owner\", \"parameters\": {\"accountId\": \"429560788\", \"email\": \"mike.chen@acmecorp.com\"}}",
+          "parsed": {
+            "selected_method": "PUT",
+            "selected_path": "/accounts/{accountId}/owner",
+            "parameters": {
+              "accountId": "429560788",
+              "email": "mike.chen@acmecorp.com"
+            }
+          },
+          "tool_correct": true,
+          "param_valid": true
+        },
+        {
+          "intent": "We're restructuring the west region sales division and need to reassign account 44210's owner to the new regional director, jennifer.oyelaran@company.com",
+          "ground_truth": "PUT /accounts/{accountId}/owner",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/users/{userId}/password\", \"parameters\": {\"userId\": \"56789\", \"new_password\": \"password123456\"}}",
+          "parsed": {
+            "selected_method": "PUT",
+            "selected_path": "/users/{userId}/password",
+            "parameters": {
+              "userId": "56789",
+              "new_password": "password123456"
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Pull up the issue history for our 3rd floor Zoom Room from March 1st to March 15th so I can see what's been going wrong with the connection lately.",
+          "ground_truth": "GET /metrics/issues/zoomrooms/{zoomroomId}",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/rooms/locations/{locationId}/location\", \"parameters\": {\"locationId\": \"1\", \"start_date\": \"2020-03-01\", \"end_date\": \"2020-03-15\"}}",
+          "parsed": {
+            "selected_method": "PUT",
+            "selected_path": "/rooms/locations/{locationId}/location",
+            "parameters": {
+              "locationId": "1",
+              "start_date": "2020-03-01",
+              "end_date": "2020-03-15"
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "I need a report on all reported problems for the executive boardroom Zoom Room between last Monday and today, can you fetch up to 50 records at a time?",
+          "ground_truth": "GET /metrics/issues/zoomrooms/{zoomroomId}",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/rooms/locations/{locationId}/location\", \"parameters\": {\"locationId\": \"12345\", \"reporting_frequency\": \"daily\", \"limit\": 50, \"exclude_archived\": false}}",
+          "parsed": {
+            "selected_method": "PUT",
+            "selected_path": "/rooms/locations/{locationId}/location",
+            "parameters": {
+              "locationId": "12345",
+              "reporting_frequency": "daily",
+              "limit": 50,
+              "exclude_archived": false
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "We accidentally recorded a confidential client negotiation on meeting 88213 \u2014 please permanently delete recording rec_4471 from it right away.",
+          "ground_truth": "DELETE /meetings/{meetingId}/recordings/{recordingId}",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/meetings/{meetingId}/recordings/status\", \"parameters\": {\"meetingId\": \"ac123456\", \"isPermanent\": true, \"reason\": \"confidential_client_negotiation\"}}",
+          "parsed": {
+            "selected_method": "PUT",
+            "selected_path": "/meetings/{meetingId}/recordings/status",
+            "parameters": {
+              "meetingId": "ac123456",
+              "isPermanent": true,
+              "reason": "confidential_client_negotiation"
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Compliance flagged that the training session recording (ID rec_9032) under meeting 55210 contains PII that shouldn't be retained. Can you trash that recording instead of just archiving it?",
+          "ground_truth": "DELETE /meetings/{meetingId}/recordings/{recordingId}",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/meetings/{meetingId}/recordings/status\", \"parameters\": {\"meetingId\": \"4d86c7b4-8e1f-4a1c-bb8c-824444444444\", \"isTrash\": true}}",
+          "parsed": {
+            "selected_method": "PUT",
+            "selected_path": "/meetings/{meetingId}/recordings/status",
+            "parameters": {
+              "meetingId": "4d86c7b4-8e1f-4a1c-bb8c-824444444444",
+              "isTrash": true
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "We accidentally created a duplicate poll for tomorrow's all-hands meeting, can you remove poll ID 8842 from meeting 3391 so attendees aren't confused?",
+          "ground_truth": "DELETE /meetings/{meetingId}/polls/{pollId}",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/meetings/3391/polls\", \"parameters\": {\"id\": 8842, \"is_private\": false, \"is_required\": true}}",
+          "parsed": {
+            "selected_method": "PUT",
+            "selected_path": "/meetings/3391/polls",
+            "parameters": {
+              "id": 8842,
+              "is_private": false,
+              "is_required": true
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "The product feedback poll we set up for the Q3 roadmap review is no longer needed since we're covering it live now, please delete poll 5567 from meeting 1204.",
+          "ground_truth": "DELETE /meetings/{meetingId}/polls/{pollId}",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/meetings/{meetingId}/polls/{pollId}\", \"parameters\": {\"meetingId\": \"9876543201\", \"pollId\": \"5567\"}}",
+          "parsed": {
+            "selected_method": "PUT",
+            "selected_path": "/meetings/{meetingId}/polls/{pollId}",
+            "parameters": {
+              "meetingId": "9876543201",
+              "pollId": "5567"
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "We just finished migrating everyone out of the 'Contractors-2019' access group into the new system, so go ahead and delete that old group now.",
+          "ground_truth": "DELETE /groups/{groupId}",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/groups/{groupId}\", \"parameters\": {\"groupId\": 45678}}",
+          "parsed": {
+            "selected_method": "PUT",
+            "selected_path": "/groups/{groupId}",
+            "parameters": {
+              "groupId": 45678
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Can you remove the 'Marketing-Interns-Summer' group from our directory? The internship program ended and we don't need that group cluttering up the permissions list anymore.",
+          "ground_truth": "DELETE /groups/{groupId}",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/groups/{groupId}\", \"parameters\": {\"groupId\": \"12345\"}}",
+          "parsed": {
+            "selected_method": "PUT",
+            "selected_path": "/groups/{groupId}",
+            "parameters": {
+              "groupId": "12345"
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Pull up the first page of my external contacts so I can see which vendor reps I've chatted with before scheduling the renewal call",
+          "ground_truth": "GET /chat/users/me/contacts",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/users/me/contacts\", \"parameters\": {\"limit\": 10, \"offset\": 0}}",
+          "parsed": {
+            "selected_method": "PUT",
+            "selected_path": "/users/me/contacts",
+            "parameters": {
+              "limit": 10,
+              "offset": 0
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "I need a list of all my internal coworker contacts in chat, limited to 50 per page, to cross-check who's already on our project channel",
+          "ground_truth": "GET /chat/users/me/contacts",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/chat/users/me/contacts\", \"parameters\": {\"limit\": 50, \"offset\": 0, \"sort_by\": \"created_at\", \"order\": \"desc\"}}",
+          "parsed": {
+            "selected_method": "PUT",
+            "selected_path": "/chat/users/me/contacts",
+            "parameters": {
+              "limit": 50,
+              "offset": 0,
+              "sort_by": "created_at",
+              "order": "desc"
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        }
+      ]
+    },
+    "enterprisesynth": {
+      "n": 16,
+      "tool_selection_accuracy": 75.0,
+      "parameter_validity_among_correct": 58.3,
+      "results": [
+        {
+          "intent": "Reset the password for user 48213 to a temporary value since they got locked out after forgetting their login credentials",
+          "ground_truth": "PUT /users/{userId}/password",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/users/{userId}/password\", \"parameters\": {\"userId\": \"48213\", \"new_password\": \"temporaryvalue\"}}",
+          "parsed": {
+            "selected_method": "PUT",
+            "selected_path": "/users/{userId}/password",
+            "parameters": {
+              "userId": "48213",
+              "new_password": "temporaryvalue"
+            }
+          },
+          "tool_correct": true,
+          "param_valid": false
+        },
+        {
+          "intent": "As part of our quarterly security policy, update employee jsmith's account password to comply with the new complexity requirements",
+          "ground_truth": "PUT /users/{userId}/password",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/users/{userId}/password\", \"parameters\": {\"userId\": 123456789, \"old_password\": \"old_password_123456\", \"new_password\": \"new_password_abc123\"}}",
+          "parsed": {
+            "selected_method": "PUT",
+            "selected_path": "/users/{userId}/password",
+            "parameters": {
+              "userId": 123456789,
+              "old_password": "old_password_123456",
+              "new_password": "new_password_abc123"
+            }
+          },
+          "tool_correct": true,
+          "param_valid": false
+        },
+        {
+          "intent": "Update the name and description of the #project-atlas channel for my user account to reflect the new product launch phase",
+          "ground_truth": "PATCH /chat/users/{userId}/channels/{channelId}",
+          "raw_response": " {\"selected_method\": \"PATCH\", \"selected_path\": \"/chat/users/{userId}/channels/{channelId}\", \"parameters\": {\"userId\": \"123456789\", \"channelId\": \"proj_atlas-launch\"}}",
+          "parsed": {
+            "selected_method": "PATCH",
+            "selected_path": "/chat/users/{userId}/channels/{channelId}",
+            "parameters": {
+              "userId": "123456789",
+              "channelId": "proj_atlas-launch"
+            }
+          },
+          "tool_correct": true,
+          "param_valid": true
+        },
+        {
+          "intent": "As an admin, mute notification settings and rename the support-escalations channel under my profile to archive-support-escalations",
+          "ground_truth": "PATCH /chat/users/{userId}/channels/{channelId}",
+          "raw_response": " {\"selected_method\": \"PATCH\", \"selected_path\": \"/chat/users/me/contacts\", \"parameters\": {\"token\": \"REDACTED_EXAMPLE_TOKEN\", \"user_id\": \"1234567890\"}}",
+          "parsed": {
+            "selected_method": "PATCH",
+            "selected_path": "/chat/users/me/contacts",
+            "parameters": {
+              "token": "REDACTED_EXAMPLE_TOKEN",
+              "user_id": "1234567890"
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Our team lead Sarah is going on extended maternity leave starting next week, so please transfer ownership of account 88213 to her backup, mike.chen@acmecorp.com",
+          "ground_truth": "PUT /accounts/{accountId}/owner",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/accounts/{accountId}/owner\", \"parameters\": {\"accountId\": \"88213\", \"user_name\": \"Sarah\"}}",
+          "parsed": {
+            "selected_method": "PUT",
+            "selected_path": "/accounts/{accountId}/owner",
+            "parameters": {
+              "accountId": "88213",
+              "user_name": "Sarah"
+            }
+          },
+          "tool_correct": true,
+          "param_valid": false
+        },
+        {
+          "intent": "We're restructuring the west region sales division and need to reassign account 44210's owner to the new regional director, jennifer.oyelaran@company.com",
+          "ground_truth": "PUT /accounts/{accountId}/owner",
+          "raw_response": " {\"selected_method\": \"PATCH\", \"selected_path\": \"/accounts/{accountId}/owner\", \"parameters\": {\"accountId\": \"44210\", \"new_owner\": \"jennifer.oyelaran@company.com\"}}",
+          "parsed": {
+            "selected_method": "PATCH",
+            "selected_path": "/accounts/{accountId}/owner",
+            "parameters": {
+              "accountId": "44210",
+              "new_owner": "jennifer.oyelaran@company.com"
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Pull up the issue history for our 3rd floor Zoom Room from March 1st to March 15th so I can see what's been going wrong with the connection lately.",
+          "ground_truth": "GET /metrics/issues/zoomrooms/{zoomroomId}",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/metrics/issues/zoomrooms/{zoomroomId}\", \"parameters\": {\"zoomroomId\": 301}}",
+          "parsed": {
+            "selected_method": "GET",
+            "selected_path": "/metrics/issues/zoomrooms/{zoomroomId}",
+            "parameters": {
+              "zoomroomId": 301
+            }
+          },
+          "tool_correct": true,
+          "param_valid": false
+        },
+        {
+          "intent": "I need a report on all reported problems for the executive boardroom Zoom Room between last Monday and today, can you fetch up to 50 records at a time?",
+          "ground_truth": "GET /metrics/issues/zoomrooms/{zoomroomId}",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/metrics/issues/zoomrooms/{zoomroomId}\", \"parameters\": {\"zoomroomId\": 123456789}}",
+          "parsed": {
+            "selected_method": "GET",
+            "selected_path": "/metrics/issues/zoomrooms/{zoomroomId}",
+            "parameters": {
+              "zoomroomId": 123456789
+            }
+          },
+          "tool_correct": true,
+          "param_valid": false
+        },
+        {
+          "intent": "We accidentally recorded a confidential client negotiation on meeting 88213 \u2014 please permanently delete recording rec_4471 from it right away.",
+          "ground_truth": "DELETE /meetings/{meetingId}/recordings/{recordingId}",
+          "raw_response": " {\"selected_method\": \"DELETE\", \"selected_path\": \"/meetings/{meetingId}/recordings/{recordingId}\", \"parameters\": {\"meetingId\": \"88213\", \"recordingId\": \"rec_4471\"}}",
+          "parsed": {
+            "selected_method": "DELETE",
+            "selected_path": "/meetings/{meetingId}/recordings/{recordingId}",
+            "parameters": {
+              "meetingId": "88213",
+              "recordingId": "rec_4471"
+            }
+          },
+          "tool_correct": true,
+          "param_valid": true
+        },
+        {
+          "intent": "Compliance flagged that the training session recording (ID rec_9032) under meeting 55210 contains PII that shouldn't be retained. Can you trash that recording instead of just archiving it?",
+          "ground_truth": "DELETE /meetings/{meetingId}/recordings/{recordingId}",
+          "raw_response": " {\"selected_method\": \"DELETE\", \"selected_path\": \"/meetings/{meetingId}/recordings/{recordingId}\", \"parameters\": {\"meetingId\": \"MID55210\", \"recordingId\": \"rec_9032\"}}",
+          "parsed": {
+            "selected_method": "DELETE",
+            "selected_path": "/meetings/{meetingId}/recordings/{recordingId}",
+            "parameters": {
+              "meetingId": "MID55210",
+              "recordingId": "rec_9032"
+            }
+          },
+          "tool_correct": true,
+          "param_valid": true
+        },
+        {
+          "intent": "We accidentally created a duplicate poll for tomorrow's all-hands meeting, can you remove poll ID 8842 from meeting 3391 so attendees aren't confused?",
+          "ground_truth": "DELETE /meetings/{meetingId}/polls/{pollId}",
+          "raw_response": " {\"selected_method\": \"DELETE\", \"selected_path\": \"/meetings/{meetingId}/polls/{pollId}\", \"parameters\": {\"meetingId\": \"3391\", \"pollId\": \"8842\"}}",
+          "parsed": {
+            "selected_method": "DELETE",
+            "selected_path": "/meetings/{meetingId}/polls/{pollId}",
+            "parameters": {
+              "meetingId": "3391",
+              "pollId": "8842"
+            }
+          },
+          "tool_correct": true,
+          "param_valid": true
+        },
+        {
+          "intent": "The product feedback poll we set up for the Q3 roadmap review is no longer needed since we're covering it live now, please delete poll 5567 from meeting 1204.",
+          "ground_truth": "DELETE /meetings/{meetingId}/polls/{pollId}",
+          "raw_response": " {\"selected_method\": \"DELETE\", \"selected_path\": \"/meetings/{meetingId}/polls/{pollId}\", \"parameters\": {\"meetingId\": 1204, \"pollId\": 5567}}}",
+          "parsed": null,
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "We just finished migrating everyone out of the 'Contractors-2019' access group into the new system, so go ahead and delete that old group now.",
+          "ground_truth": "DELETE /groups/{groupId}",
+          "raw_response": " {\"selected_method\": \"DELETE\", \"selected_path\": \"/groups/{groupId}\", \"parameters\": {\"groupId\": 123456}}}",
+          "parsed": null,
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Can you remove the 'Marketing-Interns-Summer' group from our directory? The internship program ended and we don't need that group cluttering up the permissions list anymore.",
+          "ground_truth": "DELETE /groups/{groupId}",
+          "raw_response": " {\"selected_method\": \"DELETE\", \"selected_path\": \"/groups/{groupId}\", \"parameters\": {\"groupId\": \"Marketing-Interns-Summer\"}}",
+          "parsed": {
+            "selected_method": "DELETE",
+            "selected_path": "/groups/{groupId}",
+            "parameters": {
+              "groupId": "Marketing-Interns-Summer"
+            }
+          },
+          "tool_correct": true,
+          "param_valid": true
+        },
+        {
+          "intent": "Pull up the first page of my external contacts so I can see which vendor reps I've chatted with before scheduling the renewal call",
+          "ground_truth": "GET /chat/users/me/contacts",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/chat/users/me/contacts\", \"parameters\": {\"token\": \"REDACTED_EXAMPLE_TOKEN\"}}",
+          "parsed": {
+            "selected_method": "GET",
+            "selected_path": "/chat/users/me/contacts",
+            "parameters": {
+              "token": "REDACTED_EXAMPLE_TOKEN"
+            }
+          },
+          "tool_correct": true,
+          "param_valid": true
+        },
+        {
+          "intent": "I need a list of all my internal coworker contacts in chat, limited to 50 per page, to cross-check who's already on our project channel",
+          "ground_truth": "GET /chat/users/me/contacts",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/chat/users/me/contacts\", \"parameters\": {\"token\": \"REDACTED_EXAMPLE_TOKEN\", \"limit\": 50}}",
+          "parsed": {
+            "selected_method": "GET",
+            "selected_path": "/chat/users/me/contacts",
+            "parameters": {
+              "token": "REDACTED_EXAMPLE_TOKEN",
+              "limit": 50
+            }
+          },
+          "tool_correct": true,
+          "param_valid": true
+        }
+      ]
+    }
+  },
+  "DigitalOcean": {
+    "base": {
+      "n": 16,
+      "tool_selection_accuracy": 31.2,
+      "parameter_validity_among_correct": 40.0,
+      "results": [
+        {
+          "intent": "Can you pull up the connection details and current status for our production Postgres cluster with ID a1b2c3d4-e5f6-7890-abcd-ef1234567890? I need to check its configuration before we onboard a new microservice.",
+          "ground_truth": "GET /v2/databases/{database_cluster_uuid}",
+          "raw_response": " {\"selected_method\": \"GET /v2/databases/{database_cluster_uuid}\", \"selected_path\": \"/v2/databases/a1b2c3d4-e5f6-7890-abcd-ef1234567890\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "GET /v2/databases/{database_cluster_uuid}",
+            "selected_path": "/v2/databases/a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Our on-call engineer flagged a potential issue with database cluster 98765432-10ab-cdef-1234-567890abcdef\u2014can you fetch its current status and specs so we can confirm whether it's actually running low on resources?",
+          "ground_truth": "GET /v2/databases/{database_cluster_uuid}",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/v2/databases/{database_cluster_uuid}\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "GET",
+            "selected_path": "/v2/databases/{database_cluster_uuid}",
+            "parameters": {}
+          },
+          "tool_correct": true,
+          "param_valid": false
+        },
+        {
+          "intent": "Can you pull the daily bandwidth usage for our three production apps\u2014checkout, inventory, and customer-portal\u2014so I can check if we're approaching our CDN plan's threshold this month?",
+          "ground_truth": "POST /v2/apps/metrics/bandwidth_daily",
+          "raw_response": " {\"selected_method\": \"POST\", \"selected_path\": \"/v2/apps/metrics/bandwidth_daily\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "POST",
+            "selected_path": "/v2/apps/metrics/bandwidth_daily",
+            "parameters": {}
+          },
+          "tool_correct": true,
+          "param_valid": false
+        },
+        {
+          "intent": "I need to compare bandwidth consumption across all our regional apps for March 15th to figure out which one caused the spike in our hosting bill.",
+          "ground_truth": "POST /v2/apps/metrics/bandwidth_daily",
+          "raw_response": " {\"selected_method\": \"POST\", \"selected_path\": \"/v2/apps/metrics/bandwidth_daily\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "POST",
+            "selected_path": "/v2/apps/metrics/bandwidth_daily",
+            "parameters": {}
+          },
+          "tool_correct": true,
+          "param_valid": false
+        },
+        {
+          "intent": "We had a database failover in our production cluster\u2014please reassign floating IP 203.0.113.42 to the standby droplet so traffic reroutes without changing DNS records.",
+          "ground_truth": "POST /v2/floating_ips/{floating_ip}/actions",
+          "raw_response": " {\"selected_method\": \"POST\", \"selected_path\": \"/v2/databases/{database_cluster_uuid}/maintenance\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "POST",
+            "selected_path": "/v2/databases/{database_cluster_uuid}/maintenance",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Our droplet tied to floating IP 198.51.100.7 is being decommissioned tonight; unassign the IP from it first so we can attach it to the replacement server tomorrow.",
+          "ground_truth": "POST /v2/floating_ips/{floating_ip}/actions",
+          "raw_response": " {\"selected_method\": \"POST\", \"selected_path\": \"/v2/droplets/{droplet_id}/destroy_with_associated_resources/retry\", \"parameters\": {\"droplet_id\": \"198.51.100.7\"}}",
+          "parsed": {
+            "selected_method": "POST",
+            "selected_path": "/v2/droplets/{droplet_id}/destroy_with_associated_resources/retry",
+            "parameters": {
+              "droplet_id": "198.51.100.7"
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Set up a new firewall for our production Kubernetes cluster that only allows inbound traffic on ports 80 and 443 from the load balancer subnet.",
+          "ground_truth": "POST /v2/firewalls",
+          "raw_response": " {\"selected_method\": \"POST\", \"selected_path\": \"/v2/firewalls\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "POST",
+            "selected_path": "/v2/firewalls",
+            "parameters": {}
+          },
+          "tool_correct": true,
+          "param_valid": true
+        },
+        {
+          "intent": "We're onboarding a new client environment and need a firewall created that restricts SSH access to just our office IP range and opens port 5432 for the database team's VPN.",
+          "ground_truth": "POST /v2/firewalls",
+          "raw_response": " {\"selected_method\": \"POST\", \"selected_path\": \"/v2/firewalls\", \"parameters\": {\"ip_ranges\": [\"192.168.0.0/24\"], \"port\": 5432, \"description\": \"Restricts SSH access to our office IP range and opens port 5432 for the database team's VPN.\"}}",
+          "parsed": {
+            "selected_method": "POST",
+            "selected_path": "/v2/firewalls",
+            "parameters": {
+              "ip_ranges": [
+                "192.168.0.0/24"
+              ],
+              "port": 5432,
+              "description": "Restricts SSH access to our office IP range and opens port 5432 for the database team's VPN."
+            }
+          },
+          "tool_correct": true,
+          "param_valid": true
+        },
+        {
+          "intent": "Can you pull up the list of all backups we have stored for our production database droplet with ID 78912345? I need to verify our disaster recovery coverage before the audit next week.",
+          "ground_truth": "GET /v2/droplets/{droplet_id}/backups",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/v2/databases/{database_cluster_uuid}/backups\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "GET",
+            "selected_path": "/v2/databases/{database_cluster_uuid}/backups",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Before we decommission the old staging server (droplet ID 55231087), check what backups currently exist for it so we know if we need to manually snapshot anything first.",
+          "ground_truth": "GET /v2/droplets/{droplet_id}/backups",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/v2/databases/{database_cluster_uuid}/backups\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "GET",
+            "selected_path": "/v2/databases/{database_cluster_uuid}/backups",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Our database cluster's maintenance window is currently set during business hours and it's causing disruptions to our production traffic\u2014can you move it to Saturdays at 2am instead?",
+          "ground_truth": "PUT /v2/databases/{database_cluster_uuid}/maintenance",
+          "raw_response": " {\"selected_method\": \"POST\", \"selected_path\": \"/v2/databases/{database_cluster_uuid}/maintenance\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "POST",
+            "selected_path": "/v2/databases/{database_cluster_uuid}/maintenance",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "We just finished migrating our EU customer base to a new region, so please update the maintenance schedule for cluster db-prod-eu-01 to run early Sunday mornings UTC instead of the current weekday slot.",
+          "ground_truth": "PUT /v2/databases/{database_cluster_uuid}/maintenance",
+          "raw_response": " {\"selected_method\": \"POST\", \"selected_path\": \"/v2/databases/{database_cluster_uuid}/maintenance\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "POST",
+            "selected_path": "/v2/databases/{database_cluster_uuid}/maintenance",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Our finance team needs the PDF copy of invoice ID a3f9c2e1-7b44-4d6a-9f21-8e6b1c0d5a77 for this month's expense reconciliation\u2014can you pull that down?",
+          "ground_truth": "GET /v2/customers/my/invoices/{invoice_uuid}/pdf",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/v2/databases/{database_cluster_uuid}/invoices/{invoice_uuid}/pdf\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "GET",
+            "selected_path": "/v2/databases/{database_cluster_uuid}/invoices/{invoice_uuid}/pdf",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "I need to forward last quarter's invoice to our vendor management system as a PDF attachment; can you grab the document for invoice a12b3c4d-5e6f-7890-abcd-ef1234567890?",
+          "ground_truth": "GET /v2/customers/my/invoices/{invoice_uuid}/pdf",
+          "raw_response": " {\"selected_method\": \"POST\", \"selected_path\": \"/v2/databases/{database_cluster_uuid}/maintenance\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "POST",
+            "selected_path": "/v2/databases/{database_cluster_uuid}/maintenance",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Can you attach the volume vol-8837 to our new database server droplet before end of day so the migration team can start restoring the backup?",
+          "ground_truth": "POST /v2/volumes/{volume_id}/actions",
+          "raw_response": " {\"selected_method\": \"POST\", \"selected_path\": \"/v2/databases/{database_cluster_uuid}/maintenance\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "POST",
+            "selected_path": "/v2/databases/{database_cluster_uuid}/maintenance",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "We need to resize the storage volume backing our staging environment from 100GB to 250GB without losing any data\u2014can you kick that off now?",
+          "ground_truth": "POST /v2/volumes/{volume_id}/actions",
+          "raw_response": " {\"selected_method\": \"POST\", \"selected_path\": \"/v2/databases/{database_cluster_uuid}/maintenance\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "POST",
+            "selected_path": "/v2/databases/{database_cluster_uuid}/maintenance",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        }
+      ]
+    },
+    "self_instruct": {
+      "n": 16,
+      "tool_selection_accuracy": 50.0,
+      "parameter_validity_among_correct": 100.0,
+      "results": [
+        {
+          "intent": "Can you pull up the connection details and current status for our production Postgres cluster with ID a1b2c3d4-e5f6-7890-abcd-ef1234567890? I need to check its configuration before we onboard a new microservice.",
+          "ground_truth": "GET /v2/databases/{database_cluster_uuid}",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/v2/databases/{database_cluster_uuid}\", \"parameters\": {\"database_cluster_uuid\": \"a1b2c3d4-e5f6-7890-abcd-ef1234567890\"}}",
+          "parsed": {
+            "selected_method": "GET",
+            "selected_path": "/v2/databases/{database_cluster_uuid}",
+            "parameters": {
+              "database_cluster_uuid": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+            }
+          },
+          "tool_correct": true,
+          "param_valid": true
+        },
+        {
+          "intent": "Our on-call engineer flagged a potential issue with database cluster 98765432-10ab-cdef-1234-567890abcdef\u2014can you fetch its current status and specs so we can confirm whether it's actually running low on resources?",
+          "ground_truth": "GET /v2/databases/{database_cluster_uuid}",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/v2/databases/{database_cluster_uuid}\", \"parameters\": {\"database_cluster_uuid\": \"98765432-10ab-cdef-1234-567890abcdef\"}}",
+          "parsed": {
+            "selected_method": "GET",
+            "selected_path": "/v2/databases/{database_cluster_uuid}",
+            "parameters": {
+              "database_cluster_uuid": "98765432-10ab-cdef-1234-567890abcdef"
+            }
+          },
+          "tool_correct": true,
+          "param_valid": true
+        },
+        {
+          "intent": "Can you pull the daily bandwidth usage for our three production apps\u2014checkout, inventory, and customer-portal\u2014so I can check if we're approaching our CDN plan's threshold this month?",
+          "ground_truth": "POST /v2/apps/metrics/bandwidth_daily",
+          "raw_response": " {\"selected_method\": \"POST\", \"selected_path\": \"/v2/apps/metrics/bandwidth_daily\", \"parameters\": {\"cluster_uuid\": \"ac74b986-15c0-4a3f-bd9e-444444444444\", \"start_date\": \"2022-04-01\", \"end_date\": \"2022-04-30\", \"app_ids\": [\"checkout\", \"inventory\", \"customer-portal\"]}}",
+          "parsed": {
+            "selected_method": "POST",
+            "selected_path": "/v2/apps/metrics/bandwidth_daily",
+            "parameters": {
+              "cluster_uuid": "ac74b986-15c0-4a3f-bd9e-444444444444",
+              "start_date": "2022-04-01",
+              "end_date": "2022-04-30",
+              "app_ids": [
+                "checkout",
+                "inventory",
+                "customer-portal"
+              ]
+            }
+          },
+          "tool_correct": true,
+          "param_valid": true
+        },
+        {
+          "intent": "I need to compare bandwidth consumption across all our regional apps for March 15th to figure out which one caused the spike in our hosting bill.",
+          "ground_truth": "POST /v2/apps/metrics/bandwidth_daily",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/v2/databases/{database_cluster_uuid}\", \"parameters\": {\"database_cluster_uuid\": \"ac74b9d8-306c-4a1f-b0e9-444444444444\"}}",
+          "parsed": {
+            "selected_method": "GET",
+            "selected_path": "/v2/databases/{database_cluster_uuid}",
+            "parameters": {
+              "database_cluster_uuid": "ac74b9d8-306c-4a1f-b0e9-444444444444"
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "We had a database failover in our production cluster\u2014please reassign floating IP 203.0.113.42 to the standby droplet so traffic reroutes without changing DNS records.",
+          "ground_truth": "POST /v2/floating_ips/{floating_ip}/actions",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/v2/droplets/{droplet_id}/destroy_with_associated_resources/retry\", \"parameters\": {\"droplet_id\": \"ac9b586c-ba7f-4d9e-a14c-444444444444\", \"retries\": 3, \"wait_timeout\": 60}}}",
+          "parsed": null,
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Our droplet tied to floating IP 198.51.100.7 is being decommissioned tonight; unassign the IP from it first so we can attach it to the replacement server tomorrow.",
+          "ground_truth": "POST /v2/floating_ips/{floating_ip}/actions",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/v2/functions/namespaces/{namespace_id}/triggers/{trigger_name}\", \"parameters\": {\"namespace_id\": \"default\", \"trigger_name\": \"droplets_destroy_retryWithAssociatedResources\"}}",
+          "parsed": {
+            "selected_method": "PUT",
+            "selected_path": "/v2/functions/namespaces/{namespace_id}/triggers/{trigger_name}",
+            "parameters": {
+              "namespace_id": "default",
+              "trigger_name": "droplets_destroy_retryWithAssociatedResources"
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Set up a new firewall for our production Kubernetes cluster that only allows inbound traffic on ports 80 and 443 from the load balancer subnet.",
+          "ground_truth": "POST /v2/firewalls",
+          "raw_response": " {\"selected_method\": \"POST\", \"selected_path\": \"/v2/firewalls\", \"parameters\": {\"cluster_name\": \"my-cluster\", \"network_mode\": \"public\", \"allow_inbound_traffic\": true, \"allow_outbound_traffic\": false, \"allow_ports\": [\"80\", \"443\"], \"require_persistent_firewall_policy\": true, \"firewall_policy_name\": \"my-firewall-policy\", \"admin_user\": \"my-admin-user\", \"admin_password\": \"my-admin-password\"}}",
+          "parsed": {
+            "selected_method": "POST",
+            "selected_path": "/v2/firewalls",
+            "parameters": {
+              "cluster_name": "my-cluster",
+              "network_mode": "public",
+              "allow_inbound_traffic": true,
+              "allow_outbound_traffic": false,
+              "allow_ports": [
+                "80",
+                "443"
+              ],
+              "require_persistent_firewall_policy": true,
+              "firewall_policy_name": "my-firewall-policy",
+              "admin_user": "my-admin-user",
+              "admin_password": "my-admin-password"
+            }
+          },
+          "tool_correct": true,
+          "param_valid": true
+        },
+        {
+          "intent": "We're onboarding a new client environment and need a firewall created that restricts SSH access to just our office IP range and opens port 5432 for the database team's VPN.",
+          "ground_truth": "POST /v2/firewalls",
+          "raw_response": " {\"selected_method\": \"POST\", \"selected_path\": \"/v2/firewalls\", \"parameters\": {\"cluster_name\": \"my-cluster\", \"ip_ranges\": [\"192.168.56.0/24\"], \"allow_ssh\": true, \"open_port_5432\": true, \"deny_other_networks\": false}}",
+          "parsed": {
+            "selected_method": "POST",
+            "selected_path": "/v2/firewalls",
+            "parameters": {
+              "cluster_name": "my-cluster",
+              "ip_ranges": [
+                "192.168.56.0/24"
+              ],
+              "allow_ssh": true,
+              "open_port_5432": true,
+              "deny_other_networks": false
+            }
+          },
+          "tool_correct": true,
+          "param_valid": true
+        },
+        {
+          "intent": "Can you pull up the list of all backups we have stored for our production database droplet with ID 78912345? I need to verify our disaster recovery coverage before the audit next week.",
+          "ground_truth": "GET /v2/droplets/{droplet_id}/backups",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/v2/droplets/{droplet_id}/backups\", \"parameters\": {\"droplet_id\": \"ac06b2d9-4c2f-4a1e-b04c-944444444444\", \"limit\": 10, \"offset\": 0}}",
+          "parsed": {
+            "selected_method": "GET",
+            "selected_path": "/v2/droplets/{droplet_id}/backups",
+            "parameters": {
+              "droplet_id": "ac06b2d9-4c2f-4a1e-b04c-944444444444",
+              "limit": 10,
+              "offset": 0
+            }
+          },
+          "tool_correct": true,
+          "param_valid": true
+        },
+        {
+          "intent": "Before we decommission the old staging server (droplet ID 55231087), check what backups currently exist for it so we know if we need to manually snapshot anything first.",
+          "ground_truth": "GET /v2/droplets/{droplet_id}/backups",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/v2/functions/namespaces/{namespace_id}/triggers/{trigger_name}\", \"parameters\": {\"namespace_id\": \"default\", \"trigger_name\": \"decommission_staging_server\"}}",
+          "parsed": {
+            "selected_method": "PUT",
+            "selected_path": "/v2/functions/namespaces/{namespace_id}/triggers/{trigger_name}",
+            "parameters": {
+              "namespace_id": "default",
+              "trigger_name": "decommission_staging_server"
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Our database cluster's maintenance window is currently set during business hours and it's causing disruptions to our production traffic\u2014can you move it to Saturdays at 2am instead?",
+          "ground_truth": "PUT /v2/databases/{database_cluster_uuid}/maintenance",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/v2/databases/{database_cluster_uuid}/maintenance\", \"parameters\": {\"database_cluster_uuid\": \"ac123456-b789-1234-abcde-567890abcdef0\"}, \"description\": \"Move the database cluster's maintenance window from current business hours to Saturdays at 2am.\"}",
+          "parsed": {
+            "selected_method": "PUT",
+            "selected_path": "/v2/databases/{database_cluster_uuid}/maintenance",
+            "parameters": {
+              "database_cluster_uuid": "ac123456-b789-1234-abcde-567890abcdef0"
+            },
+            "description": "Move the database cluster's maintenance window from current business hours to Saturdays at 2am."
+          },
+          "tool_correct": true,
+          "param_valid": true
+        },
+        {
+          "intent": "We just finished migrating our EU customer base to a new region, so please update the maintenance schedule for cluster db-prod-eu-01 to run early Sunday mornings UTC instead of the current weekday slot.",
+          "ground_truth": "PUT /v2/databases/{database_cluster_uuid}/maintenance",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/v2/databases/{database_cluster_uuid}/maintenance\", \"parameters\": {\"database_cluster_uuid\": \"ac9b485c-367a-4e9f-bc9c-844444444444\", \"start_time\": \"2023-10-05T06:00:00Z\", \"end_time\": \"2023-10-05T07:00:00Z\", \"frequency\": 1}}",
+          "parsed": {
+            "selected_method": "PUT",
+            "selected_path": "/v2/databases/{database_cluster_uuid}/maintenance",
+            "parameters": {
+              "database_cluster_uuid": "ac9b485c-367a-4e9f-bc9c-844444444444",
+              "start_time": "2023-10-05T06:00:00Z",
+              "end_time": "2023-10-05T07:00:00Z",
+              "frequency": 1
+            }
+          },
+          "tool_correct": true,
+          "param_valid": true
+        },
+        {
+          "intent": "Our finance team needs the PDF copy of invoice ID a3f9c2e1-7b44-4d6a-9f21-8e6b1c0d5a77 for this month's expense reconciliation\u2014can you pull that down?",
+          "ground_truth": "GET /v2/customers/my/invoices/{invoice_uuid}/pdf",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/v2/functions/namespaces/{namespace_id}/triggers/{trigger_name}\", \"parameters\": {\"namespace_id\": \"default\", \"trigger_name\": \"invoice_reconciliation_pdf_downstream\"}}",
+          "parsed": {
+            "selected_method": "PUT",
+            "selected_path": "/v2/functions/namespaces/{namespace_id}/triggers/{trigger_name}",
+            "parameters": {
+              "namespace_id": "default",
+              "trigger_name": "invoice_reconciliation_pdf_downstream"
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "I need to forward last quarter's invoice to our vendor management system as a PDF attachment; can you grab the document for invoice a12b3c4d-5e6f-7890-abcd-ef1234567890?",
+          "ground_truth": "GET /v2/customers/my/invoices/{invoice_uuid}/pdf",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/v2/functions/namespaces/{namespace_id}/triggers/{trigger_name}\", \"parameters\": {\"namespace_id\": \"default\", \"trigger_name\": \"invoice_status_changed\", \"handler\": \"on_invoice_status_change\", \"priority\": 5, \"auto_delete\": false}}",
+          "parsed": {
+            "selected_method": "PUT",
+            "selected_path": "/v2/functions/namespaces/{namespace_id}/triggers/{trigger_name}",
+            "parameters": {
+              "namespace_id": "default",
+              "trigger_name": "invoice_status_changed",
+              "handler": "on_invoice_status_change",
+              "priority": 5,
+              "auto_delete": false
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Can you attach the volume vol-8837 to our new database server droplet before end of day so the migration team can start restoring the backup?",
+          "ground_truth": "POST /v2/volumes/{volume_id}/actions",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/v2/databases/{database_cluster_uuid}/maintenance\", \"parameters\": {\"database_cluster_uuid\": \"ac1c4b96-b0e5-4a1f-a1d9-944444244444\", \"start_time\": \"2023-09-15T12:00:00Z\", \"end_time\": \"2023-09-15T13:00:00Z\"}}",
+          "parsed": {
+            "selected_method": "PUT",
+            "selected_path": "/v2/databases/{database_cluster_uuid}/maintenance",
+            "parameters": {
+              "database_cluster_uuid": "ac1c4b96-b0e5-4a1f-a1d9-944444244444",
+              "start_time": "2023-09-15T12:00:00Z",
+              "end_time": "2023-09-15T13:00:00Z"
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "We need to resize the storage volume backing our staging environment from 100GB to 250GB without losing any data\u2014can you kick that off now?",
+          "ground_truth": "POST /v2/volumes/{volume_id}/actions",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/v2/functions/namespaces/{namespace_id}/triggers/{trigger_name}\", \"parameters\": {\"namespace_id\": \"default\", \"trigger_name\": \"resize_storage_volume\", \"action_type\": \"resize\", \"target_size\": 250, \"cooldown_time_seconds\": 3600}}",
+          "parsed": {
+            "selected_method": "PUT",
+            "selected_path": "/v2/functions/namespaces/{namespace_id}/triggers/{trigger_name}",
+            "parameters": {
+              "namespace_id": "default",
+              "trigger_name": "resize_storage_volume",
+              "action_type": "resize",
+              "target_size": 250,
+              "cooldown_time_seconds": 3600
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        }
+      ]
+    },
+    "enterprisesynth": {
+      "n": 16,
+      "tool_selection_accuracy": 43.8,
+      "parameter_validity_among_correct": 100.0,
+      "results": [
+        {
+          "intent": "Can you pull up the connection details and current status for our production Postgres cluster with ID a1b2c3d4-e5f6-7890-abcd-ef1234567890? I need to check its configuration before we onboard a new microservice.",
+          "ground_truth": "GET /v2/databases/{database_cluster_uuid}",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/v2/databases/{database_cluster_uuid}\", \"parameters\": {\"database_cluster_uuid\": \"a1b2c3d4-e5f6-7890-abcd-ef1234567890\"}}",
+          "parsed": {
+            "selected_method": "GET",
+            "selected_path": "/v2/databases/{database_cluster_uuid}",
+            "parameters": {
+              "database_cluster_uuid": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+            }
+          },
+          "tool_correct": true,
+          "param_valid": true
+        },
+        {
+          "intent": "Our on-call engineer flagged a potential issue with database cluster 98765432-10ab-cdef-1234-567890abcdef\u2014can you fetch its current status and specs so we can confirm whether it's actually running low on resources?",
+          "ground_truth": "GET /v2/databases/{database_cluster_uuid}",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/v2/databases/{database_cluster_uuid}\", \"parameters\": {\"database_cluster_uuid\": \"98765432-10ab-cdef-1234-567890abcdef\"}}",
+          "parsed": {
+            "selected_method": "GET",
+            "selected_path": "/v2/databases/{database_cluster_uuid}",
+            "parameters": {
+              "database_cluster_uuid": "98765432-10ab-cdef-1234-567890abcdef"
+            }
+          },
+          "tool_correct": true,
+          "param_valid": true
+        },
+        {
+          "intent": "Can you pull the daily bandwidth usage for our three production apps\u2014checkout, inventory, and customer-portal\u2014so I can check if we're approaching our CDN plan's threshold this month?",
+          "ground_truth": "POST /v2/apps/metrics/bandwidth_daily",
+          "raw_response": " {\"selected_method\": \"POST\", \"selected_path\": \"/v2/apps/metrics/bandwidth_daily\", \"parameters\": {\"project_id\": 123456789, \"databases\": [\"checkout\", \"inventory\", \"customer-portal\"]}}}",
+          "parsed": null,
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "I need to compare bandwidth consumption across all our regional apps for March 15th to figure out which one caused the spike in our hosting bill.",
+          "ground_truth": "POST /v2/apps/metrics/bandwidth_daily",
+          "raw_response": " {\"selected_method\": \"POST\", \"selected_path\": \"/v2/databases/{database_cluster_uuid}/metrics/bandwidth_daily\", \"parameters\": {\"database_cluster_uuid\": \"my-database-cluster-uuid\"}}",
+          "parsed": {
+            "selected_method": "POST",
+            "selected_path": "/v2/databases/{database_cluster_uuid}/metrics/bandwidth_daily",
+            "parameters": {
+              "database_cluster_uuid": "my-database-cluster-uuid"
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "We had a database failover in our production cluster\u2014please reassign floating IP 203.0.113.42 to the standby droplet so traffic reroutes without changing DNS records.",
+          "ground_truth": "POST /v2/floating_ips/{floating_ip}/actions",
+          "raw_response": " {\"selected_method\": \"POST\", \"selected_path\": \"/v2/floating_ips/{floating_ip}/actions\", \"parameters\": {\"fip_id\": \"203.0.113.42\"}}",
+          "parsed": {
+            "selected_method": "POST",
+            "selected_path": "/v2/floating_ips/{floating_ip}/actions",
+            "parameters": {
+              "fip_id": "203.0.113.42"
+            }
+          },
+          "tool_correct": true,
+          "param_valid": true
+        },
+        {
+          "intent": "Our droplet tied to floating IP 198.51.100.7 is being decommissioned tonight; unassign the IP from it first so we can attach it to the replacement server tomorrow.",
+          "ground_truth": "POST /v2/floating_ips/{floating_ip}/actions",
+          "raw_response": " {\"selected_method\": \"POST\", \"selected_path\": \"/v2/floating_ips/{floating_ip}/actions\", \"parameters\": {\"fip_id\": \"198.51.100.7\", \"action\": \"unassign\"}}",
+          "parsed": {
+            "selected_method": "POST",
+            "selected_path": "/v2/floating_ips/{floating_ip}/actions",
+            "parameters": {
+              "fip_id": "198.51.100.7",
+              "action": "unassign"
+            }
+          },
+          "tool_correct": true,
+          "param_valid": true
+        },
+        {
+          "intent": "Set up a new firewall for our production Kubernetes cluster that only allows inbound traffic on ports 80 and 443 from the load balancer subnet.",
+          "ground_truth": "POST /v2/firewalls",
+          "raw_response": " {\"selected_method\": \"POST\", \"selected_path\": \"/v2/firewalls\", \"parameters\": {\"name\": \"prod-firewall\", \"rules\": [{\"id\": 1, \"action\": \"allow\", \"ports\": [80, 443], \"subnet\": \"9a1b2c3d-eefg-hijklm-nopr-pqr\", \"source_ranges\": [\"9a1b2c3d-eefg-hijklm-nopr-pqr\"]}, {\"id\": 2, \"action\": \"deny\", \"ports\": [80, 443], \"subnet\": \"9a1b2c3d-eefg-hijklm-nopr-pqr\",",
+          "parsed": null,
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "We're onboarding a new client environment and need a firewall created that restricts SSH access to just our office IP range and opens port 5432 for the database team's VPN.",
+          "ground_truth": "POST /v2/firewalls",
+          "raw_response": " {\"selected_method\": \"POST\", \"selected_path\": \"/v2/firewalls\", \"parameters\": {\"name\": \"OfficeSSHFirewall\", \"rules\": [{\"rule_name\": \"office-ip-range\", \"ip_ranges\": [\"192.168.0.1\", \"192.168.0.254\"]}, {\"rule_name\": \"allow-vpn\", \"protocol\": \"tcp\", \"port_range_min\": 5432, \"port_range_max\": 5432, \"source_ip_ranges\": [\"172.16.1.1\", \"172.16.1.254\"]}]}}",
+          "parsed": {
+            "selected_method": "POST",
+            "selected_path": "/v2/firewalls",
+            "parameters": {
+              "name": "OfficeSSHFirewall",
+              "rules": [
+                {
+                  "rule_name": "office-ip-range",
+                  "ip_ranges": [
+                    "192.168.0.1",
+                    "192.168.0.254"
+                  ]
+                },
+                {
+                  "rule_name": "allow-vpn",
+                  "protocol": "tcp",
+                  "port_range_min": 5432,
+                  "port_range_max": 5432,
+                  "source_ip_ranges": [
+                    "172.16.1.1",
+                    "172.16.1.254"
+                  ]
+                }
+              ]
+            }
+          },
+          "tool_correct": true,
+          "param_valid": true
+        },
+        {
+          "intent": "Can you pull up the list of all backups we have stored for our production database droplet with ID 78912345? I need to verify our disaster recovery coverage before the audit next week.",
+          "ground_truth": "GET /v2/droplets/{droplet_id}/backups",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/v2/droplets/{droplet_id}/backups\", \"parameters\": {\"droplet_id\": 78912345}}}",
+          "parsed": null,
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Before we decommission the old staging server (droplet ID 55231087), check what backups currently exist for it so we know if we need to manually snapshot anything first.",
+          "ground_truth": "GET /v2/droplets/{droplet_id}/backups",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/v2/droplets/{droplet_id}/backups\", \"parameters\": {\"droplet_id\": 55231087}}",
+          "parsed": {
+            "selected_method": "GET",
+            "selected_path": "/v2/droplets/{droplet_id}/backups",
+            "parameters": {
+              "droplet_id": 55231087
+            }
+          },
+          "tool_correct": true,
+          "param_valid": true
+        },
+        {
+          "intent": "Our database cluster's maintenance window is currently set during business hours and it's causing disruptions to our production traffic\u2014can you move it to Saturdays at 2am instead?",
+          "ground_truth": "PUT /v2/databases/{database_cluster_uuid}/maintenance",
+          "raw_response": " {\"selected_method\": \"POST\", \"selected_path\": \"/v2/firewalls\", \"parameters\": {\"name\": \"Database Maintenance Window\", \"window_start_time\": \"2023-10-05T02:00:00Z\", \"window_end_time\": \"2023-10-05T03:00:00Z\"}}",
+          "parsed": {
+            "selected_method": "POST",
+            "selected_path": "/v2/firewalls",
+            "parameters": {
+              "name": "Database Maintenance Window",
+              "window_start_time": "2023-10-05T02:00:00Z",
+              "window_end_time": "2023-10-05T03:00:00Z"
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "We just finished migrating our EU customer base to a new region, so please update the maintenance schedule for cluster db-prod-eu-01 to run early Sunday mornings UTC instead of the current weekday slot.",
+          "ground_truth": "PUT /v2/databases/{database_cluster_uuid}/maintenance",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/v2/databases/{database_cluster_uuid}/maintenance\", \"parameters\": {\"database_cluster_uuid\": \"EU-01DB\"}}",
+          "parsed": {
+            "selected_method": "PUT",
+            "selected_path": "/v2/databases/{database_cluster_uuid}/maintenance",
+            "parameters": {
+              "database_cluster_uuid": "EU-01DB"
+            }
+          },
+          "tool_correct": true,
+          "param_valid": true
+        },
+        {
+          "intent": "Our finance team needs the PDF copy of invoice ID a3f9c2e1-7b44-4d6a-9f21-8e6b1c0d5a77 for this month's expense reconciliation\u2014can you pull that down?",
+          "ground_truth": "GET /v2/customers/my/invoices/{invoice_uuid}/pdf",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/v2/droplets/{droplet_id}/backups\", \"parameters\": {\"droplet_id\": \"a3f9c2e1-7b44-4d6a-9f21-8e6b1c0d5a77\"}}",
+          "parsed": {
+            "selected_method": "GET",
+            "selected_path": "/v2/droplets/{droplet_id}/backups",
+            "parameters": {
+              "droplet_id": "a3f9c2e1-7b44-4d6a-9f21-8e6b1c0d5a77"
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "I need to forward last quarter's invoice to our vendor management system as a PDF attachment; can you grab the document for invoice a12b3c4d-5e6f-7890-abcd-ef1234567890?",
+          "ground_truth": "GET /v2/customers/my/invoices/{invoice_uuid}/pdf",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/v2/customers/my/invoices/a12b3c4d-5e6f-7890-abcd-ef1234567890/pdf\", \"parameters\": {\"invoice_uuid\": \"a12b3c4d-5e6f-7890-abcd-ef1234567890\"}}}",
+          "parsed": null,
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Can you attach the volume vol-8837 to our new database server droplet before end of day so the migration team can start restoring the backup?",
+          "ground_truth": "POST /v2/volumes/{volume_id}/actions",
+          "raw_response": " {\"selected_method\": \"POST\", \"selected_path\": \"/v2/droplets/{droplet_id}/backups\", \"parameters\": {\"droplet_id\": \"vol-8837\"}}",
+          "parsed": {
+            "selected_method": "POST",
+            "selected_path": "/v2/droplets/{droplet_id}/backups",
+            "parameters": {
+              "droplet_id": "vol-8837"
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "We need to resize the storage volume backing our staging environment from 100GB to 250GB without losing any data\u2014can you kick that off now?",
+          "ground_truth": "POST /v2/volumes/{volume_id}/actions",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/v2/databases/{database_cluster_uuid}/maintenance\", \"parameters\": {\"database_cluster_uuid\": \"my-database-cluster-uuid\"}}",
+          "parsed": {
+            "selected_method": "PUT",
+            "selected_path": "/v2/databases/{database_cluster_uuid}/maintenance",
+            "parameters": {
+              "database_cluster_uuid": "my-database-cluster-uuid"
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        }
+      ]
+    }
+  },
+  "Spotify": {
+    "base": {
+      "n": 16,
+      "tool_selection_accuracy": 12.5,
+      "parameter_validity_among_correct": 0.0,
+      "results": [
+        {
+          "intent": "Pull the details for the podcast show with ID 3DDfEEqIw2FGiA1a7Wr6GV so I can confirm its description before we feature it in this week's internal content newsletter.",
+          "ground_truth": "GET /shows/{id}",
+          "raw_response": " {\"selected_method\": \"GET /shows/{id}\", \"selected_path\": \"/shows/3DDfEEqIw2FGiA1a7Wr6GV\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "GET /shows/{id}",
+            "selected_path": "/shows/3DDfEEqIw2FGiA1a7Wr6GV",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Our licensing team needs to verify availability of show 4rOoJ6Egrf8K2IrywzwOMk in the German market before we finalize the regional marketing agreement.",
+          "ground_truth": "GET /shows/{id}",
+          "raw_response": " {\"selected_method\": \"GET /shows/{id}\", \"selected_path\": \"/shows/4rOoJ6Egrf8K2IrywzwOMk\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "GET /shows/{id}",
+            "selected_path": "/shows/4rOoJ6Egrf8K2IrywzwOMk",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Pull the list of product categories available for the US storefront so our merchandising team can map them to our internal taxonomy, and just grab the first 50 for now.",
+          "ground_truth": "GET /browse/categories",
+          "raw_response": " {\"selected_method\": \"GET /browse/categories\", \"selected_path\": \"/categories\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "GET /browse/categories",
+            "selected_path": "/categories",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "I need to see what browse categories exist for the German locale (de-DE) so we can plan localized landing pages\u2014can you fetch the next batch starting after item 100?",
+          "ground_truth": "GET /browse/categories",
+          "raw_response": " {\"selected_method\": \"GET /browse/categories\", \"selected_path\": \"/browse/categories\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "GET /browse/categories",
+            "selected_path": "/browse/categories",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Our licensing team needs metadata for these 12 artist IDs from last quarter's royalty report so we can reconcile them against the payout spreadsheet\u2014can you pull that up?",
+          "ground_truth": "GET /artists",
+          "raw_response": " {\"selected_method\": \"GET /artists/{id}\", \"selected_path\": \"/artists/{id}\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "GET /artists/{id}",
+            "selected_path": "/artists/{id}",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "For the playlist curation dashboard, grab the artist details for this batch of Spotify IDs we scraped from the trending chart so marketing can review genre tags before tomorrow's sync meeting.",
+          "ground_truth": "GET /artists",
+          "raw_response": " {\"selected_method\": \"GET /artists/{id}\", \"selected_path\": \"/artists/1234567890\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "GET /artists/{id}",
+            "selected_path": "/artists/1234567890",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Remove the three onboarding podcast episodes with IDs 4kYCRYJ5pGwtDrHnhAoXd1, 7hf9dLj2ktH0k1p1M0k1p1, and 2vXk1p1M0k1p1M0k1p1M0 from my saved episodes now that the new hire training is complete.",
+          "ground_truth": "DELETE /me/episodes",
+          "raw_response": " {\"selected_method\": \"DELETE\", \"selected_path\": \"/me/episodes\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "DELETE",
+            "selected_path": "/me/episodes",
+            "parameters": {}
+          },
+          "tool_correct": true,
+          "param_valid": false
+        },
+        {
+          "intent": "Our L&D team finished the compliance audio series\u2014please clear episode IDs 3nQm2p1M0k1p1M0k1p1M0 and 5zXk1p1M0k1p1M0k1p1M0 from my saved list so they don't clutter the shared training account's library.",
+          "ground_truth": "DELETE /me/episodes",
+          "raw_response": " {\"selected_method\": \"DELETE\", \"selected_path\": \"/me/episodes/contains\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "DELETE",
+            "selected_path": "/me/episodes/contains",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Please remove the audiobook titles with IDs 3PFyzEcH1MHrRlbODMB5xw and 7lz2zK9y8kFwZjX3vN4Qpq from our corporate L&D Spotify library now that the leadership training course has concluded.",
+          "ground_truth": "DELETE /me/audiobooks",
+          "raw_response": " {\"selected_method\": \"DELETE\", \"selected_path\": \"/me/audiobooks/{id}\", \"parameters\": {\"id\": \"3PFyzEcH1MHrRlbODMB5xw\"}}",
+          "parsed": {
+            "selected_method": "DELETE",
+            "selected_path": "/me/audiobooks/{id}",
+            "parameters": {
+              "id": "3PFyzEcH1MHrRlbODMB5xw"
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Our internal training account has accumulated old compliance audiobooks we no longer use\u2014can you clear IDs 1a2B3c4D5e6F and 6z5Y4x3W2v1U from the saved list to free up space for this quarter's onboarding materials?",
+          "ground_truth": "DELETE /me/audiobooks",
+          "raw_response": " {\"selected_method\": \"DELETE\", \"selected_path\": \"/me/audiobooks\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "DELETE",
+            "selected_path": "/me/audiobooks",
+            "parameters": {}
+          },
+          "tool_correct": true,
+          "param_valid": false
+        },
+        {
+          "intent": "Before our marketing team drafts the internal playlist newsletter, check whether these five album IDs are already saved in the shared curator Spotify account's library so we don't duplicate entries.",
+          "ground_truth": "GET /me/albums/contains",
+          "raw_response": " {\"selected_method\": \"GET /me/albums/contains\", \"selected_path\": \"/albums/contains\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "GET /me/albums/contains",
+            "selected_path": "/albums/contains",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Our digital media licensing team needs to confirm if the album IDs from this vendor's catalog spreadsheet are already saved to our corporate music research account before we request additional review copies.",
+          "ground_truth": "GET /me/albums/contains",
+          "raw_response": " {\"selected_method\": \"GET /me/albums/contains\", \"selected_path\": \"/albums/contains\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "GET /me/albums/contains",
+            "selected_path": "/albums/contains",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Pull the top 15 featured playlists for our German market storefront so the regional marketing team can review this week's curated content for the newsletter.",
+          "ground_truth": "GET /browse/featured-playlists",
+          "raw_response": " {\"selected_method\": \"GET /me/episodes\", \"selected_path\": \"/episodes\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "GET /me/episodes",
+            "selected_path": "/episodes",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Our social media team needs a snapshot of Spotify's featured playlists in the US as of this morning at 9am to compare against last week's lineup for the trend report.",
+          "ground_truth": "GET /browse/featured-playlists",
+          "raw_response": " {\"selected_method\": \"GET /browse/featured-playlists\", \"selected_path\": \"/browse/featured-playlists\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "GET /browse/featured-playlists",
+            "selected_path": "/browse/featured-playlists",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Pull the full chapter list for audiobook ID 3XzR7WQmVsdaMgP4tOsx0J so our content team can verify chapter titles and durations before we feature it in next week's newsletter.",
+          "ground_truth": "GET /audiobooks/{id}/chapters",
+          "raw_response": " {\"selected_method\": \"GET /audiobooks/{id}\", \"selected_path\": \"/audiobooks/3XzR7WQmVsdaMgP4tOsx0J\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "GET /audiobooks/{id}",
+            "selected_path": "/audiobooks/3XzR7WQmVsdaMgP4tOsx0J",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "For our localized podcast app, fetch the first 20 chapters of that leadership audiobook, filtered for the German market, so we can check regional availability before launch.",
+          "ground_truth": "GET /audiobooks/{id}/chapters",
+          "raw_response": " {\"selected_method\": \"GET /audiobooks/{id}\", \"selected_path\": \"/audiobooks/1234567890\", \"parameters\": {}}",
+          "parsed": {
+            "selected_method": "GET /audiobooks/{id}",
+            "selected_path": "/audiobooks/1234567890",
+            "parameters": {}
+          },
+          "tool_correct": false,
+          "param_valid": null
+        }
+      ]
+    },
+    "self_instruct": {
+      "n": 16,
+      "tool_selection_accuracy": 25.0,
+      "parameter_validity_among_correct": 25.0,
+      "results": [
+        {
+          "intent": "Pull the details for the podcast show with ID 3DDfEEqIw2FGiA1a7Wr6GV so I can confirm its description before we feature it in this week's internal content newsletter.",
+          "ground_truth": "GET /shows/{id}",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/shows/3DDfEEqIw2FGiA1a7Wr6GV\", \"parameters\": {\"id\": \"3DDfEEqIw2FGiA1a7Wr6GV\"}}",
+          "parsed": {
+            "selected_method": "GET",
+            "selected_path": "/shows/3DDfEEqIw2FGiA1a7Wr6GV",
+            "parameters": {
+              "id": "3DDfEEqIw2FGiA1a7Wr6GV"
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Our licensing team needs to verify availability of show 4rOoJ6Egrf8K2IrywzwOMk in the German market before we finalize the regional marketing agreement.",
+          "ground_truth": "GET /shows/{id}",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/me/episodes\", \"parameters\": {\"show_id\": 4, \"region\": \"DE\", \"start_time\": null, \"end_time\": null}}",
+          "parsed": {
+            "selected_method": "GET",
+            "selected_path": "/me/episodes",
+            "parameters": {
+              "show_id": 4,
+              "region": "DE",
+              "start_time": null,
+              "end_time": null
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Pull the list of product categories available for the US storefront so our merchandising team can map them to our internal taxonomy, and just grab the first 50 for now.",
+          "ground_truth": "GET /browse/categories",
+          "raw_response": " {\"selected_method\": \"GET /browse/categories\", \"selected_path\": \"/categories\", \"parameters\": {\"country_code\": \"US\", \"include_subcategories\": true}}",
+          "parsed": {
+            "selected_method": "GET /browse/categories",
+            "selected_path": "/categories",
+            "parameters": {
+              "country_code": "US",
+              "include_subcategories": true
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "I need to see what browse categories exist for the German locale (de-DE) so we can plan localized landing pages\u2014can you fetch the next batch starting after item 100?",
+          "ground_truth": "GET /browse/categories",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/browse/categories\", \"parameters\": {\"locale\": \"de-DE\", \"batch_size\": 50, \"include_next_batch\": true}}",
+          "parsed": {
+            "selected_method": "GET",
+            "selected_path": "/browse/categories",
+            "parameters": {
+              "locale": "de-DE",
+              "batch_size": 50,
+              "include_next_batch": true
+            }
+          },
+          "tool_correct": true,
+          "param_valid": true
+        },
+        {
+          "intent": "Our licensing team needs metadata for these 12 artist IDs from last quarter's royalty report so we can reconcile them against the payout spreadsheet\u2014can you pull that up?",
+          "ground_truth": "GET /artists",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/artists\", \"parameters\": {\"limit\": 12, \"start_date\": \"last-quarter\", \"end_date\": null, \"include_submitters\": true}}",
+          "parsed": {
+            "selected_method": "GET",
+            "selected_path": "/artists",
+            "parameters": {
+              "limit": 12,
+              "start_date": "last-quarter",
+              "end_date": null,
+              "include_submitters": true
+            }
+          },
+          "tool_correct": true,
+          "param_valid": false
+        },
+        {
+          "intent": "For the playlist curation dashboard, grab the artist details for this batch of Spotify IDs we scraped from the trending chart so marketing can review genre tags before tomorrow's sync meeting.",
+          "ground_truth": "GET /artists",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/artists\", \"parameters\": {\"limit\": 10, \"genres\": [\"pop\"], \"streaming\": true}}",
+          "parsed": {
+            "selected_method": "GET",
+            "selected_path": "/artists",
+            "parameters": {
+              "limit": 10,
+              "genres": [
+                "pop"
+              ],
+              "streaming": true
+            }
+          },
+          "tool_correct": true,
+          "param_valid": false
+        },
+        {
+          "intent": "Remove the three onboarding podcast episodes with IDs 4kYCRYJ5pGwtDrHnhAoXd1, 7hf9dLj2ktH0k1p1M0k1p1, and 2vXk1p1M0k1p1M0k1p1M0 from my saved episodes now that the new hire training is complete.",
+          "ground_truth": "DELETE /me/episodes",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/me/episodes\", \"parameters\": {\"selected_ids\": [\"4kYCRYJ5pGwtDrHnhAoXd1\", 7hf9dLj2ktH0k1p1M0k1p1, 2vXk1p1M0k1p1M0k1p1M0\"], \"delete_once\": true}}",
+          "parsed": null,
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Our L&D team finished the compliance audio series\u2014please clear episode IDs 3nQm2p1M0k1p1M0k1p1M0 and 5zXk1p1M0k1p1M0k1p1M0 from my saved list so they don't clutter the shared training account's library.",
+          "ground_truth": "DELETE /me/episodes",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/me/episodes\", \"parameters\": {\"episode_ids\": [\"3nQm2p1M0k1p1M0k1p1M0\", \"5zXk1p1M0k1p1M0k1p1M0\"]}}",
+          "parsed": {
+            "selected_method": "PUT",
+            "selected_path": "/me/episodes",
+            "parameters": {
+              "episode_ids": [
+                "3nQm2p1M0k1p1M0k1p1M0",
+                "5zXk1p1M0k1p1M0k1p1M0"
+              ]
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Please remove the audiobook titles with IDs 3PFyzEcH1MHrRlbODMB5xw and 7lz2zK9y8kFwZjX3vN4Qpq from our corporate L&D Spotify library now that the leadership training course has concluded.",
+          "ground_truth": "DELETE /me/audiobooks",
+          "raw_response": " {\"selected_method\": \"DELETE\", \"selected_path\": \"/me/audiobooks\", \"parameters\": {\"ids\": [\"7lz2zK9y8kFwZjX3vN4Qpq\"]}}",
+          "parsed": {
+            "selected_method": "DELETE",
+            "selected_path": "/me/audiobooks",
+            "parameters": {
+              "ids": [
+                "7lz2zK9y8kFwZjX3vN4Qpq"
+              ]
+            }
+          },
+          "tool_correct": true,
+          "param_valid": false
+        },
+        {
+          "intent": "Our internal training account has accumulated old compliance audiobooks we no longer use\u2014can you clear IDs 1a2B3c4D5e6F and 6z5Y4x3W2v1U from the saved list to free up space for this quarter's onboarding materials?",
+          "ground_truth": "DELETE /me/audiobooks",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/me/audiobooks\", \"parameters\": {\"audios\": [\"1a2B3c4D5e6F\", \"6z5Y4x3W2v1U\"]}}",
+          "parsed": {
+            "selected_method": "PUT",
+            "selected_path": "/me/audiobooks",
+            "parameters": {
+              "audios": [
+                "1a2B3c4D5e6F",
+                "6z5Y4x3W2v1U"
+              ]
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Before our marketing team drafts the internal playlist newsletter, check whether these five album IDs are already saved in the shared curator Spotify account's library so we don't duplicate entries.",
+          "ground_truth": "GET /me/albums/contains",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/me/episodes\", \"parameters\": {\"path\": \"/episodes\", \"method\": \"add\", \"items\": [\"{album_id}\", ...], \"options\": {\"silent\": true, \"wait\": 0}}}",
+          "parsed": null,
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Our digital media licensing team needs to confirm if the album IDs from this vendor's catalog spreadsheet are already saved to our corporate music research account before we request additional review copies.",
+          "ground_truth": "GET /me/albums/contains",
+          "raw_response": " {\"selected_method\": \"PUT\", \"selected_path\": \"/me/episodes\", \"parameters\": {\"path\": \"/episodes\", \"method\": \"add\", \"items\": [\"{vendor_catalog_id}\", ...], \"options\": {\"wait_for_confirmation\": true, \"notify_on_failure\": false}})",
+          "parsed": null,
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Pull the top 15 featured playlists for our German market storefront so the regional marketing team can review this week's curated content for the newsletter.",
+          "ground_truth": "GET /browse/featured-playlists",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/me/top/{type}\", \"parameters\": {\"type\": \"playlists\", \"limit\": 15, \"order_by\": \"created_at\", \"region\": \"Germany\"}}",
+          "parsed": {
+            "selected_method": "GET",
+            "selected_path": "/me/top/{type}",
+            "parameters": {
+              "type": "playlists",
+              "limit": 15,
+              "order_by": "created_at",
+              "region": "Germany"
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Our social media team needs a snapshot of Spotify's featured playlists in the US as of this morning at 9am to compare against last week's lineup for the trend report.",
+          "ground_truth": "GET /browse/featured-playlists",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/me/top/songs\", \"parameters\": {\"country\": \"US\", \"start_time\": \"2018-04-09T09:00:00Z\", \"end_time\": \"2018-04-09T09:30:00Z\"}}",
+          "parsed": {
+            "selected_method": "GET",
+            "selected_path": "/me/top/songs",
+            "parameters": {
+              "country": "US",
+              "start_time": "2018-04-09T09:00:00Z",
+              "end_time": "2018-04-09T09:30:00Z"
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Pull the full chapter list for audiobook ID 3XzR7WQmVsdaMgP4tOsx0J so our content team can verify chapter titles and durations before we feature it in next week's newsletter.",
+          "ground_truth": "GET /audiobooks/{id}/chapters",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/me/audiobooks/{id}\", \"parameters\": {\"id\": 3XzR7WQmVsdaMgP4tOsx0J}}",
+          "parsed": null,
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "For our localized podcast app, fetch the first 20 chapters of that leadership audiobook, filtered for the German market, so we can check regional availability before launch.",
+          "ground_truth": "GET /audiobooks/{id}/chapters",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/audiobooks/{id}\", \"parameters\": {\"id\": \"1\"}}",
+          "parsed": {
+            "selected_method": "GET",
+            "selected_path": "/audiobooks/{id}",
+            "parameters": {
+              "id": "1"
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        }
+      ]
+    },
+    "enterprisesynth": {
+      "n": 16,
+      "tool_selection_accuracy": 43.8,
+      "parameter_validity_among_correct": 71.4,
+      "results": [
+        {
+          "intent": "Pull the details for the podcast show with ID 3DDfEEqIw2FGiA1a7Wr6GV so I can confirm its description before we feature it in this week's internal content newsletter.",
+          "ground_truth": "GET /shows/{id}",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/shows/{id}\", \"parameters\": {\"id\": 3DDfEEqIw2FGiA1a7Wr6GV}}",
+          "parsed": null,
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Our licensing team needs to verify availability of show 4rOoJ6Egrf8K2IrywzwOMk in the German market before we finalize the regional marketing agreement.",
+          "ground_truth": "GET /shows/{id}",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/shows/{id}\", \"parameters\": {\"id\": \"4rOoJ6Egrf8K2IrywzwOMk\", \"region\": \"DE\"}}",
+          "parsed": {
+            "selected_method": "GET",
+            "selected_path": "/shows/{id}",
+            "parameters": {
+              "id": "4rOoJ6Egrf8K2IrywzwOMk",
+              "region": "DE"
+            }
+          },
+          "tool_correct": true,
+          "param_valid": true
+        },
+        {
+          "intent": "Pull the list of product categories available for the US storefront so our merchandising team can map them to our internal taxonomy, and just grab the first 50 for now.",
+          "ground_truth": "GET /browse/categories",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/browse/categories\", \"parameters\": {\"page\": 1, \"per_page\": 50}}",
+          "parsed": {
+            "selected_method": "GET",
+            "selected_path": "/browse/categories",
+            "parameters": {
+              "page": 1,
+              "per_page": 50
+            }
+          },
+          "tool_correct": true,
+          "param_valid": true
+        },
+        {
+          "intent": "I need to see what browse categories exist for the German locale (de-DE) so we can plan localized landing pages\u2014can you fetch the next batch starting after item 100?",
+          "ground_truth": "GET /browse/categories",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/browse/categories\", \"parameters\": {\"locale\": \"de-DE\", \"limit\": 50}}",
+          "parsed": {
+            "selected_method": "GET",
+            "selected_path": "/browse/categories",
+            "parameters": {
+              "locale": "de-DE",
+              "limit": 50
+            }
+          },
+          "tool_correct": true,
+          "param_valid": true
+        },
+        {
+          "intent": "Our licensing team needs metadata for these 12 artist IDs from last quarter's royalty report so we can reconcile them against the payout spreadsheet\u2014can you pull that up?",
+          "ground_truth": "GET /artists",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/artists\", \"parameters\": {\"ids\": [\"1234567890\", \"1234567891\"]}}}",
+          "parsed": null,
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "For the playlist curation dashboard, grab the artist details for this batch of Spotify IDs we scraped from the trending chart so marketing can review genre tags before tomorrow's sync meeting.",
+          "ground_truth": "GET /artists",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/artists\", \"parameters\": {\"limit\": 100}}",
+          "parsed": {
+            "selected_method": "GET",
+            "selected_path": "/artists",
+            "parameters": {
+              "limit": 100
+            }
+          },
+          "tool_correct": true,
+          "param_valid": false
+        },
+        {
+          "intent": "Remove the three onboarding podcast episodes with IDs 4kYCRYJ5pGwtDrHnhAoXd1, 7hf9dLj2ktH0k1p1M0k1p1, and 2vXk1p1M0k1p1M0k1p1M0 from my saved episodes now that the new hire training is complete.",
+          "ground_truth": "DELETE /me/episodes",
+          "raw_response": " {\"selected_method\": \"DELETE\", \"selected_path\": \"/me/episodes\", \"parameters\": {\"ids\": [4kYCRYJ5pGwtDrHnhAoXd1, 7hf9dLj2ktH0k1p1M0k1p1, 2vXk1p1M0k1p1M0k1p1M0]}}",
+          "parsed": null,
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Our L&D team finished the compliance audio series\u2014please clear episode IDs 3nQm2p1M0k1p1M0k1p1M0 and 5zXk1p1M0k1p1M0k1p1M0 from my saved list so they don't clutter the shared training account's library.",
+          "ground_truth": "DELETE /me/episodes",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/me/episodes\", \"parameters\": {\"user_id\": \"123456789\", \"ids\": [3nQm2p1M0k1p1M0k1p1M0, 5zXk1p1M0k1p1M0k1p1M0]}}",
+          "parsed": null,
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Please remove the audiobook titles with IDs 3PFyzEcH1MHrRlbODMB5xw and 7lz2zK9y8kFwZjX3vN4Qpq from our corporate L&D Spotify library now that the leadership training course has concluded.",
+          "ground_truth": "DELETE /me/audiobooks",
+          "raw_response": " {\"selected_method\": \"DELETE\", \"selected_path\": \"/me/audiobooks/{id}\", \"parameters\": {\"id\": 7lz2zK9y8kFwZjX3vN4Qpq}}}",
+          "parsed": null,
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Our internal training account has accumulated old compliance audiobooks we no longer use\u2014can you clear IDs 1a2B3c4D5e6F and 6z5Y4x3W2v1U from the saved list to free up space for this quarter's onboarding materials?",
+          "ground_truth": "DELETE /me/audiobooks",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/me/audiobooks\", \"parameters\": {\"id\": 1a2B3c4D5e6F, 6z5Y4x3W2v1U}}}",
+          "parsed": null,
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Before our marketing team drafts the internal playlist newsletter, check whether these five album IDs are already saved in the shared curator Spotify account's library so we don't duplicate entries.",
+          "ground_truth": "GET /me/albums/contains",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/me/albums/contains\", \"parameters\": {\"ids\": [\"1234567890\", \"2345678901\"]}}}",
+          "parsed": null,
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "Our digital media licensing team needs to confirm if the album IDs from this vendor's catalog spreadsheet are already saved to our corporate music research account before we request additional review copies.",
+          "ground_truth": "GET /me/albums/contains",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/me/albums/contains\", \"parameters\": {\"id\": 1234567890}}",
+          "parsed": {
+            "selected_method": "GET",
+            "selected_path": "/me/albums/contains",
+            "parameters": {
+              "id": 1234567890
+            }
+          },
+          "tool_correct": true,
+          "param_valid": false
+        },
+        {
+          "intent": "Pull the top 15 featured playlists for our German market storefront so the regional marketing team can review this week's curated content for the newsletter.",
+          "ground_truth": "GET /browse/featured-playlists",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/browse/featured-playlists\", \"parameters\": {\"limit\": 15, \"page\": 1}}",
+          "parsed": {
+            "selected_method": "GET",
+            "selected_path": "/browse/featured-playlists",
+            "parameters": {
+              "limit": 15,
+              "page": 1
+            }
+          },
+          "tool_correct": true,
+          "param_valid": true
+        },
+        {
+          "intent": "Our social media team needs a snapshot of Spotify's featured playlists in the US as of this morning at 9am to compare against last week's lineup for the trend report.",
+          "ground_truth": "GET /browse/featured-playlists",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/browse/featured-playlists\", \"parameters\": {\"limit\": 10, \"start_time\": \"2023-04-07T09:00:00Z\", \"end_time\": \"2023-04-07T09:00:00Z\"}}",
+          "parsed": {
+            "selected_method": "GET",
+            "selected_path": "/browse/featured-playlists",
+            "parameters": {
+              "limit": 10,
+              "start_time": "2023-04-07T09:00:00Z",
+              "end_time": "2023-04-07T09:00:00Z"
+            }
+          },
+          "tool_correct": true,
+          "param_valid": true
+        },
+        {
+          "intent": "Pull the full chapter list for audiobook ID 3XzR7WQmVsdaMgP4tOsx0J so our content team can verify chapter titles and durations before we feature it in next week's newsletter.",
+          "ground_truth": "GET /audiobooks/{id}/chapters",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/audiobooks/{id}\", \"parameters\": {\"id\": 3XzR7WQmVsdaMgP4tOsx0J}}}",
+          "parsed": null,
+          "tool_correct": false,
+          "param_valid": null
+        },
+        {
+          "intent": "For our localized podcast app, fetch the first 20 chapters of that leadership audiobook, filtered for the German market, so we can check regional availability before launch.",
+          "ground_truth": "GET /audiobooks/{id}/chapters",
+          "raw_response": " {\"selected_method\": \"GET\", \"selected_path\": \"/audiobooks/{id}\", \"parameters\": {\"id\": 13456789}}",
+          "parsed": {
+            "selected_method": "GET",
+            "selected_path": "/audiobooks/{id}",
+            "parameters": {
+              "id": 13456789
+            }
+          },
+          "tool_correct": false,
+          "param_valid": null
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,1954 @@
+[
+  {
+    "intent": "Can you pull up the connection details and current status for our production Postgres cluster with ID a1b2c3d4-e5f6-7890-abcd-ef1234567890? I need to check its configuration before we onboard a new microservice.",
+    "ground_truth_method": "GET",
+    "ground_truth_path": "/v2/databases/{database_cluster_uuid}",
+    "candidates": [
+      {
+        "method": "GET",
+        "path": "/v2/databases/{database_cluster_uuid}",
+        "operation_id": "databases_get_cluster"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/apps/metrics/bandwidth_daily",
+        "operation_id": "apps_list_metrics_bandwidth_daily"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/floating_ips/{floating_ip}/actions",
+        "operation_id": "floatingIPsAction_post"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/firewalls",
+        "operation_id": "firewalls_create"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/droplets/{droplet_id}/backups",
+        "operation_id": "droplets_list_backups"
+      },
+      {
+        "method": "PUT",
+        "path": "/v2/databases/{database_cluster_uuid}/maintenance",
+        "operation_id": "databases_update_maintenanceWindow"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/customers/my/invoices/{invoice_uuid}/pdf",
+        "operation_id": "invoices_get_pdfByUUID"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/volumes/{volume_id}/actions",
+        "operation_id": "volumeActions_post_byId"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/certificates/{certificate_id}",
+        "operation_id": "certificates_get"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/registry",
+        "operation_id": "registry_get"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/tiers/instance_sizes/{slug}",
+        "operation_id": "apps_get_instanceSize"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/tiers/instance_sizes",
+        "operation_id": "apps_list_instanceSizes"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/customers/my/billing_history",
+        "operation_id": "billingHistory_list"
+      },
+      {
+        "method": "DELETE",
+        "path": "/v2/droplets/{droplet_id}/destroy_with_associated_resources/dangerous",
+        "operation_id": "droplets_destroy_withAssociatedResourcesDangerous"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/firewalls",
+        "operation_id": "firewalls_list"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/uptime/checks/{check_id}/alerts",
+        "operation_id": "uptime_alert_create"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/regions",
+        "operation_id": "apps_list_regions"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/droplets",
+        "operation_id": "droplets_list"
+      },
+      {
+        "method": "PATCH",
+        "path": "/v2/vpcs/{vpc_id}",
+        "operation_id": "vpcs_patch"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/projects/{project_id}/resources",
+        "operation_id": "projects_assign_resources"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/droplets/{droplet_id}/destroy_with_associated_resources/retry",
+        "operation_id": "droplets_destroy_retryWithAssociatedResources"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/registry/{registry_name}/repositoriesV2",
+        "operation_id": "registry_list_repositoriesV2"
+      },
+      {
+        "method": "PUT",
+        "path": "/v2/functions/namespaces/{namespace_id}/triggers/{trigger_name}",
+        "operation_id": "functions_update_trigger"
+      }
+    ]
+  },
+  {
+    "intent": "Our on-call engineer flagged a potential issue with database cluster 98765432-10ab-cdef-1234-567890abcdef\u2014can you fetch its current status and specs so we can confirm whether it's actually running low on resources?",
+    "ground_truth_method": "GET",
+    "ground_truth_path": "/v2/databases/{database_cluster_uuid}",
+    "candidates": [
+      {
+        "method": "GET",
+        "path": "/v2/databases/{database_cluster_uuid}",
+        "operation_id": "databases_get_cluster"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/apps/metrics/bandwidth_daily",
+        "operation_id": "apps_list_metrics_bandwidth_daily"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/floating_ips/{floating_ip}/actions",
+        "operation_id": "floatingIPsAction_post"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/firewalls",
+        "operation_id": "firewalls_create"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/droplets/{droplet_id}/backups",
+        "operation_id": "droplets_list_backups"
+      },
+      {
+        "method": "PUT",
+        "path": "/v2/databases/{database_cluster_uuid}/maintenance",
+        "operation_id": "databases_update_maintenanceWindow"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/customers/my/invoices/{invoice_uuid}/pdf",
+        "operation_id": "invoices_get_pdfByUUID"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/volumes/{volume_id}/actions",
+        "operation_id": "volumeActions_post_byId"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/certificates/{certificate_id}",
+        "operation_id": "certificates_get"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/registry",
+        "operation_id": "registry_get"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/tiers/instance_sizes/{slug}",
+        "operation_id": "apps_get_instanceSize"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/tiers/instance_sizes",
+        "operation_id": "apps_list_instanceSizes"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/customers/my/billing_history",
+        "operation_id": "billingHistory_list"
+      },
+      {
+        "method": "DELETE",
+        "path": "/v2/droplets/{droplet_id}/destroy_with_associated_resources/dangerous",
+        "operation_id": "droplets_destroy_withAssociatedResourcesDangerous"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/firewalls",
+        "operation_id": "firewalls_list"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/uptime/checks/{check_id}/alerts",
+        "operation_id": "uptime_alert_create"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/regions",
+        "operation_id": "apps_list_regions"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/droplets",
+        "operation_id": "droplets_list"
+      },
+      {
+        "method": "PATCH",
+        "path": "/v2/vpcs/{vpc_id}",
+        "operation_id": "vpcs_patch"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/projects/{project_id}/resources",
+        "operation_id": "projects_assign_resources"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/droplets/{droplet_id}/destroy_with_associated_resources/retry",
+        "operation_id": "droplets_destroy_retryWithAssociatedResources"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/registry/{registry_name}/repositoriesV2",
+        "operation_id": "registry_list_repositoriesV2"
+      },
+      {
+        "method": "PUT",
+        "path": "/v2/functions/namespaces/{namespace_id}/triggers/{trigger_name}",
+        "operation_id": "functions_update_trigger"
+      }
+    ]
+  },
+  {
+    "intent": "Can you pull the daily bandwidth usage for our three production apps\u2014checkout, inventory, and customer-portal\u2014so I can check if we're approaching our CDN plan's threshold this month?",
+    "ground_truth_method": "POST",
+    "ground_truth_path": "/v2/apps/metrics/bandwidth_daily",
+    "candidates": [
+      {
+        "method": "GET",
+        "path": "/v2/databases/{database_cluster_uuid}",
+        "operation_id": "databases_get_cluster"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/apps/metrics/bandwidth_daily",
+        "operation_id": "apps_list_metrics_bandwidth_daily"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/floating_ips/{floating_ip}/actions",
+        "operation_id": "floatingIPsAction_post"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/firewalls",
+        "operation_id": "firewalls_create"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/droplets/{droplet_id}/backups",
+        "operation_id": "droplets_list_backups"
+      },
+      {
+        "method": "PUT",
+        "path": "/v2/databases/{database_cluster_uuid}/maintenance",
+        "operation_id": "databases_update_maintenanceWindow"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/customers/my/invoices/{invoice_uuid}/pdf",
+        "operation_id": "invoices_get_pdfByUUID"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/volumes/{volume_id}/actions",
+        "operation_id": "volumeActions_post_byId"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/certificates/{certificate_id}",
+        "operation_id": "certificates_get"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/registry",
+        "operation_id": "registry_get"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/tiers/instance_sizes/{slug}",
+        "operation_id": "apps_get_instanceSize"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/tiers/instance_sizes",
+        "operation_id": "apps_list_instanceSizes"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/customers/my/billing_history",
+        "operation_id": "billingHistory_list"
+      },
+      {
+        "method": "DELETE",
+        "path": "/v2/droplets/{droplet_id}/destroy_with_associated_resources/dangerous",
+        "operation_id": "droplets_destroy_withAssociatedResourcesDangerous"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/firewalls",
+        "operation_id": "firewalls_list"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/uptime/checks/{check_id}/alerts",
+        "operation_id": "uptime_alert_create"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/regions",
+        "operation_id": "apps_list_regions"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/droplets",
+        "operation_id": "droplets_list"
+      },
+      {
+        "method": "PATCH",
+        "path": "/v2/vpcs/{vpc_id}",
+        "operation_id": "vpcs_patch"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/projects/{project_id}/resources",
+        "operation_id": "projects_assign_resources"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/droplets/{droplet_id}/destroy_with_associated_resources/retry",
+        "operation_id": "droplets_destroy_retryWithAssociatedResources"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/registry/{registry_name}/repositoriesV2",
+        "operation_id": "registry_list_repositoriesV2"
+      },
+      {
+        "method": "PUT",
+        "path": "/v2/functions/namespaces/{namespace_id}/triggers/{trigger_name}",
+        "operation_id": "functions_update_trigger"
+      }
+    ]
+  },
+  {
+    "intent": "I need to compare bandwidth consumption across all our regional apps for March 15th to figure out which one caused the spike in our hosting bill.",
+    "ground_truth_method": "POST",
+    "ground_truth_path": "/v2/apps/metrics/bandwidth_daily",
+    "candidates": [
+      {
+        "method": "GET",
+        "path": "/v2/databases/{database_cluster_uuid}",
+        "operation_id": "databases_get_cluster"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/apps/metrics/bandwidth_daily",
+        "operation_id": "apps_list_metrics_bandwidth_daily"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/floating_ips/{floating_ip}/actions",
+        "operation_id": "floatingIPsAction_post"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/firewalls",
+        "operation_id": "firewalls_create"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/droplets/{droplet_id}/backups",
+        "operation_id": "droplets_list_backups"
+      },
+      {
+        "method": "PUT",
+        "path": "/v2/databases/{database_cluster_uuid}/maintenance",
+        "operation_id": "databases_update_maintenanceWindow"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/customers/my/invoices/{invoice_uuid}/pdf",
+        "operation_id": "invoices_get_pdfByUUID"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/volumes/{volume_id}/actions",
+        "operation_id": "volumeActions_post_byId"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/certificates/{certificate_id}",
+        "operation_id": "certificates_get"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/registry",
+        "operation_id": "registry_get"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/tiers/instance_sizes/{slug}",
+        "operation_id": "apps_get_instanceSize"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/tiers/instance_sizes",
+        "operation_id": "apps_list_instanceSizes"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/customers/my/billing_history",
+        "operation_id": "billingHistory_list"
+      },
+      {
+        "method": "DELETE",
+        "path": "/v2/droplets/{droplet_id}/destroy_with_associated_resources/dangerous",
+        "operation_id": "droplets_destroy_withAssociatedResourcesDangerous"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/firewalls",
+        "operation_id": "firewalls_list"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/uptime/checks/{check_id}/alerts",
+        "operation_id": "uptime_alert_create"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/regions",
+        "operation_id": "apps_list_regions"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/droplets",
+        "operation_id": "droplets_list"
+      },
+      {
+        "method": "PATCH",
+        "path": "/v2/vpcs/{vpc_id}",
+        "operation_id": "vpcs_patch"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/projects/{project_id}/resources",
+        "operation_id": "projects_assign_resources"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/droplets/{droplet_id}/destroy_with_associated_resources/retry",
+        "operation_id": "droplets_destroy_retryWithAssociatedResources"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/registry/{registry_name}/repositoriesV2",
+        "operation_id": "registry_list_repositoriesV2"
+      },
+      {
+        "method": "PUT",
+        "path": "/v2/functions/namespaces/{namespace_id}/triggers/{trigger_name}",
+        "operation_id": "functions_update_trigger"
+      }
+    ]
+  },
+  {
+    "intent": "We had a database failover in our production cluster\u2014please reassign floating IP 203.0.113.42 to the standby droplet so traffic reroutes without changing DNS records.",
+    "ground_truth_method": "POST",
+    "ground_truth_path": "/v2/floating_ips/{floating_ip}/actions",
+    "candidates": [
+      {
+        "method": "GET",
+        "path": "/v2/databases/{database_cluster_uuid}",
+        "operation_id": "databases_get_cluster"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/apps/metrics/bandwidth_daily",
+        "operation_id": "apps_list_metrics_bandwidth_daily"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/floating_ips/{floating_ip}/actions",
+        "operation_id": "floatingIPsAction_post"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/firewalls",
+        "operation_id": "firewalls_create"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/droplets/{droplet_id}/backups",
+        "operation_id": "droplets_list_backups"
+      },
+      {
+        "method": "PUT",
+        "path": "/v2/databases/{database_cluster_uuid}/maintenance",
+        "operation_id": "databases_update_maintenanceWindow"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/customers/my/invoices/{invoice_uuid}/pdf",
+        "operation_id": "invoices_get_pdfByUUID"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/volumes/{volume_id}/actions",
+        "operation_id": "volumeActions_post_byId"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/certificates/{certificate_id}",
+        "operation_id": "certificates_get"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/registry",
+        "operation_id": "registry_get"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/tiers/instance_sizes/{slug}",
+        "operation_id": "apps_get_instanceSize"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/tiers/instance_sizes",
+        "operation_id": "apps_list_instanceSizes"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/customers/my/billing_history",
+        "operation_id": "billingHistory_list"
+      },
+      {
+        "method": "DELETE",
+        "path": "/v2/droplets/{droplet_id}/destroy_with_associated_resources/dangerous",
+        "operation_id": "droplets_destroy_withAssociatedResourcesDangerous"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/firewalls",
+        "operation_id": "firewalls_list"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/uptime/checks/{check_id}/alerts",
+        "operation_id": "uptime_alert_create"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/regions",
+        "operation_id": "apps_list_regions"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/droplets",
+        "operation_id": "droplets_list"
+      },
+      {
+        "method": "PATCH",
+        "path": "/v2/vpcs/{vpc_id}",
+        "operation_id": "vpcs_patch"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/projects/{project_id}/resources",
+        "operation_id": "projects_assign_resources"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/droplets/{droplet_id}/destroy_with_associated_resources/retry",
+        "operation_id": "droplets_destroy_retryWithAssociatedResources"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/registry/{registry_name}/repositoriesV2",
+        "operation_id": "registry_list_repositoriesV2"
+      },
+      {
+        "method": "PUT",
+        "path": "/v2/functions/namespaces/{namespace_id}/triggers/{trigger_name}",
+        "operation_id": "functions_update_trigger"
+      }
+    ]
+  },
+  {
+    "intent": "Our droplet tied to floating IP 198.51.100.7 is being decommissioned tonight; unassign the IP from it first so we can attach it to the replacement server tomorrow.",
+    "ground_truth_method": "POST",
+    "ground_truth_path": "/v2/floating_ips/{floating_ip}/actions",
+    "candidates": [
+      {
+        "method": "GET",
+        "path": "/v2/databases/{database_cluster_uuid}",
+        "operation_id": "databases_get_cluster"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/apps/metrics/bandwidth_daily",
+        "operation_id": "apps_list_metrics_bandwidth_daily"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/floating_ips/{floating_ip}/actions",
+        "operation_id": "floatingIPsAction_post"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/firewalls",
+        "operation_id": "firewalls_create"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/droplets/{droplet_id}/backups",
+        "operation_id": "droplets_list_backups"
+      },
+      {
+        "method": "PUT",
+        "path": "/v2/databases/{database_cluster_uuid}/maintenance",
+        "operation_id": "databases_update_maintenanceWindow"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/customers/my/invoices/{invoice_uuid}/pdf",
+        "operation_id": "invoices_get_pdfByUUID"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/volumes/{volume_id}/actions",
+        "operation_id": "volumeActions_post_byId"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/certificates/{certificate_id}",
+        "operation_id": "certificates_get"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/registry",
+        "operation_id": "registry_get"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/tiers/instance_sizes/{slug}",
+        "operation_id": "apps_get_instanceSize"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/tiers/instance_sizes",
+        "operation_id": "apps_list_instanceSizes"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/customers/my/billing_history",
+        "operation_id": "billingHistory_list"
+      },
+      {
+        "method": "DELETE",
+        "path": "/v2/droplets/{droplet_id}/destroy_with_associated_resources/dangerous",
+        "operation_id": "droplets_destroy_withAssociatedResourcesDangerous"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/firewalls",
+        "operation_id": "firewalls_list"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/uptime/checks/{check_id}/alerts",
+        "operation_id": "uptime_alert_create"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/regions",
+        "operation_id": "apps_list_regions"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/droplets",
+        "operation_id": "droplets_list"
+      },
+      {
+        "method": "PATCH",
+        "path": "/v2/vpcs/{vpc_id}",
+        "operation_id": "vpcs_patch"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/projects/{project_id}/resources",
+        "operation_id": "projects_assign_resources"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/droplets/{droplet_id}/destroy_with_associated_resources/retry",
+        "operation_id": "droplets_destroy_retryWithAssociatedResources"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/registry/{registry_name}/repositoriesV2",
+        "operation_id": "registry_list_repositoriesV2"
+      },
+      {
+        "method": "PUT",
+        "path": "/v2/functions/namespaces/{namespace_id}/triggers/{trigger_name}",
+        "operation_id": "functions_update_trigger"
+      }
+    ]
+  },
+  {
+    "intent": "Set up a new firewall for our production Kubernetes cluster that only allows inbound traffic on ports 80 and 443 from the load balancer subnet.",
+    "ground_truth_method": "POST",
+    "ground_truth_path": "/v2/firewalls",
+    "candidates": [
+      {
+        "method": "GET",
+        "path": "/v2/databases/{database_cluster_uuid}",
+        "operation_id": "databases_get_cluster"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/apps/metrics/bandwidth_daily",
+        "operation_id": "apps_list_metrics_bandwidth_daily"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/floating_ips/{floating_ip}/actions",
+        "operation_id": "floatingIPsAction_post"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/firewalls",
+        "operation_id": "firewalls_create"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/droplets/{droplet_id}/backups",
+        "operation_id": "droplets_list_backups"
+      },
+      {
+        "method": "PUT",
+        "path": "/v2/databases/{database_cluster_uuid}/maintenance",
+        "operation_id": "databases_update_maintenanceWindow"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/customers/my/invoices/{invoice_uuid}/pdf",
+        "operation_id": "invoices_get_pdfByUUID"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/volumes/{volume_id}/actions",
+        "operation_id": "volumeActions_post_byId"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/certificates/{certificate_id}",
+        "operation_id": "certificates_get"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/registry",
+        "operation_id": "registry_get"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/tiers/instance_sizes/{slug}",
+        "operation_id": "apps_get_instanceSize"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/tiers/instance_sizes",
+        "operation_id": "apps_list_instanceSizes"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/customers/my/billing_history",
+        "operation_id": "billingHistory_list"
+      },
+      {
+        "method": "DELETE",
+        "path": "/v2/droplets/{droplet_id}/destroy_with_associated_resources/dangerous",
+        "operation_id": "droplets_destroy_withAssociatedResourcesDangerous"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/firewalls",
+        "operation_id": "firewalls_list"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/uptime/checks/{check_id}/alerts",
+        "operation_id": "uptime_alert_create"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/regions",
+        "operation_id": "apps_list_regions"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/droplets",
+        "operation_id": "droplets_list"
+      },
+      {
+        "method": "PATCH",
+        "path": "/v2/vpcs/{vpc_id}",
+        "operation_id": "vpcs_patch"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/projects/{project_id}/resources",
+        "operation_id": "projects_assign_resources"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/droplets/{droplet_id}/destroy_with_associated_resources/retry",
+        "operation_id": "droplets_destroy_retryWithAssociatedResources"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/registry/{registry_name}/repositoriesV2",
+        "operation_id": "registry_list_repositoriesV2"
+      },
+      {
+        "method": "PUT",
+        "path": "/v2/functions/namespaces/{namespace_id}/triggers/{trigger_name}",
+        "operation_id": "functions_update_trigger"
+      }
+    ]
+  },
+  {
+    "intent": "We're onboarding a new client environment and need a firewall created that restricts SSH access to just our office IP range and opens port 5432 for the database team's VPN.",
+    "ground_truth_method": "POST",
+    "ground_truth_path": "/v2/firewalls",
+    "candidates": [
+      {
+        "method": "GET",
+        "path": "/v2/databases/{database_cluster_uuid}",
+        "operation_id": "databases_get_cluster"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/apps/metrics/bandwidth_daily",
+        "operation_id": "apps_list_metrics_bandwidth_daily"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/floating_ips/{floating_ip}/actions",
+        "operation_id": "floatingIPsAction_post"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/firewalls",
+        "operation_id": "firewalls_create"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/droplets/{droplet_id}/backups",
+        "operation_id": "droplets_list_backups"
+      },
+      {
+        "method": "PUT",
+        "path": "/v2/databases/{database_cluster_uuid}/maintenance",
+        "operation_id": "databases_update_maintenanceWindow"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/customers/my/invoices/{invoice_uuid}/pdf",
+        "operation_id": "invoices_get_pdfByUUID"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/volumes/{volume_id}/actions",
+        "operation_id": "volumeActions_post_byId"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/certificates/{certificate_id}",
+        "operation_id": "certificates_get"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/registry",
+        "operation_id": "registry_get"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/tiers/instance_sizes/{slug}",
+        "operation_id": "apps_get_instanceSize"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/tiers/instance_sizes",
+        "operation_id": "apps_list_instanceSizes"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/customers/my/billing_history",
+        "operation_id": "billingHistory_list"
+      },
+      {
+        "method": "DELETE",
+        "path": "/v2/droplets/{droplet_id}/destroy_with_associated_resources/dangerous",
+        "operation_id": "droplets_destroy_withAssociatedResourcesDangerous"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/firewalls",
+        "operation_id": "firewalls_list"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/uptime/checks/{check_id}/alerts",
+        "operation_id": "uptime_alert_create"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/regions",
+        "operation_id": "apps_list_regions"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/droplets",
+        "operation_id": "droplets_list"
+      },
+      {
+        "method": "PATCH",
+        "path": "/v2/vpcs/{vpc_id}",
+        "operation_id": "vpcs_patch"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/projects/{project_id}/resources",
+        "operation_id": "projects_assign_resources"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/droplets/{droplet_id}/destroy_with_associated_resources/retry",
+        "operation_id": "droplets_destroy_retryWithAssociatedResources"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/registry/{registry_name}/repositoriesV2",
+        "operation_id": "registry_list_repositoriesV2"
+      },
+      {
+        "method": "PUT",
+        "path": "/v2/functions/namespaces/{namespace_id}/triggers/{trigger_name}",
+        "operation_id": "functions_update_trigger"
+      }
+    ]
+  },
+  {
+    "intent": "Can you pull up the list of all backups we have stored for our production database droplet with ID 78912345? I need to verify our disaster recovery coverage before the audit next week.",
+    "ground_truth_method": "GET",
+    "ground_truth_path": "/v2/droplets/{droplet_id}/backups",
+    "candidates": [
+      {
+        "method": "GET",
+        "path": "/v2/databases/{database_cluster_uuid}",
+        "operation_id": "databases_get_cluster"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/apps/metrics/bandwidth_daily",
+        "operation_id": "apps_list_metrics_bandwidth_daily"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/floating_ips/{floating_ip}/actions",
+        "operation_id": "floatingIPsAction_post"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/firewalls",
+        "operation_id": "firewalls_create"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/droplets/{droplet_id}/backups",
+        "operation_id": "droplets_list_backups"
+      },
+      {
+        "method": "PUT",
+        "path": "/v2/databases/{database_cluster_uuid}/maintenance",
+        "operation_id": "databases_update_maintenanceWindow"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/customers/my/invoices/{invoice_uuid}/pdf",
+        "operation_id": "invoices_get_pdfByUUID"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/volumes/{volume_id}/actions",
+        "operation_id": "volumeActions_post_byId"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/certificates/{certificate_id}",
+        "operation_id": "certificates_get"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/registry",
+        "operation_id": "registry_get"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/tiers/instance_sizes/{slug}",
+        "operation_id": "apps_get_instanceSize"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/tiers/instance_sizes",
+        "operation_id": "apps_list_instanceSizes"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/customers/my/billing_history",
+        "operation_id": "billingHistory_list"
+      },
+      {
+        "method": "DELETE",
+        "path": "/v2/droplets/{droplet_id}/destroy_with_associated_resources/dangerous",
+        "operation_id": "droplets_destroy_withAssociatedResourcesDangerous"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/firewalls",
+        "operation_id": "firewalls_list"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/uptime/checks/{check_id}/alerts",
+        "operation_id": "uptime_alert_create"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/regions",
+        "operation_id": "apps_list_regions"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/droplets",
+        "operation_id": "droplets_list"
+      },
+      {
+        "method": "PATCH",
+        "path": "/v2/vpcs/{vpc_id}",
+        "operation_id": "vpcs_patch"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/projects/{project_id}/resources",
+        "operation_id": "projects_assign_resources"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/droplets/{droplet_id}/destroy_with_associated_resources/retry",
+        "operation_id": "droplets_destroy_retryWithAssociatedResources"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/registry/{registry_name}/repositoriesV2",
+        "operation_id": "registry_list_repositoriesV2"
+      },
+      {
+        "method": "PUT",
+        "path": "/v2/functions/namespaces/{namespace_id}/triggers/{trigger_name}",
+        "operation_id": "functions_update_trigger"
+      }
+    ]
+  },
+  {
+    "intent": "Before we decommission the old staging server (droplet ID 55231087), check what backups currently exist for it so we know if we need to manually snapshot anything first.",
+    "ground_truth_method": "GET",
+    "ground_truth_path": "/v2/droplets/{droplet_id}/backups",
+    "candidates": [
+      {
+        "method": "GET",
+        "path": "/v2/databases/{database_cluster_uuid}",
+        "operation_id": "databases_get_cluster"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/apps/metrics/bandwidth_daily",
+        "operation_id": "apps_list_metrics_bandwidth_daily"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/floating_ips/{floating_ip}/actions",
+        "operation_id": "floatingIPsAction_post"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/firewalls",
+        "operation_id": "firewalls_create"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/droplets/{droplet_id}/backups",
+        "operation_id": "droplets_list_backups"
+      },
+      {
+        "method": "PUT",
+        "path": "/v2/databases/{database_cluster_uuid}/maintenance",
+        "operation_id": "databases_update_maintenanceWindow"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/customers/my/invoices/{invoice_uuid}/pdf",
+        "operation_id": "invoices_get_pdfByUUID"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/volumes/{volume_id}/actions",
+        "operation_id": "volumeActions_post_byId"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/certificates/{certificate_id}",
+        "operation_id": "certificates_get"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/registry",
+        "operation_id": "registry_get"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/tiers/instance_sizes/{slug}",
+        "operation_id": "apps_get_instanceSize"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/tiers/instance_sizes",
+        "operation_id": "apps_list_instanceSizes"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/customers/my/billing_history",
+        "operation_id": "billingHistory_list"
+      },
+      {
+        "method": "DELETE",
+        "path": "/v2/droplets/{droplet_id}/destroy_with_associated_resources/dangerous",
+        "operation_id": "droplets_destroy_withAssociatedResourcesDangerous"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/firewalls",
+        "operation_id": "firewalls_list"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/uptime/checks/{check_id}/alerts",
+        "operation_id": "uptime_alert_create"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/regions",
+        "operation_id": "apps_list_regions"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/droplets",
+        "operation_id": "droplets_list"
+      },
+      {
+        "method": "PATCH",
+        "path": "/v2/vpcs/{vpc_id}",
+        "operation_id": "vpcs_patch"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/projects/{project_id}/resources",
+        "operation_id": "projects_assign_resources"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/droplets/{droplet_id}/destroy_with_associated_resources/retry",
+        "operation_id": "droplets_destroy_retryWithAssociatedResources"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/registry/{registry_name}/repositoriesV2",
+        "operation_id": "registry_list_repositoriesV2"
+      },
+      {
+        "method": "PUT",
+        "path": "/v2/functions/namespaces/{namespace_id}/triggers/{trigger_name}",
+        "operation_id": "functions_update_trigger"
+      }
+    ]
+  },
+  {
+    "intent": "Our database cluster's maintenance window is currently set during business hours and it's causing disruptions to our production traffic\u2014can you move it to Saturdays at 2am instead?",
+    "ground_truth_method": "PUT",
+    "ground_truth_path": "/v2/databases/{database_cluster_uuid}/maintenance",
+    "candidates": [
+      {
+        "method": "GET",
+        "path": "/v2/databases/{database_cluster_uuid}",
+        "operation_id": "databases_get_cluster"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/apps/metrics/bandwidth_daily",
+        "operation_id": "apps_list_metrics_bandwidth_daily"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/floating_ips/{floating_ip}/actions",
+        "operation_id": "floatingIPsAction_post"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/firewalls",
+        "operation_id": "firewalls_create"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/droplets/{droplet_id}/backups",
+        "operation_id": "droplets_list_backups"
+      },
+      {
+        "method": "PUT",
+        "path": "/v2/databases/{database_cluster_uuid}/maintenance",
+        "operation_id": "databases_update_maintenanceWindow"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/customers/my/invoices/{invoice_uuid}/pdf",
+        "operation_id": "invoices_get_pdfByUUID"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/volumes/{volume_id}/actions",
+        "operation_id": "volumeActions_post_byId"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/certificates/{certificate_id}",
+        "operation_id": "certificates_get"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/registry",
+        "operation_id": "registry_get"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/tiers/instance_sizes/{slug}",
+        "operation_id": "apps_get_instanceSize"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/tiers/instance_sizes",
+        "operation_id": "apps_list_instanceSizes"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/customers/my/billing_history",
+        "operation_id": "billingHistory_list"
+      },
+      {
+        "method": "DELETE",
+        "path": "/v2/droplets/{droplet_id}/destroy_with_associated_resources/dangerous",
+        "operation_id": "droplets_destroy_withAssociatedResourcesDangerous"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/firewalls",
+        "operation_id": "firewalls_list"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/uptime/checks/{check_id}/alerts",
+        "operation_id": "uptime_alert_create"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/regions",
+        "operation_id": "apps_list_regions"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/droplets",
+        "operation_id": "droplets_list"
+      },
+      {
+        "method": "PATCH",
+        "path": "/v2/vpcs/{vpc_id}",
+        "operation_id": "vpcs_patch"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/projects/{project_id}/resources",
+        "operation_id": "projects_assign_resources"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/droplets/{droplet_id}/destroy_with_associated_resources/retry",
+        "operation_id": "droplets_destroy_retryWithAssociatedResources"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/registry/{registry_name}/repositoriesV2",
+        "operation_id": "registry_list_repositoriesV2"
+      },
+      {
+        "method": "PUT",
+        "path": "/v2/functions/namespaces/{namespace_id}/triggers/{trigger_name}",
+        "operation_id": "functions_update_trigger"
+      }
+    ]
+  },
+  {
+    "intent": "We just finished migrating our EU customer base to a new region, so please update the maintenance schedule for cluster db-prod-eu-01 to run early Sunday mornings UTC instead of the current weekday slot.",
+    "ground_truth_method": "PUT",
+    "ground_truth_path": "/v2/databases/{database_cluster_uuid}/maintenance",
+    "candidates": [
+      {
+        "method": "GET",
+        "path": "/v2/databases/{database_cluster_uuid}",
+        "operation_id": "databases_get_cluster"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/apps/metrics/bandwidth_daily",
+        "operation_id": "apps_list_metrics_bandwidth_daily"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/floating_ips/{floating_ip}/actions",
+        "operation_id": "floatingIPsAction_post"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/firewalls",
+        "operation_id": "firewalls_create"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/droplets/{droplet_id}/backups",
+        "operation_id": "droplets_list_backups"
+      },
+      {
+        "method": "PUT",
+        "path": "/v2/databases/{database_cluster_uuid}/maintenance",
+        "operation_id": "databases_update_maintenanceWindow"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/customers/my/invoices/{invoice_uuid}/pdf",
+        "operation_id": "invoices_get_pdfByUUID"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/volumes/{volume_id}/actions",
+        "operation_id": "volumeActions_post_byId"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/certificates/{certificate_id}",
+        "operation_id": "certificates_get"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/registry",
+        "operation_id": "registry_get"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/tiers/instance_sizes/{slug}",
+        "operation_id": "apps_get_instanceSize"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/tiers/instance_sizes",
+        "operation_id": "apps_list_instanceSizes"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/customers/my/billing_history",
+        "operation_id": "billingHistory_list"
+      },
+      {
+        "method": "DELETE",
+        "path": "/v2/droplets/{droplet_id}/destroy_with_associated_resources/dangerous",
+        "operation_id": "droplets_destroy_withAssociatedResourcesDangerous"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/firewalls",
+        "operation_id": "firewalls_list"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/uptime/checks/{check_id}/alerts",
+        "operation_id": "uptime_alert_create"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/regions",
+        "operation_id": "apps_list_regions"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/droplets",
+        "operation_id": "droplets_list"
+      },
+      {
+        "method": "PATCH",
+        "path": "/v2/vpcs/{vpc_id}",
+        "operation_id": "vpcs_patch"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/projects/{project_id}/resources",
+        "operation_id": "projects_assign_resources"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/droplets/{droplet_id}/destroy_with_associated_resources/retry",
+        "operation_id": "droplets_destroy_retryWithAssociatedResources"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/registry/{registry_name}/repositoriesV2",
+        "operation_id": "registry_list_repositoriesV2"
+      },
+      {
+        "method": "PUT",
+        "path": "/v2/functions/namespaces/{namespace_id}/triggers/{trigger_name}",
+        "operation_id": "functions_update_trigger"
+      }
+    ]
+  },
+  {
+    "intent": "Our finance team needs the PDF copy of invoice ID a3f9c2e1-7b44-4d6a-9f21-8e6b1c0d5a77 for this month's expense reconciliation\u2014can you pull that down?",
+    "ground_truth_method": "GET",
+    "ground_truth_path": "/v2/customers/my/invoices/{invoice_uuid}/pdf",
+    "candidates": [
+      {
+        "method": "GET",
+        "path": "/v2/databases/{database_cluster_uuid}",
+        "operation_id": "databases_get_cluster"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/apps/metrics/bandwidth_daily",
+        "operation_id": "apps_list_metrics_bandwidth_daily"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/floating_ips/{floating_ip}/actions",
+        "operation_id": "floatingIPsAction_post"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/firewalls",
+        "operation_id": "firewalls_create"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/droplets/{droplet_id}/backups",
+        "operation_id": "droplets_list_backups"
+      },
+      {
+        "method": "PUT",
+        "path": "/v2/databases/{database_cluster_uuid}/maintenance",
+        "operation_id": "databases_update_maintenanceWindow"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/customers/my/invoices/{invoice_uuid}/pdf",
+        "operation_id": "invoices_get_pdfByUUID"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/volumes/{volume_id}/actions",
+        "operation_id": "volumeActions_post_byId"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/certificates/{certificate_id}",
+        "operation_id": "certificates_get"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/registry",
+        "operation_id": "registry_get"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/tiers/instance_sizes/{slug}",
+        "operation_id": "apps_get_instanceSize"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/tiers/instance_sizes",
+        "operation_id": "apps_list_instanceSizes"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/customers/my/billing_history",
+        "operation_id": "billingHistory_list"
+      },
+      {
+        "method": "DELETE",
+        "path": "/v2/droplets/{droplet_id}/destroy_with_associated_resources/dangerous",
+        "operation_id": "droplets_destroy_withAssociatedResourcesDangerous"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/firewalls",
+        "operation_id": "firewalls_list"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/uptime/checks/{check_id}/alerts",
+        "operation_id": "uptime_alert_create"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/regions",
+        "operation_id": "apps_list_regions"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/droplets",
+        "operation_id": "droplets_list"
+      },
+      {
+        "method": "PATCH",
+        "path": "/v2/vpcs/{vpc_id}",
+        "operation_id": "vpcs_patch"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/projects/{project_id}/resources",
+        "operation_id": "projects_assign_resources"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/droplets/{droplet_id}/destroy_with_associated_resources/retry",
+        "operation_id": "droplets_destroy_retryWithAssociatedResources"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/registry/{registry_name}/repositoriesV2",
+        "operation_id": "registry_list_repositoriesV2"
+      },
+      {
+        "method": "PUT",
+        "path": "/v2/functions/namespaces/{namespace_id}/triggers/{trigger_name}",
+        "operation_id": "functions_update_trigger"
+      }
+    ]
+  },
+  {
+    "intent": "I need to forward last quarter's invoice to our vendor management system as a PDF attachment; can you grab the document for invoice a12b3c4d-5e6f-7890-abcd-ef1234567890?",
+    "ground_truth_method": "GET",
+    "ground_truth_path": "/v2/customers/my/invoices/{invoice_uuid}/pdf",
+    "candidates": [
+      {
+        "method": "GET",
+        "path": "/v2/databases/{database_cluster_uuid}",
+        "operation_id": "databases_get_cluster"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/apps/metrics/bandwidth_daily",
+        "operation_id": "apps_list_metrics_bandwidth_daily"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/floating_ips/{floating_ip}/actions",
+        "operation_id": "floatingIPsAction_post"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/firewalls",
+        "operation_id": "firewalls_create"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/droplets/{droplet_id}/backups",
+        "operation_id": "droplets_list_backups"
+      },
+      {
+        "method": "PUT",
+        "path": "/v2/databases/{database_cluster_uuid}/maintenance",
+        "operation_id": "databases_update_maintenanceWindow"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/customers/my/invoices/{invoice_uuid}/pdf",
+        "operation_id": "invoices_get_pdfByUUID"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/volumes/{volume_id}/actions",
+        "operation_id": "volumeActions_post_byId"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/certificates/{certificate_id}",
+        "operation_id": "certificates_get"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/registry",
+        "operation_id": "registry_get"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/tiers/instance_sizes/{slug}",
+        "operation_id": "apps_get_instanceSize"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/tiers/instance_sizes",
+        "operation_id": "apps_list_instanceSizes"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/customers/my/billing_history",
+        "operation_id": "billingHistory_list"
+      },
+      {
+        "method": "DELETE",
+        "path": "/v2/droplets/{droplet_id}/destroy_with_associated_resources/dangerous",
+        "operation_id": "droplets_destroy_withAssociatedResourcesDangerous"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/firewalls",
+        "operation_id": "firewalls_list"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/uptime/checks/{check_id}/alerts",
+        "operation_id": "uptime_alert_create"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/regions",
+        "operation_id": "apps_list_regions"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/droplets",
+        "operation_id": "droplets_list"
+      },
+      {
+        "method": "PATCH",
+        "path": "/v2/vpcs/{vpc_id}",
+        "operation_id": "vpcs_patch"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/projects/{project_id}/resources",
+        "operation_id": "projects_assign_resources"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/droplets/{droplet_id}/destroy_with_associated_resources/retry",
+        "operation_id": "droplets_destroy_retryWithAssociatedResources"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/registry/{registry_name}/repositoriesV2",
+        "operation_id": "registry_list_repositoriesV2"
+      },
+      {
+        "method": "PUT",
+        "path": "/v2/functions/namespaces/{namespace_id}/triggers/{trigger_name}",
+        "operation_id": "functions_update_trigger"
+      }
+    ]
+  },
+  {
+    "intent": "Can you attach the volume vol-8837 to our new database server droplet before end of day so the migration team can start restoring the backup?",
+    "ground_truth_method": "POST",
+    "ground_truth_path": "/v2/volumes/{volume_id}/actions",
+    "candidates": [
+      {
+        "method": "GET",
+        "path": "/v2/databases/{database_cluster_uuid}",
+        "operation_id": "databases_get_cluster"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/apps/metrics/bandwidth_daily",
+        "operation_id": "apps_list_metrics_bandwidth_daily"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/floating_ips/{floating_ip}/actions",
+        "operation_id": "floatingIPsAction_post"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/firewalls",
+        "operation_id": "firewalls_create"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/droplets/{droplet_id}/backups",
+        "operation_id": "droplets_list_backups"
+      },
+      {
+        "method": "PUT",
+        "path": "/v2/databases/{database_cluster_uuid}/maintenance",
+        "operation_id": "databases_update_maintenanceWindow"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/customers/my/invoices/{invoice_uuid}/pdf",
+        "operation_id": "invoices_get_pdfByUUID"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/volumes/{volume_id}/actions",
+        "operation_id": "volumeActions_post_byId"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/certificates/{certificate_id}",
+        "operation_id": "certificates_get"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/registry",
+        "operation_id": "registry_get"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/tiers/instance_sizes/{slug}",
+        "operation_id": "apps_get_instanceSize"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/tiers/instance_sizes",
+        "operation_id": "apps_list_instanceSizes"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/customers/my/billing_history",
+        "operation_id": "billingHistory_list"
+      },
+      {
+        "method": "DELETE",
+        "path": "/v2/droplets/{droplet_id}/destroy_with_associated_resources/dangerous",
+        "operation_id": "droplets_destroy_withAssociatedResourcesDangerous"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/firewalls",
+        "operation_id": "firewalls_list"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/uptime/checks/{check_id}/alerts",
+        "operation_id": "uptime_alert_create"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/regions",
+        "operation_id": "apps_list_regions"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/droplets",
+        "operation_id": "droplets_list"
+      },
+      {
+        "method": "PATCH",
+        "path": "/v2/vpcs/{vpc_id}",
+        "operation_id": "vpcs_patch"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/projects/{project_id}/resources",
+        "operation_id": "projects_assign_resources"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/droplets/{droplet_id}/destroy_with_associated_resources/retry",
+        "operation_id": "droplets_destroy_retryWithAssociatedResources"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/registry/{registry_name}/repositoriesV2",
+        "operation_id": "registry_list_repositoriesV2"
+      },
+      {
+        "method": "PUT",
+        "path": "/v2/functions/namespaces/{namespace_id}/triggers/{trigger_name}",
+        "operation_id": "functions_update_trigger"
+      }
+    ]
+  },
+  {
+    "intent": "We need to resize the storage volume backing our staging environment from 100GB to 250GB without losing any data\u2014can you kick that off now?",
+    "ground_truth_method": "POST",
+    "ground_truth_path": "/v2/volumes/{volume_id}/actions",
+    "candidates": [
+      {
+        "method": "GET",
+        "path": "/v2/databases/{database_cluster_uuid}",
+        "operation_id": "databases_get_cluster"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/apps/metrics/bandwidth_daily",
+        "operation_id": "apps_list_metrics_bandwidth_daily"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/floating_ips/{floating_ip}/actions",
+        "operation_id": "floatingIPsAction_post"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/firewalls",
+        "operation_id": "firewalls_create"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/droplets/{droplet_id}/backups",
+        "operation_id": "droplets_list_backups"
+      },
+      {
+        "method": "PUT",
+        "path": "/v2/databases/{database_cluster_uuid}/maintenance",
+        "operation_id": "databases_update_maintenanceWindow"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/customers/my/invoices/{invoice_uuid}/pdf",
+        "operation_id": "invoices_get_pdfByUUID"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/volumes/{volume_id}/actions",
+        "operation_id": "volumeActions_post_byId"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/certificates/{certificate_id}",
+        "operation_id": "certificates_get"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/registry",
+        "operation_id": "registry_get"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/tiers/instance_sizes/{slug}",
+        "operation_id": "apps_get_instanceSize"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/tiers/instance_sizes",
+        "operation_id": "apps_list_instanceSizes"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/customers/my/billing_history",
+        "operation_id": "billingHistory_list"
+      },
+      {
+        "method": "DELETE",
+        "path": "/v2/droplets/{droplet_id}/destroy_with_associated_resources/dangerous",
+        "operation_id": "droplets_destroy_withAssociatedResourcesDangerous"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/firewalls",
+        "operation_id": "firewalls_list"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/uptime/checks/{check_id}/alerts",
+        "operation_id": "uptime_alert_create"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/apps/regions",
+        "operation_id": "apps_list_regions"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/droplets",
+        "operation_id": "droplets_list"
+      },
+      {
+        "method": "PATCH",
+        "path": "/v2/vpcs/{vpc_id}",
+        "operation_id": "vpcs_patch"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/projects/{project_id}/resources",
+        "operation_id": "projects_assign_resources"
+      },
+      {
+        "method": "POST",
+        "path": "/v2/droplets/{droplet_id}/destroy_with_associated_resources/retry",
+        "operation_id": "droplets_destroy_retryWithAssociatedResources"
+      },
+      {
+        "method": "GET",
+        "path": "/v2/registry/{registry_name}/repositoriesV2",
+        "operation_id": "registry_list_repositoriesV2"
+      },
+      {
+        "method": "PUT",
+        "path": "/v2/functions/namespaces/{namespace_id}/triggers/{trigger_name}",
+        "operation_id": "functions_update_trigger"
+      }
+    ]
+  }
+]
