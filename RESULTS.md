@@ -87,7 +87,8 @@ Training set: 45 Stage-6-verified trajectories (GitHub/Stripe/Slack). Held-out e
 | Model | Tool Selection Accuracy | Parameter Validity (of correct) |
 | --- | --- | --- |
 | Base (zero-shot, untuned) | 12.5% (2/16) | 0.0% |
-| + LoRA fine-tuned | **87.5% (14/16)** | **57.1% (8/14)** |
+| + LoRA on Self-Instruct-bootstrapped data | 25.0% (4/16) | 50.0% (2/4) |
+| + LoRA on EnterpriseSynth-verified data | **87.5% (14/16)** | **57.1% (8/14)** |
 
 Training loss: 0.708 → 0.403 → 0.247 across 3 epochs (monotonic, real learning).
 
@@ -96,6 +97,17 @@ real required field is `password`; the fine-tuned model invented `new_password` 
 `expiration_time` instead — it generalized *which endpoint to call* but not *the exact field
 names* a genuinely unseen schema requires. This is precisely the failure mode Stage 6
 verification exists to catch downstream.
+
+**Self-Instruct baseline** (`scripts/run_baseline_selfinstruct.py` +
+`run_baseline_selfinstruct_finetune.py`) — the first real evidence for RQ2. Schema-free bootstrap
+(4 human-quality seeds, few-shot generation, ROUGE-L dedup), fine-tuned/evaluated with identical
+methodology on the identical held-out set. Any fine-tuning helps (12.5%→25%), but
+EnterpriseSynth's schema-grounded, verified data helps ~3.5x more (25%→87.5%) — isolating
+training-data quality as the source of the gap. Honest surprise: 12/45 (26.7%) of Self-Instruct's
+"invented" endpoints turned out real, but **all 12 were GitHub** (branch protection, webhooks) —
+the base model's pretraining familiarity with GitHub's public API leaking through, not schema
+grounding. Strengthens rather than weakens the cold-start case: truly private internal APIs
+wouldn't have this incidental advantage.
 
 ## Ablation Study
 
@@ -125,6 +137,26 @@ the Trajectory Generator from the start), Response Schema Modeling (only a boole
   hits/API) until inspection showed every hit was a false positive. Reported as an invalid metric,
   not kept as a finding.
 
+**A5 — Haiku 4.5 semantic-plausibility check** (`scripts/run_ablation_haiku.py`, data:
+`data/generated/ablation_haiku_semantic_check.json`) — this was described in the design doc as an
+optional ablation arm but never implemented until an audit
+([issue #1](https://github.com/Rashmioffcialpage/enterprisesynth-api/issues/1)) flagged the gap.
+Tests whether a cheap LLM catches semantically-wrong-but-structurally-valid values (e.g. a
+negated amount, a placeholder string) that the deterministic verifier cannot see by design:
+
+| API | Valid trajectories judged plausible | Semantic corruption still structurally valid | ...caught by Haiku |
+| --- | --- | --- | --- |
+| GitHub | 10/15 (66.7%) | 15/15 (100%) | 15/15 (100%) |
+| Stripe | 15/15 (100%) | 15/15 (100%) | 15/15 (100%) |
+| Slack | 13/15 (86.7%) | 15/15 (100%) | 15/15 (100%) |
+
+Confirms the deterministic gate is blind to this error class by construction (100% pass
+structurally) and that Haiku catches 100% of them — genuine incremental value. But also a real,
+disclosed limitation: GitHub's 33% false-positive rate, traced to Haiku being overly literal (e.g.
+flagging correct use of repository IDs as "unverifiable," or expecting a parameter that doesn't
+exist in the spec). Adds value for its target error class, but isn't free — would need calibration
+before serving as a hard gate rather than an advisory signal.
+
 ## Comparison With Existing Approaches
 
 | Capability | ToolLLM/ToolBench | API-Bank | AgentInstruct | EnterpriseSynth |
@@ -147,15 +179,21 @@ the Trajectory Generator from the start), Response Schema Modeling (only a boole
   hidden.
 - EnterpriseSynth-generated SFT data measurably improves tool-selection accuracy on a genuinely
   unseen API (12.5% → 87.5%); exact-field-name generalization remains a real, open limitation.
+- **A real baseline now backs this up:** Self-Instruct-fine-tuned data only reaches 25% on the same
+  held-out set — any fine-tuning helps, but schema-grounded verified data helps ~3.5x more,
+  isolating training-data quality as the source of the gap, not model or methodology.
 - Explicit Intent Generation and Schema Verification are both real, load-bearing components (A1,
-  A2). Descriptions and full-API context show no detected effect yet (A3, A4) — an honest null
-  result with current metrics, not evidence they don't matter.
+  A2). A cheap LLM semantic check (A5) adds genuine value for a distinct error class the
+  deterministic gate can't see, but has a real, disclosed false-positive rate (33% on GitHub).
+  Descriptions and full-API context show no detected effect yet (A3, A4) — an honest null result
+  with current metrics, not evidence they don't matter.
 
 ## What's Next
 
 - Scale from 3–4 APIs / 45 examples to the full ~65-spec stratified sample (`DESIGN_DOC.md` §5.2).
 - Real fine-tuning at the paper's target model scale (7–8B) once GPU access is available.
-- Implement the remaining baselines: Self-Instruct, ToolBench, prompt-only agent.
+- Scale the Self-Instruct/EnterpriseSynth comparison to more held-out APIs beyond Zoom.
+- Implement the remaining baselines: ToolBench, prompt-only agent.
 - Better metrics for A3/A4 (LLM-judged specificity; deliberately multi-step task construction) to
   move those two ablations from inconclusive to a real answer.
 - Resolve the EnterpriseBench naming collision (`DESIGN_DOC.md`, top of file).

@@ -516,14 +516,15 @@ for the full-scale experiment.
 (GitHub/Stripe/Slack only). Held-out set: 16 intents generated for Zoom (373 endpoints), an API
 never touched by any prior experiment or by the training data.
 
-\textbf{Measured (pilot scale, base vs.\ fine-tuned only -- other baselines not yet implemented
-for this pilot).}
+\textbf{Measured (pilot scale; ToolBench/prompt-only-agent baselines not yet implemented, but
+Self-Instruct now is -- closing the RQ2 gap flagged in a repo audit).}
 
 \begin{center}
 \begin{tabular}{lll}
 \textbf{Model} & \textbf{Tool Selection Acc.} & \textbf{Param. Validity (of correct)} \\
 Base (zero-shot, untuned) & 12.5\% (2/16) & 0.0\% \\
-+ LoRA fine-tuned & 87.5\% (14/16) & 57.1\% (8/14) \\
++ LoRA on Self-Instruct data & 25.0\% (4/16) & 50.0\% (2/4) \\
++ LoRA on EnterpriseSynth data & 87.5\% (14/16) & 57.1\% (8/14) \\
 \end{tabular}
 \end{center}
 
@@ -531,6 +532,20 @@ Training loss dropped monotonically over the 3 epochs (0.708 $\rightarrow$ 0.403
 0.247). The jump on tool selection (12.5\% $\rightarrow$ 87.5\%) is a genuine, fairly large effect
 for 45 training examples and a 0.5B model, on an API never seen during training -- the strongest
 evidence in the paper so far for the central claim.
+
+\textbf{The Self-Instruct baseline is the first real evidence for RQ2.} Adapted per Section~4.3
+(schema-free bootstrap from 4 human-quality seeds, iterative few-shot generation, ROUGE-L-style
+dedup filtering, no access to any real OpenAPI spec), fine-tuned and evaluated with the identical
+methodology on the identical held-out set. Result: fine-tuning on any tool-use data helps over the
+untuned base (12.5\% $\rightarrow$ 25\%), but EnterpriseSynth's schema-grounded, verified data
+helps roughly 3.5x more (25\% $\rightarrow$ 87.5\%) -- isolating training-data quality, not model
+or evaluation methodology, as the source of the gap. One honest surprise: 12/45 (26.7\%) of the
+Self-Instruct bootstrap's "invented" endpoints turned out to be real -- but every one was a GitHub
+endpoint (e.g.\ branch protection, webhooks), none from Stripe or Slack, reflecting the base
+model's pretraining familiarity with GitHub's extremely public API rather than any schema
+grounding in this experiment. This is a limitation of Self-Instruct as a baseline specifically for
+well-known public APIs, and if anything strengthens EnterpriseSynth's cold-start motivation: truly
+private, undocumented internal APIs would show none of this incidental grounding.
 
 Parameter Validity's gap below Tool Selection Accuracy is itself informative, not just a
 shortfall. Inspecting failures: for Zoom's \texttt{PUT /users/\{userId\}/password}, the true
@@ -543,9 +558,8 @@ the failure mode Stage 6 verification exists to catch before a generated traject
 real API call or a training set. Experiments 4 and 5 corroborate each other here.
 
 This pilot does not show the effect holds at the paper's actual target model scale (7--8B), at
-the full stratified training sample size (Section~3.2), or against the Self-Instruct/ToolBench/
-prompt-only-agent baselines -- those require cloud GPU access or further implementation time,
-both future work.
+the full stratified training sample size (Section~3.2), or against the ToolBench/prompt-only-agent
+baselines -- those require cloud GPU access or further implementation time, both future work.
 
 \begin{figure}[h]
 \centering
@@ -628,16 +642,20 @@ Section~6.7).
 \begin{tabular}{lll}
 \textbf{Model} & \textbf{Tool Success} & \textbf{Argument Correctness} \\
 Base LLM (zero-shot) & 12.5\% (2/16) & 0.0\% \\
+Self-Instruct-fine-tuned & 25.0\% (4/16) & 50.0\% (2/4) \\
 EnterpriseSynth-fine-tuned & 87.5\% (14/16) & 57.1\% (8/14) \\
 \end{tabular}
 \end{center}
 
-Prompt-only-agent and Self-Instruct baseline rows are not yet implemented for this pilot. The
-12.5\%$\rightarrow$87.5\% jump, from 45 training examples and a 0.5B model, on a genuinely unseen
-API, is the strongest evidence for the paper's central claim so far. Argument correctness lagging
-behind tool selection is itself informative: the model learned which endpoint to call but not
-always the exact field names a new schema requires (Section~6.7) -- exactly the failure mode
-Stage 6 verification exists to catch downstream.
+Prompt-only-agent and ToolBench baseline rows are not yet implemented for this pilot; Self-Instruct
+now is, on the identical held-out set and methodology. The 12.5\%$\rightarrow$87.5\% jump, from 45
+training examples and a 0.5B model, on a genuinely unseen API, is the strongest evidence for the
+paper's central claim so far, and the Self-Instruct baseline shows it is not simply "any
+fine-tuning helps" -- schema-grounded, verified training data helps roughly 3.5x more than
+schema-free bootstrapped data on the identical task. Argument correctness lagging behind tool
+selection is itself informative: the model learned which endpoint to call but not always the
+exact field names a new schema requires (Section~6.7) -- exactly the failure mode Stage 6
+verification exists to catch downstream.
 
 \subsection{Comparison With Existing Approaches}
 

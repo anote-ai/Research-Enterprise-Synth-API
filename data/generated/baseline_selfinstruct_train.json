@@ -1,0 +1,671 @@
+[
+  {
+    "intent": "Grant the mobile-team write access to our analytics-dashboard repo so they can start pushing their new feature branches.",
+    "selected_method": "PUT",
+    "selected_path": "/orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}",
+    "parameters": {
+      "org": "my-org",
+      "team_slug": "mobile-team",
+      "owner": "my-org",
+      "repo": "analytics-dashboard",
+      "permission": "push"
+    }
+  },
+  {
+    "intent": "We need to enforce required status checks on the checkout-service repo so that no pull request can be merged into main unless the CI build and security scan both pass.",
+    "selected_method": "PUT",
+    "selected_path": "/repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "checkout-service",
+      "branch": "main",
+      "strict": true,
+      "contexts": [
+        "ci/build",
+        "security/scan"
+      ]
+    }
+  },
+  {
+    "intent": "Enable required status checks for the build and test workflows on our main branch in the checkout-service repo so PRs can't merge until CI passes.",
+    "selected_method": "PATCH",
+    "selected_path": "/repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks",
+    "parameters": {
+      "owner": "my-org",
+      "repo": "checkout-service",
+      "branch": "main",
+      "strict": true,
+      "contexts": [
+        "ci/build",
+        "ci/test"
+      ]
+    }
+  },
+  {
+    "intent": "Require at least two approving reviews from the security team before any pull request can be merged into the release branch of our identity-service repo.",
+    "selected_method": "PATCH",
+    "selected_path": "/repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "identity-service",
+      "branch": "release",
+      "required_approving_review_count": 2,
+      "require_code_owner_reviews": true,
+      "restrict_to_teams": [
+        "security-team"
+      ]
+    }
+  },
+  {
+    "intent": "Set up a new webhook on our payments-api repo to notify our Slack channel whenever a deployment is created.",
+    "selected_method": "POST",
+    "selected_path": "/repos/{owner}/{repo}/hooks",
+    "parameters": {
+      "owner": "my-org",
+      "repo": "payments-api",
+      "name": "web",
+      "config": {
+        "url": "https://hooks.slack.com/services/T00000/B00000/XXXXXXXXXXXXXXXXXXXX",
+        "content_type": "json"
+      },
+      "events": [
+        "deployment"
+      ],
+      "active": true
+    }
+  },
+  {
+    "intent": "Restrict who can push directly to the release branch in our billing-service repo by requiring pull request reviews before merging.",
+    "selected_method": "PATCH",
+    "selected_path": "/repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "billing-service",
+      "branch": "release",
+      "dismiss_stale_reviews": true,
+      "require_code_owner_reviews": true,
+      "required_approving_review_count": 2
+    }
+  },
+  {
+    "intent": "We need to restrict who can push directly to the release branches on the billing-service repo, allowing only members of the release-managers team.",
+    "selected_method": "PUT",
+    "selected_path": "/repos/{owner}/{repo}/branches/{branch}/protection/restrictions",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "billing-service",
+      "branch": "release/*",
+      "teams": [
+        "release-managers"
+      ],
+      "users": []
+    }
+  },
+  {
+    "intent": "Set up a webhook on the payments-service repo so our deployment pipeline gets notified whenever a new release is published.",
+    "selected_method": "POST",
+    "selected_path": "/repos/{owner}/{repo}/hooks",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "payments-service",
+      "name": "web",
+      "active": true,
+      "events": [
+        "release"
+      ],
+      "config": {
+        "url": "https://ci.acme-corp.com/webhooks/payments-release",
+        "content_type": "json",
+        "secret": "a1b2c3d4e5f6g7h8"
+      }
+    }
+  },
+  {
+    "intent": "We need to restrict deployments to the production environment in our billing-engine repo so only members of the release-managers team can approve them.",
+    "selected_method": "PUT",
+    "selected_path": "/repos/{owner}/{repo}/environments/{environment_name}/protection-rules",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "billing-engine",
+      "environment_name": "production",
+      "required_reviewers": [
+        "release-managers"
+      ],
+      "wait_timer": 15,
+      "prevent_self_review": true
+    }
+  },
+  {
+    "intent": "Turn on secret scanning push protection for the payments-api repo so commits containing credentials are blocked before they reach the remote, except for our documented test fixtures.",
+    "selected_method": "PATCH",
+    "selected_path": "/repos/{owner}/{repo}/secret-scanning/push-protection",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "payments-api",
+      "enabled": true,
+      "block_on_detection": true,
+      "bypass_teams": [
+        "security-admins"
+      ],
+      "path_exclusions": [
+        "test/fixtures/**",
+        "docs/examples/**"
+      ]
+    }
+  },
+  {
+    "intent": "Grant the billing-service repository access to our org's restricted self-hosted runner group named 'secure-runners' so its workflows can use those runners.",
+    "selected_method": "PUT",
+    "selected_path": "/orgs/{org}/actions/runner-groups/{runner_group_id}/repositories/{repository_id}",
+    "parameters": {
+      "org": "acme-corp",
+      "runner_group_id": 42,
+      "repository_id": 987654
+    }
+  },
+  {
+    "intent": "Please enable required secret scanning alerts on our payments-service repo and automatically notify the security-team via webhook when a new secret is detected.",
+    "selected_method": "PUT",
+    "selected_path": "/repos/{owner}/{repo}/secret-scanning/settings",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "payments-service",
+      "enable_secret_scanning": true,
+      "notify_teams": [
+        "security-team"
+      ],
+      "webhook_url": "https://hooks.acme-corp.com/security-alerts",
+      "alert_severity_threshold": "medium"
+    }
+  },
+  {
+    "intent": "Add a required status check for our security-scan job so pull requests can't merge into main until it passes on the inventory-api repo.",
+    "selected_method": "PATCH",
+    "selected_path": "/repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "inventory-api",
+      "branch": "main",
+      "strict": true,
+      "contexts": [
+        "security-scan"
+      ]
+    }
+  },
+  {
+    "intent": "Please enforce that all commits pushed to the main branch of our payments-gateway repo must be cryptographically signed before they can be merged.",
+    "selected_method": "POST",
+    "selected_path": "/repos/{owner}/{repo}/branches/{branch}/protection/required_signatures",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "payments-gateway",
+      "branch": "main",
+      "require_signed_commits": true
+    }
+  },
+  {
+    "intent": "Ensure that all status checks from our CI pipeline must pass before a pull request can be merged into the develop branch of our inventory-management repo.",
+    "selected_method": "PATCH",
+    "selected_path": "/repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "inventory-management",
+      "branch": "develop",
+      "strict": true,
+      "contexts": [
+        "ci/build",
+        "ci/test",
+        "ci/lint"
+      ]
+    }
+  },
+  {
+    "intent": "We need to enforce that all pull requests to the main branch of our inventory-service repo require at least two approving reviews before merging.",
+    "selected_method": "PUT",
+    "selected_path": "/repos/{owner}/{repo}/branches/{branch}/protection/required-reviews",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "inventory-service",
+      "branch": "main",
+      "required_approving_review_count": 2,
+      "dismiss_stale_reviews": true,
+      "require_code_owner_reviews": true
+    }
+  },
+  {
+    "intent": "Set up automatic dependency vulnerability scanning for our inventory-service repo and have critical findings open a GitHub issue assigned to the platform-security team.",
+    "selected_method": "PUT",
+    "selected_path": "/repos/{owner}/{repo}/dependency-scanning/config",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "inventory-service",
+      "enable_dependency_scanning": true,
+      "scan_frequency": "daily",
+      "auto_create_issue_on_severity": "critical",
+      "assign_team": "platform-security",
+      "fail_build_on_severity": "high"
+    }
+  },
+  {
+    "intent": "Archive our deprecated legacy-billing repository so no one can push new commits to it anymore.",
+    "selected_method": "PATCH",
+    "selected_path": "/repos/{owner}/{repo}/archive",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "legacy-billing",
+      "archived": true
+    }
+  },
+  {
+    "intent": "Automatically archive stale issues in our billing-service repo that have had no activity for 90 days.",
+    "selected_method": "PATCH",
+    "selected_path": "/repos/{owner}/{repo}/settings/stale_issue_management",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "billing-service",
+      "enabled": true,
+      "days_before_stale": 90,
+      "days_before_close": 14,
+      "stale_label": "stale",
+      "exempt_labels": [
+        "pinned",
+        "security"
+      ]
+    }
+  },
+  {
+    "intent": "Archive the legacy-billing-api repository since it has been deprecated and is no longer maintained.",
+    "selected_method": "PATCH",
+    "selected_path": "/repos/{owner}/{repo}",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "legacy-billing-api",
+      "archived": true
+    }
+  },
+  {
+    "intent": "Set up automatic dependency vulnerability scanning on our billing-engine repo and block merges if any critical CVEs are found.",
+    "selected_method": "PUT",
+    "selected_path": "/repos/{owner}/{repo}/dependency-scanning/settings",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "billing-engine",
+      "enable_dependency_scanning": true,
+      "block_merge_on_severity": "critical",
+      "scan_frequency": "on_push",
+      "notify_teams": [
+        "platform-security"
+      ]
+    }
+  },
+  {
+    "intent": "Set our nightly-builds repo to automatically purge workflow artifacts older than 14 days to save storage costs.",
+    "selected_method": "PUT",
+    "selected_path": "/repos/{owner}/{repo}/actions/artifacts/retention-policy",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "nightly-builds",
+      "retention_days": 14,
+      "apply_to_existing_artifacts": true,
+      "notify_teams": [
+        "build-infra"
+      ]
+    }
+  },
+  {
+    "intent": "Configure a scheduled backup of our payments-api repository's wiki and issues to an internal storage bucket every night.",
+    "selected_method": "PUT",
+    "selected_path": "/repos/{owner}/{repo}/backup/config",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "payments-api",
+      "backup_targets": [
+        "wiki",
+        "issues"
+      ],
+      "schedule": "0 2 * * *",
+      "storage_provider": "internal-s3",
+      "bucket_name": "acme-repo-backups",
+      "retention_days": 30,
+      "notify_on_failure": true,
+      "notify_email": "devops-alerts@acme-corp.com"
+    }
+  },
+  {
+    "intent": "Enable push protection for secret scanning on our payments-gateway repo so commits containing API keys or credentials are automatically blocked.",
+    "selected_method": "PATCH",
+    "selected_path": "/repos/{owner}/{repo}/secret-scanning/push-protection",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "payments-gateway",
+      "enabled": true,
+      "block_on_detection": true,
+      "notify_committers": true,
+      "bypass_roles": [
+        "security-team"
+      ]
+    }
+  },
+  {
+    "intent": "We want to require the 'ci/build' and 'ci/tests' status checks to pass before allowing merges into the main branch of our checkout-api repo.",
+    "selected_method": "PUT",
+    "selected_path": "/repos/{owner}/{repo}/branches/{branch}/protection/required-status-checks",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "checkout-api",
+      "branch": "main",
+      "strict": true,
+      "contexts": [
+        "ci/build",
+        "ci/tests"
+      ]
+    }
+  },
+  {
+    "intent": "Grant the QA team read-only access to the payment-gateway repository so they can review code without being able to push changes.",
+    "selected_method": "PUT",
+    "selected_path": "/repos/{owner}/{repo}/teams/{team_slug}",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "payment-gateway",
+      "team_slug": "qa-team",
+      "permission": "pull"
+    }
+  },
+  {
+    "intent": "We need to enforce a mandatory code review from at least two members of the 'core-infra' team before any pull request can be merged into the main branch of our auth-service repo.",
+    "selected_method": "PUT",
+    "selected_path": "/repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "auth-service",
+      "branch": "main",
+      "required_approving_review_count": 2,
+      "require_code_owner_reviews": true,
+      "restrict_review_dismissals": true,
+      "required_reviewer_teams": [
+        "core-infra"
+      ]
+    }
+  },
+  {
+    "intent": "Enable branch protection on the main branch of our checkout-service repo requiring at least two approving reviews and passing status checks before merging.",
+    "selected_method": "PUT",
+    "selected_path": "/repos/{owner}/{repo}/branches/{branch}/protection",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "checkout-service",
+      "branch": "main",
+      "required_pull_request_reviews": {
+        "required_approving_review_count": 2,
+        "dismiss_stale_reviews": true
+      },
+      "required_status_checks": {
+        "strict": true,
+        "contexts": [
+          "ci/build",
+          "ci/test"
+        ]
+      },
+      "enforce_admins": true,
+      "allow_force_pushes": false
+    }
+  },
+  {
+    "intent": "Require all commits to the main branch of the fraud-detection repo to be GPG-signed before they can be merged.",
+    "selected_method": "PATCH",
+    "selected_path": "/repos/{owner}/{repo}/branches/{branch}/protection/required_signatures",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "fraud-detection",
+      "branch": "main",
+      "required": true,
+      "enforce_admins": true
+    }
+  },
+  {
+    "intent": "Add a new required reviewer team for all pull requests targeting the release branch of the inventory-sync repo.",
+    "selected_method": "PUT",
+    "selected_path": "/repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews/teams",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "inventory-sync",
+      "branch": "release",
+      "teams": [
+        "platform-reviewers"
+      ],
+      "dismiss_stale_reviews": true,
+      "require_code_owner_reviews": true,
+      "required_approving_review_count": 2
+    }
+  },
+  {
+    "intent": "Require two approvals from the release-managers team before any deployment to the production environment in the checkout-api repo.",
+    "selected_method": "PUT",
+    "selected_path": "/repos/{owner}/{repo}/environments/{environment_name}/protection-rules",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "checkout-api",
+      "environment_name": "production",
+      "required_reviewers": [
+        "release-managers"
+      ],
+      "required_approval_count": 2,
+      "prevent_self_review": true,
+      "wait_timer_minutes": 0
+    }
+  },
+  {
+    "intent": "Set up a required deployment approval gate for the production environment in our checkout-service repo so releases need sign-off from the release-managers team.",
+    "selected_method": "PUT",
+    "selected_path": "/repos/{owner}/{repo}/environments/{environment_name}/protection-rules",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "checkout-service",
+      "environment_name": "production",
+      "required_reviewers": [
+        "release-managers"
+      ],
+      "wait_timer_minutes": 10,
+      "prevent_self_review": true
+    }
+  },
+  {
+    "intent": "Grant the mobile-team read-only access to our shared design-system package registry and set up automatic version update notifications.",
+    "selected_method": "PUT",
+    "selected_path": "/orgs/{org}/packages/{package_type}/{package_name}/access",
+    "parameters": {
+      "org": "acme-corp",
+      "package_type": "npm",
+      "package_name": "design-system",
+      "team_slug": "mobile-team",
+      "permission": "read",
+      "notify_on_new_version": true,
+      "notification_channel": "https://hooks.acme-corp.com/mobile-team-updates"
+    }
+  },
+  {
+    "intent": "Enforce mandatory two-factor authentication for all members of our payments-platform organization.",
+    "selected_method": "PUT",
+    "selected_path": "/orgs/{org}/security/two-factor-requirement",
+    "parameters": {
+      "org": "acme-corp",
+      "require_2fa": true,
+      "grace_period_days": 7,
+      "notify_members": true,
+      "exempt_teams": [
+        "service-accounts"
+      ]
+    }
+  },
+  {
+    "intent": "Enable automatic deletion of head branches after pull requests are merged in the payments-gateway repo.",
+    "selected_method": "PATCH",
+    "selected_path": "/repos/{owner}/{repo}/settings/branch-cleanup",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "payments-gateway",
+      "delete_branch_on_merge": true,
+      "apply_to_existing_branches": false
+    }
+  },
+  {
+    "intent": "Set up required status checks on the main branch of our checkout-service repository so pull requests can't merge until the build and test suites pass.",
+    "selected_method": "PUT",
+    "selected_path": "/repos/{owner}/{repo}/branches/{branch}/protection/status-checks",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "checkout-service",
+      "branch": "main",
+      "required_checks": [
+        "ci/build",
+        "ci/unit-tests",
+        "ci/integration-tests"
+      ],
+      "strict": true,
+      "enforce_admins": true
+    }
+  },
+  {
+    "intent": "Enable secret scanning with push protection for all repositories in our data-platform organization.",
+    "selected_method": "PATCH",
+    "selected_path": "/orgs/{org}/code-security/secret-scanning-settings",
+    "parameters": {
+      "org": "acme-corp",
+      "enable_secret_scanning": true,
+      "enable_push_protection": true,
+      "apply_to_existing_repos": true,
+      "bypass_list": [
+        "security-admins"
+      ],
+      "notify_committers_on_block": true
+    }
+  },
+  {
+    "intent": "Add a required review policy on our staging-environment deployments so at least two QA engineers must approve before release.",
+    "selected_method": "PUT",
+    "selected_path": "/repos/{owner}/{repo}/environments/{environment_name}/protection-rules",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "checkout-service",
+      "environment_name": "staging",
+      "required_reviewers": 2,
+      "reviewer_team": "qa-engineers"
+    }
+  },
+  {
+    "intent": "Require two-person code review approval and enforce linear commit history on the main branch of our payments-api repository before merges are allowed.",
+    "selected_method": "PUT",
+    "selected_path": "/repos/{owner}/{repo}/branches/{branch}/protection",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "payments-api",
+      "branch": "main",
+      "required_pull_request_reviews": {
+        "required_approving_review_count": 2,
+        "dismiss_stale_reviews": true,
+        "require_code_owner_reviews": true
+      },
+      "required_linear_history": true,
+      "enforce_admins": true,
+      "allow_force_pushes": false,
+      "allow_deletions": false
+    }
+  },
+  {
+    "intent": "Set up a required status check for our CI build so pull requests can't be merged into the main branch of the payment-service repo until tests pass.",
+    "selected_method": "POST",
+    "selected_path": "/repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "payment-service",
+      "branch": "main",
+      "checks": [
+        "ci/build-and-test"
+      ],
+      "strict": true
+    }
+  },
+  {
+    "intent": "Require the ci/build and ci/test status checks to pass and branches to be up to date before merging into the main branch of the inventory-service repo.",
+    "selected_method": "PUT",
+    "selected_path": "/repos/{owner}/{repo}/branches/{branch}/protection/required-status-checks",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "inventory-service",
+      "branch": "main",
+      "strict": true,
+      "contexts": [
+        "ci/build",
+        "ci/test"
+      ],
+      "enforce_admins": true
+    }
+  },
+  {
+    "intent": "We need to automatically archive stale branches in our notifications-service repo that have had no commits for 90 days, excluding release branches.",
+    "selected_method": "PUT",
+    "selected_path": "/repos/{owner}/{repo}/branches/auto-archive-policy",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "notifications-service",
+      "inactivity_threshold_days": 90,
+      "excluded_branch_patterns": [
+        "release/*",
+        "main",
+        "develop"
+      ],
+      "action": "archive",
+      "notify_branch_owner": true,
+      "notify_email_template": "branch-archive-notice",
+      "run_schedule": "0 3 * * 0"
+    }
+  },
+  {
+    "intent": "Turn on automated Dependabot security updates for our inventory-service repo and allow auto-merge for patch-level dependency bumps.",
+    "selected_method": "PATCH",
+    "selected_path": "/repos/{owner}/{repo}/dependabot/security-updates",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "inventory-service",
+      "enabled": true,
+      "auto_merge": true,
+      "auto_merge_update_types": [
+        "patch"
+      ],
+      "target_branch": "main",
+      "notify_on_failure": true
+    }
+  },
+  {
+    "intent": "Enforce that all secrets in our payments-service repo are rotated automatically every 90 days and notify the security-team channel when rotation occurs.",
+    "selected_method": "PUT",
+    "selected_path": "/repos/{owner}/{repo}/secrets/rotation-policy",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "payments-service",
+      "rotation_interval_days": 90,
+      "notify_channels": [
+        "security-team"
+      ],
+      "auto_rotate": true,
+      "require_approval_before_rotation": false
+    }
+  },
+  {
+    "intent": "Set up automated dependency vulnerability scanning on our billing-api repo and auto-approve pull requests that only contain patch-level security fixes.",
+    "selected_method": "PUT",
+    "selected_path": "/repos/{owner}/{repo}/dependency-scanning/settings",
+    "parameters": {
+      "owner": "acme-corp",
+      "repo": "billing-api",
+      "enable_dependency_scanning": true,
+      "auto_merge_patch_fixes": true,
+      "severity_threshold": "high",
+      "notify_teams": [
+        "backend-team"
+      ],
+      "scan_frequency": "daily"
+    }
+  }
+]
