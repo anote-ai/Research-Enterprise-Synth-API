@@ -330,6 +330,15 @@ these fixes: GitHub's public OpenAPI specification declares zero \texttt{securit
 meaning its authentication is documented in prose rather than machine-readable OpenAPI fields, so
 an authentication check against GitHub's spec has nothing to check against.
 
+\begin{figure}[h]
+\centering
+\includegraphics[width=\columnwidth]{figures/exp1_schema_understanding.png}
+\caption{Required-parameter counts before and after the \texttt{\$ref}-resolution fix. Stripe and
+Slack are unaffected; GitHub's count grows from 67 to 1{,}721 once shared, \texttt{\$ref}'d
+parameters are resolved.}
+\label{fig:exp1}
+\end{figure}
+
 \subsection{Experiment 2: Intent Generation Evaluation}
 Evaluates whether the Intent Synthesis Agent (Stage 3) generates realistic enterprise user intents.
 Metrics: Intent Coverage (\% of operations receiving a generated intent), Intent Diversity (unique
@@ -348,6 +357,14 @@ included distinct, correctly-scoped enterprise scenarios (rotating access to a
 specific repos) rather than template-filled restatements of the same request. This is a
 15-endpoint pilot, not the full stratified sample from Section~3.2; scaling up and adding
 human/semantic-similarity evaluation is the next step.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\columnwidth]{figures/exp2_intent_generation.png}
+\caption{Intent Coverage and exact-string Diversity, 5 endpoints x 3 intents per API. Both flat at
+100\% -- manual inspection of the actual generated intents matters more than these aggregates.}
+\label{fig:exp2}
+\end{figure}
 
 \subsection{Experiment 3: Agent Trajectory Generation}
 Evaluates whether the Trajectory Generator (Stage 5) produces complete tool-use trajectories (user
@@ -371,6 +388,14 @@ literal item ID \texttt{si\_1N3xYzABC} from free text into the \texttt{item} par
 coherent reasoning) shows the mechanism functions end-to-end, but 100\%/100\% here should be read
 as a pipeline-functionality check, not a generalization claim. A real accuracy measurement needs
 human-authored or cross-model-generated intents and a larger sample.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\columnwidth]{figures/exp3_trajectory_generation.png}
+\caption{Tool Selection Accuracy and Parameter Validity, 45 intents, 15 candidate tools each.
+Slack ranged 93.3--100\% across repeated runs; see the self-consistency caveat above.}
+\label{fig:exp3}
+\end{figure}
 
 \subsection{Experiment 4: Schema-Based Verification}
 The central novelty claim: can the Schema Verification Engine (Stage 6) validate generated
@@ -405,6 +430,14 @@ a verifier is what actually validates one, and doing so surfaced real gaps in St
 Experiment 1's self-consistent ground truth had been silently sharing. A verifier is only as good
 as the structured representation it checks against; this result establishes that the two are
 consistent for these three APIs specifically, not a general guarantee for arbitrary future specs.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\columnwidth]{figures/exp4_verification_before_after.png}
+\caption{Invalid-case detection rate by corruption type, first run vs.\ final. Missing-parameter
+and wrong-type detection were the two categories that required real bug fixes to reach 100\%.}
+\label{fig:exp4}
+\end{figure}
 
 \subsection{Experiment 5: Downstream LLM Agent Evaluation}
 The result most central to the paper's claim: does EnterpriseSynth-generated SFT data improve
@@ -454,6 +487,14 @@ This pilot does not show the effect holds at the paper's actual target model sca
 the full stratified training sample size (Section~3.2), or against the Self-Instruct/ToolBench/
 prompt-only-agent baselines -- those require cloud GPU access or further implementation time,
 both future work.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\columnwidth]{figures/exp5_downstream_performance.png}
+\caption{Left: base vs.\ LoRA-fine-tuned Qwen2.5-0.5B-Instruct on the held-out Zoom eval set.
+Right: training loss across the 3 fine-tuning epochs.}
+\label{fig:exp5}
+\end{figure}
 
 \subsection{What Comes After Experiments}
 Once Experiments 1--5 run, the remaining sections analyze the results. Results (below) covers
