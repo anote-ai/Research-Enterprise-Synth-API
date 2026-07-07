@@ -38,7 +38,8 @@ confusion. See `DESIGN_DOC.md`'s top-of-file note for the full history.
 - `scripts/` — one script per experiment/ablation/baseline, plus figure and diagram generation
 - `data/specs/` — committed real OpenAPI specs (GitHub, Stripe, Slack, Zoom, DigitalOcean, Spotify)
 - `data/generated/` — committed experiment outputs (JSON)
-- `tests/` — pytest suite (21 tests)
+- `tests/` — pytest suite (36 tests; 42 with `torch` installed, which unlocks 6 more covering
+  `finetune.py`'s prompt/JSON-extraction helpers -- see `test_finetune.py`)
 
 ## Setup
 
