@@ -1,4 +1,7 @@
-# Your Internal APIs Have No Training Data — and You Can't Safely Generate Any By Calling Them
+# How I Built EnterpriseSynth: Generating AI Training Data from API Schemas Without Calling a Single API
+
+Subtitle:
+Building an agentic framework that converts OpenAPI specifications into verified Supervised Fine-Tuning (SFT) and evaluation datasets.
 
 *Rashmi Thimmaraju · July 2026*
 
