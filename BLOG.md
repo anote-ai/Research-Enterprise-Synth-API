@@ -1,193 +1,147 @@
-# Your Internal APIs Have No Training Data, and You Can't Safely Generate Any By Calling Them. We Tested a Fix.
+# Your Internal APIs Have No Training Data — and You Can't Safely Generate Any By Calling Them
 
 *Rashmi Thimmaraju · July 2026*
 
 ---
 
-Every enterprise team that wants to fine-tune an LLM on their internal tools hits the same wall:
-you have an OpenAPI spec, you have zero tool-use training data for it, and every existing method
-for generating that data assumes you can safely call the API thousands of times to bootstrap a
-dataset. You can't. It's rate-limited, gated behind a VPN, or simply too consequential — nobody
-wants to generate SFT data by actually issuing refunds against a production payments API.
+Every enterprise team that wants an LLM agent to reliably use their internal tools eventually hits
+the same wall: you have an API — a schema, some documentation, maybe a handful of engineers who
+know it by heart — but you have no tool-use training data for it, and no eval suite to tell you
+whether an agent is any good at calling it. Every existing recipe for generating that kind of data
+assumes you can safely call the API, over and over, to bootstrap a dataset from its real behavior.
+Behind an enterprise firewall, you usually can't. The API is rate-limited, gated behind a VPN, or
+simply too consequential — nobody wants to generate training examples by actually issuing refunds
+against a production payments API, or creating and deleting real customer records in an HRIS.
 
-We call this the **execution paradox**: the data you need to teach a model to use a tool well is
-most valuable exactly where you're least able to generate it by using the tool. We built
-**EnterpriseSynth** to resolve it — a pipeline that ingests an OpenAPI spec and emits verified
-SFT trajectories and a paired evaluation set, without ever calling the live API. Here's what we
-measured.
-
----
-
-## The question nobody was answering
-
-Every recent method for generating tool-use training data assumes execution. ToolLLM/ToolBench
-made 469,585 real RapidAPI calls to ground its data. API-Bank stood up real databases and
-hard-coded live-data snapshots for reproducibility. AgentInstruct is execution-free, but it pays
-for that by hallucinating the API surface when seeded from code, and it verifies quality with a
-soft, post-hoc GPT-4 judge rather than a hard per-sample gate.
-
-The open question: can you get grounding without execution, and verification without a live
-oracle to check against? We built a four-stage pipeline to test it — Schema Parser → Intent
-Synthesis Agent → Trajectory Generator → Schema Verification Engine — and ran it against real
-specs (GitHub, Stripe, Slack, held out: Zoom, DigitalOcean, Spotify).
+We call this the **execution paradox**: the data you'd need to teach a model to use a tool well is
+most valuable exactly where you're least able to generate it by using the tool. This post is about
+**EnterpriseSynth**, a framework we built to get out of that bind — and about why the two obvious
+ways around it both fall short.
 
 ---
 
-## The headline result: verification is binary, and it wasn't free
+## Two existing paths, and why neither works here
 
-A deterministic gate that checks every generated trajectory against the spec's declared types,
-required fields, and structure closes a **0%-to-100% gap** on planted structural errors —
-without it, every planted error survives; with it, none do (`A2`, `data/generated/ablation_*.json`).
+Look at how the field currently generates tool-use training data, and it splits cleanly into two
+camps.
 
-That's a clean result, and clean results on the first try deserve suspicion. So we adversarially
-tested the verifier instead of trusting it: planted known errors (wrong types, missing required
-params, invalid enums) and measured detection rate. First run: **57–80%**, not 100%. Chasing down
-why surfaced four real bugs — not edge cases, load-bearing ones:
+**Execution-based generation** grounds every example in a real API response. ToolLLM/ToolBench
+does this by making hundreds of thousands of live calls against a pool of public APIs during data
+collection; API-Bank stands up real, reproducibility-constrained databases behind its agents. This
+produces data that's trustworthy precisely because it was checked against reality. But "checked
+against reality" is the whole problem for an internal enterprise API: there usually isn't a safe
+sandbox to check against. A live call against a production system risks corrupting real data,
+tripping a security control, or simply not existing yet, because the team is trying to bootstrap
+an agent *before* they have safe infrastructure to test one against.
 
-| Bug | Where | Real-world impact |
-| --- | --- | --- |
-| Verifier accepted any value for declared type `"string"`, including objects | `verifier.py` | Silently passed malformed payloads |
-| Parser silently dropped `$ref`-indirected parameters | `parser.py` | GitHub's required-param count read as 67; real count is **1,721** |
-| `requestBody` schema fields never parsed into typed parameters | `parser.py` | Every Stripe endpoint with body-only params (e.g. `/v1/charges`) was invisible to verification |
-| Corruption test harness could drop an optional param instead of a required one | test harness | Was under-testing its own claim |
+**Execution-free generation** solves the sandbox problem by never calling anything — an LLM is
+simply asked to imagine plausible tool calls. AgentInstruct is the clearest example: it's agentic
+and multi-stage, but when it's seeded only from source code (as opposed to a real, documented API
+description) it has nothing to check its own imagination against, and it *hallucinates the API
+surface* — inventing endpoints, parameters, and behaviors that don't actually exist. Its quality
+control is a soft editorial refinement pass plus a post-hoc judge scoring a held-out sample, not a
+hard, per-example check that a given trace is actually valid against something real.
 
-All four fixed and regression-tested (`tests/`, 21 passing). The methodological point outlives
-this codebase: **a static verifier's correctness can't be established by checking that it accepts
-good input.** It has to be adversarially tested against bad input it's specifically supposed to
-reject, or it will silently pass a third to a half of the errors it exists to catch — and you
-won't find out until it matters.
-
----
-
-## Where the gate runs out — and what closes the rest of the gap
-
-The deterministic gate checks structure, not semantics. It can't tell you a charge amount of
-`-500` is wrong, because `-500` is still a well-typed integer. To quantify that blind spot rather
-than just gesture at it, we layered a Claude Haiku 4.5 semantic-plausibility check on top:
-
-| API | Semantically corrupted, still structurally valid | ...caught by Haiku |
-| --- | --- | --- |
-| GitHub | 15/15 (100%) | 15/15 (100%) |
-| Stripe | 15/15 (100%) | 15/15 (100%) |
-| Slack | 15/15 (100%) | 15/15 (100%) |
-
-100% of the blind spot, closed. Not a free upgrade, though: a **33% false-positive rate on
-GitHub**, traced to the model being overly literal about things the tool call never needed to
-prove (flagging a numeric repository ID as "unverifiable" because it doesn't obviously match a
-name). The practical design isn't "replace the deterministic gate" — it's two-tier: deterministic
-gate as the hard blocking filter, LLM semantic check as an advisory signal, calibrated per
-parameter type before it gates anything on its own.
+Neither path fits a team with a brand-new internal API: no traffic history to learn from, no
+sandbox to execute against, and — critically — a real schema that a generation method *could*
+ground itself in, if only it treated that schema as the source of truth instead of either ignoring
+it (execution-free) or requiring it to be exercised live (execution-based).
 
 ---
 
-## The downstream test, and the result we didn't smooth over
+## The idea: ground in the spec, verify without executing
 
-Fine-tuning Qwen2.5-0.5B-Instruct (a hardware-scoped stand-in for the target 7–8B model) on
-EnterpriseSynth-verified data, evaluated on a held-out API never touched during training:
+EnterpriseSynth's core move is to take the one artifact that's almost always available even for a
+brand-new internal API — the OpenAPI/Swagger spec itself — and treat it as the *only* input the
+whole pipeline needs. Nothing is invented from a code snippet, and nothing requires a live call.
 
-| Held-out API | Base (untuned) | Self-Instruct baseline | EnterpriseSynth |
-| --- | --- | --- | --- |
-| Zoom | 12.5% | 25.0% | **75.0%** |
-| DigitalOcean | 31.2% | **50.0%** | 43.8% |
-| Spotify | 12.5% | 25.0% | **43.8%** |
+Concretely, the pipeline runs in four stages:
 
-(Self-Instruct here isn't a strawman — it's a faithful implementation of the actual published
-bootstrap mechanism: seed examples, few-shot generation, similarity-based dedup.)
+**1. Parse the spec.** Read the OpenAPI/Swagger document and extract exactly what it declares:
+endpoints, HTTP methods, required and optional parameters, parameter types, authentication
+requirements, and response schemas. This is the ground truth everything downstream is checked
+against — there's nothing to hallucinate here because there's nothing left to invent.
 
-EnterpriseSynth beats the untuned base on all three APIs and beats Self-Instruct on two of three.
-On the third — **DigitalOcean — it loses**, 43.8% to 50.0%. We're reporting that loss, not
-dropping DigitalOcean from the writeup. Our working hypothesis: Self-Instruct's bootstrap leans on
-the base model's pretraining familiarity with GitHub's extremely public API (12/45 of its
-"invented" endpoints turned out real — all 12 were GitHub), and DigitalOcean's
-infrastructure/DevOps conventions sit structurally closer to GitHub's than Zoom's or Spotify's do.
+**2. Generate realistic intents.** For a given endpoint, synthesize the kind of natural-language
+request an actual employee might type — not a templated rephrasing of the endpoint's description,
+but a business scenario with the texture of a real ask. A tag-protection endpoint on a repo API,
+for instance, doesn't just get "protect tags matching a pattern" — it gets something closer to
+*"lock down tag creation on the acme-api repository so our CI pipeline can't be tampered with,
+please add protection for anything prefixed with 'release-'."*
 
-If that holds up, it's an uncomfortable point about the field's default habit of benchmarking
-tool-use methods on GitHub, Stripe, and Slack: a base model's prior exposure to a popular API's
-public docs can substitute for genuine schema grounding — an advantage that will not exist for the
-private, undocumented internal APIs this entire approach is built for. That strengthens the
-cold-start motivation; it also means we can't yet distinguish "EnterpriseSynth generalizes better"
-from "EnterpriseSynth generalizes better specifically on APIs unlike ones the base model already
-knows." Also worth flagging plainly: retraining for this 3-API comparison gave a **different**
-Zoom number than our original single run (75.0% vs. the earlier 87.5%) — expected variance from
-unseeded weight init and data order, and a reminder that one run is a draw from a distribution,
-not the distribution.
+**3. Generate the trajectory.** Given an intent and a set of candidate endpoints — the real target
+plus a batch of distractors — produce the full reasoning trace: which endpoint to call, why,
+what arguments to extract from the free-text request and where they go, and what the response
+should plausibly look like. This is the step that turns an intent into something a model could
+actually be trained on: a decision, made and justified, not just a label.
 
----
+**4. Verify, deterministically.** Every generated trajectory is checked against the parsed spec
+itself, offline, with no LLM in the loop: does the endpoint exist, is the HTTP method correct, are
+all required parameters present with the right types, does the response match the declared schema.
+This is the step that replaces execution as the correctness signal. Where an LLM judge can be
+talked into accepting something plausible-sounding, a structural check against the spec either
+passes or it doesn't.
 
-## What this pilot can't tell you yet
-
-- **Everything above is pilot scale** — 3–5 real APIs, 45–89 examples each, not the ~65-spec
-  stratified sample this is aimed at. Every percentage here is a signal, not a population estimate.
-- **The 0.5B model is a stand-in**, not the target scale (Mistral-7B/Llama-3-8B). Whether the
-  effect holds, strengthens, or weakens at that scale is untested.
-- **Two planned baselines aren't built yet** (ToolBench, a prompt-only agent) — only Self-Instruct
-  is a real, run comparison so far.
-- **The DigitalOcean hypothesis is unconfirmed.** It's our best current explanation, not a settled
-  finding — needs more held-out APIs per structural category to test properly.
+The output of all four stages is two paired artifacts: a verified SFT training set, and an
+evaluation set built from the same generation pass — so the eval questions are guaranteed to be
+about the same API surface the model was trained on, not a separately curated set that may or may
+not line up.
 
 ---
 
-## Update, July 8: we ran it 5 times, built a real cold-start test, and found our own metric lies a little
+## Why the verification stage is the one that matters most
 
-Everything above was written after a single run per experiment. Since then we did three things a
-single-run pilot can't skip if it wants to be believed:
+It's tempting to think of the schema verifier as a cleanup step — a final sanity check after the
+interesting work is already done. In practice it's closer to the opposite: it's the piece that
+makes the whole approach trustworthy in the first place.
 
-**We reran the multi-API comparison 5 times, seeds 42/123/777/2025/9999, varying only training
-randomness.** The DigitalOcean loss above was real — it also wasn't the average. Across 5 seeds,
-EnterpriseSynth beats both the untuned base and Self-Instruct on all three held-out APIs,
-including DigitalOcean (53.7% vs. 37.5%, averaged) — but the variance is genuinely large
-(±13.7 / ±21.2), so individual seeds still lose there sometimes. Both facts are true at once, and
-we're reporting both instead of picking the flattering one.
+Self-Instruct and Evol-Instruct/WizardLM filter their generated data with text-level heuristics —
+similarity scores, keyword rules, degeneracy checks. Those work reasonably well for open-ended
+instruction data, but they have no concept of a "tool call" at all, let alone whether one is
+structurally valid. AgentInstruct goes further by having an LLM look over what it generated, but
+that's still a soft, holistic judgment — closer to a second opinion than a gate. None of these give
+you a hard guarantee that a generated example, if you actually tried to execute it, would be a
+legal call against the real API.
 
-**We built the cold-start test we didn't have before.** Every held-out API up to this point —
-Zoom, DigitalOcean, Spotify — is a real, extremely well-documented public API a base model may
-already half-know. So we hand-authored 5 synthetic enterprise API specs that don't exist anywhere
-publicly (a fake CRM, HRIS, procurement system, ticketing system, asset registry) and ran the
-identical pipeline against them. EnterpriseSynth-tuned accuracy on these never-published APIs
-(40.0%) matches accuracy on the public ones (39.6%) — no degradation. This is the closest thing
-we have to actually testing the cold-start claim in the headline, rather than a proxy for it.
-
-**We asked an independent judge whether "correct" actually means correct, and it mostly doesn't.**
-Every accuracy number in this post is Tool Selection Accuracy — did the model pick the right
-endpoint. It says nothing about whether the call it produced is usable. We had Claude score real
-predictions on intent match, argument correctness, missing parameters, and reasoning quality, plus
-classify the primary error. Result: of predictions marked "correct" by Tool Selection Accuracy,
-**61% still had a real defect** — usually a missing or hallucinated parameter. Only 21.3% of
-predictions are fully correct by the stricter standard, not the 48.9% the binary metric implies.
-**Read every accuracy number above as an upper bound on usability, not an estimate of it.** We're
-telling you this about our own headline metric for the same reason we told you about the
-DigitalOcean loss: a result you can't poke holes in yourself isn't one you should trust either.
-
-Also scaled to 6 more real APIs (Twilio, Notion, OpenAI, Jira, Asana, Trello) via APIs.guru — wins
-on all 6, 17 APIs touched by the pipeline now, and picked up real training/eval latency numbers
-(619.8s to fine-tune, 27–95s per API to evaluate) as a byproduct of doing it.
-
-## What we're releasing
-
-**EnterpriseSynth** is open source at
-[github.com/Rashmioffcialpage/enterprisesynth-api](https://github.com/Rashmioffcialpage/enterprisesynth-api)
-(also mirrored at
-[github.com/anote-ai/Research-Enterprise-Synth-API](https://github.com/anote-ai/Research-Enterprise-Synth-API)).
-It includes the four-stage pipeline (parser, intent agent, trajectory generator, verifier), the
-adversarial verification test harness that found the four bugs above, a real Self-Instruct
-baseline implementation, the 5-seed multi-API downstream fine-tuning evaluation, a private
-never-published-API cold-start test, an LLM-as-a-judge semantic evaluation, and a full ablation
-study scoped strictly to components that actually exist in the code — no ablating modules that
-were never built. 45 tests, 17 real and synthetic API specs committed alongside all the generated
-data, including every one of the 5 seed runs.
+A deterministic, spec-derived verifier gives you exactly that guarantee, offline, without ever
+touching the live system. It's also the piece of the pipeline most worth being paranoid about:
+a verifier that only ever sees the "good" examples the rest of the pipeline generates will happily
+develop blind spots you never notice, because nothing in that workflow ever asks it to prove it can
+catch something bad. The methodological lesson that's outlived every specific number we've measured
+is that a static verifier has to be tested against deliberately broken input, not just trusted
+because it accepts good input — otherwise you find out about its blind spots only when a bad
+example makes it all the way downstream.
 
 ---
 
-## The one-sentence summary
+## What this is, and isn't
 
-A deterministic schema gate closes a verification gap from 0% to 100% — but only after
-adversarial testing forced four real bug fixes — fine-tuning on the resulting data beats a real
-Self-Instruct baseline on average across 5 seeds and on APIs that were never published anywhere,
-and an independent judge found our own headline metric overstates usability by roughly 2×, which
-we're telling you because a benchmark that only reports the numbers that flatter it isn't one you
-should trust.
+EnterpriseSynth is deliberately narrower than its own long-term target design. The pipeline above —
+Parser → Intent Agent → Trajectory Agent → Verifier — is what's actually built. A fuller target
+architecture exists on paper: a Knowledge Graph stage that would model dependencies *between*
+endpoints (so a multi-step workflow like "create a customer, then charge them" could be represented
+as a graph traversal rather than a single call), and a Planning stage that would decompose a
+complex intent into an ordered sequence of tool calls. Neither of those exists in the current
+implementation. Every trajectory EnterpriseSynth generates today is a single endpoint call, and we
+say so plainly rather than letting the target architecture read as a description of what's already
+built.
+
+That distinction matters more than it might seem. The entire pitch of this approach is that it
+replaces a soft, aspirational notion of correctness with a hard one — grounded in a real spec,
+checked by a real deterministic gate. Overstating what's implemented would undercut the one thing
+this project is actually trying to demonstrate.
 
 ---
 
-*Full experimental writeup, ablations, and honest limitations: `DESIGN_DOC.md` and
+## Who this is for
+
+If your team has an internal API with a schema but no safe way to generate tool-use training data
+for it — no sandbox, no traffic history, no existing SFT or eval set — this is the gap
+EnterpriseSynth is built to close. The bet is that grounding in a real spec plus a hard structural
+verification gate gets you most of the trustworthiness that execution-based methods provide,
+without ever needing the execution.
+
+---
+
+*Full design, related-work comparison, and implementation details: `DESIGN_DOC.md` and
 `paper/main.tex` in the repository. Questions and issues welcome via GitHub.*
