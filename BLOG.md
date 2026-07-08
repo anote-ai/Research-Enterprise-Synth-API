@@ -7,15 +7,21 @@ Building an agentic framework that converts OpenAPI specifications into verified
 
 ---
 
-Every enterprise team that wants an LLM agent to reliably use their internal tools eventually hits
-the same wall: you have an API — a schema, some documentation, maybe a handful of engineers who
-know it by heart — but you have no tool-use training data for it, and no eval suite to tell you
-whether an agent is any good at calling it. Every existing recipe for generating that kind of data
-assumes you can safely call the API, over and over, to bootstrap a dataset from its real behavior.
-Behind an enterprise firewall, you usually can't. The API is rate-limited, gated behind a VPN, or
-simply too consequential — nobody wants to generate training examples by actually issuing refunds
-against a production payments API, or creating and deleting real customer records in an HRIS.
+When people think about AI agents, they usually picture impressive demos: an assistant booking flights, debugging code, or orchestrating complex workflows across enterprise systems. Over the last two years, we've seen an explosion of frameworks such as LangChain, LangGraph, AutoGen, CrewAI, and MCP-based tool ecosystems. Large language models are becoming remarkably good at deciding when to call a tool and how to reason through multi-step tasks.
 
+But while experimenting with enterprise APIs, I kept running into the same question:
+
+Where does the training data for these API agents actually come from?
+
+If you want an AI agent to interact with GitHub, Stripe, Slack, Kubernetes, or an internal company API, you need examples of correct behavior. Not just documentation, but demonstrations of how a user request maps to API calls, parameters, and expected outcomes.
+
+Most organizations don't have those datasets.
+
+What they do have is something else: OpenAPI (Swagger) specifications. These specifications describe endpoints, methods, parameters, authentication, and schemas in a structured format. They are excellent for developers—but they are not directly usable as supervised training data for AI models.
+
+At that point, I realized I wasn't trying to solve an inference problem. I was trying to solve a data generation problem.
+
+That realization became the starting point for EnterpriseSynth.
 We call this the **execution paradox**: the data you'd need to teach a model to use a tool well is
 most valuable exactly where you're least able to generate it by using the tool. This post is about
 **EnterpriseSynth**, a framework we built to get out of that bind — and about why the two obvious
