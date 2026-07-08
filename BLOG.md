@@ -31,32 +31,23 @@ ways around it both fall short.
 
 ## Two existing paths, and why neither works here
 
-Look at how the field currently generates tool-use training data, and it splits cleanly into two
-camps.
+Before writing a single line of code, I spent time reviewing the existing ecosystem.
 
-**Execution-based generation** grounds every example in a real API response. ToolLLM/ToolBench
-does this by making hundreds of thousands of live calls against a pool of public APIs during data
-collection; API-Bank stands up real, reproducibility-constrained databases behind its agents. This
-produces data that's trustworthy precisely because it was checked against reality. But "checked
-against reality" is the whole problem for an internal enterprise API: there usually isn't a safe
-sandbox to check against. A live call against a production system risks corrupting real data,
-tripping a security control, or simply not existing yet, because the team is trying to bootstrap
-an agent *before* they have safe infrastructure to test one against.
+Most approaches fell into one of four categories.
 
-**Execution-free generation** solves the sandbox problem by never calling anything — an LLM is
-simply asked to imagine plausible tool calls. AgentInstruct is the clearest example: it's agentic
-and multi-stage, but when it's seeded only from source code (as opposed to a real, documented API
-description) it has nothing to check its own imagination against, and it *hallucinates the API
-surface* — inventing endpoints, parameters, and behaviors that don't actually exist. Its quality
-control is a soft editorial refinement pass plus a post-hoc judge scoring a held-out sample, not a
-hard, per-example check that a given trace is actually valid against something real.
+The first relied on manual annotation. Human annotators wrote thousands of examples where a user request was paired with the correct API calls. While effective, this approach is expensive, slow, and difficult to scale across hundreds of APIs.
 
-Neither path fits a team with a brand-new internal API: no traffic history to learn from, no
-sandbox to execute against, and — critically — a real schema that a generation method *could*
-ground itself in, if only it treated that schema as the source of truth instead of either ignoring
-it (execution-free) or requiring it to be exercised live (execution-based).
+The second category depended on live API execution. Systems generated API interactions by actually invoking production or staging endpoints. Although this produced realistic examples, it introduced new problems: API keys, rate limits, network failures, changing backend behavior, and privacy concerns.
 
----
+A third category used production logs. This is attractive because the data already exists, but it raises serious issues around customer privacy, compliance, and the availability of representative data—especially for organizations just beginning to build AI agents.
+
+Finally, some projects generated synthetic examples directly with an LLM. While promising, many of these systems lacked any mechanism to verify that the generated API calls actually matched the API specification.
+
+Looking across all these approaches, I noticed something surprising.
+
+Every enterprise already owns a rich source of structured information—the OpenAPI specification—but very few systems treat it as the foundation for dataset generation.
+
+That observation shaped the direction of the project.
 
 ## The idea: ground in the spec, verify without executing
 
