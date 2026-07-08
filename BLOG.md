@@ -48,7 +48,6 @@ The idea I landed on: stop treating the OpenAPI spec as documentation, and start
 That became a four-stage pipeline:
 
 
-
 No live API. No credentials required at generation time. Every step happens against the spec alone.
 
 The parser: the part I assumed was "done" and wasn't
