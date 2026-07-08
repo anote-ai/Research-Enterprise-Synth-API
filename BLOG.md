@@ -1,142 +1,134 @@
-# How I Built EnterpriseSynth: Generating AI Training Data from API Schemas Without Calling a Single API
+## The API That Had No Stories to Tell
 
-Subtitle:
-Building an agentic framework that converts OpenAPI specifications into verified Supervised Fine-Tuning (SFT) and evaluation datasets.
-
-*Rashmi Thimmaraju · July 2026*
-
----
-
-When people think about AI agents, they usually picture impressive demos: an assistant booking flights, debugging code, or orchestrating complex workflows across enterprise systems. Over the last two years, we've seen an explosion of frameworks such as LangChain, LangGraph, AutoGen, CrewAI, and MCP-based tool ecosystems. Large language models are becoming remarkably good at deciding when to call a tool and how to reason through multi-step tasks.
-
-But while experimenting with enterprise APIs, I kept running into the same question:
-
-Where does the training data for these API agents actually come from?
-
-If you want an AI agent to interact with GitHub, Stripe, Slack, Kubernetes, or an internal company API, you need examples of correct behavior. Not just documentation, but demonstrations of how a user request maps to API calls, parameters, and expected outcomes.
-
-Most organizations don't have those datasets.
-
-What they do have is something else: OpenAPI (Swagger) specifications. These specifications describe endpoints, methods, parameters, authentication, and schemas in a structured format. They are excellent for developers—but they are not directly usable as supervised training data for AI models.
-
-At that point, I realized I wasn't trying to solve an inference problem. I was trying to solve a data generation problem.
-
-That realization became the starting point for EnterpriseSynth.
-We call this the **execution paradox**: the data you'd need to teach a model to use a tool well is
-most valuable exactly where you're least able to generate it by using the tool. This post is about
-**EnterpriseSynth**, a framework we built to get out of that bind — and about why the two obvious
-ways around it both fall short.
-
----
-
-## Two existing paths, and why neither works here
-
-Before writing a single line of code, I spent time reviewing the existing ecosystem.
-
-Most approaches fell into one of four categories.
-
-The first relied on manual annotation. Human annotators wrote thousands of examples where a user request was paired with the correct API calls. While effective, this approach is expensive, slow, and difficult to scale across hundreds of APIs.
-
-The second category depended on live API execution. Systems generated API interactions by actually invoking production or staging endpoints. Although this produced realistic examples, it introduced new problems: API keys, rate limits, network failures, changing backend behavior, and privacy concerns.
-
-A third category used production logs. This is attractive because the data already exists, but it raises serious issues around customer privacy, compliance, and the availability of representative data—especially for organizations just beginning to build AI agents.
-
-Finally, some projects generated synthetic examples directly with an LLM. While promising, many of these systems lacked any mechanism to verify that the generated API calls actually matched the API specification.
-
-Looking across all these approaches, I noticed something surprising.
-
-Every enterprise already owns a rich source of structured information—the OpenAPI specification—but very few systems treat it as the foundation for dataset generation.
-
-That observation shaped the direction of the project.
-One afternoon, while reading through a GitHub OpenAPI specification, I realized that nearly everything required to generate realistic training examples was already present.
-
-The schema told me:
-
-what operations existed,
-what parameters they required,
-what authentication was needed,
-how requests were structured,
-and what responses looked like.
-
-Instead of asking:
-
-"How can I execute this API?"
-
-I started asking:
-
-"Can the schema itself teach an AI how to use the API?"
-
-That small shift completely changed the architecture.
-
-Rather than depending on runtime behavior, EnterpriseSynth would work entirely offline. It would read the API specification, generate realistic user intents, synthesize agent trajectories, verify every generated API call against the schema, and finally produce both supervised fine-tuning data and evaluation records.
-
-The goal wasn't to simulate the backend. It was to capture the structure and semantics of interacting with the API.
-
-At that point, the architecture almost designed itself.
-
-## The idea: ground in the spec, verify without executing
-
-EnterpriseSynth's core move is to take the one artifact that's almost always available even for a
-brand-new internal API — the OpenAPI/Swagger spec itself — and treat it as the *only* input the
-whole pipeline needs. Nothing is invented from a code snippet, and nothing requires a live call.
-
-Concretely, the pipeline runs in four stages:
-
-**1. Parse the spec.** Read the OpenAPI/Swagger document and extract exactly what it declares:
-endpoints, HTTP methods, required and optional parameters, parameter types, authentication
-requirements, and response schemas. This is the ground truth everything downstream is checked
-against — there's nothing to hallucinate here because there's nothing left to invent.
-
-**2. Generate realistic intents.** For a given endpoint, synthesize the kind of natural-language
-request an actual employee might type — not a templated rephrasing of the endpoint's description,
-but a business scenario with the texture of a real ask. A tag-protection endpoint on a repo API,
-for instance, doesn't just get "protect tags matching a pattern" — it gets something closer to
-*"lock down tag creation on the acme-api repository so our CI pipeline can't be tampered with,
-please add protection for anything prefixed with 'release-'."*
-
-**3. Generate the trajectory.** Given an intent and a set of candidate endpoints — the real target
-plus a batch of distractors — produce the full reasoning trace: which endpoint to call, why,
-what arguments to extract from the free-text request and where they go, and what the response
-should plausibly look like. This is the step that turns an intent into something a model could
-actually be trained on: a decision, made and justified, not just a label.
-
-**4. Verify, deterministically.** Every generated trajectory is checked against the parsed spec
-itself, offline, with no LLM in the loop: does the endpoint exist, is the HTTP method correct, are
-all required parameters present with the right types, does the response match the declared schema.
-This is the step that replaces execution as the correctness signal. Where an LLM judge can be
-talked into accepting something plausible-sounding, a structural check against the spec either
-passes or it doesn't.
-
-The output of all four stages is two paired artifacts: a verified SFT training set, and an
-evaluation set built from the same generation pass — so the eval questions are guaranteed to be
-about the same API surface the model was trained on, not a separately curated set that may or may
-not line up.
-
----
+Rashmi Thimmaraju
 
 
+There's a moment that happens inside almost every company building an AI agent, and it usually goes unnoticed the first time.
+
+Someone opens the internal wiki, finds the API documentation for the company's order system, or ticketing system, or CRM, and thinks: great, we have an OpenAPI spec, the agent can just learn from this.
+
+It can't.
+
+Not directly. And the reason why is the whole story.
 
 
----
+## Part One: Why This Happens
 
-## What this is, and isn't
+An OpenAPI spec is a beautifully precise document. It says exactly which endpoints exist, exactly which parameters they take, exactly what they return. A machine can validate against it. A human engineer can read it and build a client library in an afternoon.
 
-EnterpriseSynth is deliberately narrower than its own long-term target design. The pipeline above —
-Parser → Intent Agent → Trajectory Agent → Verifier — is what's actually built. A fuller target
-architecture exists on paper: a Knowledge Graph stage that would model dependencies *between*
-endpoints (so a multi-step workflow like "create a customer, then charge them" could be represented
-as a graph traversal rather than a single call), and a Planning stage that would decompose a
-complex intent into an ordered sequence of tool calls. Neither of those exists in the current
-implementation. Every trajectory EnterpriseSynth generates today is a single endpoint call, and we
-say so plainly rather than letting the target architecture read as a description of what's already
-built.
+But a language model doesn't learn "how to use a tool" from a schema. It learns from examples of use — a person asking for something, and an agent figuring out which tool to call, with which arguments, to satisfy that ask. The schema tells you what's possible. It never tells you what people actually ask for, or how an agent should reason its way from a request to a correct call.
 
-That distinction matters more than it might seem. The entire pitch of this approach is that it
-replaces a soft, aspirational notion of correctness with a hard one — grounded in a real spec,
-checked by a real deterministic gate. Overstating what's implemented would undercut the one thing
-this project is actually trying to demonstrate.
+So every team that wants to fine-tune or evaluate a tool-using agent runs into the same wall: they have the spec, and they have nothing else. No training data. No evaluation set. Nothing that looks like:
 
----
+User: Create a premium customer account for someone named Priya.
+
+Agent:
+→ recognize this needs POST /customers
+→ fill parameters: name="Priya", plan="premium"
+→ verify against schema
+→ return customer_id
+
+The traditional fix is to generate that kind of data by actually using the API — calling it thousands of times, logging what happens, and turning those logs into training examples. That's exactly what tools like ToolLLM do: hundreds of thousands of real calls against live APIs, annotated into trajectories.
+
+It works. It also has a precondition almost no enterprise can meet: you have to be willing to hit the live API thousands of times.
+
+For a public weather API, sure. For your company's internal payments system, or your HR platform, or a ticketing tool wired into production customer data? Nobody signs off on "let's fire ten thousand test calls against the refund endpoint to build a training set." The API is rate-limited, gated behind a VPN, or simply too consequential to poke at that many times.
+
+I started calling this the enterprise cold-start problem: the data you need to teach a model to use a tool well is most valuable exactly where you're least able to safely generate it by using the tool.
+
+That's the "why." Now the "how."
 
 
+## Part Two: Building a Way Around It
 
+The question I kept coming back to was simple to state and hard to actually trust an answer to: can you get real grounding — real, schema-accurate examples — without ever calling the live API?
+
+The idea I landed on: stop treating the OpenAPI spec as documentation, and start treating it as a source of structured knowledge you can generate from, offline, with no execution at all.
+
+That became a four-stage pipeline:
+
+OpenAPI Spec
+     │
+     ▼
+Schema Parser          — read and structure the spec
+     │
+     ▼
+Intent Generation       — imagine what a real person would ask for
+     │
+     ▼
+Trajectory Generation   — generate the agent's reasoning + tool call
+     │
+     ▼
+Schema Verification     — reject anything that doesn't match the real schema
+     │
+     ▼
+Verified SFT data + Evaluation data
+
+No live API. No credentials required at generation time. Every step happens against the spec alone.
+
+The parser: the part I assumed was "done" and wasn't
+
+I figured the parsing stage would be the boring, solved part — just read some JSON. It wasn't boring, and it wasn't solved.
+
+Early versions of the parser silently dropped any parameter defined through a $ref pointer rather than written inline in the endpoint definition. That sounds like a minor edge case until you check what it actually costs: GitHub's real OpenAPI spec has 1,721 required parameters once every $ref is properly resolved. My parser was only seeing 67 of them. The foundation the entire rest of the pipeline stood on was almost blind.
+
+Once fixed, the parser could actually extract every endpoint, method, required field, and schema — the structured knowledge every later stage needed to reason over.
+
+Teaching the system to think like a person, not an API
+
+The next insight was less about code and more about how people actually talk. Most synthetic tool-use datasets I looked at start with the API call itself — POST /customers — as the starting point of the example. But nobody thinks that way. A person thinks: "set this customer up as premium," not "POST to slash customers."
+
+So I made intent generation its own explicit step, before any tool call gets generated. Given an endpoint, the system first imagines a realistic request a human would make of it — and only then generates the reasoning and call that satisfies that request.
+
+When I later stripped this step out as a test — generating trajectories straight from the bare endpoint instead — the quality measurably dropped. The intent step wasn't decoration. It was load-bearing.
+
+The part that turned out to be the actual hard problem
+
+I expected generation to be the difficult stage. It wasn't. Verification was.
+
+Language models generating tool calls will, with some regularity, invent endpoints that don't exist, hallucinate parameters, or get a type wrong — a string where an integer belongs, a required field silently dropped. If those slip into a training set, the model learns confidently wrong behavior, and you won't necessarily notice until it's already deployed.
+
+So I built a verification engine: every generated trajectory gets checked against the real OpenAPI schema — types, required fields, structure — and rejected if anything doesn't match.
+
+Here's the part of the process I'm most glad I didn't skip: I didn't just build the verifier and assume it worked. I tested it adversarially — deliberately planted known errors into trajectories (wrong types, missing required fields, invalid values) and measured whether the verifier actually caught them, rather than trusting that it would.
+
+First run: it caught 57–80% of planted errors. Not the 100% I'd assumed going in.
+
+Digging into why surfaced three more real bugs on top of the parser issue: the verifier was accepting any value at all for fields typed as "string", including entire objects; parameters defined inside a POST request's body — which is most of Stripe's API — weren't being parsed into typed fields at all, so they were invisible to checking; and my own adversarial test harness had a bug that let it sometimes corrupt an optional field instead of a required one, quietly undertesting its own claim.
+
+Fixed all four, retested, and the verifier's detection rate on planted errors went from 0% to 100%.
+
+The lesson generalizes past this one codebase: you cannot establish that a checker works by feeding it good input and watching it pass. You have to feed it input specifically designed to break it, and watch it catch the break — otherwise the first time you find out it's broken is when it already mattered.
+
+
+## Part Three: Proving It Actually Solves the Problem
+
+Building a pipeline is one thing. Proving it solves the cold-start problem specifically is another — and this is where I almost let myself off easy.
+
+Every API I'd tested against so far — GitHub, Stripe, Slack, and later Zoom, DigitalOcean, and Spotify as held-out evaluation targets — is real, popular, and very likely already represented somewhere in a language model's pretraining data. A model doing well on "a held-out API" like Zoom might just be quietly leaning on the fact that it already half-knows Zoom's API from documentation it saw during pretraining. That would prove the pipeline works on famous APIs. It says nothing about whether it works on the kind of API this whole project exists for: a company's private, undocumented, internal system that no model has ever seen.
+
+So I hand-authored five API specs that don't exist publicly anywhere — a fake CRM, an HR system, a procurement tool, a ticketing system, an asset registry — generic, plausible shapes, not copied from any real company. Then I ran the exact same pipeline against them, completely unmodified.
+
+The result held: accuracy on these never-published APIs (40.0%) essentially matched accuracy on the public held-out ones (39.6%). No meaningful drop-off going from "public API the model might half-know" to "API that has never existed anywhere before." That's the closest thing I have to real evidence that the improvement comes from genuine schema-grounding, not from the model quietly recognizing something familiar.
+
+I also caught a real, honest failure along the way and chose to keep it in the writeup rather than bury it: fine-tuned on my pipeline's data, the model actually lost to a real Self-Instruct baseline on one held-out API — DigitalOcean — in the first single run. Rather than drop DigitalOcean from the comparison, I reran the whole thing five times across different random seeds. Across the five runs, my pipeline won on average, including on DigitalOcean — but the variance was genuinely large enough that individual seeds could still lose. Both things are true, and I reported both.
+
+I went a step further and asked an independent model to judge whether "correct" tool calls were actually usable — checking not just whether the right endpoint was picked, but whether the arguments were right, complete, and sensible. The uncomfortable finding: a real share of predictions marked "correct" by the simple accuracy metric still had a genuine defect, usually a missing or hallucinated parameter. My headline accuracy numbers overstate practical usability — so I'm reporting that overstatement explicitly, rather than letting the flattering number stand unchallenged.
+
+
+## Part Four: What "Solved" Actually Means Here — And What's Still Open
+
+I want to be precise about what I'm actually claiming, because the honest version is more useful than the impressive-sounding one.
+
+What this pipeline demonstrates: it's possible to generate schema-grounded, verified SFT and evaluation data directly from an OpenAPI spec, with zero live execution — and fine-tuning on that data measurably improves tool-selection performance on APIs the model has never seen, including ones that don't exist publicly anywhere. That's a real answer to "can you get grounding without execution."
+
+What it doesn't yet prove: this is pilot-scale work — a handful of APIs, tens of examples, a small stand-in model rather than the larger ones this would eventually target. Two baselines I planned to compare against (ToolBench, a plain prompt-only agent) aren't built yet. Multi-step, dependency-aware workflows — the "create a customer, get their ID, then create an invoice for them" kind of task — are entirely untested; the pipeline as it stands handles single tool calls, not chains of them. The private cold-start test is a single run on five hand-built specs, not yet the larger, repeated, stratified test it deserves.
+
+The way forward, as I see it, isn't to inflate the current results to sound more finished than they are. It's the opposite: keep the verification discipline that already found four real bugs and one overstated metric, and point it at the next set of gaps — the missing baselines, the untested multi-step case, the model-scale question — one at a time, the same way the first four bugs got found. Every honest limitation in this project so far turned into either a fix or a clearly labeled open question. That pattern is the actual method here, more than any single number in a results table.
+
+
+## The Short Version
+
+An OpenAPI spec is structured knowledge, not just documentation — and if you're careful enough to verify every single thing you generate from it, adversarially and repeatedly, you can turn that structure into real training and evaluation data for AI agents without ever touching a live system.
+
+The problem is real. The fix is real, and partial. And the only way I know to make the partial parts less partial is to keep testing the pipeline exactly as hard as I tested the verifier the first time it lied to me about being finished.
