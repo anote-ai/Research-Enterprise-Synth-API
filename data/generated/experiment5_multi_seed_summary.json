@@ -1,0 +1,86 @@
+[
+  {
+    "Held-out API": "Zoom",
+    "n_seeds": 5,
+    "base": "12.5 +/- 0.0",
+    "_base_raw": [
+      12.5,
+      12.5,
+      12.5,
+      12.5,
+      12.5
+    ],
+    "self_instruct": "23.7 +/- 10.3",
+    "_self_instruct_raw": [
+      25.0,
+      25.0,
+      6.2,
+      31.2,
+      31.2
+    ],
+    "enterprisesynth": "66.2 +/- 18.0",
+    "_enterprisesynth_raw": [
+      75.0,
+      50.0,
+      43.8,
+      81.2,
+      81.2
+    ]
+  },
+  {
+    "Held-out API": "DigitalOcean",
+    "n_seeds": 5,
+    "base": "31.2 +/- 0.0",
+    "_base_raw": [
+      31.2,
+      31.2,
+      31.2,
+      31.2,
+      31.2
+    ],
+    "self_instruct": "37.5 +/- 21.2",
+    "_self_instruct_raw": [
+      43.8,
+      50.0,
+      0.0,
+      43.8,
+      50.0
+    ],
+    "enterprisesynth": "53.7 +/- 13.7",
+    "_enterprisesynth_raw": [
+      68.8,
+      31.2,
+      56.2,
+      56.2,
+      56.2
+    ]
+  },
+  {
+    "Held-out API": "Spotify",
+    "n_seeds": 5,
+    "base": "12.5 +/- 0.0",
+    "_base_raw": [
+      12.5,
+      12.5,
+      12.5,
+      12.5,
+      12.5
+    ],
+    "self_instruct": "12.5 +/- 7.7",
+    "_self_instruct_raw": [
+      25.0,
+      12.5,
+      6.2,
+      12.5,
+      6.2
+    ],
+    "enterprisesynth": "46.3 +/- 7.1",
+    "_enterprisesynth_raw": [
+      56.2,
+      37.5,
+      50.0,
+      43.8,
+      43.8
+    ]
+  }
+]
