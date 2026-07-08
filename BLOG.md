@@ -48,6 +48,31 @@ Looking across all these approaches, I noticed something surprising.
 Every enterprise already owns a rich source of structured information—the OpenAPI specification—but very few systems treat it as the foundation for dataset generation.
 
 That observation shaped the direction of the project.
+One afternoon, while reading through a GitHub OpenAPI specification, I realized that nearly everything required to generate realistic training examples was already present.
+
+The schema told me:
+
+what operations existed,
+what parameters they required,
+what authentication was needed,
+how requests were structured,
+and what responses looked like.
+
+Instead of asking:
+
+"How can I execute this API?"
+
+I started asking:
+
+"Can the schema itself teach an AI how to use the API?"
+
+That small shift completely changed the architecture.
+
+Rather than depending on runtime behavior, EnterpriseSynth would work entirely offline. It would read the API specification, generate realistic user intents, synthesize agent trajectories, verify every generated API call against the schema, and finally produce both supervised fine-tuning data and evaluation records.
+
+The goal wasn't to simulate the backend. It was to capture the structure and semantics of interacting with the API.
+
+At that point, the architecture almost designed itself.
 
 ## The idea: ground in the spec, verify without executing
 
