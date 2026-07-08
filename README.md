@@ -53,7 +53,7 @@ The target design for the full system is five pipeline stages plus four supporti
   <img src="paper/figures/architecture_target_system3.png" alt="EnterpriseSynth target architecture (System 3.0): API Schema Parser, API Information Extractor, Intent/Use Case Generation Agent, Trajectory Generation Agent, and SFT & Eval Data Generator, backed by a Schema Verifier, Constraint & Rule Engine, Deduplication & Coverage Analyzer, and Quality Scorer" width="820">
 </p>
 
-**This is the target architecture — explicitly not what's built.** What's actually implemented and
+**This is the target architecture —.** What's actually implemented and
 measured in this repo is a narrower **four-stage** pipeline (see `DESIGN_DOC.md` §4 and §8 for the
 full real-vs-planned accounting):
 
