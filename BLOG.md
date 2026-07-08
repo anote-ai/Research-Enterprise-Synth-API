@@ -114,28 +114,8 @@ not line up.
 
 ---
 
-## Why the verification stage is the one that matters most
 
-It's tempting to think of the schema verifier as a cleanup step — a final sanity check after the
-interesting work is already done. In practice it's closer to the opposite: it's the piece that
-makes the whole approach trustworthy in the first place.
 
-Self-Instruct and Evol-Instruct/WizardLM filter their generated data with text-level heuristics —
-similarity scores, keyword rules, degeneracy checks. Those work reasonably well for open-ended
-instruction data, but they have no concept of a "tool call" at all, let alone whether one is
-structurally valid. AgentInstruct goes further by having an LLM look over what it generated, but
-that's still a soft, holistic judgment — closer to a second opinion than a gate. None of these give
-you a hard guarantee that a generated example, if you actually tried to execute it, would be a
-legal call against the real API.
-
-A deterministic, spec-derived verifier gives you exactly that guarantee, offline, without ever
-touching the live system. It's also the piece of the pipeline most worth being paranoid about:
-a verifier that only ever sees the "good" examples the rest of the pipeline generates will happily
-develop blind spots you never notice, because nothing in that workflow ever asks it to prove it can
-catch something bad. The methodological lesson that's outlived every specific number we've measured
-is that a static verifier has to be tested against deliberately broken input, not just trusted
-because it accepts good input — otherwise you find out about its blind spots only when a bad
-example makes it all the way downstream.
 
 ---
 
@@ -158,15 +138,5 @@ this project is actually trying to demonstrate.
 
 ---
 
-## Who this is for
 
-If your team has an internal API with a schema but no safe way to generate tool-use training data
-for it — no sandbox, no traffic history, no existing SFT or eval set — this is the gap
-EnterpriseSynth is built to close. The bet is that grounding in a real spec plus a hard structural
-verification gate gets you most of the trustworthiness that execution-based methods provide,
-without ever needing the execution.
 
----
-
-*Full design, related-work comparison, and implementation details: `DESIGN_DOC.md` and
-`paper/main.tex` in the repository. Questions and issues welcome via GitHub.*
