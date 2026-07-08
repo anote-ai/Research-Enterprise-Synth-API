@@ -68,9 +68,6 @@ full real-vs-planned accounting):
    generated trajectory against the spec itself: does the endpoint exist, is the method right, are
    required parameters present with the correct types, does the response match the schema.
 
-There's no separate Knowledge Graph or Planning stage, no standalone Deduplication/Coverage
-Analyzer or Quality Scorer module — every generated trajectory is a single endpoint call. That's
-stated plainly throughout the paper rather than implied otherwise.
 
 See [examples/end_to_end_walkthrough.md](examples/end_to_end_walkthrough.md) for one real GitHub
 API endpoint followed through all four implemented stages using committed pipeline output.
