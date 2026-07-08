@@ -1,4 +1,4 @@
-# EnterpriseSynth: A Schema-Aware Agentic Framework for Generating Verified SFT and Evaluation Datasets from OpenAPI Specifications
+# EnterpriseSynth: Agentic SFT + Eval Data from API Schemas Without Live Execution
 
 **Status:** pilot-scale experiments complete and scaled: Experiments 1–5, Ablation Study A1–A5, a
 real Self-Instruct baseline, a 5-seed multi-API scaling sweep, a private never-published-API

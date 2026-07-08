@@ -1,4 +1,4 @@
-# EnterpriseSynth: A Schema-Aware Agentic Framework for Generating Verified SFT and Evaluation Datasets from OpenAPI Specifications
+# EnterpriseSynth: Agentic SFT + Eval Data from API Schemas Without Live Execution
 
 **Author**: Rashmi Thimmaraju
 **Target venues**: MLinPL 2026 (8/1) · AAAI 2027 Workshop on Enterprise AI Evaluation (7/28)
@@ -1090,6 +1090,20 @@ a submission-ready paper runs through exactly the limitations listed above: more
 argument-level correctness closing the gap this paper's own judge evaluation just revealed, and a
 real test of whether a Knowledge Graph earns its place in the architecture rather than being
 assumed into it.
+
+## Future Work
+
+- Implement the missing ToolBench and prompt-only-agent baselines to complete the comparison
+  suite.
+- Extend the private cold-start validation to a stratified, multi-seed sample matching the public
+  evaluation's rigor.
+- Implement and evaluate a Knowledge Graph / planning stage for multi-step, dependency-aware
+  workflows.
+- Scale fine-tuning experiments to the target model class (Mistral-7B/Llama-3-8B) to test whether
+  the effect holds at production scale.
+- Validate EnterpriseSynth-Eval against human-graded ground truth to confirm it measures real task
+  performance, not just schema validity.
+- Extend multi-seed evaluation to all experiments, not only the downstream scaling comparison.
 
 ## References
 
