@@ -47,22 +47,7 @@ The idea I landed on: stop treating the OpenAPI spec as documentation, and start
 
 That became a four-stage pipeline:
 
-OpenAPI Spec
-     │
-     ▼
-Schema Parser          — read and structure the spec
-     │
-     ▼
-Intent Generation       — imagine what a real person would ask for
-     │
-     ▼
-Trajectory Generation   — generate the agent's reasoning + tool call
-     │
-     ▼
-Schema Verification     — reject anything that doesn't match the real schema
-     │
-     ▼
-Verified SFT data + Evaluation data
+
 
 No live API. No credentials required at generation time. Every step happens against the spec alone.
 
