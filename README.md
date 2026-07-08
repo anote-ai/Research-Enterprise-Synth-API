@@ -47,7 +47,11 @@ single endpoint call, stated plainly throughout the paper rather than implied ot
 - `DESIGN_DOC.md` — full design, literature review, methodology, all measured results
 - `literature-review/` — the five-paper review, one file per paper (also condensed in `DESIGN_DOC.md` §3)
 - `BLOG.md` — companion blog post covering the core thesis and results
-- `paper/` — LaTeX draft (`main.tex`), bibliography, figures, related-work audit
+- `paper/` — LaTeX draft (`main.tex`), bibliography, figures, related-work audit; also
+  `main_aaai.tex`/`main_aaai.pdf`, the same content reflowed into the official AAAI-26 anonymous-
+  submission two-column format (`aaai2026.sty`/`.bst`, from the real AAAI author kit) for
+  submission. `main.tex` remains the source of truth for edits; `main_aaai.tex` is regenerated
+  from it, not hand-maintained separately.
 - `src/enterprisesynth/` — parser, intent agent, trajectory agent, verifier, ablation agents,
   semantic checker (Haiku ablation), LLM-as-a-judge scorer, fine-tuning helpers
 - `scripts/` — one script per experiment/ablation/baseline/scaling phase, plus figure and diagram
