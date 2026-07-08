@@ -162,23 +162,6 @@ measurement has been finalized:
 
 ---
 
-## Scope and Scale Notes
-
-- **Pilot scale, stated plainly:** 17 APIs touched by the pipeline (3 training: GitHub/Stripe/Slack;
-  9 real held-out: Zoom/DigitalOcean/Spotify/Twilio/Notion/OpenAI/Jira/Asana/Trello; 5 private
-  held-out: hand-authored, never-published synthetic specs), 45–89 examples per experiment, a 0.5B
-  substitute model for fine-tuning — not yet the paper's target scale (full ~65-spec stratified
-  sample, 7–8B model, remaining baselines). See "What's Next" in `RESULTS.md`.
-- **Implemented vs. target architecture:** the four-stage pipeline (Parser → Intent Agent →
-  Trajectory Agent → Verifier) is what's built and measured. The Knowledge Graph and Planning
-  stages, and the Deduplication/Coverage Analyzer and Quality Scorer modules shown in the target
-  architecture diagram above, are not implemented — see `DESIGN_DOC.md` §4 and §8.
-- **Verification is deterministic, not LLM-based**, for the primary gate (Pydantic/JSON Schema
-  against the spec). An LLM-based semantic-plausibility check (Claude Haiku 4.5) exists only as an
-  optional ablation arm layered on top, not a replacement.
-
----
-
 ## Quickstart
 
 Install and run the core checks:
@@ -203,112 +186,6 @@ Fastest entrypoints by task:
 | Schema verification + corruption testing (no API key; depends on Exp 3) | `./.venv/bin/python scripts/run_experiment4.py` |
 | Regenerate all figures from committed data | `./.venv/bin/python scripts/make_figures.py` |
 | Regenerate the target-architecture pipeline diagram | `./.venv/bin/python scripts/make_pipeline_diagram.py` |
-
----
-
-## Reproducing Results
-
-Run in order — later scripts depend on earlier ones' output.
-
-### Experiments 1–4 (core pipeline)
-
-```bash
-./.venv/bin/python scripts/run_experiment1.py   # schema parsing, no API key needed
-./.venv/bin/python scripts/run_experiment2.py   # intent generation, needs ANTHROPIC_API_KEY
-./.venv/bin/python scripts/run_experiment3.py   # trajectory generation, depends on Exp 2
-./.venv/bin/python scripts/run_experiment4.py   # schema verification + corruption testing, depends on Exp 3
-```
-
-### Experiment 5 (downstream fine-tuning pilot)
-
-Needs `ANTHROPIC_API_KEY` + `torch`/`transformers`/`peft`; depends on Experiments 2–3's output;
-downloads Qwen2.5-0.5B-Instruct (~1GB).
-
-```bash
-./.venv/bin/pip install torch transformers peft accelerate
-./.venv/bin/python scripts/prepare_experiment5_data.py
-./.venv/bin/python scripts/run_experiment5.py
-```
-
-### Ablation study
-
-```bash
-# A1/A3/A4 (needs ANTHROPIC_API_KEY; A2 reuses Experiment 4's data, no re-run needed)
-./.venv/bin/python scripts/run_ablation_study.py
-
-# A5 -- Claude Haiku 4.5 semantic-plausibility check (needs ANTHROPIC_API_KEY; depends on Exp 3)
-./.venv/bin/python scripts/run_ablation_haiku.py
-```
-
-### Self-Instruct baseline
-
-Schema-free bootstrap, then fine-tune + evaluate on the identical held-out Zoom set as
-Experiment 5 (needs `ANTHROPIC_API_KEY` + `torch`/`transformers`/`peft`).
-
-```bash
-./.venv/bin/python scripts/run_baseline_selfinstruct.py
-./.venv/bin/python scripts/run_baseline_selfinstruct_finetune.py
-```
-
-### Multi-API scaling sweep
-
-Scale Experiment 5 to 3 held-out APIs (Zoom, DigitalOcean, Spotify) — needs `ANTHROPIC_API_KEY` +
-`torch`/`transformers`/`peft`; retrains all three models (base/Self-Instruct/EnterpriseSynth) once.
-Accepts `--seed N` (default 42); reuses committed held-out eval sets rather than regenerating them,
-so a seed sweep varies only training randomness, not the eval questions.
-
-```bash
-./.venv/bin/python scripts/scale_experiment5_heldout.py --seed 42
-
-# 5-seed sweep + aggregation (what the paper's mean +/- std table is built from)
-for seed in 42 123 777 2025 9999; do
-  ./.venv/bin/python scripts/scale_experiment5_heldout.py --seed $seed
-done
-./.venv/bin/python scripts/aggregate_multi_seed_scaling.py
-```
-
-### Private cold-start validation
-
-Generate the 5 never-published specs (already committed under `data/specs/private/`, this
-regenerates them from scratch), build a held-out eval set from them, then evaluate EnterpriseSynth
-against both the public and private held-out sets.
-
-```bash
-./.venv/bin/python scripts/generate_private_specs.py
-./.venv/bin/python scripts/build_private_coldstart_eval.py
-./.venv/bin/python scripts/run_private_coldstart_eval.py
-```
-
-### 6-API real-spec scale-up
-
-Scale to 6 more real public APIs (Twilio, Notion, OpenAI, Jira, Asana, Trello) via APIs.guru.
-
-```bash
-./.venv/bin/python scripts/build_phase3_eval.py
-./.venv/bin/python scripts/run_phase3_eval.py
-```
-
-### LLM-as-a-judge semantic evaluation
-
-Needs `ANTHROPIC_API_KEY`; scores real predictions from a committed seed-42 run on intent
-match/argument correctness/missing parameters/reasoning quality.
-
-```bash
-./.venv/bin/python scripts/run_llm_judge_eval.py
-```
-
-### Figures and diagrams
-
-```bash
-./.venv/bin/pip install matplotlib
-./.venv/bin/python scripts/make_figures.py             # regenerate figures from committed data/generated/*.json
-./.venv/bin/python scripts/make_pipeline_diagram.py     # regenerate the target-architecture pipeline diagram
-```
-
-See [REPRODUCIBILITY.md](REPRODUCIBILITY.md) for the full provenance rules, seeds, and environment
-details.
-
----
 
 ## Repository Layout
 
@@ -370,28 +247,3 @@ Local developer check:
 
 GitHub citation metadata is also provided in [CITATION.cff](CITATION.cff).
 
----
-
-## Status log
-
-- 2026-07-06: Repo created; literature review (Self-Instruct, WizardLM, AgentInstruct, API-Bank,
-  ToolLLM/ToolBench); dataset selection (APIs.guru); Experiments 1–5 implemented and run at pilot
-  scale; Ablation Study A1–A4 run against the actual four-stage implementation.
-- 2026-07-07: Resolved the EnterpriseBench naming collision (renamed to `EnterpriseSynth-Eval`);
-  implemented and ran Ablation A5 (Claude Haiku 4.5 semantic-plausibility check); implemented a
-  real Self-Instruct baseline and scaled Experiment 5 to 3 held-out APIs (Zoom, DigitalOcean,
-  Spotify), including the honest DigitalOcean-reversal finding; compiled `paper/main.tex` to PDF
-  for the first time and added Discussion/Limitations/Conclusion sections; added `BLOG.md` and
-  the `literature-review/` folder; added a Case Study and Qualitative Analysis section using real
-  pipeline output; ran a full-repo audit and fixed every finding (README/REVIEW.md staleness, dead
-  dependencies, a pre-existing section-numbering bug, missing test coverage for the LLM-calling
-  modules).
-- 2026-07-08: Ran a 5-seed sweep of the multi-API scaling experiment, replacing single-draw
-  numbers with real mean ± std; built and validated a private cold-start test set (5
-  never-published synthetic enterprise specs) showing the fine-tuning effect holds on APIs the
-  base model cannot have seen; scaled to 6 more real public APIs via APIs.guru (17 APIs touched by
-  the pipeline in total); built an independent LLM-as-a-judge semantic evaluation (Phase 4) and
-  found that binary Tool Selection Accuracy overstates practical quality by roughly 2× — reported
-  as a limitation against the paper's own headline numbers; fixed a real overclaiming issue in the
-  Abstract itself (described the unimplemented Knowledge Graph as if it were built); fixed a stale
-  leftover sentence claiming the Case Study/Discussion/Conclusion sections were unwritten.
