@@ -1453,14 +1453,3 @@ than being assumed into it.
 | Jul 21, 2026 | AAAI abstract enrollment |
 | Jul 28, 2026 | AAAI 2027 full paper (7 pages) |
 | Aug 1, 2026 | MLinPL 2026 submission, adapted to systems/compiler-centric narrative |
-
----
-
-## 15. Open Items
-
-- Verify per-spec licensing before redistributing any derived dataset built on APIs.guru/ToolBench
-  sources.
-- Confirm In-N-Out's released graph data isn't reusable outright for the Structural Graph Extractor
-  before building a parser from scratch.
-- Finalize which specs within each §5.2 category are actually sampled (plan only, not yet chosen).
-- Confirm generation-pipeline model budget/access (§5.4 is a placeholder default).
