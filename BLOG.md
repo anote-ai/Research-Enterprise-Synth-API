@@ -1,3 +1,4 @@
+## <img width="983" height="534" alt="Screenshot 2026-07-08 at 8 25 46 PM" src="https://github.com/user-attachments/assets/8c82698a-c6ec-4af0-b749-34dbbf0ebe6d" />
 ## The API That Had No Stories to Tell: Grounding Enterprise Agents Without Live Execution
 There is a quiet, frustrating moment that happens inside almost every engineering team building an AI agent, and it usually goes unnoticed the first time. Someone opens the internal wiki, finds the API documentation for the company’s billing system, ticketing tool, or CRM, and thinks: “Great, we have an OpenAPI spec. The agent can just learn from this.”
 
@@ -14,7 +15,6 @@ The way around this bottleneck requires a fundamental shift in perspective: stop
 
 The pipeline begins with schema parsing, which sounds like the boring, solved part of software engineering. It isn’t. Early iterations of the parser silently dropped parameters defined through $ref pointers rather than written inline. That sounds like a minor edge case until you look at the scale of production APIs: GitHub’s real OpenAPI specification has 1,721 required parameters once every reference is properly resolved, but a naive parser only sees 67 of them. By re-engineering the parser to recursively resolve these reference graphs, the system ensures that the entire downstream pipeline isn't fundamentally blind to enterprise complexity.
 
-## <img width="983" height="534" alt="Screenshot 2026-07-08 at 8 25 46 PM" src="https://github.com/user-attachments/assets/8c82698a-c6ec-4af0-b749-34dbbf0ebe6d" />
 
 Next comes teaching the system to think like a human, not an endpoint. A common pitfall in synthetic tool-use datasets is starting directly with the tool invocation itself—such as POST /customers—and working backward to create a prompt. But humans don't think in endpoints; they think in intents. They say: "Set this customer up as a premium user." Because of this, EnterpriseSynth uses an explicit, isolated intent generation step. Before a single tool call is drafted, the system analyzes the allowed schema and imagines a realistic, nuanced human request. Ablation tests that strip intent generation out and generate straight from the bare endpoint show a measurable drop in data quality; human intent isn't decoration—it is load-bearing.
 
