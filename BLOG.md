@@ -8,19 +8,26 @@ An OpenAPI specification is a beautifully precise document. It states exactly wh
 
 Consequently, teams trying to fine-tune or evaluate tool-using agents run into a wall: they have the spec, and they have absolutely nothing else. No Supervised Fine-Tuning (SFT) training data. No evaluation benchmarks.
 
+## The Enterprise Cold-Start Problem
 The traditional fix is to generate this data by running live simulations—letting a frontier model loose on sandboxes, calling the API thousands of times, logging the output, and turning those logs into training trajectories. That works fine if you are building an agent for a public weather API. But for a private enterprise payments system, or an HR platform wired into production microservices? Nobody signs off on letting an unhinged LLM fire ten thousand test calls against a live refund endpoint just to bootstrap a dataset. The API is rate-limited, gated behind a secure VPN, or simply too consequential to poke at. This is the enterprise cold-start problem: the data you need to teach a model to use a tool safely is most valuable exactly where you are least able to safely generate it.
 
+## The Core Idea Behind EnterpriseSynth
 The way around this bottleneck requires a fundamental shift in perspective: stop treating an OpenAPI spec as mere passive documentation, and start treating it as a generative source of structured truth. That is the core philosophy behind EnterpriseSynth. It is a research-driven framework designed to build flawless SFT and evaluation trajectories entirely offline, achieving deep schema-grounding with zero live API execution and zero credentials required.
 ### <img width="754" height="419" alt="Screenshot 2026-07-08 at 8 19 21 PM" src="https://github.com/user-attachments/assets/02d49255-f627-4cd7-83c5-ce4e4374e729" />
 
+## Schema Parsing: The Part That Wasn't Actually Solved
 The pipeline begins with schema parsing, which sounds like the boring, solved part of software engineering. It isn’t. Early iterations of the parser silently dropped parameters defined through $ref pointers rather than written inline. That sounds like a minor edge case until you look at the scale of production APIs: GitHub’s real OpenAPI specification has 1,721 required parameters once every reference is properly resolved, but a naive parser only sees 67 of them. By re-engineering the parser to recursively resolve these reference graphs, the system ensures that the entire downstream pipeline isn't fundamentally blind to enterprise complexity.
 
-
+## Intent Generation: Teaching the System to Think Like a Human
 Next comes teaching the system to think like a human, not an endpoint. A common pitfall in synthetic tool-use datasets is starting directly with the tool invocation itself—such as POST /customers—and working backward to create a prompt. But humans don't think in endpoints; they think in intents. They say: "Set this customer up as a premium user." Because of this, EnterpriseSynth uses an explicit, isolated intent generation step. Before a single tool call is drafted, the system analyzes the allowed schema and imagines a realistic, nuanced human request. Ablation tests that strip intent generation out and generate straight from the bare endpoint show a measurable drop in data quality; human intent isn't decoration—it is load-bearing.
+
+## Schema Verification: Where the Illusion Usually Breaks
 
 Generating the tool calls themselves is relatively straightforward for modern models, but verifying them is where the illusion usually breaks. Models regularly hallucinate parameters, invent endpoints that don't exist, or swap types—like passing a string where an integer belongs. If those examples slip into your training set, the model confidently learns broken behavior.
 
 To enforce absolute data integrity, EnterpriseSynth passes every generated trajectory through a rigid offline verification engine that checks types, required fields, and payload structures against the original schema. Critically, you cannot trust a verification system just because it passes clean data. To prove the verifier worked, it had to be tested adversarially—deliberately planting known errors (wrong types, missing fields, object injections) into the synthetic data to see if it would catch them. On the first run, the verifier caught only 57–80% of errors because nested body payloads (common in enterprise APIs like Stripe) were slipping through unchecked. Once patched, the adversarial detection rate hit a perfect 100%. You simply don't know a verification tool works until you actively try to break it and watch it catch the fracture.
+
+## Proving the Cold-Start Claim: Testing on APIs the Model Has Never Seen
 
 Testing this pipeline against famous public APIs like GitHub, Slack, or Stripe introduces another severe bias: the underlying generator LLM has likely already memorized their documentation from its public pretraining data. To prove this system could solve the cold-start problem for private enterprise environments, it had to be tested on things the model could not possibly recognize.
 
@@ -28,6 +35,8 @@ Five entirely fictional API specifications were hand-authored—a unique CRM, an
 
 Building this framework honestly also meant reporting the bruises alongside the victories. When an independent model was tasked with auditing whether "correctly" generated tool selections were practically usable, the results revealed that a notable share of predictions marked correct by simple match-metrics still contained subtle defects, such as a missing secondary parameter. Furthermore, across multiple random seeds, certain APIs (like DigitalOcean) showed high variance where individual runs could still underperform a classic Self-Instruct baseline. This variance highlights that while schema-driven synthesis is powerful, it requires continuous engineering discipline.
 
+## What EnterpriseSynth Produces
 At the end of the pipeline, EnterpriseSynth yields two distinct, high-value assets: an SFT dataset mapping user intents to structured reasoning chains and verified tool payloads, and an Evaluation Dataset (EnterpriseSynth-Eval) consisting of ground-truth workflows and schema-verified labels for benchmarking. The next major research frontiers involve scaling this architecture from single-turn tool selection into multi-step, dependency-aware workflows—the complex chains where an agent must create a customer, extract the returned ID, and seamlessly pass it into a subsequent billing payload.
 
+## The Takeaway
 Ultimately, EnterpriseSynth demonstrates that API specifications are not just documentation. They are structured knowledge bases. If you are rigorous enough to parse them deeply and verify the output adversarially, you can transform that static structure into a rich library of training stories. You don't need a dangerous, live sandbox to teach an AI how to work safely in the enterprise. You just need to listen to what the schema is already trying to tell you.
