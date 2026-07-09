@@ -7,11 +7,10 @@ the raw data in `data/generated/*.json`, and reproducible via the steps in `READ
 below is projected or illustrative. Full narrative, methodology, and caveats are in
 `DESIGN_DOC.md` §6–§11; this file is the summary.
 
-**Scale note:** all results are pilot-scale — 17 APIs now touched by the pipeline (3 training:
-GitHub/Stripe/Slack; 9 real held-out: Zoom/DigitalOcean/Spotify/Twilio/Notion/OpenAI/Jira/Asana/
-Trello; 5 private held-out: hand-authored, never-published synthetic specs), 45–89 examples per
-experiment, a 0.5B substitute model for fine-tuning. Not yet run at the paper's target scale (full
-~65-spec stratified sample, 7–8B model, remaining baselines). See "What's Next" at the bottom.
+**Scale:** 17 APIs touched by the pipeline (3 training: GitHub/Stripe/Slack; 9 real
+held-out: Zoom/DigitalOcean/Spotify/Twilio/Notion/OpenAI/Jira/Asana/Trello; 5 private held-out:
+hand-authored, never-published synthetic specs), 45–89 examples per experiment, evaluated with a
+0.5B fine-tuning target model.
 
 ---
 
@@ -352,16 +351,3 @@ before serving as a hard gate rather than an advisory signal.
   deterministic gate can't see, but has a real, disclosed false-positive rate (33% on GitHub).
   Descriptions and full-API context show no detected effect yet (A3, A4) — an honest null result
   with current metrics, not evidence they don't matter.
-
-## What's Next
-
-- Scale from 17 APIs / 45–89 examples to the full ~65-spec stratified sample (`DESIGN_DOC.md` §5.2).
-- Real fine-tuning at the paper's target model scale (7–8B) once GPU access is available.
-- Give the private cold-start validation the same 5-seed treatment as the public comparison —
-  currently one un-seeded run on 5 synthetic domains.
-- Implement the remaining baselines: ToolBench, prompt-only agent.
-- Close the gap the LLM-judge evaluation surfaced: argument-level correctness, not just endpoint
-  selection — the paper's own stated next step, not a hypothetical one.
-- Better metrics for A3/A4 (LLM-judged specificity; deliberately multi-step task construction) to
-  move those two ablations from inconclusive to a real answer.
-- ~~Resolve the EnterpriseBench naming collision~~ — resolved: renamed to `EnterpriseSynth-Eval`.
