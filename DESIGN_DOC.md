@@ -7,21 +7,6 @@
 
 ---
 
-## ✅ Naming decision (resolved)
-
-The paper draft originally named its evaluation suite "EnterpriseBench." That name was already
-taken: **arXiv:2510.27287, "Can LLMs Help You at Work? A Sandbox for Evaluating LLM Agents in
-Enterprise Environments" (Vishwakarma et al., Oct 2025)** ships a benchmark under the identical
-name (500 tasks, SWE/HR/finance/admin, simulated enterprise sandbox with live task execution).
-
-**Decision: rename our evaluation suite to `EnterpriseSynth-Eval`.** The framework name
-(EnterpriseSynth) is unchanged; only the eval-suite name changes. Verified no existing collision
-for `EnterpriseSynth-Eval`. Vishwakarma et al.'s EnterpriseBench remains cited in Related Work as
-a distinct, real benchmark — we are not reframing ours as complementary to it, simply avoiding the
-name clash entirely.
-
----
-
 ## 1. Goal
 
 Solve the enterprise cold-start problem for tool-using LLM agents: an organization has an
@@ -946,16 +931,6 @@ The question: which components of EnterpriseSynth actually contribute to generat
 verified SFT and evaluation data? This section is scoped strictly to what is **actually
 implemented** — the four-stage pipeline (Parser → Intent Agent → Trajectory Agent → Verifier).
 
-**Three ablations proposed in an earlier pass of this section are explicitly dropped, and stated
-why:**
-
-- ❌ **Knowledge Graph ablation** — does not exist. No graph module (Stage 2) has been built;
-  Stages 3–5 operate on the flat parsed endpoint list.
-- ❌ **Planner ablation** — does not exist as a separate component. Planning and trajectory
-  generation were combined into one call (`trajectory_agent.py`) from the start.
-- ❌ **Response Schema Modeling ablation** — not implemented. Stage 1 only tracks a boolean
-  "schema present" flag for responses, never a structured, checkable response schema.
-
 Four ablations **are** real, implemented, and run against actual data:
 
 ### 8.2 A1 — Without Intent Generation
@@ -1483,7 +1458,6 @@ than being assumed into it.
 
 ## 15. Open Items
 
-- ~~Resolve the EnterpriseBench naming collision~~ — resolved: renamed to `EnterpriseSynth-Eval` (see flag at top).
 - Verify per-spec licensing before redistributing any derived dataset built on APIs.guru/ToolBench
   sources.
 - Confirm In-N-Out's released graph data isn't reusable outright for the Structural Graph Extractor
