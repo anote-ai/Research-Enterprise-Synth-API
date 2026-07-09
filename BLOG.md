@@ -1,5 +1,4 @@
-### <img width="754" height="419" alt="Screenshot 2026-07-08 at 8 19 21 PM" src="https://github.com/user-attachments/assets/02d49255-f627-4cd7-83c5-ce4e4374e729" />
-The API That Had No Stories to Tell: Grounding Enterprise Agents Without Live Execution
+## The API That Had No Stories to Tell: Grounding Enterprise Agents Without Live Execution
 There is a quiet, frustrating moment that happens inside almost every engineering team building an AI agent, and it usually goes unnoticed the first time. Someone opens the internal wiki, finds the API documentation for the company’s billing system, ticketing tool, or CRM, and thinks: “Great, we have an OpenAPI spec. The agent can just learn from this.”
 
 It can’t. Not directly. And the reason why is the foundation of the enterprise agentic data bottleneck.
@@ -11,23 +10,8 @@ Consequently, teams trying to fine-tune or evaluate tool-using agents run into a
 The traditional fix is to generate this data by running live simulations—letting a frontier model loose on sandboxes, calling the API thousands of times, logging the output, and turning those logs into training trajectories. That works fine if you are building an agent for a public weather API. But for a private enterprise payments system, or an HR platform wired into production microservices? Nobody signs off on letting an unhinged LLM fire ten thousand test calls against a live refund endpoint just to bootstrap a dataset. The API is rate-limited, gated behind a secure VPN, or simply too consequential to poke at. This is the enterprise cold-start problem: the data you need to teach a model to use a tool safely is most valuable exactly where you are least able to safely generate it.
 
 The way around this bottleneck requires a fundamental shift in perspective: stop treating an OpenAPI spec as mere passive documentation, and start treating it as a generative source of structured truth. That is the core philosophy behind EnterpriseSynth. It is a research-driven framework designed to build flawless SFT and evaluation trajectories entirely offline, achieving deep schema-grounding with zero live API execution and zero credentials required.
+### <img width="754" height="419" alt="Screenshot 2026-07-08 at 8 19 21 PM" src="https://github.com/user-attachments/assets/02d49255-f627-4cd7-83c5-ce4e4374e729" />
 
-   [ OpenAPI Spec ] 
-          │
-          ▼
-   [ Schema Parser ]  ──► (Resolves recursive $ref pointers)
-          │
-          ▼
-  [ Intent Generator ] ──► (Generates human-centric goal first)
-          │
-          ▼
-  [ Trajectory Gen ]  ──► (Simulates thought, tool call, mock response)
-          │
-          ▼
-  [ Schema Verifier ] ──► (Adversarial type & structure checking)
-          │
-          ▼
-[ SFT & Eval Datasets ]
 The pipeline begins with schema parsing, which sounds like the boring, solved part of software engineering. It isn’t. Early iterations of the parser silently dropped parameters defined through $ref pointers rather than written inline. That sounds like a minor edge case until you look at the scale of production APIs: GitHub’s real OpenAPI specification has 1,721 required parameters once every reference is properly resolved, but a naive parser only sees 67 of them. By re-engineering the parser to recursively resolve these reference graphs, the system ensures that the entire downstream pipeline isn't fundamentally blind to enterprise complexity.
 
 Next comes teaching the system to think like a human, not an endpoint. A common pitfall in synthetic tool-use datasets is starting directly with the tool invocation itself—such as POST /customers—and working backward to create a prompt. But humans don't think in endpoints; they think in intents. They say: "Set this customer up as a premium user." Because of this, EnterpriseSynth uses an explicit, isolated intent generation step. Before a single tool call is drafted, the system analyzes the allowed schema and imagines a realistic, nuanced human request. Ablation tests that strip intent generation out and generate straight from the bare endpoint show a measurable drop in data quality; human intent isn't decoration—it is load-bearing.
