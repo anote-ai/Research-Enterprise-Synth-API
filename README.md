@@ -169,10 +169,6 @@ python3 -m venv .venv
 ./.venv/bin/python -m pytest tests/ -v
 ```
 
-Requires `ANTHROPIC_API_KEY` in your environment (or a `.env` file at the repo root — already
-gitignored) for Experiments 2, 3, 5, the ablation study, and the LLM-judge evaluation, which call
-Claude Sonnet 5 or Haiku 4.5. Experiments 1 and 4 are pure code, no API key needed.
-
 Fastest entrypoints by task:
 
 | Goal | Command |
@@ -183,6 +179,157 @@ Fastest entrypoints by task:
 | Schema verification + corruption testing (no API key; depends on Exp 3) | `./.venv/bin/python scripts/run_experiment4.py` |
 | Regenerate all figures from committed data | `./.venv/bin/python scripts/make_figures.py` |
 | Regenerate the target-architecture pipeline diagram | `./.venv/bin/python scripts/make_pipeline_diagram.py` |
+
+---
+
+## API Key Setup
+
+`ANTHROPIC_API_KEY` is required for every stage that calls an LLM: Experiments 2, 3, and 5, the
+ablation study (A1/A3/A4/A5), the multi-API scaling sweep, the private cold-start validation, the
+6-API scale-up, and the LLM-as-a-judge evaluation. Experiments 1 and 4 are pure deterministic code
+and need no key at all.
+
+1. **Get a key.** Create one at [console.anthropic.com](https://console.anthropic.com) under
+   *API Keys*, and make sure the account has available credit — a
+   `anthropic.BadRequestError: ... credit balance is too low` means the key itself is valid but
+   the account has no funds (a billing fix on the console, not a code bug).
+2. **Set it, either way works:**
+
+   ```bash
+   # Option A — .env file at the repo root (already gitignored, recommended)
+   echo 'ANTHROPIC_API_KEY=sk-ant-...' > .env
+
+   # Option B — export directly into your shell session
+   export ANTHROPIC_API_KEY=sk-ant-...
+   ```
+
+3. **Load it before running any script that needs it** (only required if you used the `.env` file):
+
+   ```bash
+   set -a && source .env && set +a
+   ```
+
+4. **Which model each stage calls:** Intent Generation, Trajectory Generation, and the fine-tuning
+   pipeline's generation steps use **Claude Sonnet 5**; the semantic-plausibility ablation (A5) and
+   the LLM-as-a-judge evaluation use **Claude Haiku 4.5**. Neither model choice is configurable via
+   flag today — swap the model string directly in the relevant script under `scripts/` or
+   `src/enterprisesynth/` if you need a different one.
+
+No API key ever reaches the target/internal API being modeled — `ANTHROPIC_API_KEY` only talks to
+Claude for generation and judging. The whole point of the pipeline is that the target API itself is
+never called (see [The Problem](#the-problem) above).
+
+---
+
+## Reproducing All Results — Step by Step
+
+Run in order — later scripts depend on earlier ones' output. Every command assumes you're in the
+repo root with the venv activated and (if needed) the API key loaded per the section above.
+
+### 1. Sanity check (no API key, ~1 second)
+
+```bash
+./.venv/bin/python -m pytest tests/ -v
+```
+
+### 2. Core four-stage pipeline (Experiments 1–4)
+
+```bash
+./.venv/bin/python scripts/run_experiment1.py   # schema parsing — no API key needed
+./.venv/bin/python scripts/run_experiment2.py   # intent generation — needs ANTHROPIC_API_KEY
+./.venv/bin/python scripts/run_experiment3.py   # trajectory generation — needs API key; depends on Exp 2
+./.venv/bin/python scripts/run_experiment4.py   # schema verification + corruption testing — no API key; depends on Exp 3
+```
+
+### 3. Downstream fine-tuning pilot (Experiment 5)
+
+Needs `ANTHROPIC_API_KEY` plus local `torch`/`transformers`/`peft`/`accelerate`; downloads
+Qwen2.5-0.5B-Instruct (~1GB) on first run. No GPU required — runs on Apple Silicon's MPS backend or
+CPU.
+
+```bash
+./.venv/bin/pip install torch transformers peft accelerate
+./.venv/bin/python scripts/prepare_experiment5_data.py
+./.venv/bin/python scripts/run_experiment5.py
+```
+
+### 4. Ablation study
+
+```bash
+# A1/A3/A4 — needs ANTHROPIC_API_KEY (A2 reuses Experiment 4's data, no re-run needed)
+./.venv/bin/python scripts/run_ablation_study.py
+
+# A5 — Claude Haiku 4.5 semantic-plausibility check — needs API key; depends on Exp 3
+./.venv/bin/python scripts/run_ablation_haiku.py
+```
+
+### 5. Self-Instruct baseline
+
+Needs `ANTHROPIC_API_KEY` + `torch`/`transformers`/`peft`.
+
+```bash
+./.venv/bin/python scripts/run_baseline_selfinstruct.py
+./.venv/bin/python scripts/run_baseline_selfinstruct_finetune.py
+```
+
+### 6. Multi-API scaling sweep (5 seeds)
+
+Needs `ANTHROPIC_API_KEY` (first seed only — the rest reuse committed held-out eval sets) + local
+`torch`.
+
+```bash
+./.venv/bin/python scripts/scale_experiment5_heldout.py --seed 42
+
+for seed in 42 123 777 2025 9999; do
+  ./.venv/bin/python scripts/scale_experiment5_heldout.py --seed $seed
+done
+./.venv/bin/python scripts/aggregate_multi_seed_scaling.py
+```
+
+### 7. Private cold-start validation
+
+Needs `ANTHROPIC_API_KEY` + local `torch`. Generates and evaluates against 5 hand-authored,
+never-published enterprise specs (CRM, HRIS, Procurement, Ticketing, Asset Management).
+
+```bash
+./.venv/bin/python scripts/generate_private_specs.py
+./.venv/bin/python scripts/build_private_coldstart_eval.py
+./.venv/bin/python scripts/run_private_coldstart_eval.py
+```
+
+### 8. 6-API real-spec scale-up
+
+Needs `ANTHROPIC_API_KEY` + local `torch`. Twilio, Notion, OpenAI, Jira, Asana, Trello via
+APIs.guru.
+
+```bash
+./.venv/bin/python scripts/build_phase3_eval.py
+./.venv/bin/python scripts/run_phase3_eval.py
+```
+
+### 9. LLM-as-a-judge semantic evaluation
+
+Needs `ANTHROPIC_API_KEY`. Scores real predictions from a committed seed-42 run on intent
+match/argument correctness/missing parameters/reasoning quality.
+
+```bash
+./.venv/bin/python scripts/run_llm_judge_eval.py
+```
+
+### 10. Figures and diagrams
+
+No API key needed — reads only committed `data/generated/*.json`.
+
+```bash
+./.venv/bin/pip install matplotlib
+./.venv/bin/python scripts/make_figures.py
+./.venv/bin/python scripts/make_pipeline_diagram.py
+```
+
+See [REPRODUCIBILITY.md](REPRODUCIBILITY.md) for the full evidence-type table (what's measured vs.
+what needs external resources) and exact environment details.
+
+---
 
 ## Repository Layout
 
