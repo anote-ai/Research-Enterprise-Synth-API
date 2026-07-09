@@ -2,8 +2,7 @@
 
 EnterpriseSynth's "dataset" is a collection of **OpenAPI/Swagger specifications** — the raw input
 the pipeline synthesizes SFT traces and evaluation records from. This directory holds those specs
-and the resulting generated artifacts, following the input-vs-output-artifact convention used in
-[Research-OrchestrateBench](https://github.com/anote-ai/Research-OrchestrateBench)'s `data/`: raw
+and the resulting generated artifacts, `data/`: raw
 inputs are checked in or fetched here; generated SFT/eval JSONL files are pipeline **outputs**, not
 hand-edited.
 
