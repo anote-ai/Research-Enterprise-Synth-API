@@ -1,8 +1,12 @@
 # EnterpriseSynth: Agentic SFT + Eval Data from API Schemas Without Live Execution— Research Design Document
-Paper #3 (EnterpriseSynth)
+Paper #3 (EnterpriseSynth) 
+
 Authors: Rashmi Thimmaraju
+
 Supervisor: Natan Vidra
+
 Date: 2026-06-20
+
 Target venues: MLinPL 2026 (deadline Aug 1, 2026) · AAAI 2027 Workshop on Enterprise AI Evaluation (deadline Jul 28, 2026)
 
 ---
