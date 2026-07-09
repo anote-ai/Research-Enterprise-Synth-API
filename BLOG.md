@@ -1,48 +1,47 @@
-## The API That Had No Stories to Tell
+### <img width="754" height="419" alt="Screenshot 2026-07-08 at 8 19 21 PM" src="https://github.com/user-attachments/assets/02d49255-f627-4cd7-83c5-ce4e4374e729" />
+The API That Had No Stories to Tell: Grounding Enterprise Agents Without Live Execution
+There is a quiet, frustrating moment that happens inside almost every engineering team building an AI agent, and it usually goes unnoticed the first time. Someone opens the internal wiki, finds the API documentation for the company’s billing system, ticketing tool, or CRM, and thinks: “Great, we have an OpenAPI spec. The agent can just learn from this.”
 
-Rashmi Thimmaraju
+It can’t. Not directly. And the reason why is the foundation of the enterprise agentic data bottleneck.
 
+An OpenAPI specification is a beautifully precise document. It states exactly which endpoints exist, which parameters they require, and what structures they return. A machine can validate against it; a human engineer can read it to build a client library in an afternoon. But a Large Language Model (LLM) doesn’t learn how to navigate complex systems from a static schema. It learns from stories—concrete, multi-turn examples of actual use. It needs to see a human asking for something, and an agent figuring out which tool to call, with which arguments, to satisfy that ask. The schema tells you what is possible. It never tells you what people actually ask for, or how an agent should reason its way from a chaotic user request to a flawless JSON payload.
 
-There's a moment that happens inside almost every company building an AI agent, and it usually goes unnoticed the first time.
+Consequently, teams trying to fine-tune or evaluate tool-using agents run into a wall: they have the spec, and they have absolutely nothing else. No Supervised Fine-Tuning (SFT) training data. No evaluation benchmarks.
 
-Someone opens the internal wiki, finds the API documentation for the company's order system, or ticketing system, or CRM, and thinks: great, we have an OpenAPI spec, the agent can just learn from this.
+The traditional fix is to generate this data by running live simulations—letting a frontier model loose on sandboxes, calling the API thousands of times, logging the output, and turning those logs into training trajectories. That works fine if you are building an agent for a public weather API. But for a private enterprise payments system, or an HR platform wired into production microservices? Nobody signs off on letting an unhinged LLM fire ten thousand test calls against a live refund endpoint just to bootstrap a dataset. The API is rate-limited, gated behind a secure VPN, or simply too consequential to poke at. This is the enterprise cold-start problem: the data you need to teach a model to use a tool safely is most valuable exactly where you are least able to safely generate it.
 
-It can't.
+The way around this bottleneck requires a fundamental shift in perspective: stop treating an OpenAPI spec as mere passive documentation, and start treating it as a generative source of structured truth. That is the core philosophy behind EnterpriseSynth. It is a research-driven framework designed to build flawless SFT and evaluation trajectories entirely offline, achieving deep schema-grounding with zero live API execution and zero credentials required.
 
-Not directly. And the reason why is the whole story.
+   [ OpenAPI Spec ] 
+          │
+          ▼
+   [ Schema Parser ]  ──► (Resolves recursive $ref pointers)
+          │
+          ▼
+  [ Intent Generator ] ──► (Generates human-centric goal first)
+          │
+          ▼
+  [ Trajectory Gen ]  ──► (Simulates thought, tool call, mock response)
+          │
+          ▼
+  [ Schema Verifier ] ──► (Adversarial type & structure checking)
+          │
+          ▼
+[ SFT & Eval Datasets ]
+The pipeline begins with schema parsing, which sounds like the boring, solved part of software engineering. It isn’t. Early iterations of the parser silently dropped parameters defined through $ref pointers rather than written inline. That sounds like a minor edge case until you look at the scale of production APIs: GitHub’s real OpenAPI specification has 1,721 required parameters once every reference is properly resolved, but a naive parser only sees 67 of them. By re-engineering the parser to recursively resolve these reference graphs, the system ensures that the entire downstream pipeline isn't fundamentally blind to enterprise complexity.
 
+Next comes teaching the system to think like a human, not an endpoint. A common pitfall in synthetic tool-use datasets is starting directly with the tool invocation itself—such as POST /customers—and working backward to create a prompt. But humans don't think in endpoints; they think in intents. They say: "Set this customer up as a premium user." Because of this, EnterpriseSynth uses an explicit, isolated intent generation step. Before a single tool call is drafted, the system analyzes the allowed schema and imagines a realistic, nuanced human request. Ablation tests that strip intent generation out and generate straight from the bare endpoint show a measurable drop in data quality; human intent isn't decoration—it is load-bearing.
 
-There’s a quiet, frustrating moment that happens inside almost every company building an AI agent, and it usually goes unnoticed the first time. Someone opens the internal wiki, finds the API documentation for the company’s billing system, ticketing tool, or CRM, and thinks: “Great, we have an OpenAPI spec. The agent can just learn from this.”
+Generating the tool calls themselves is relatively straightforward for modern models, but verifying them is where the illusion usually breaks. Models regularly hallucinate parameters, invent endpoints that don't exist, or swap types—like passing a string where an integer belongs. If those examples slip into your training set, the model confidently learns broken behavior.
 
-It can’t. Not directly. And the reason why is the whole story.
+To enforce absolute data integrity, EnterpriseSynth passes every generated trajectory through a rigid offline verification engine that checks types, required fields, and payload structures against the original schema. Critically, you cannot trust a verification system just because it passes clean data. To prove the verifier worked, it had to be tested adversarially—deliberately planting known errors (wrong types, missing fields, object injections) into the synthetic data to see if it would catch them. On the first run, the verifier caught only 57–80% of errors because nested body payloads (common in enterprise APIs like Stripe) were slipping through unchecked. Once patched, the adversarial detection rate hit a perfect 100%. You simply don't know a verification tool works until you actively try to break it and watch it catch the fracture.
 
-An OpenAPI spec is a beautifully precise document. It says exactly which endpoints exist, exactly which parameters they take, and exactly what they return. A machine can validate against it, and a human engineer can read it to build a client library in an afternoon. But a language model doesn’t learn how to use a tool from a static schema. It learns from stories—examples of actual use. It needs to see a human asking for something, and an agent figuring out which tool to call, with which arguments, to satisfy that ask. The schema tells you what is possible. It never tells you what people actually ask for, or how an agent should reason its way from a chaotic user request to a flawless JSON payload.
+Testing this pipeline against famous public APIs like GitHub, Slack, or Stripe introduces another severe bias: the underlying generator LLM has likely already memorized their documentation from its public pretraining data. To prove this system could solve the cold-start problem for private enterprise environments, it had to be tested on things the model could not possibly recognize.
 
-So every team that wants to fine-tune or evaluate a tool-using agent runs into the same wall: they have the spec, and they have absolutely nothing else. No training data. No evaluation set.
+Five entirely fictional API specifications were hand-authored—a unique CRM, an HRIS, a procurement system, a ticketing system, and an asset registry—none of which had ever existed on the internet. When the EnterpriseSynth pipeline was run against them, the model's accuracy on these invisible APIs (40.0%) almost perfectly matched its performance on the public, held-out ones (39.6%). The stability of these numbers provides empirical evidence that the improvement comes from real-time, genuine schema grounding, not from the model quietly leaning on memorized public data.
 
-The traditional fix is to generate this data by running live simulations—calling the API thousands of times, logging what happens, and turning those logs into training examples. That works fine if you are building an agent for a public weather API. But for your company's internal payments system, or an HR platform wired into production data? Nobody signs off on letting an unhinged LLM fire ten thousand test calls against a live refund endpoint just to build a training set. The API is rate-limited, gated behind a secure VPN, or simply too consequential to poke at. This is the enterprise cold-start problem: the data you need to teach a model to use a tool safely is most valuable exactly where you are least able to safely generate it.
+Building this framework honestly also meant reporting the bruises alongside the victories. When an independent model was tasked with auditing whether "correctly" generated tool selections were practically usable, the results revealed that a notable share of predictions marked correct by simple match-metrics still contained subtle defects, such as a missing secondary parameter. Furthermore, across multiple random seeds, certain APIs (like DigitalOcean) showed high variance where individual runs could still underperform a classic Self-Instruct baseline. This variance highlights that while schema-driven synthesis is powerful, it requires continuous engineering discipline.
 
-The way around this bottleneck is a shift in perspective: stop treating an OpenAPI spec as mere passive documentation, and start treating it as a generative source of structured truth. That is the core philosophy behind EnterpriseSynth. It is a framework designed to build flawless Supervised Fine-Tuning (SFT) and evaluation trajectories entirely offline, with zero live API execution and zero credentials required.
+At the end of the pipeline, EnterpriseSynth yields two distinct, high-value assets: an SFT dataset mapping user intents to structured reasoning chains and verified tool payloads, and an Evaluation Dataset (EnterpriseSynth-Eval) consisting of ground-truth workflows and schema-verified labels for benchmarking. The next major research frontiers involve scaling this architecture from single-turn tool selection into multi-step, dependency-aware workflows—the complex chains where an agent must create a customer, extract the returned ID, and seamlessly pass it into a subsequent billing payload.
 
-The journey starts with parsing, which you would think is the boring, solved part of software engineering. It isn’t. Early iterations of the pipeline silently dropped parameters defined through $ref pointers rather than written inline. That sounds like a minor bug until you look at the scale: GitHub’s real OpenAPI spec has 1,721 required parameters once every reference is properly resolved, but a naive parser only sees 67 of them. By fixing the parser to recursively resolve these references, the system builds a foundation that isn't blind to enterprise complexity.
-
-Next comes teaching the system to think like a person. Most synthetic tool-use datasets start with the API call itself (POST /customers) and work backward. But humans don't think in endpoints; they think in intents. They say: "Set this customer up as a premium user." Because of this, EnterpriseSynth uses an explicit intent generation step. Before a single tool call is drafted, the system analyzes the endpoint and imagines a realistic, nuanced human request. Stripping this step out causes data quality to crater; human intent isn't decoration—it is load-bearing.
-
-Generating the tool calls themselves is relatively easy for modern models, but verifying them is where the illusion usually breaks. Models regularly hallucinate parameters, invent endpoints, or swap types—like passing a string where an integer belongs. If those slip into your training set, the model confidently learns broken behavior.
-
-To solve this, EnterpriseSynth passes every generated trajectory through a rigid offline verification engine that checks types, required fields, and structures against the original schema. But you cannot trust a checker just because it passes good input. To prove it worked, the verifier was tested adversarially by deliberately planting errors like wrong types and missing fields into the synthetic data. On the first run, the verifier caught only a fraction of the errors because nested body payloads were slipping through unchecked. Once patched, the adversarial detection rate hit a perfect 100%. You simply don't know a verification tool works until you actively try to break it and watch it catch the fracture.
-
-Testing this pipeline against famous public APIs like GitHub, Slack, or Stripe introduces another bias: the underlying LLM has likely already memorized their documentation from its public pretraining data. To prove this system could solve the cold-start problem for a company’s private, proprietary tools, it had to be tested on things that don't exist.
-
-Five entirely fictional API specs were hand-authored—a unique CRM, an HR system, a procurement tool, a ticketing system, and an asset registry—none of which had ever been published on the internet. When the pipeline was run against them, the model's accuracy on these invisible APIs perfectly matched its performance on the public ones. The stability of the results proved that the model was leaning on genuine, real-time schema grounding, not quietly cheating from its training memory.
-
-There are still open frontiers, of course. While this approach excels at single-turn tool selection, the next challenge is mapping out multi-step, dependency-aware workflows—the complex chains where an agent must create a customer, extract the returned ID, and then generate an invoice against that specific ID.
-
-But what this journey demonstrates is that an OpenAPI spec is structured knowledge, not just documentation. If you are rigorous enough to parse it deeply and verify your generation adversarially, you can transform that static structure into a rich library of training stories. You don't need a dangerous, live, spinning sandbox to teach an AI how to work. You just need to listen to what the schema is already trying to tell you.
-
-
-## The Short Version
-
-An OpenAPI spec is structured knowledge, not just documentation — and if you're careful enough to verify every single thing you generate from it, adversarially and repeatedly, you can turn that structure into real training and evaluation data for AI agents without ever touching a live system.
-
-The problem is real. The fix is real, and partial. And the only way I know to make the partial parts less partial is to keep testing the pipeline exactly as hard as I tested the verifier the first time it lied to me about being finished.
+Ultimately, EnterpriseSynth demonstrates that API specifications are not just documentation. They are structured knowledge bases. If you are rigorous enough to parse them deeply and verify the output adversarially, you can transform that static structure into a rich library of training stories. You don't need a dangerous, live sandbox to teach an AI how to work safely in the enterprise. You just need to listen to what the schema is already trying to tell you.
