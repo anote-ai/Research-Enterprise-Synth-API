@@ -34,6 +34,12 @@ python3 -m venv .venv
 ./.venv/bin/pip install -e ".[dev]"
 ```
 
+Python 3.12; Pydantic for schema modeling and Stage 4 (verification) validation; PyYAML for
+Stage 1 (parsing); the Anthropic SDK (Claude Sonnet 5) for Stages 2--3. `networkx` is listed in
+`pyproject.toml` for the target architecture's Knowledge Graph builder but is not used by any
+implemented code yet. No GPU is required for generation (API-based models); a single GPU/MPS
+device is needed only for the LoRA fine-tuning step (see External Requirements below).
+
 CI (`.github/workflows/ci.yml`) runs the API-independent test suite (`tests/`, 45 tests with
 `torch` installed locally, 39 in CI without it — `test_finetune.py`'s 6 tests are skipped via
 `pytest.importorskip`) on Python 3.10/3.11/3.12 on every push/PR to `main`. It does **not** run

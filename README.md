@@ -234,8 +234,8 @@ Local developer check:
 
 ```bibtex
 @misc{enterprisesynth2026,
-  title        = {EnterpriseSynth: Agentic SFT + Eval Data from API Schemas Without Live Execution},
-  author       = {Thimmaraju, Rashmi},
+  title        = {EnterpriseSynth: A Schema-Aware Agentic Framework for Generating Verified SFT and Evaluation Datasets from OpenAPI Specifications},
+  author       = {Thimmaraju, Rashmi and Vindra, Natan and Setty, Spurthi},
   year         = {2026},
   howpublished = {\url{https://github.com/anote-ai/Research-Enterprise-Synth-API}},
   note         = {Preprint}

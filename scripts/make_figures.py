@@ -46,8 +46,9 @@ plt.rcParams.update(
 )
 
 
-def bar_with_labels(ax, x, values, color, width, label=None, offset=0):
-    bars = ax.bar(x + offset, values, width, color=color, label=label, zorder=3)
+def bar_with_labels(ax, x, values, color, width, label=None, offset=0, yerr=None):
+    bars = ax.bar(x + offset, values, width, color=color, label=label, zorder=3, yerr=yerr,
+                   capsize=3, ecolor=TEXT_SECONDARY)
     for b, v in zip(bars, values):
         y = b.get_height()
         va = "bottom" if y > 0 else "bottom"
@@ -64,6 +65,17 @@ def bar_with_labels(ax, x, values, color, width, label=None, offset=0):
     return bars
 
 
+def legend_outside(ax, fig):
+    """Legend in a headroom band above the bars (ylim must leave room) -- avoids overlapping
+    full-height 100%-saturated bars, and sits below the title rather than on top of it."""
+    ax.legend(
+        frameon=False,
+        loc="upper center",
+        ncol=2,
+        fontsize=9,
+    )
+
+
 def fig1_schema_understanding():
     apis = ["GitHub", "Stripe", "Slack"]
     before = [67, 370, 147]  # pre-$ref-fix required-param counts (GitHub understated)
@@ -78,15 +90,15 @@ def fig1_schema_understanding():
     ax.set_ylabel("Required parameters counted (log scale)")
     ax.set_title(
         "Experiment 1: Schema Understanding\n"
-        "GitHub's $ref-defined parameters were invisible before the fix",
+        "GitHub's $ref-defined parameters, before vs.\\ after resolution",
         fontsize=12,
     )
     ax.set_xticks(x)
     ax.set_xticklabels(apis)
-    ax.legend(frameon=False, loc="upper right")
+    legend_outside(ax, fig)
     ax.spines[["top", "right"]].set_visible(False)
     fig.tight_layout()
-    fig.savefig(FIG_DIR / "exp1_schema_understanding.png", dpi=150)
+    fig.savefig(FIG_DIR / "exp1_schema_understanding.png", dpi=150, bbox_inches="tight")
     plt.close(fig)
 
 
@@ -110,15 +122,15 @@ def fig2_intent_generation():
     fig, ax = plt.subplots(figsize=(6, 4))
     bar_with_labels(ax, x, coverage, BLUE, width, "Intent Coverage %", offset=-width / 2)
     bar_with_labels(ax, x, diversity, AQUA, width, "Diversity % (exact-string)", offset=width / 2)
-    ax.set_ylim(0, 115)
+    ax.set_ylim(0, 150)
     ax.set_ylabel("Percent")
     ax.set_title("Experiment 2: Intent Generation Quality\n(pilot: 5 endpoints x 3 intents per API)")
     ax.set_xticks(x)
     ax.set_xticklabels(apis)
-    ax.legend(frameon=False, loc="lower right")
+    legend_outside(ax, fig)
     ax.spines[["top", "right"]].set_visible(False)
     fig.tight_layout()
-    fig.savefig(FIG_DIR / "exp2_intent_generation.png", dpi=150)
+    fig.savefig(FIG_DIR / "exp2_intent_generation.png", dpi=150, bbox_inches="tight")
     plt.close(fig)
 
 
@@ -136,20 +148,26 @@ def fig3_trajectory_generation():
         satisfied = [item for item in correct if item.get("required_params_satisfied")]
         param_valid.append(100 * len(satisfied) / len(correct) if correct else 0)
 
+    # Slack's Tool Selection Accuracy varied 93.3-100% across repeated runs (RESULTS.md); the
+    # committed value is the final run's 100%, so a lower-only error bar shows the observed
+    # run-to-run range rather than silently plotting a single flattering draw as if it were exact.
+    tool_acc_lower_err = [6.7 if api == "Slack" else 0.0 for api in apis]
+
     x = np.arange(len(apis))
     width = 0.32
-    fig, ax = plt.subplots(figsize=(6, 4))
-    bar_with_labels(ax, x, tool_acc, BLUE, width, "Tool Selection Accuracy %", offset=-width / 2)
+    fig, ax = plt.subplots(figsize=(6, 4.4))
+    bar_with_labels(ax, x, tool_acc, BLUE, width, "Tool Selection Accuracy %", offset=-width / 2,
+                     yerr=[tool_acc_lower_err, [0.0] * len(apis)])
     bar_with_labels(ax, x, param_valid, AQUA, width, "Parameter Validity %", offset=width / 2)
-    ax.set_ylim(0, 115)
+    ax.set_ylim(0, 150)
     ax.set_ylabel("Percent")
     ax.set_title("Experiment 3: Agent Trajectory Generation\n(45 intents, 15 candidate tools each)")
     ax.set_xticks(x)
     ax.set_xticklabels(apis)
-    ax.legend(frameon=False, loc="lower right")
+    legend_outside(ax, fig)
     ax.spines[["top", "right"]].set_visible(False)
     fig.tight_layout()
-    fig.savefig(FIG_DIR / "exp3_trajectory_generation.png", dpi=150)
+    fig.savefig(FIG_DIR / "exp3_trajectory_generation.png", dpi=150, bbox_inches="tight")
     plt.close(fig)
 
 
@@ -166,19 +184,19 @@ def fig4_verification_before_after():
     fig, ax = plt.subplots(figsize=(8, 4.6))
     bar_with_labels(ax, x, before, RED, width, "First run (pre-fix)", offset=-width / 2)
     bar_with_labels(ax, x, after, GREEN, width, "Final (post-fix)", offset=width / 2)
-    ax.set_ylim(0, 115)
+    ax.set_ylim(0, 150)
     ax.set_ylabel("Invalid cases detected (%)")
     ax.set_title(
         "Experiment 4: Schema-Based Verification\n"
-        "Adversarial testing surfaced 4 real bugs across verifier, harness, and parser",
+        "Invalid-case detection rate by corruption type, first run vs. final",
         fontsize=12,
     )
     ax.set_xticks(x)
     ax.set_xticklabels(types)
-    ax.legend(frameon=False, loc="lower right")
+    legend_outside(ax, fig)
     ax.spines[["top", "right"]].set_visible(False)
     fig.tight_layout()
-    fig.savefig(FIG_DIR / "exp4_verification_before_after.png", dpi=150)
+    fig.savefig(FIG_DIR / "exp4_verification_before_after.png", dpi=150, bbox_inches="tight")
     plt.close(fig)
 
 

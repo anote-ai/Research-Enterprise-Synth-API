@@ -114,12 +114,9 @@ body = body.replace(
 # titles / reduced precision are the sanctioned way to compress an overwide table,
 # rather than \resizebox, which is forbidden). No numbers change, only labels.
 shortenings = [
-    ("551 paths / 845 path-method", "551 / 845 methods"),
-    ("299 paths / 446 path-method", "299 / 446 methods"),
-    ("174 paths / 174 path-method", "174 / 174 methods"),
-    (r"\textbf{Valid $\rightarrow$ plausible}", r"\textbf{Valid$\to$plaus.}"),
-    (r"\textbf{Corrupted $\rightarrow$ still valid}", r"\textbf{Corrupt.\ still valid}"),
-    (r"\textbf{...caught by Haiku}", r"\textbf{Caught}"),
+    ("551 paths / 845 path-method operations", "551 / 845 methods"),
+    ("299 paths / 446 path-method operations", "299 / 446 methods"),
+    ("174 paths / 174 path-method operations", "174 / 174 methods"),
     ("Base (zero-shot, untuned)", "Base (untuned)"),
     ("+ LoRA on Self-Instruct data", "+ Self-Instruct"),
     ("+ LoRA on EnterpriseSynth data", "+ EnterpriseSynth"),
@@ -128,20 +125,15 @@ shortenings = [
     ("Base LLM (zero-shot)", "Base LLM"),
     ("Self-Instruct-fine-tuned", "Self-Instruct-tuned"),
     ("EnterpriseSynth-fine-tuned", "EnterpriseSynth-tuned"),
-    ("A1: $-$ Intent Gen.", "A1: $-$Intent"),
-    ("A2: $-$ Verification", "A2: $-$Verif."),
-    ("A3: $+$ Descriptions", "A3: $+$Descr."),
-    ("A4: $+$ Full context", "A4: $+$Context"),
-    ("unchanged (qual.\\ diff.)", "unchanged (qual.)"),
-    ("unchanged (no signal)", "unchanged (none)"),
-    ("LLM-judge: fully correct (no classified error)", "LLM-judge: fully correct"),
-    (r"\textbf{Corrupt.\ still valid}", r"\textbf{Corrupt.\ valid}"),
     (r"\textbf{Argument Correctness}", r"\textbf{Arg.\ Correctness}"),
 ]
 for old, new in shortenings:
-    if old not in body:
+    # Match across source line-wraps: a space in `old` matches any run of whitespace in
+    # `body`, since LaTeX (unlike this string search) treats a wrapped line break as a space.
+    pat = re.compile(r"\s+".join(re.escape(part) for part in old.split(" ")))
+    if not pat.search(body):
         raise SystemExit(f"shortening target not found, source text may have changed: {old!r}")
-    body = body.replace(old, new)
+    body = pat.sub(new.replace("\\", "\\\\"), body, count=1)
 
 # --- 4. Assemble the full AAAI-26 anonymous-submission preamble, exactly per the
 # template the user supplied (anonymous-submission-latex-2026.tex). ---
@@ -157,6 +149,7 @@ preamble = r"""\documentclass[letterpaper]{article} % DO NOT CHANGE THIS
 \usepackage{natbib}  % DO NOT CHANGE THIS AND DO NOT ADD ANY OPTIONS TO IT
 \usepackage{caption} % DO NOT CHANGE THIS AND DO NOT ADD ANY OPTIONS TO IT
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{booktabs}
 \frenchspacing  % DO NOT CHANGE THIS
 \setlength{\pdfpagewidth}{8.5in} % DO NOT CHANGE THIS

@@ -12,8 +12,12 @@ abstract: >-
 authors:
   - family-names: Thimmaraju
     given-names: Rashmi
-repository-code: "https://github.com/Rashmioffcialpage/enterprisesynth-api"
-url: "https://github.com/Rashmioffcialpage/enterprisesynth-api"
+  - family-names: Vindra
+    given-names: Natan
+  - family-names: Setty
+    given-names: Spurthi
+repository-code: "https://github.com/anote-ai/Research-Enterprise-Synth-API"
+url: "https://github.com/anote-ai/Research-Enterprise-Synth-API"
 keywords:
   - llm agents
   - openapi
