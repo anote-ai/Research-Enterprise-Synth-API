@@ -468,20 +468,23 @@ never touched by any prior experiment or by the training data.
 \textbf{Measured (pilot scale; ToolBench/prompt-only-agent baselines not yet implemented, but
 Self-Instruct now is -- closing the RQ2 gap flagged in a repo audit).}
 
-\begin{table}[t]
+\begin{table}[htbp]
 \centering
 \footnotesize
 \setlength{\tabcolsep}{2pt}
+\caption{Downstream tool-use accuracy on the held-out Zoom API: base model, LoRA fine-tuned on
+Self-Instruct data, and LoRA fine-tuned on EnterpriseSynth data (single run, 16 held-out intents).}
+\label{tab:exp5-zoom}
 \begin{tabular}{lcc}
+\toprule
 \textbf{Model} & \textbf{Tool Selection Acc.} & \textbf{Param. Validity} \\
+\midrule
 Base (untuned) & 12.5\% (2/16) & 0.0\% \\
 + Self-Instruct & 25.0\% (4/16) & 50.0\% (2/4) \\
 + EnterpriseSynth & 87.5\% (14/16) & 57.1\% (8/14) \\
+\bottomrule
 \end{tabular}
-\caption{Downstream tool-selection accuracy and parameter validity on the held-out Zoom set (single run).}
-\label{tab:auto2}
 \end{table}
-
 
 Training loss dropped monotonically over the 3 epochs (0.708 $\rightarrow$ 0.403 $\rightarrow$
 0.247). The jump on tool selection (12.5\% $\rightarrow$ 87.5\%) is a genuine, fairly large effect
@@ -531,20 +534,23 @@ EnterpriseSynth) is trained \textit{once}, then all three are evaluated against 
 Zoom, plus DigitalOcean (290 endpoints) and Spotify (88 endpoints), neither used in any training
 data.
 
-\begin{table}[t]
+\begin{table}[htbp]
 \centering
 \footnotesize
 \setlength{\tabcolsep}{2pt}
+\caption{Single-run tool-selection accuracy across three held-out APIs (Zoom, DigitalOcean,
+Spotify) for the base model, the Self-Instruct baseline, and EnterpriseSynth.}
+\label{tab:exp5-three-api-single}
 \begin{tabular}{lccc}
+\toprule
 \textbf{Held-out API} & \textbf{Base} & \textbf{Self-Instruct} & \textbf{EnterpriseSynth} \\
+\midrule
 Zoom & 12.5\% & 25.0\% & 75.0\% \\
 DigitalOcean & 31.2\% & \textbf{50.0\%} & 43.8\% \\
 Spotify & 12.5\% & 25.0\% & 43.8\% \\
+\bottomrule
 \end{tabular}
-\caption{Tool-selection accuracy across three held-out APIs (single run per model).}
-\label{tab:auto3}
 \end{table}
-
 
 \textbf{The honest result: EnterpriseSynth does not win on all three.} It beats Self-Instruct on
 Zoom and Spotify, but \textbf{loses to Self-Instruct on DigitalOcean} (43.8\% vs.\ 50.0\%). The
@@ -568,20 +574,23 @@ three-model, three-API comparison was rerun for 5 independent training seeds (42
 varying only LoRA adapter weight initialization; the held-out eval sets themselves are held fixed
 across seeds so the sweep isolates training randomness, not evaluation-question randomness.
 
-\begin{table}[t]
+\begin{table}[htbp]
 \centering
 \footnotesize
 \setlength{\tabcolsep}{2pt}
+\caption{Tool-selection accuracy (mean $\pm$ std over 5 independent training seeds) across the
+same three held-out APIs, isolating training randomness from evaluation-question randomness.}
+\label{tab:exp5-five-seed}
 \begin{tabular}{lccc}
+\toprule
 \textbf{Held-out API} & \textbf{Base} & \textbf{Self-Instruct} & \textbf{EnterpriseSynth} \\
+\midrule
 Zoom & 12.5 $\pm$ 0.0\% & 23.7 $\pm$ 10.3\% & \textbf{66.2 $\pm$ 18.0\%} \\
 DigitalOcean & 31.2 $\pm$ 0.0\% & 37.5 $\pm$ 21.2\% & \textbf{53.7 $\pm$ 13.7\%} \\
 Spotify & 12.5 $\pm$ 0.0\% & 12.5 $\pm$ 7.7\% & \textbf{46.3 $\pm$ 7.1\%} \\
+\bottomrule
 \end{tabular}
-\caption{Tool-selection accuracy across three held-out APIs, mean $\pm$ std over 5 training seeds.}
-\label{tab:auto4}
 \end{table}
-
 
 \textbf{Averaged over 5 seeds, EnterpriseSynth beats both the untuned base and Self-Instruct on
 all three held-out APIs, including DigitalOcean} -- the API where the single original run showed a
@@ -606,19 +615,23 @@ enterprise SaaS shapes (28 endpoints total) not derived from any real company's 
 existing pipeline ran against them entirely unmodified: same Parser, same Intent Agent, same
 held-out evaluation methodology as every other API in this paper.
 
-\begin{table}[t]
+\begin{table}[htbp]
 \centering
 \footnotesize
 \setlength{\tabcolsep}{2pt}
+\caption{Base vs.\ EnterpriseSynth-tuned tool-selection accuracy on the public held-out APIs
+versus five hand-authored, never-published private enterprise specs (CRM, HRIS, Procurement,
+Ticketing, Asset Management).}
+\label{tab:coldstart-private}
 \begin{tabular}{lcc}
+\toprule
 \textbf{Eval set} & \textbf{Base (untuned)} & \textbf{EnterpriseSynth-tuned} \\
+\midrule
 Public ($n$=48) & 18.8\% & 39.6\% \\
 Private ($n$=30) & 23.3\% & \textbf{40.0\%} \\
+\bottomrule
 \end{tabular}
-\caption{Tool-selection accuracy on public vs.\ never-published private held-out API sets.}
-\label{tab:auto5}
 \end{table}
-
 
 \textbf{The fine-tuning effect holds on APIs that cannot be in the base model's pretraining
 data.} EnterpriseSynth-tuned accuracy on the private domains (40.0\%) essentially matches public
@@ -637,23 +650,26 @@ more real, public OpenAPI specs from APIs.guru -- Twilio, Notion, OpenAI, Jira, 
 validated against the existing parser with zero code changes, and evaluated the
 EnterpriseSynth-tuned model (same 45-example training set, no retraining changes) against each.
 
-\begin{table}[t]
+\begin{table}[htbp]
 \centering
 \footnotesize
 \setlength{\tabcolsep}{2pt}
+\caption{Base vs.\ EnterpriseSynth-tuned tool-selection accuracy on six additional real, public
+held-out APIs fetched from APIs.guru, using the same 45-example training set with no retraining.}
+\label{tab:six-more-apis}
 \begin{tabular}{lcc}
+\toprule
 \textbf{API} & \textbf{Base} & \textbf{EnterpriseSynth} \\
+\midrule
 Twilio & 50.0\% & 66.7\% \\
 Notion & 0.0\% & 50.0\% \\
 OpenAI & 0.0\% & 50.0\% \\
 Jira & 33.3\% & 83.3\% \\
 Asana & 0.0\% & 83.3\% \\
 Trello & 33.3\% & 100.0\% \\
+\bottomrule
 \end{tabular}
-\caption{Tool-selection accuracy on six additional real, public held-out APIs.}
-\label{tab:auto6}
 \end{table}
-
 
 EnterpriseSynth beats the untuned base on all six. Combined with the three original public
 held-out APIs and the five private domains above, the pipeline has now been run against
@@ -702,22 +718,24 @@ baselines are not yet implemented for trajectory generation directly (Section~4.
 The paper's strongest result area. 45 valid trajectories (100\% Verification Pass Rate) plus 44
 deliberately corrupted variants, scored for whether the verifier catches each planted error:
 
-\begin{table}[t]
+\begin{table}[htbp]
 \centering
-\footnotesize
-\setlength{\tabcolsep}{2pt}
+\caption{Verifier detection rate by planted error type, final (post-fix) results across 44
+deliberately corrupted trajectories.}
+\label{tab:verifier-detection}
 \begin{tabular}{lll}
+\toprule
 \textbf{Error type} & \textbf{Detected} & \textbf{Missed} \\
+\midrule
 Wrong HTTP method & 12/12 & 0 \\
 Missing required parameter & 11/11 & 0 \\
 Invalid endpoint path & 12/12 & 0 \\
 Parameter type mismatch & 9/9 & 0 \\
+\midrule
 \textbf{Total} & \textbf{44/44 (100\%)} & \textbf{0} \\
+\bottomrule
 \end{tabular}
-\caption{Corrupted-trajectory detection rate by planted error type.}
-\label{tab:auto7}
 \end{table}
-
 
 This 100\% detection rate is the product of adversarial testing, not a first-attempt result: an
 initial pass reached only 57--80\% detection (Invalid Case Detection Rate, Section~4.5), and
@@ -733,20 +751,21 @@ Zoom (373 endpoints), absent from training and every prior experiment. Model: Qw
 Instruct, LoRA fine-tuned -- a hardware-scoped substitute for the paper's eventual 7--8B target,
 detailed below.
 
-\begin{table}[t]
+\begin{table}[htbp]
 \centering
-\footnotesize
-\setlength{\tabcolsep}{2pt}
+\caption{RQ5 downstream agent tool-use success and argument correctness on the held-out Zoom
+evaluation set (single run, 16 intents).}
+\label{tab:rq5-downstream}
 \begin{tabular}{lll}
+\toprule
 \textbf{Model} & \textbf{Tool Success} & \textbf{Arg.\ Correctness} \\
+\midrule
 Base LLM & 12.5\% (2/16) & 0.0\% \\
 Self-Instruct-tuned & 25.0\% (4/16) & 50.0\% (2/4) \\
 EnterpriseSynth-tuned & 87.5\% (14/16) & 57.1\% (8/14) \\
+\bottomrule
 \end{tabular}
-\caption{Downstream tool success and argument correctness on the held-out Zoom set.}
-\label{tab:auto8}
 \end{table}
-
 
 Prompt-only-agent and ToolBench baseline rows are not yet implemented for this pilot; Self-Instruct
 now is, on the identical held-out set and methodology. The 12.5\%$\rightarrow$87.5\% jump, from 45
@@ -928,20 +947,22 @@ of auth behavior a declarative schema does not capture, and GitHub's spec is a c
 widely-used real API where that gap is already visible.
 
 \subsection{Case Study Summary}
-\begin{table*}[t]
+\begin{table*}[htbp]
 \centering
 \footnotesize
-\setlength{\tabcolsep}{2pt}
+\caption{Summary of the three case-study trajectories walked through above: two verified
+correctly, one corrupted trajectory correctly rejected by the Schema Verification Engine.}
+\label{tab:case-study-summary}
 \begin{tabular}{p{1.6cm}p{2cm}p{6.5cm}p{2.2cm}}
+\toprule
 \textbf{API} & \textbf{Domain} & \textbf{Endpoint} & \textbf{Verification} \\
+\midrule
 GitHub & Developer/\allowbreak software & \texttt{POST /repos/\allowbreak\{owner\}/\allowbreak\{repo\}/\allowbreak tags/\allowbreak protection} & Verified \\
 Stripe & Payments & \texttt{DELETE /v1/\allowbreak subscription\_items/\allowbreak\{item\}} & Verified \\
 GitHub (corrupted) & Developer/\allowbreak software & \texttt{PUT /orgs/\allowbreak\{org\}/\allowbreak actions/\allowbreak secrets/\allowbreak\{secret\_name\}/\allowbreak repositories} & Rejected (correctly) \\
+\bottomrule
 \end{tabular}
-\caption{Summary of the three case-study trajectories and their verification outcomes.}
-\label{tab:auto9}
 \end{table*}
-
 
 \section{Semantic Quality Evaluation (LLM-as-a-Judge)}
 
@@ -974,38 +995,44 @@ predictions from one full seed run of the multi-API scaling comparison
 
 \subsection{Results}
 
-\begin{table}[t]
+\begin{table}[htbp]
 \centering
 \footnotesize
 \setlength{\tabcolsep}{2pt}
+\caption{Mean LLM-judge scores (1--5 scale) across four evaluation dimensions, averaged over 47
+judged EnterpriseSynth predictions on the multi-API held-out set.}
+\label{tab:judge-dimensions}
 \begin{tabular}{lc}
+\toprule
 \textbf{Dimension (1--5 scale)} & \textbf{Mean} \\
+\midrule
 Intent Match & 2.81 \\
 Argument Correctness & 2.19 \\
 Missing Parameters & 2.55 \\
 Reasoning Quality & 2.28 \\
+\bottomrule
 \end{tabular}
-\caption{LLM-judge mean scores (1--5 scale) across four evaluation dimensions.}
-\label{tab:auto10}
 \end{table}
 
-
-\begin{table}[t]
+\begin{table}[htbp]
 \centering
 \footnotesize
 \setlength{\tabcolsep}{2pt}
+\caption{Distribution of primary error types identified by the LLM judge across 47 judged
+predictions.}
+\label{tab:judge-error-types}
 \begin{tabular}{lcc}
+\toprule
 \textbf{Error Type} & \textbf{Count} & \textbf{\%} \\
+\midrule
 Wrong tool selected & 16 & 34.0\% \\
 Missing required parameter & 11 & 23.4\% \\
 Invalid request format & 5 & 10.6\% \\
 Hallucinated parameter & 3 & 6.4\% \\
 Incorrect argument value & 2 & 4.3\% \\
+\bottomrule
 \end{tabular}
-\caption{Distribution of LLM-judge-identified primary error types.}
-\label{tab:auto11}
 \end{table}
-
 
 \textbf{The central finding: binary Tool Selection Accuracy overstates practical quality by
 roughly 2$\times$.} Cross-checking the judge against the existing binary correctness flag: of the

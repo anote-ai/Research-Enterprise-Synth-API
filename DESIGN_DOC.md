@@ -1,24 +1,13 @@
-# EnterpriseSynth — Research Design Document
+# EnterpriseSynth: Agentic SFT + Eval Data from API Schemas Without Live Execution— Research Design Document
+Paper #3 (EnterpriseSynth) 
 
-**Paper title:** EnterpriseSynth: Agentic SFT + Eval Data from API Schemas Without Live Execution
-**Topic (T1b):** Agentic SFT + Eval Data from API Schemas Without Live Execution
-**Author:** Rashmi Thimmaraju
-**Target venues:** MLinPL 2026 (deadline Aug 1, 2026) · AAAI 2027 Workshop on Enterprise AI Evaluation (deadline Jul 28, 2026)
+Authors: Rashmi Thimmaraju
 
----
+Supervisor: Natan Vidra
 
-## ✅ Naming decision (resolved)
+Date: 2026-06-20
 
-The paper draft originally named its evaluation suite "EnterpriseBench." That name was already
-taken: **arXiv:2510.27287, "Can LLMs Help You at Work? A Sandbox for Evaluating LLM Agents in
-Enterprise Environments" (Vishwakarma et al., Oct 2025)** ships a benchmark under the identical
-name (500 tasks, SWE/HR/finance/admin, simulated enterprise sandbox with live task execution).
-
-**Decision: rename our evaluation suite to `EnterpriseSynth-Eval`.** The framework name
-(EnterpriseSynth) is unchanged; only the eval-suite name changes. Verified no existing collision
-for `EnterpriseSynth-Eval`. Vishwakarma et al.'s EnterpriseBench remains cited in Related Work as
-a distinct, real benchmark — we are not reframing ours as complementary to it, simply avoiding the
-name clash entirely.
+Target venues: MLinPL 2026 (deadline Aug 1, 2026) · AAAI 2027 Workshop on Enterprise AI Evaluation (deadline Jul 28, 2026)
 
 ---
 
@@ -946,16 +935,6 @@ The question: which components of EnterpriseSynth actually contribute to generat
 verified SFT and evaluation data? This section is scoped strictly to what is **actually
 implemented** — the four-stage pipeline (Parser → Intent Agent → Trajectory Agent → Verifier).
 
-**Three ablations proposed in an earlier pass of this section are explicitly dropped, and stated
-why:**
-
-- ❌ **Knowledge Graph ablation** — does not exist. No graph module (Stage 2) has been built;
-  Stages 3–5 operate on the flat parsed endpoint list.
-- ❌ **Planner ablation** — does not exist as a separate component. Planning and trajectory
-  generation were combined into one call (`trajectory_agent.py`) from the start.
-- ❌ **Response Schema Modeling ablation** — not implemented. Stage 1 only tracks a boolean
-  "schema present" flag for responses, never a structured, checkable response schema.
-
 Four ablations **are** real, implemented, and run against actual data:
 
 ### 8.2 A1 — Without Intent Generation
@@ -1478,15 +1457,3 @@ than being assumed into it.
 | Jul 21, 2026 | AAAI abstract enrollment |
 | Jul 28, 2026 | AAAI 2027 full paper (7 pages) |
 | Aug 1, 2026 | MLinPL 2026 submission, adapted to systems/compiler-centric narrative |
-
----
-
-## 15. Open Items
-
-- ~~Resolve the EnterpriseBench naming collision~~ — resolved: renamed to `EnterpriseSynth-Eval` (see flag at top).
-- Verify per-spec licensing before redistributing any derived dataset built on APIs.guru/ToolBench
-  sources.
-- Confirm In-N-Out's released graph data isn't reusable outright for the Structural Graph Extractor
-  before building a parser from scratch.
-- Finalize which specs within each §5.2 category are actually sampled (plan only, not yet chosen).
-- Confirm generation-pipeline model budget/access (§5.4 is a placeholder default).
