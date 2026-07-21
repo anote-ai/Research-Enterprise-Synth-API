@@ -253,17 +253,7 @@ CPU.
 ./.venv/bin/python scripts/run_experiment5.py
 ```
 
-### 4. Ablation study
-
-```bash
-# A1/A3/A4 — needs ANTHROPIC_API_KEY (A2 reuses Experiment 4's data, no re-run needed)
-./.venv/bin/python scripts/run_ablation_study.py
-
-# A5 — Claude Haiku 4.5 semantic-plausibility check — needs API key; depends on Exp 3
-./.venv/bin/python scripts/run_ablation_haiku.py
-```
-
-### 5. Self-Instruct baseline
+### 4. Self-Instruct baseline
 
 Needs `ANTHROPIC_API_KEY` + `torch`/`transformers`/`peft`.
 
@@ -272,7 +262,7 @@ Needs `ANTHROPIC_API_KEY` + `torch`/`transformers`/`peft`.
 ./.venv/bin/python scripts/run_baseline_selfinstruct_finetune.py
 ```
 
-### 6. Multi-API scaling sweep (5 seeds)
+### 5. Multi-API scaling sweep (5 seeds)
 
 Needs `ANTHROPIC_API_KEY` (first seed only — the rest reuse committed held-out eval sets) + local
 `torch`.
@@ -286,7 +276,7 @@ done
 ./.venv/bin/python scripts/aggregate_multi_seed_scaling.py
 ```
 
-### 7. Private cold-start validation
+### 6. Private cold-start validation
 
 Needs `ANTHROPIC_API_KEY` + local `torch`. Generates and evaluates against 5 hand-authored,
 never-published enterprise specs (CRM, HRIS, Procurement, Ticketing, Asset Management).
@@ -297,7 +287,7 @@ never-published enterprise specs (CRM, HRIS, Procurement, Ticketing, Asset Manag
 ./.venv/bin/python scripts/run_private_coldstart_eval.py
 ```
 
-### 8. 6-API real-spec scale-up
+### 7. 6-API real-spec scale-up
 
 Needs `ANTHROPIC_API_KEY` + local `torch`. Twilio, Notion, OpenAI, Jira, Asana, Trello via
 APIs.guru.
@@ -307,7 +297,7 @@ APIs.guru.
 ./.venv/bin/python scripts/run_phase3_eval.py
 ```
 
-### 9. LLM-as-a-judge semantic evaluation
+### 8. LLM-as-a-judge semantic evaluation
 
 Needs `ANTHROPIC_API_KEY`. Scores real predictions from a committed seed-42 run on intent
 match/argument correctness/missing parameters/reasoning quality.
@@ -316,7 +306,7 @@ match/argument correctness/missing parameters/reasoning quality.
 ./.venv/bin/python scripts/run_llm_judge_eval.py
 ```
 
-### 10. Figures and diagrams
+### 9. Figures and diagrams
 
 No API key needed — reads only committed `data/generated/*.json`.
 
