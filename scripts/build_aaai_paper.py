@@ -160,7 +160,7 @@ preamble = r"""\documentclass[letterpaper]{article} % DO NOT CHANGE THIS
 
 \setcounter{secnumdepth}{2}
 
-\title{EnterpriseSynth: A Schema-Aware Agentic Framework for Generating Verified SFT and Evaluation Datasets from OpenAPI Specifications}
+\title{EnterpriseSynth: Zero-Execution SFT and Eval Data from OpenAPI Specs}
 \author{
     Anonymous Submission
 }

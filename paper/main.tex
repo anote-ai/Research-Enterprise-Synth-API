@@ -5,7 +5,7 @@
 \usepackage{hyperref}
 \usepackage{booktabs}
 
-\title{EnterpriseSynth: A Schema-Aware Agentic Framework for Generating Verified SFT and Evaluation Datasets from OpenAPI Specifications}
+\title{EnterpriseSynth: Zero-Execution SFT and Eval Data from OpenAPI Specs}
 \author{Rashmi Thimmaraju \and Natan Vindra \and Spurthi Setty}
 \date{}
 
@@ -14,25 +14,23 @@
 
 \begin{abstract}
 Enterprise adoption of autonomous Large Language Model (LLM) agents is bottlenecked by a data
-cold-start problem: training and evaluating reliable agents requires large pools of multi-turn
-tool execution traces, but production environments rarely offer sandboxes safe for exploratory
-agent calls, and live execution risks data corruption, compliance violations, and rate-limit
-exhaustion. \textbf{EnterpriseSynth} is a zero-execution framework that ingests an OpenAPI/Swagger
-specification and synthesizes verified Supervised Fine-Tuning (SFT) trajectories and paired
-evaluation records entirely offline. A four-stage pipeline -- schema parsing, intent synthesis,
-trajectory generation, and deterministic schema verification -- samples single-endpoint tool-use
-trajectories and checks each one against the source specification with a static constraint
-validator before it enters the dataset. A target seven-stage architecture adding graph-based
-multi-step planning is designed but not yet built; every result below is reported against the
-four stages that are implemented. Across 17 real and synthetic APIs, adversarial testing raised
-the verifier's detection of planted schema violations from 57--80\% to 100\%. Fine-tuning a
-compact open model on EnterpriseSynth-generated data, averaged over a 5-seed sweep, outperforms
-both an untuned baseline and a Self-Instruct baseline on held-out APIs, and the effect holds on
-five hand-authored specifications never published anywhere (40.0\% vs.\ 39.6\% tool-selection
-accuracy on private vs.\ public held-out sets). An independent LLM-judge evaluation shows that
-this endpoint-selection metric alone overstates practical usability by roughly 2$\times$: only
-21.3\% of predictions are fully correct once argument-level errors are counted, against 48.9\%
-under the binary metric -- a limitation reported here against the paper's own headline numbers.
+cold-start problem: reliable agents need large pools of tool execution traces, but production
+environments rarely offer safe sandboxes, and live execution risks data corruption, compliance
+violations, and rate-limit exhaustion. \textbf{EnterpriseSynth} is a zero-execution framework that
+ingests an OpenAPI/Swagger specification and synthesizes verified Supervised Fine-Tuning (SFT)
+trajectories and paired evaluation records entirely offline, checking each generated trajectory
+against the source specification with a static constraint validator before it enters the dataset.
+A target seven-stage architecture adding graph-based multi-step planning is designed but not yet
+built; every result below reflects only the four implemented stages. Across 17 real and synthetic
+APIs, adversarial testing raised the verifier's detection of planted schema violations from
+57--80\% to 100\%. Fine-tuning a compact open model on EnterpriseSynth-generated data, averaged
+over a 5-seed sweep, outperforms both an untuned baseline and a Self-Instruct baseline on held-out
+APIs, and the effect holds on five hand-authored specifications never published anywhere (40.0\%
+vs.\ 39.6\% tool-selection accuracy, private vs.\ public held-out sets). An independent LLM-judge
+evaluation, however, finds that endpoint-selection accuracy alone overstates practical usability
+by roughly 2$\times$: only 21.3\% of predictions are fully correct once argument-level errors are
+counted, against 48.9\% under the binary metric -- a limitation reported here against the paper's
+own headline numbers.
 \end{abstract}
 
 \section{Introduction}
@@ -198,50 +196,35 @@ refinement plus a post-hoc held-out judge (Orca-Bench), this is a hard, per-samp
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{enterprisesynth_pipeline_diagram.pdf}
-\caption{The EnterpriseSynth target architecture vs.\ traditional live pipelines. This diagram
-includes the Knowledge Graph and Planner stages described below, which are not yet implemented --
-the four-stage system in Section~3.1 is what every result in this paper measures.}
+\caption{The EnterpriseSynth target architecture vs.\ traditional live pipelines. The Knowledge
+Graph and Planner stages shown are not yet implemented (Future Work) -- the four-stage system in
+Section~3.1 is what every result in this paper measures.}
 \label{fig:pipeline_matrix}
 \end{figure}
-The eventual design (Figure~\ref{fig:pipeline_matrix}) extends the implemented system with two
-stages that \textbf{do not exist in the current codebase} and are not part of any claim made from
-the experiments onward:
-
-\textbf{API Knowledge Graph Builder} (not implemented) -- would construct a directed graph
-$\mathcal{G} = (\mathcal{V}, \mathcal{E})$ with endpoints, objects, and parameters as nodes, and
-dependency, sequential-workflow, and object-relation edges, so that intent generation and planning
-could be graph-aware rather than single-endpoint-aware. Unlike
-AgentInstruct~\cite{mitra2024agentinstruct}'s \texttt{tool\_use} flow, which must synthesize or
-hypothesize an API description when seeded only from code, this graph would be derived directly
-from the real spec: there would be nothing to hallucinate. Whether the graph's benefit (multi-step
-workflow awareness) actually requires building the graph itself, versus a cheaper substitute, is
-untested (Limitations).
-
-\textbf{Agentic Planning Module} (not implemented as a separate stage) -- would decompose each
-intent into an explicit workflow plan (task decomposition, endpoint selection, tool ordering)
-before trajectory generation, rather than doing both in one call as the current Trajectory
-Generation Agent does.
-
-\textbf{Dataset Constructor.} Both the implemented and target systems emit the SFT dataset,
-evaluation dataset, verification metadata, and intent specifications jointly from a single
-generation pass -- the artifact none of the five reviewed papers produce (Orca-Bench, API-Bank's
-human-annotated evaluation set, and ToolEval are each constructed separately from the
+Figure~\ref{fig:pipeline_matrix} extends the implemented system with two further stages that do
+not exist in the current codebase and are not part of any claim made from the experiments onward;
+what each would add is described in Future Work. Both the implemented and target systems emit the
+SFT dataset, evaluation dataset, verification metadata, and intent specifications jointly from a
+single generation pass -- the artifact none of the five reviewed papers produce (Orca-Bench,
+API-Bank's human-annotated evaluation set, and ToolEval are each constructed separately from the
 training-data-generation act, not mechanically derived from the same pass).
 
 \section{Experimental Setup}
 
 \subsection{Research Questions}
-Four questions organize every experiment below. \textbf{RQ1 (schema-valid generation):} can
-EnterpriseSynth generate schema-valid SFT trajectories from OpenAPI specifications, and does its
-Schema Parser extract API structure accurately enough to make that possible (Experiments 1 and 3)?
-\textbf{RQ2 (coverage vs.\ baselines):} does EnterpriseSynth achieve broader endpoint coverage and
-more diverse intents than prompt-only or Self-Instruct-style generation (Experiment 2; the
-downstream baseline comparison in Experiment 5)? \textbf{RQ3 (verification value):} does
-schema-aware verification improve trajectory quality over no verification (Experiment 4)?
-\textbf{RQ4 (downstream utility):} do models fine-tuned on EnterpriseSynth-generated data
-perform better on held-out enterprise API-calling tasks than an untuned baseline (Experiment 5)?
-Cold-start generalization is not a fifth question -- it is the held-out-spec condition applied
-within RQ2 and RQ4.
+This paper is organized around one central question, decomposed into four testable
+sub-questions. \textbf{Central question:} can a zero-execution, schema-driven pipeline produce
+SFT and evaluation data that measurably improves LLM tool-use on enterprise APIs, without ever
+calling a live endpoint? \textbf{RQ1 (schema-valid generation):} can EnterpriseSynth generate
+schema-valid SFT trajectories from OpenAPI specifications, and does its Schema Parser extract API
+structure accurately enough to make that possible (Experiments 1 and 3)? \textbf{RQ2 (coverage
+vs.\ baselines):} does it achieve broader endpoint coverage and more diverse intents than
+prompt-only or Self-Instruct-style generation (Experiment 2; the downstream baseline comparison
+in Experiment 5)? \textbf{RQ3 (verification value):} does schema-aware verification improve
+trajectory quality over no verification (Experiment 4)? \textbf{RQ4 (downstream utility):} do
+models fine-tuned on EnterpriseSynth-generated data perform better on held-out enterprise
+API-calling tasks than an untuned baseline (Experiment 5)? Cold-start generalization is not a
+fifth question -- it is the held-out-spec condition applied within RQ2 and RQ4.
 
 \subsection{Datasets}
 Training and pilot-scale evaluation use three flagship real APIs sourced from
@@ -291,10 +274,14 @@ a set of $M$ deliberately corrupted trajectories with $F$ flagged invalid:
 \begin{align*}
 \text{Invalid Case Detection Rate} = F / M
 \end{align*}
-Intent Coverage is the fraction of sampled endpoints receiving at least one generated intent;
-Intent Diversity (exact-string) is the fraction of generated intents that are not literal
-duplicates. Workflow Completeness (multi-step task coverage) is defined but not applicable at
-pilot scale, since every generated intent in this paper is single-endpoint (Section~8).
+For a set of $E$ sampled endpoints and the multiset of $K$ intents generated across them, with
+$U \subseteq K$ the subset of intents that are unique strings:
+\begin{align*}
+\text{Intent Coverage} &= \frac{|\{e \in E : \text{intents}(e) \neq \emptyset\}|}{|E|} \\
+\text{Intent Diversity (exact-string)} &= |U| / |K|
+\end{align*}
+Workflow Completeness (multi-step task coverage) is defined but not applicable at pilot scale,
+since every generated intent in this paper is single-endpoint (Section~8).
 
 \section{Experiments}
 
@@ -730,7 +717,7 @@ detailed below.
 \centering
 \caption{Downstream agent tool-use success and argument correctness on the held-out Zoom
 evaluation set (single run, 16 intents).}
-\label{tab:rq5-downstream}
+\label{tab:downstream-zoom}
 \begin{tabular}{lll}
 \toprule
 \textbf{Model} & \textbf{Tool Success} & \textbf{Argument Correctness} \\
@@ -1170,15 +1157,22 @@ metric still contained a real defect, usually a missing or hallucinated paramete
 this paper should be read as an upper bound on deployment readiness, not an estimate of it.
 
 \subsection{Future Work}
-Four gaps define the path beyond this pilot. \textit{Scale}: roughly 65 stratified APIs.guru
+Five gaps define the path beyond this pilot. \textit{Scale}: roughly 65 stratified APIs.guru
 specs and the paper's actual 7--8B target model, versus the 17 APIs and 0.5B substitute model
 used here. \textit{Baselines}: a prompt-only agent and AgentInstruct's own \texttt{tool\_use} flow
 are specified but not yet run; only Self-Instruct has been implemented as a real comparison.
 \textit{Argument-level correctness}: the gap this paper's own LLM-judge evaluation revealed
 between endpoint-selection accuracy and full correctness needs to close, not merely be measured.
-\textit{Multi-step workflows}: whether a Knowledge Graph and Planner earn their place in the
-target architecture, and what they add over the current single-endpoint pipeline, is entirely
-untested.
+\textit{An API Knowledge Graph}: the target architecture (Figure~\ref{fig:pipeline_matrix}) calls
+for a directed graph $\mathcal{G} = (\mathcal{V}, \mathcal{E})$ over endpoints, objects, and
+parameters, with dependency, sequential-workflow, and object-relation edges, so that intent
+generation and planning could be graph-aware rather than single-endpoint-aware, derived directly
+from the real spec rather than hypothesized as AgentInstruct's~\cite{mitra2024agentinstruct}
+\texttt{tool\_use} flow must when seeded only from code; whether that benefit requires building
+the graph itself, versus a cheaper substitute, is untested. \textit{An Agentic Planning Module}:
+decomposing each intent into an explicit workflow plan (task decomposition, endpoint selection,
+tool ordering) before trajectory generation, rather than doing both in one call as the current
+Trajectory Generation Agent does, and evaluating the result on genuinely multi-step tasks.
 
 \bibliographystyle{plain}
 \bibliography{references}

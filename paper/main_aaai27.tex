@@ -18,7 +18,7 @@
 
 \setcounter{secnumdepth}{2}
 
-\title{EnterpriseSynth: A Schema-Aware Agentic Framework for Generating Verified SFT and Evaluation Datasets from OpenAPI Specifications}
+\title{EnterpriseSynth: Zero-Execution SFT and Eval Data from OpenAPI Specs}
 \author{
     Anonymous Submission
 }
@@ -31,25 +31,23 @@
 
 \begin{abstract}
 Enterprise adoption of autonomous Large Language Model (LLM) agents is bottlenecked by a data
-cold-start problem: training and evaluating reliable agents requires large pools of multi-turn
-tool execution traces, but production environments rarely offer sandboxes safe for exploratory
-agent calls, and live execution risks data corruption, compliance violations, and rate-limit
-exhaustion. \textbf{EnterpriseSynth} is a zero-execution framework that ingests an OpenAPI/Swagger
-specification and synthesizes verified Supervised Fine-Tuning (SFT) trajectories and paired
-evaluation records entirely offline. A four-stage pipeline -- schema parsing, intent synthesis,
-trajectory generation, and deterministic schema verification -- samples single-endpoint tool-use
-trajectories and checks each one against the source specification with a static constraint
-validator before it enters the dataset. A target seven-stage architecture adding graph-based
-multi-step planning is designed but not yet built; every result below is reported against the
-four stages that are implemented. Across 17 real and synthetic APIs, adversarial testing raised
-the verifier's detection of planted schema violations from 57--80\% to 100\%. Fine-tuning a
-compact open model on EnterpriseSynth-generated data, averaged over a 5-seed sweep, outperforms
-both an untuned baseline and a Self-Instruct baseline on held-out APIs, and the effect holds on
-five hand-authored specifications never published anywhere (40.0\% vs.\ 39.6\% tool-selection
-accuracy on private vs.\ public held-out sets). An independent LLM-judge evaluation shows that
-this endpoint-selection metric alone overstates practical usability by roughly 2$\times$: only
-21.3\% of predictions are fully correct once argument-level errors are counted, against 48.9\%
-under the binary metric -- a limitation reported here against the paper's own headline numbers.
+cold-start problem: reliable agents need large pools of tool execution traces, but production
+environments rarely offer safe sandboxes, and live execution risks data corruption, compliance
+violations, and rate-limit exhaustion. \textbf{EnterpriseSynth} is a zero-execution framework that
+ingests an OpenAPI/Swagger specification and synthesizes verified Supervised Fine-Tuning (SFT)
+trajectories and paired evaluation records entirely offline, checking each generated trajectory
+against the source specification with a static constraint validator before it enters the dataset.
+A target seven-stage architecture adding graph-based multi-step planning is designed but not yet
+built; every result below reflects only the four implemented stages. Across 17 real and synthetic
+APIs, adversarial testing raised the verifier's detection of planted schema violations from
+57--80\% to 100\%. Fine-tuning a compact open model on EnterpriseSynth-generated data, averaged
+over a 5-seed sweep, outperforms both an untuned baseline and a Self-Instruct baseline on held-out
+APIs, and the effect holds on five hand-authored specifications never published anywhere (40.0\%
+vs.\ 39.6\% tool-selection accuracy, private vs.\ public held-out sets). An independent LLM-judge
+evaluation, however, finds that endpoint-selection accuracy alone overstates practical usability
+by roughly 2$\times$: only 21.3\% of predictions are fully correct once argument-level errors are
+counted, against 48.9\% under the binary metric -- a limitation reported here against the paper's
+own headline numbers.
 \end{abstract}
 
 \section{Introduction}
