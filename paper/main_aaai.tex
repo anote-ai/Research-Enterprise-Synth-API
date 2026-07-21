@@ -465,8 +465,8 @@ target, not a stand-in for the full-scale experiment.
 (GitHub/Stripe/Slack only). Held-out set: 16 intents generated for Zoom (373 endpoints), an API
 never touched by any prior experiment or by the training data.
 
-\textbf{Measured (pilot scale; ToolBench/prompt-only-agent baselines not yet implemented, but
-Self-Instruct now is -- closing the RQ2 gap flagged in a repo audit).}
+\textbf{Measured (pilot scale; ToolBench and prompt-only-agent baselines not yet implemented,
+but Self-Instruct is).}
 
 \begin{table}[htbp]
 \centering
@@ -753,7 +753,7 @@ detailed below.
 
 \begin{table}[htbp]
 \centering
-\caption{RQ5 downstream agent tool-use success and argument correctness on the held-out Zoom
+\caption{Downstream agent tool-use success and argument correctness on the held-out Zoom
 evaluation set (single run, 16 intents).}
 \label{tab:rq5-downstream}
 \begin{tabular}{lll}
@@ -793,10 +793,8 @@ The Experiments and Results sections above establish that EnterpriseSynth works 
 This section answers a different question a
 metrics table cannot: \textit{what does
 EnterpriseSynth actually produce, and does it look useful for real enterprise scenarios?} Every
-example below is pulled directly, unedited, from committed pipeline output
-(\texttt{data/generated/experiment2\_intents.json}, \texttt{experiment3\_trajectories.json},
-\texttt{experiment4\_verification.json}) -- nothing here is constructed for illustration. The
-pipeline traced end-to-end:
+example below is pulled directly, unedited, from committed pipeline output -- nothing here is
+constructed for illustration. The pipeline traced end-to-end:
 \begin{center}
 \small
 \begin{tabular}{c}
