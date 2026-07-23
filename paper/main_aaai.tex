@@ -33,24 +33,27 @@
 \maketitle
 
 \begin{abstract}
-Enterprise adoption of autonomous Large Language Model (LLM) agents is bottlenecked by a data
-cold-start problem: reliable agents need large pools of tool execution traces, but production
-environments rarely offer safe sandboxes, and live execution risks data corruption, compliance
-violations, and rate-limit exhaustion. \textbf{EnterpriseSynth} is a zero-execution framework that
-ingests an OpenAPI/Swagger specification and synthesizes verified Supervised Fine-Tuning (SFT)
-trajectories and paired evaluation records entirely offline, checking each generated trajectory
-against the source specification with a static constraint validator before it enters the dataset.
-A target seven-stage architecture adding graph-based multi-step planning is designed but not yet
-built; every result below reflects only the four implemented stages. Across 17 real and synthetic
-APIs, adversarial testing raised the verifier's detection of planted schema violations from
-57--80\% to 100\%. Fine-tuning a compact open model on EnterpriseSynth-generated data, averaged
-over a 5-seed sweep, outperforms both an untuned baseline and a Self-Instruct baseline on held-out
-APIs, and the effect holds on five hand-authored specifications never published anywhere (40.0\%
-vs.\ 39.6\% tool-selection accuracy, private vs.\ public held-out sets). An independent LLM-judge
-evaluation, however, finds that endpoint-selection accuracy alone overstates practical usability
-by roughly 2$\times$: only 21.3\% of predictions are fully correct once argument-level errors are
-counted, against 48.9\% under the binary metric -- a limitation reported here against the paper's
-own headline numbers.
+Tool-using large language model agents require substantial training and evaluation data, yet
+collecting execution traces from enterprise APIs is often unsafe, expensive, or infeasible because
+of access controls, compliance constraints, rate limits, and the risk of modifying production
+data. We present EnterpriseSynth, a zero-execution framework that converts OpenAPI specifications
+into supervised fine-tuning trajectories and paired evaluation instances without invoking the
+underlying APIs. The framework uses a four-stage pipeline for specification parsing, graph-based
+dependency analysis, trajectory synthesis, and static validation. Each generated trajectory is
+checked against the source specification for endpoint, parameter, type, and schema consistency
+before being admitted to the dataset.
+We evaluate EnterpriseSynth on 17 real and synthetic APIs. Adversarial refinement increases the
+validator's detection rate for planted schema violations from 57--80\% to 100\%. Across five
+random seeds, a compact open-weight model fine-tuned on EnterpriseSynth data outperforms both an
+untuned model and a Self-Instruct baseline on held-out APIs. Performance remains consistent on
+five private, hand-authored API specifications that were not available during training, with
+tool-selection accuracy of 40.0\% on the private set and 39.6\% on the public held-out set.
+However, an independent LLM-based evaluation shows that endpoint-selection accuracy substantially
+overestimates end-to-end correctness: accuracy falls from 48.9\% under the endpoint-level metric
+to 21.3\% when argument selection and values are also evaluated. These results demonstrate that
+OpenAPI specifications can support scalable, execution-free data generation, while highlighting
+the need for argument-level evaluation when assessing the deployment readiness of tool-using
+agents.
 \end{abstract}
 
 \section{Introduction}
