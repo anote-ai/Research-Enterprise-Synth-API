@@ -1,7 +1,6 @@
 # EnterpriseSynth: Agentic SFT + Eval Data from API Schemas Without Live Execution
 
 **Author**: Rashmi Thimmaraju
-**Target venues**: MLinPL 2026 (8/1) · AAAI 2027 Workshop on Enterprise AI Evaluation (7/28)
 
 > **DRAFT v0.3 (2026-07-08).** Markdown rendering of `paper/main.tex` (canonical LaTeX source, kept
 > in sync manually). Built from `DESIGN_DOC.md`.
