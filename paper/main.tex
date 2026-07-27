@@ -812,73 +812,25 @@ below.
 
 \section{Discussion}
 
-\subsection{What Actually Works, and Why}
-Two results in this paper are load-bearing, not decorative. First, schema verification is
-unambiguously necessary: without a verification step, none of the 44 planted structural errors in
-Experiment 4's adversarial test set would have been caught, by construction; with one, all 44
-were. Second, that 100\% was earned through adversarial testing, not assumed: an initial pass on
-Experiment 4 caught only 57--80\% of planted errors, and closing that gap required fixes across
-the verifier, the test harness, and the schema parser. The methodological point generalizes
-beyond this system: a static verifier's correctness cannot be established by checking that it
-accepts good input -- it has to be adversarially tested against bad input it is specifically
-supposed to reject. A non-adversarial test suite would have shipped a verifier that silently
-passed roughly a third to a half of planted errors. The deterministic gate does have a known
-scope limit worth stating plainly: it checks structure (types, required fields, endpoint
-existence), not semantics, so it cannot know that a well-typed value is nonsensical (e.g.\ a
-negated charge amount) -- closing that gap is future work, not a claim made here.
-
-\subsection{The Downstream Effect Is Real but Not Uniform, and That Is Itself a Finding}
-Experiment 5's single-Zoom result (12.5\%$\rightarrow$87.5\%) was the strongest number in an
-earlier draft of this paper. Scaling to three held-out APIs, single-seed, changed the story
-without reversing it: EnterpriseSynth-tuned data beat a real Self-Instruct baseline on two of
-three APIs and the untuned base on all three, but lost to Self-Instruct specifically on
-DigitalOcean. A 5-seed sweep resolves this further: averaged over 5 seeds, EnterpriseSynth beats
-both the untuned base and Self-Instruct on \textit{all three} APIs, including DigitalOcean (53.7\%
-vs.\ 37.5\%) -- the original single-run loss was a real draw from a distribution with high
-variance, not the distribution's central tendency. Both findings are reported rather than only
-the more flattering one: DigitalOcean's standard deviation is large enough ($\pm$13.7 for
-EnterpriseSynth, $\pm$21.2 for Self-Instruct) that individual seeds can and do still lose there.
-
-DigitalOcean's specific closeness to a coin-flip is unlikely to be noise worth explaining away --
-Self-Instruct's own bootstrap was shown above to lean on the base model's pretraining familiarity
-with GitHub's extremely public API, and DigitalOcean's infrastructure/DevOps-flavored conventions
-are the closest of the three held-out APIs to GitHub's. If that hypothesis holds under further
-testing, it says something uncomfortable but important about the field's usual practice of
-benchmarking tool-use methods on well-known public APIs (GitHub, Stripe, Slack, and here,
-apparently, DigitalOcean by proxy): a base model's prior exposure to an API's public documentation
-can substitute for genuine schema grounding in a way that will not be available for the private,
-undocumented internal APIs EnterpriseSynth targets.
-
-This is no longer a purely theoretical concern: the private cold-start validation set (5
-hand-authored, never-published enterprise API specs -- CRM, HRIS, Procurement, Ticketing, Asset
-Management) tests exactly this distinction. EnterpriseSynth-tuned accuracy on these
-never-published domains (40.0\%) essentially matches its accuracy on the public held-out set
-(39.6\%) -- no meaningful degradation moving to APIs the base model cannot have seen. This is the
-single strongest piece of evidence in the paper that the effect is genuine schema-grounding, not
-incidental pretraining familiarity, though it remains a single, un-seeded run on 5 synthetic
-domains, not yet subjected to the same multi-seed treatment as the public comparison.
-
-\subsection{Positioning Relative to AgentInstruct}
-EnterpriseSynth adapts AgentInstruct's agentic-flow architecture rather than starting from scratch
-because it is the only reviewed method that is both agentic and execution-free. The two changes
-made -- real-spec grounding instead of code-seeded hallucination, and a hard structural gate
-instead of a soft editorial-plus-post-hoc-judge pipeline -- are not merely stylistic. Even "just
-parse the real spec" turned out to be a nontrivial engineering problem for production-scale
-OpenAPI documents (Experiment 1); AgentInstruct's decision to let the model invent an API surface
-sidesteps that complexity entirely, at the cost of the hallucination risk EnterpriseSynth is built
-to avoid.
-
-\subsection{Binary Tool Selection Accuracy Overstates Practical Quality}
-Every headline number in this paper up to this point is Tool Selection Accuracy: did the model
-choose the right endpoint. The Semantic Quality Evaluation above tests whether that is the right
-question to be asking, and finds that it is not sufficient on its own: only 21.3\% of generated
-invocations are judged fully correct by an independent LLM evaluator, against 48.9\% under the
-binary endpoint metric, because 61\% of endpoint-correct predictions still contain a semantic
-defect (usually a missing or hallucinated parameter). This is reported against the paper's own
-results, not a competing method: every Tool Selection Accuracy number elsewhere in this paper
-should be read as an upper bound on practical correctness, not an estimate of it, and future
-evaluations of API-generation systems should pair endpoint-level accuracy with argument-level
-semantic correctness to better reflect deployment readiness.
+Two results here are load-bearing. Schema verification is unambiguously necessary and was
+adversarially validated, not assumed: an initial pass on Experiment 4 caught only 57--80\% of
+planted structural errors, and only after fixing the bugs that test itself surfaced did detection
+reach 100\%; the gate remains structural, not semantic, so a well-typed but nonsensical value
+(e.g.\ a negated charge) would still pass. The downstream fine-tuning effect is real but not
+uniform: a 5-seed sweep shows EnterpriseSynth beating both the untuned base and a real
+Self-Instruct baseline on all three held-out APIs, including DigitalOcean, where a single early
+run had shown a loss inside a high-variance draw ($\pm$13.7 vs.\ $\pm$21.2); a private,
+never-published 5-spec validation set shows almost no degradation versus the public held-out set
+(40.0\% vs.\ 39.6\%), the strongest evidence that the effect is genuine schema-grounding rather
+than the base model's pretraining familiarity with well-known public APIs. Against the closest
+prior method, AgentInstruct, EnterpriseSynth's real-spec grounding and hard structural gate
+replace code-seeded hallucination and a soft editorial-plus-judge pipeline, at the cost of a
+nontrivial parsing problem (Experiment 1) that AgentInstruct sidesteps by inventing the API
+surface instead. Finally, an independent LLM-as-a-judge evaluation shows that the binary Tool
+Selection Accuracy used throughout this paper overstates practical quality by roughly
+2$\times$ (21.3\% fully correct vs.\ 48.9\% endpoint-correct, since 61\% of endpoint-correct
+predictions still carry a semantic defect), so every accuracy number above should be read as an
+upper bound on deployment readiness, not an estimate of it.
 
 \section{Limitations}
 
