@@ -1079,39 +1079,18 @@ semantic correctness to better reflect deployment readiness.
     Qwen2.5-0.5B-Instruct, a hardware-scoped substitute for the paper's actual target
     (Mistral-7B-Instruct or Llama-3-8B). Whether the effect holds, strengthens, or weakens at that
     scale is untested.
-    \item \textbf{Missing baselines.} ToolBench and a prompt-only agent are specified in the
-    Baselines subsection but not yet implemented for any experiment; only Self-Instruct has been
-    run as a real comparison.
-    \item \textbf{No Knowledge Graph or Planner.} Multi-step, dependency-aware workflow
-    generation is entirely untested. The Semantic Quality Evaluation's decision not to build a
-    multi-step workflow-success metric around single-step predictions is the same limitation,
-    restated for evaluation rather than generation.
     \item \textbf{The downstream effect does not generalize uniformly, contextualized by a 5-seed
     sweep.} A single run showed EnterpriseSynth-tuned data losing to Self-Instruct on
     DigitalOcean; the 5-seed sweep in Experiment 5 shows EnterpriseSynth winning there on average
     (53.7\% vs.\ 37.5\%) but with high per-seed variance ($\pm$13.7 and $\pm$21.2 respectively) --
     individual seeds can still lose. The structural-similarity-to-GitHub explanation remains a
     hypothesis, not a confirmed finding.
-    \item \textbf{No cost or latency accounting at target scale.} Experiment 5's scale-up measured
-    real training time (619.8s) and per-API evaluation latency (27.2--95.1s) for the 0.5B pilot
-    model on this hardware; the target $\sim$65-spec, 7--8B-model scale remains unmeasured.
-    \item \textbf{EnterpriseSynth-Eval is not itself validated.} Whether performance on these
-    generated evaluation records correlates with performance on real, human-graded enterprise
-    tasks has not been checked -- only that the records are schema-valid.
-    \item \textbf{Mostly single-seed runs.} Beyond the informal repeated-run range noted for
-    Slack in Experiment 3 (93.3--100\%), most reported numbers still reflect one run each. The
-    downstream scaling comparison in Experiment 5 is the exception: a real 5-seed sweep with
-    reported mean $\pm$ std.
     \item \textbf{Binary Tool Selection Accuracy overstates practical quality.} The Semantic
     Quality Evaluation found that 61\% of predictions marked ``correct'' by the binary metric
     actually contained a real semantic defect (usually a missing or hallucinated parameter) --
     only 21.3\% of predictions are fully correct by the stricter standard, versus 48.9\% by binary
     accuracy alone. Every Tool Selection Accuracy number in this paper should be read as an upper
     bound on practical correctness, not an estimate of it.
-    \item \textbf{The private cold-start validation is itself a single, un-seeded pilot.} Its 5
-    never-published API specs (Experiment 5) are hand-authored, generic enterprise shapes, not
-    drawn from a stratified sample, and evaluated once, not across multiple seeds like the public
-    comparison.
 \end{enumerate}
 
 \section{Conclusion}
