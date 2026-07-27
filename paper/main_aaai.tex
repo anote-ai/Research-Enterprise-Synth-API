@@ -238,13 +238,11 @@ Self-Instruct~\cite{wang2022selfinstruct} and Evol-Instruct filter with text heu
 similarity, keyword rules, degeneracy checks) and AgentInstruct verifies only via soft editorial
 refinement plus a post-hoc held-out judge (Orca-Bench), this is a hard, per-sample structural gate.
 
-\subsection{Target Architecture}
+\subsection{Architecture}
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{enterprisesynth_pipeline_diagram.pdf}
-\caption{The EnterpriseSynth target architecture vs.\ traditional live pipelines. The Knowledge
-Graph and Planner stages shown are not yet implemented (Future Work) -- the four-stage system in
-Section~3.1 is what every result in this paper measures.}
+\caption{The EnterpriseSynth architecture diagram.}
 \label{fig:pipeline_matrix}
 \end{figure}
 Figure~\ref{fig:pipeline_matrix} extends the implemented system with two further stages that do
@@ -257,27 +255,12 @@ training-data-generation act, not mechanically derived from the same pass).
 
 \section{Experimental Setup}
 
-\subsection{Research Questions}
-This paper is organized around one central question, decomposed into four testable
-sub-questions. \textbf{Central question:} can a zero-execution, schema-driven pipeline produce
-SFT and evaluation data that measurably improves LLM tool-use on enterprise APIs, without ever
-calling a live endpoint? \textbf{RQ1 (schema-valid generation):} can EnterpriseSynth generate
-schema-valid SFT trajectories from OpenAPI specifications, and does its Schema Parser extract API
-structure accurately enough to make that possible (Experiments 1 and 3)? \textbf{RQ2 (coverage
-vs.\ baselines):} does it achieve broader endpoint coverage and more diverse intents than
-prompt-only or Self-Instruct-style generation (Experiment 2; the downstream baseline comparison
-in Experiment 5)? \textbf{RQ3 (verification value):} does schema-aware verification improve
-trajectory quality over no verification (Experiment 4)? \textbf{RQ4 (downstream utility):} do
-models fine-tuned on EnterpriseSynth-generated data perform better on held-out enterprise
-API-calling tasks than an untuned baseline (Experiment 5)? Cold-start generalization is not a
-fifth question -- it is the held-out-spec condition applied within RQ2 and RQ4.
-
 \subsection{Datasets}
 Training and pilot-scale evaluation use three flagship real APIs sourced from
 APIs.guru\footnote{\url{https://apis.guru} / \url{https://github.com/APIs-guru/openapi-directory} -- a community-maintained, machine-checked directory of real-world OpenAPI/Swagger specifications, used here as the sole source of every real (non-hand-authored) spec in this paper.}: GitHub
 REST API (551 / 845 methods), Stripe API (299 / 446 methods),
-and Slack API (174 / 174 methods). Held-out evaluation (RQ2,
-RQ4) draws on nine further real, public APIs.guru specs (Zoom, DigitalOcean, Spotify, Twilio,
+and Slack API (174 / 174 methods). Held-out evaluation (coverage-vs.-baselines and downstream
+utility) draws on nine further real, public APIs.guru specs (Zoom, DigitalOcean, Spotify, Twilio,
 Notion, OpenAI, Jira, Asana, Trello) never touched during training, plus five hand-authored,
 never-published synthetic enterprise specs (CRM, HRIS, Procurement, Ticketing, Asset Management)
 that isolate genuine cold-start generalization from a base model's pretraining familiarity with
@@ -499,7 +482,7 @@ Training loss dropped monotonically over the 3 epochs (0.708 $\rightarrow$ 0.403
 for 45 training examples and a 0.5B model, on an API never seen during training -- the strongest
 evidence in the paper so far for the central claim.
 
-\textbf{The Self-Instruct baseline is the first real evidence for RQ2.} Adapted per Section~4.3
+\textbf{The Self-Instruct baseline is the first real evidence against a prompt-only alternative.} Adapted per Section~4.3
 (schema-free bootstrap from 4 human-quality seeds, iterative few-shot generation, ROUGE-L-style
 dedup filtering, no access to any real OpenAPI spec), fine-tuned and evaluated with the identical
 methodology on the identical held-out set. Result: fine-tuning on any tool-use data helps over the
@@ -615,7 +598,7 @@ SFT and evaluation datasets.
 \subsubsection{Private Cold-Start Validation: Never-Published Enterprise APIs}
 Every held-out API used so far -- Zoom, DigitalOcean, Spotify -- is a real, extremely
 well-documented public API, plausibly present in Claude Sonnet 5's and Qwen2.5's pretraining
-data. This leaves RQ4's actual cold-start claim (Introduction) untested in its strongest form:
+data. This leaves the paper's actual cold-start claim (Introduction) untested in its strongest form:
 does the effect hold on a spec the base model \textit{cannot} have seen, not merely one it may not
 have memorized in detail? Five never-published, synthetic enterprise API specs were hand-authored
 for this test -- CRM, HRIS, Procurement, Ticket Management, Asset Management -- generic plausible
@@ -806,7 +789,7 @@ Sonnet 5) rather than a lexical-similarity metric, since this task has no natura
 to score against (there is one correct endpoint, not one correct phrasing of a response).
 
 Multi-step workflow evaluation is deliberately not attempted here. EnterpriseSynth has no Planner
-or Knowledge Graph (Section~3.2, Target Architecture); every generated trajectory is a single
+or Knowledge Graph (Section~3.2, Architecture); every generated trajectory is a single
 endpoint call, so there is no multi-step output to evaluate. Building a workflow-success metric
 around single-step predictions would test a capability the system does not have. Multi-step
 workflow evaluation is reserved for future work alongside the Planner and Knowledge Graph
