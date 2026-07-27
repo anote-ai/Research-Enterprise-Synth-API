@@ -89,21 +89,6 @@ reproducibility-constrained real databases, ToolBench via roughly 470,000 live R
 during annotation), which is exactly the dependency the Execution Paradox rules out for most
 enterprise API surfaces.
 
-\subsection{Summary of Contributions}
-The contributions are scoped to what is actually implemented and measured: a zero-execution
-pipeline (schema parsing, intent synthesis, trajectory generation, and schema verification) that
-produces multi-turn instruction traces from real OpenAPI specs with no live backend connection; a
-deterministic, non-LLM static constraint validator, shown by adversarial testing to reach 100\%
-detection of planted schema violations; and evidence that fine-tuning a small open model on the
-resulting verified trajectories improves tool-selection accuracy on genuinely held-out APIs. A
-dependency-graph-based planning layer is part of the target architecture (Section~3) but is not
-implemented, and no claim in this paper depends on it. The jointly-emitted evaluation dataset is
-released as \textbf{EnterpriseSynth-Eval}, named to avoid a collision with the unrelated,
-identically-named live-sandbox benchmark of Vishwakarma et
-al.~\cite{vishwakarma2025enterprisebench}. The Limitations section below gives the full
-accounting of what is and is not built, and the Conclusion restates these contributions against
-the results that support them.
-
 \section{Related Work}
 This review covers two lineages -- general-purpose synthetic instruction generation, and tool/API
 data generation -- focusing on what each does or does not share with EnterpriseSynth, rather than
@@ -766,155 +751,6 @@ effect size -- the expanded Experiment 5 discussion above gives the full three-A
 5-seed sweep that resolves the DigitalOcean loss, and an unconfirmed hypothesis for why
 DigitalOcean specifically reverses the single-run pattern.
 
-\section{Case Study and Qualitative Analysis}
-
-\subsection{Purpose}
-The Experiments and Results sections above establish that EnterpriseSynth works quantitatively.
-This section answers a different question a
-metrics table cannot: \textit{what does
-EnterpriseSynth actually produce, and does it look useful for real enterprise scenarios?} Every
-example below is pulled directly, unedited, from committed pipeline output -- nothing here is
-constructed for illustration. The pipeline traced end-to-end:
-\begin{center}
-\small
-\begin{tabular}{c}
-Real OpenAPI Specification \\
-$\downarrow$ \\
-API Parsing (Stage 1) \\
-$\downarrow$ \\
-Intent Generation (Stage 3) \\
-$\downarrow$ \\
-Trajectory Generation (Stages 4--5) \\
-$\downarrow$ \\
-Schema Verification (Stage 6) \\
-$\downarrow$ \\
-Final SFT / Evaluation Record
-\end{tabular}
-\end{center}
-
-\subsection{Case Study 1: GitHub -- Tag Protection}
-\textbf{Parsed API knowledge} (Stage 1 output for this endpoint):
-\begin{quote}
-\small
-\texttt{POST /repos/\{owner\}/\{repo\}/tags/protection} \\
-description: ``This creates a tag protection state for a repository. This endpoint is only
-available to repository administrators.'' \\
-parameters: \texttt{owner} (path, required, string), \texttt{repo} (path, required, string),
-\texttt{pattern} (body, required, string)
-\end{quote}
-\textbf{Generated intent} (Stage 3, one of three generated for this endpoint):
-\begin{quote}
-\small ``Set up tag protection on the `payments-service' repo so that only admins can create or
-delete tags matching `v*' -- we need to prevent accidental deletion of release tags.''
-\end{quote}
-\textbf{Generated trajectory} (Stages 4--5):
-\begin{quote}
-\small
-Call \texttt{POST /repos/\{owner\}/\{repo\}/tags/protection} with
-\texttt{\{"owner": "your-org", "repo": "payments-service", "pattern": "v*"\}}. \\
-Reasoning given: ``This tool creates a tag protection rule for a repository matching a specified
-pattern, restricting tag creation/deletion to admins, which fulfills the request to protect `v*'
-tags on `payments-service'.''
-\end{quote}
-\textbf{Verification} (Stage 6): endpoint exists -- PASS; required params present -- PASS; param
-types valid -- PASS. \textbf{Trajectory status: VERIFIED.}
-
-\subsection{Case Study 2: Stripe -- Subscription Item Removal}
-\textbf{Parsed API knowledge:}
-\begin{quote}
-\small
-\texttt{DELETE /v1/subscription\_items/\{item\}} \\
-parameters: \texttt{item} (path, required, string), \texttt{clear\_usage} (body, optional,
-boolean), \texttt{proration\_behavior} (body, optional, string)
-\end{quote}
-\textbf{Generated intent:}
-\begin{quote}
-\small ``We're removing the extra seats add-on from customer cus\_9F3kLmZ8's subscription --
-please delete subscription item si\_1N4kTx2eZvKYlo2C and clear out the associated usage records
-since we don't need them for billing.''
-\end{quote}
-\textbf{Generated trajectory:}
-\begin{quote}
-\small
-Call \texttt{DELETE /v1/subscription\_items/\{item\}} with
-\texttt{\{"item": "si\_1N4kTx2eZvKYlo2C", "clear\_usage": true, "proration\_behavior":
-"create\_prorations"\}}.
-\end{quote}
-\textbf{Verification: PASS on all checks -- VERIFIED.}
-
-\textbf{An honest limitation this example surfaces directly:} the intent above evokes a business
-workflow (removing a paid add-on, reconciling usage), but the system resolves it to \textit{one}
-verified API call, not a multi-step chain of dependent calls (e.g.\ look up the customer, then the
-subscription, then delete the item). This is not a simplification for the case study -- it is what
-the implemented system actually does. Multi-step, dependency-aware trajectory generation requires
-the Knowledge Graph and Planner stages (Section~3.2, Target Architecture), neither of which is
-implemented (Limitations gives the full accounting of what is and is not built). No fabricated
-multi-step Stripe trajectory is shown here, since the current pipeline cannot produce one.
-
-\subsection{Case Study 3: A Verification Failure, by Design}
-The verifier should also be shown rejecting something, not only accepting everything. This
-corrupted trajectory is drawn directly from Experiment 4's adversarial test set: the original,
-valid trajectory for updating access to a GitHub org secret had its \texttt{org} parameter
-corrupted from a string to an object.
-\begin{quote}
-\small
-\textbf{Original intent:} ``Update the DEPLOY\_TOKEN secret in our `acme-corp' org so it's only
-accessible by the payments-api and payments-worker repositories'' \\
-\textbf{Endpoint:} \texttt{PUT /orgs/\{org\}/actions/secrets/\{secret\_name\}/repositories} \\
-\textbf{Corrupted parameter:} \texttt{org = \{"unexpectedly": "an object"\}} (declared type:
-string) \\
-\textbf{Verifier output:} \texttt{valid: false} -- ``Parameter `org' = \{'unexpectedly': 'an
-object'\} is not compatible with declared type `string'.''
-\end{quote}
-\textbf{Trajectory status: REJECTED.} This is the same mechanism, on the same data, that produced
-Experiment 4's 44/44 detection rate -- shown here as a single concrete instance rather than an
-aggregate percentage.
-
-\subsection{Qualitative Analysis}
-
-\textbf{Finding 1: schema information is sufficient for initial task generation.} OpenAPI
-specifications provide endpoint descriptions, parameter names/types, and (where declared)
-authentication schemes -- enough for the Intent Generation Agent to generate business-scenario-
-specific intents (named companies, dollar amounts, department names) without ever calling the
-live API. The GitHub and Stripe examples above were generated this way.
-
-\textbf{Finding 2: verification prevents synthetic data contamination.} Without a verification
-step, none of the 44 planted structural errors in Experiment 4's adversarial test set would have
-been caught, by construction; with the verification stage, all 44 were (100\%). Case Study 3 shows
-the mechanism, not just the aggregate: a model trained on unverified data would have learned that
-passing an object where a string is required is acceptable GitHub API usage.
-
-\textbf{Finding 3: the current system is single-step by design, not yet multi-step, stated
-plainly rather than implied otherwise.} A natural claim for a paper like this to make is that it
-moves beyond ``one user request $\rightarrow$ one API call'' toward validated multi-step
-workflows. That claim is not made here, because Case Study 2 shows directly that the implemented
-system does not yet do this: every generated trajectory in Experiments 3--5 resolves to a single
-endpoint call (the Evaluation Metrics definition of Workflow Completeness as ``not applicable at
-this pilot scale'' is the same fact stated as a metric). The honest version of this finding is
-narrower: EnterpriseSynth's intents are often \textit{phrased} at the business-workflow level
-(Case Study 2's ``removing the extra seats add-on... and clear out the associated usage records''
-spans a conceptual before/after state), while the \textit{trajectory} generated for them today is
-single-step. Closing that gap is exactly what the unimplemented Planner/Knowledge Graph stages
-(Section~3.2) are for.
-
-\subsection{Case Study Summary}
-\begin{table*}[htbp]
-\centering
-\footnotesize
-\caption{Summary of the three case-study trajectories walked through above: two verified
-correctly, one corrupted trajectory correctly rejected by the Schema Verification Engine.}
-\label{tab:case-study-summary}
-\begin{tabular}{p{1.6cm}p{2cm}p{6.5cm}p{2.2cm}}
-\toprule
-\textbf{API} & \textbf{Domain} & \textbf{Endpoint} & \textbf{Verification} \\
-\midrule
-GitHub & Developer/\allowbreak software & \texttt{POST /repos/\allowbreak\{owner\}/\allowbreak\{repo\}/\allowbreak tags/\allowbreak protection} & Verified \\
-Stripe & Payments & \texttt{DELETE /v1/\allowbreak subscription\_items/\allowbreak\{item\}} & Verified \\
-GitHub (corrupted) & Developer/\allowbreak software & \texttt{PUT /orgs/\allowbreak\{org\}/\allowbreak actions/\allowbreak secrets/\allowbreak\{secret\_name\}/\allowbreak repositories} & Rejected (correctly) \\
-\bottomrule
-\end{tabular}
-\end{table*}
-
 \section{Semantic Quality Evaluation (LLM-as-a-Judge)}
 
 \subsection{Motivation and Scope}
@@ -929,10 +765,9 @@ to score against (there is one correct endpoint, not one correct phrasing of a r
 Multi-step workflow evaluation is deliberately not attempted here. EnterpriseSynth has no Planner
 or Knowledge Graph (Section~3.2, Target Architecture); every generated trajectory is a single
 endpoint call, so there is no multi-step output to evaluate. Building a workflow-success metric
-around single-step predictions would test a capability the system does not have -- the same
-overclaiming risk Case Study 2 above explicitly declined to paper over. Multi-step workflow
-evaluation is reserved for future work alongside the Planner and Knowledge Graph components
-themselves.
+around single-step predictions would test a capability the system does not have. Multi-step
+workflow evaluation is reserved for future work alongside the Planner and Knowledge Graph
+components themselves.
 
 \subsection{Methodology}
 For each held-out example, the judge receives the user intent, the ground-truth endpoint and its
