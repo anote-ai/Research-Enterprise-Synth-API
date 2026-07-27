@@ -157,6 +157,24 @@ because they ground responses in real execution -- which is exactly the capabili
 behind an enterprise firewall (Section~1's Execution Paradox): no sandbox for internal systems,
 security/PII exposure from live calls, and infrastructure rate limits.
 
+\subsection{Inference-Time Tool-Use Methods}
+A separate line of work targets tool use at inference time rather than training-data synthesis.
+\textbf{Toolformer}~\cite{schick2023toolformer} lets a model self-supervise \textit{when} and
+\textit{how} to call a small fixed set of tools by inserting API calls into its own generations and
+keeping only the calls that improve next-token prediction. \textbf{ReAct}~\cite{yao2023react}
+interleaves reasoning traces with actions in a single prompting loop, and
+\textbf{Reflexion}~\cite{shinn2023reflexion} adds verbal self-critique across repeated attempts to
+improve task success without any weight update. \textbf{Gorilla}~\cite{patil2023gorilla} is closer
+in spirit to EnterpriseSynth's target task: it fine-tunes an LLM to generate correct,
+hallucination-free API calls against a large corpus of real API documentation. None of these four
+targets the enterprise cold-start setting -- each assumes the API (or its documentation corpus) is
+already public, stable, and available for retrieval or live invocation, and none offers a
+deterministic, per-sample verification gate checked against a private spec. They are largely
+orthogonal to EnterpriseSynth rather than competing with it: these methods improve how a model uses
+tools at inference or through self-supervision on an existing API surface, while EnterpriseSynth
+addresses how to generate verified \textit{training} data for tool use when no execution history or
+public documentation exists at all.
+
 \subsection{Research Gap}
 No existing framework combines the three properties above: grounding in a real target spec rather
 than text or code (unlike Self-Instruct, WizardLM, and AgentInstruct when seeded only from code), a
@@ -1201,6 +1219,10 @@ the graph itself, versus a cheaper substitute, is untested. \textit{An Agentic P
 decomposing each intent into an explicit workflow plan (task decomposition, endpoint selection,
 tool ordering) before trajectory generation, rather than doing both in one call as the current
 Trajectory Generation Agent does, and evaluating the result on genuinely multi-step tasks.
+\textit{Protocol interoperability}: the synthesized trajectories are schema-derived and
+tool-agnostic; packaging them for standardized tool-calling interfaces such as Anthropic's Model
+Context Protocol~\cite{anthropic2024mcp} would let the same pipeline target any MCP-compatible
+agent runtime without a bespoke adapter, but that integration is untested here.
 
 \bibliography{references}
 
