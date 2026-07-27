@@ -28,7 +28,22 @@
 \affiliations{
 }
 
+% aaai2026.sty's \AtBeginDocument hook forces \bibliographystyle{aaai2026}
+% (author-year) the moment \begin{document} is reached, before any body
+% content runs. BibTeX only honors the FIRST \bibliographystyle call written
+% to the .aux file, so that call must be swallowed here, then restored and
+% re-issued with the numbered style below. This whole block deviates from
+% the official AAAI submission template's mandated citation format --
+% delete it (and revert to the AAAI-provided \cite) before an actual AAAI
+% submission.
+\let\OrigBibliographystyle\bibliographystyle
+\renewcommand{\bibliographystyle}[1]{}
+
 \begin{document}
+
+\let\bibliographystyle\OrigBibliographystyle
+\setcitestyle{numbers,square,comma}
+\bibliographystyle{plainnat}
 
 \maketitle
 
