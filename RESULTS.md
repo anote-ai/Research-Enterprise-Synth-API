@@ -83,20 +83,21 @@ Slack ranged 93.3–100% across repeated runs; see the self-consistency caveat a
 | Wrong HTTP method | 12/12 |
 | Missing required parameter | 11/11 |
 | Invalid endpoint path | 12/12 |
-| Parameter type mismatch | 9/9 |
-| **Total** | **44/44 (100%)** |
+| Parameter type mismatch | 8/9 |
+| **Total** | **43/44 (98%)** |
 
-**This took real work to earn.** First run: 57–80% detection (per-API), not 100% — adversarial
+**This took real work to earn.** First run: 57–80% detection (per-API), not 98% — adversarial
 testing surfaced four real bugs: (1) verifier accepted any value for declared type `"string"`,
 including objects; (2) the corruption harness could drop an optional param instead of a required
 one; (3) Stage 1 silently dropped `$ref` parameters (same bug as Experiment 1); (4) Stage 1 never
 parsed `requestBody` schema fields into typed parameters at all. All four fixed and
-regression-tested.
+regression-tested; one planted parameter type-mismatch case still slips past the verifier.
 
 ![Experiment 4 figure](paper/figures/exp4_verification_before_after.png)
 
 **Figure 4.** Invalid-case detection rate by corruption type, first run vs. final. Missing-parameter
-and wrong-type detection were the two categories that required real bug fixes to reach 100%.
+and wrong-type detection were the two categories that required real bug fixes; wrong-type detection
+still misses one of nine cases (8/9).
 
 ## Experiment 5 — Downstream LLM Agent Evaluation ⭐
 
@@ -267,7 +268,7 @@ the Trajectory Generator from the start), Response Schema Modeling (only a boole
 
 | Variant | Validity | Diversity | Verification Pass |
 | --- | --- | --- | --- |
-| Full pipeline (baseline) | 100% | 100% | 100% |
+| Full pipeline (baseline) | 100% | 100% | 98% |
 | A1: − Intent Generation | 93.3–100% | 93.3–100% | n/a |
 | A2: − Verification | n/a | n/a | **0%** (nothing filtered) |
 | A3: + API descriptions | unchanged (ceiling) | unchanged (ceiling); real qualitative diff. | n/a |
@@ -275,7 +276,7 @@ the Trajectory Generator from the start), Response Schema Modeling (only a boole
 
 - **A1 (without Intent Generation):** real, if modest, degradation — e.g. Slack's
   `POST /users.profile.set` got an invented, schema-invalid `token` field without intent grounding.
-- **A2 (without Verification):** the clearest result in the whole study — 0% vs. 100% of planted
+- **A2 (without Verification):** the clearest result in the whole study — 0% vs. 98% of planted
   errors caught.
 - **A3 (with descriptions):** quantitative metrics ceiling at 100% both ways; qualitative
   inspection shows a real but modest difference (more explicit semantic grounding, e.g. numeric
@@ -321,9 +322,9 @@ before serving as a hard gate rather than an advisory signal.
   resolution, `requestBody` field parsing) were found and fixed, not assumed.
 - Schema-grounded generation produces enterprise-specific, non-generic intents and correctly-scoped
   trajectories on a 45-example pilot.
-- Static, non-LLM verification catches 100% of planted errors across four corruption types — but
-  only after adversarial testing forced real fixes; the pre-fix rate (57–80%) is reported, not
-  hidden.
+- Static, non-LLM verification catches 98% (43/44) of planted errors across four corruption types
+  — but only after adversarial testing forced real fixes; the pre-fix rate (57–80%) is reported,
+  not hidden, and one planted type-mismatch case is still missed.
 - EnterpriseSynth-generated SFT data measurably improves tool-selection accuracy on a genuinely
   unseen API (12.5% → 87.5% on Zoom); exact-field-name generalization remains a real, open
   limitation.

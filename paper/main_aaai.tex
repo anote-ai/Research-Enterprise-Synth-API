@@ -58,7 +58,7 @@ dependency analysis, trajectory synthesis, and static validation. Each generated
 checked against the source specification for endpoint, parameter, type, and schema consistency
 before being admitted to the dataset.
 We evaluate EnterpriseSynth on 17 real and synthetic APIs. Adversarial refinement increases the
-validator's detection rate for planted schema violations from 57--80\% to 100\%. Across five
+validator's detection rate for planted schema violations from 57--80\% to 98\% (43/44). Across five
 random seeds, a compact open-weight model fine-tuned on EnterpriseSynth data outperforms both an
 untuned model and a Self-Instruct baseline on held-out APIs. Performance remains consistent on
 five private, hand-authored API specifications that were not available during training, with
@@ -413,28 +413,31 @@ actual job is catching \textit{bad} trajectories -- so a deliberately corrupted 
 valid trajectory is also generated (wrong method, missing a required parameter, invalid path, or
 wrong parameter type, cycled deterministically) to check whether the verifier flags it.
 
-\textbf{Measured, final.} Verification Pass Rate on valid trajectories and Invalid Cases Detected
-on corrupted ones both reach 100\% for all three APIs (45 valid trajectories, 44 corrupted
-variants tested; some corruption types are occasionally skipped when a trajectory has no eligible
-parameter to corrupt).
+\textbf{Measured, final.} Verification Pass Rate on valid trajectories reaches 100\% for all three
+APIs (45/45); Invalid Cases Detected on corrupted ones reaches 98\% (43/44 corrupted variants
+tested; some corruption types are occasionally skipped when a trajectory has no eligible parameter
+to corrupt). The one miss is a parameter type-mismatch case (8/9 detected in that category);
+wrong-method, missing-parameter, and invalid-path corruptions are each caught in full.
 
-This 100\%/100\% was earned, not assumed: an initial pass reached only 57--80\% detection, and
-closing that gap required fixes to type-checking in the verifier itself, to the corruption harness
-used to generate adversarial test cases, and to the schema parser's handling of
+This 98\% detection rate was earned, not assumed: an initial pass reached only 57--80\% detection,
+and closing most of that gap required fixes to type-checking in the verifier itself, to the
+corruption harness used to generate adversarial test cases, and to the schema parser's handling of
 \texttt{\$ref}-defined and \texttt{requestBody}-derived parameters (Experiment 1). All fixes are
-covered by regression tests and reported as measured 100\%, not assumed.
+covered by regression tests and reported as measured, not assumed.
 
-The honest takeaway is not that the verifier is perfect -- it is that adversarial testing against
-a verifier is what actually validates one, and doing so surfaced real gaps that Experiment 1's
-self-consistent ground truth had been silently sharing. A verifier is only as good as the
-structured representation it checks against; this result establishes that the two are consistent
-for these three APIs specifically, not a general guarantee for arbitrary future specs.
+The honest takeaway is not that the verifier is perfect -- one planted type-mismatch case still
+slips through -- but that adversarial testing against a verifier is what actually validates one,
+and doing so surfaced real gaps that Experiment 1's self-consistent ground truth had been silently
+sharing. A verifier is only as good as the structured representation it checks against; this
+result establishes that the two are largely consistent for these three APIs specifically, not a
+general guarantee for arbitrary future specs.
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=\columnwidth]{figures/exp4_verification_before_after.png}
 \caption{Invalid-case detection rate by corruption type, first run vs.\ final. Missing-parameter
-and wrong-type detection were the two categories that needed real fixes to reach 100\%.}
+and wrong-type detection were the two categories that needed real fixes; final detection reaches
+98\% (43/44) overall, with one parameter type-mismatch case still missed.}
 \label{fig:exp4}
 \end{figure}
 
@@ -721,14 +724,14 @@ deliberately corrupted trajectories.}
 Wrong HTTP method & 12/12 & 0 \\
 Missing required parameter & 11/11 & 0 \\
 Invalid endpoint path & 12/12 & 0 \\
-Parameter type mismatch & 9/9 & 0 \\
+Parameter type mismatch & 8/9 & 1 \\
 \midrule
-\textbf{Total} & \textbf{44/44 (100\%)} & \textbf{0} \\
+\textbf{Total} & \textbf{43/44 (98\%)} & \textbf{1} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-This 100\% detection rate is the product of adversarial testing, not a first-attempt result: an
+This 98\% detection rate is the product of adversarial testing, not a first-attempt result: an
 initial pass reached only 57--80\% detection (Invalid Case Detection Rate, Section~4.5), and
 deliberately corrupting already-correct trajectories -- rather than only checking that correct
 ones pass -- surfaced verification and parsing gaps that a non-adversarial test would not have
@@ -858,7 +861,7 @@ below.
 Two results here are load-bearing. Schema verification is unambiguously necessary and was
 adversarially validated, not assumed: an initial pass on Experiment 4 caught only 57--80\% of
 planted structural errors, and only after fixing the bugs that test itself surfaced did detection
-reach 100\%; the gate remains structural, not semantic, so a well-typed but nonsensical value
+reach 98\% (43/44); the gate remains structural, not semantic, so a well-typed but nonsensical value
 (e.g.\ a negated charge) would still pass. The downstream fine-tuning effect is real but not
 uniform: a 5-seed sweep shows EnterpriseSynth beating both the untuned base and a real
 Self-Instruct baseline on all three held-out APIs, including DigitalOcean, where a single early
@@ -922,8 +925,9 @@ target architecture but is not implemented, and no claim in this paper depends o
 
 At pilot scale (17 real and synthetic APIs, 45--89 examples per experiment, a 0.5B substitute
 fine-tuning model), four findings stand on their own. Schema-based verification is necessary, not
-optional, closing a 0\%-to-100\% gap on planted structural errors, and only reached 100\% after
-adversarial testing forced fixes across the verifier, test harness, and schema parser. Explicit
+optional, closing most of a 0\%-to-98\% gap on planted structural errors, and only reached that
+98\% (43/44) after adversarial testing forced fixes across the verifier, test harness, and schema
+parser. Explicit
 intent generation provides real, measurable grounding over generating directly from a bare
 endpoint. Fine-tuning on EnterpriseSynth-generated data, averaged over a 5-seed sweep, consistently
 outperforms both an untuned baseline and a real Self-Instruct baseline across every held-out API

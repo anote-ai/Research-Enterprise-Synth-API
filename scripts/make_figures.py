@@ -177,7 +177,7 @@ def fig4_verification_before_after():
     # numbers come from data/generated/experiment4_verification.json (committed).
     types = ["Wrong\nmethod", "Missing\nparam", "Invalid\npath", "Wrong\ntype"]
     before = [100.0, 50.0, 100.0, 0.0]  # 12/12, 6/12, 12/12, 0/8
-    after = [100.0, 100.0, 100.0, 100.0]  # 12/12, 11/11, 12/12, 9/9
+    after = [100.0, 100.0, 100.0, 88.9]  # 12/12, 11/11, 12/12, 8/9
 
     x = np.arange(len(types))
     width = 0.32
