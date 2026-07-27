@@ -897,33 +897,6 @@ spans a conceptual before/after state), while the \textit{trajectory} generated 
 single-step. Closing that gap is exactly what the unimplemented Planner/Knowledge Graph stages
 (Section~3.2) are for.
 
-\subsection{Failure Analysis}
-
-\textbf{Category 1: sparse documentation (real, spec-level evidence; not yet directly measured as
-a pipeline failure).} The committed specs contain many endpoints with minimal descriptions --
-real examples: GitHub's \texttt{GET /gists/\{gist\_id\}} (``Get a gist''), Stripe's
-\texttt{POST /v1/refunds} (``Create a refund.''), Slack's \texttt{POST /calls.end} (``Ends a
-Call.''). None of these three happened to fall in the 15-endpoint-per-API pilot sample, so intent
-quality degrading on them has not been directly measured -- this is a disclosed, anticipated risk
-rather than an observed result, and scaling to the full $\sim$65-spec target sample is what would
-surface it either way.
-
-\textbf{Category 2: hidden business logic.} An OpenAPI spec documents an interface, not a policy.
-A loan-application endpoint's schema declares its request/response shape, not the underlying
-approval rules, eligibility criteria, or compliance checks a real implementation enforces. Nothing
-in EnterpriseSynth's four implemented stages reasons about business rules -- the Schema
-Verification Engine checks structural compatibility with the declared schema, not business
-correctness. This is a conceptual limitation inherent to schema-only generation, with no measured
-failure case, since no corruption in Experiment 4 targeted business-rule violations.
-
-\textbf{Category 3: complex authentication (real, measured).} GitHub's spec declares
-\textbf{zero} \texttt{securitySchemes} anywhere (Experiment 1) -- its authentication is
-documented in prose, not machine-readably, a real property of that spec confirmed during parsing.
-This is direct evidence that schema-declared auth can understate real API complexity: OAuth
-refresh flows, multi-user permission scoping, and dynamically-issued tokens are exactly the kind
-of auth behavior a declarative schema does not capture, and GitHub's spec is a concrete case of a
-widely-used real API where that gap is already visible.
-
 \subsection{Case Study Summary}
 \begin{table*}[htbp]
 \centering
