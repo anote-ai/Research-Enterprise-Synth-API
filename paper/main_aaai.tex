@@ -53,8 +53,8 @@ collecting execution traces from enterprise APIs is often unsafe, expensive, or 
 of access controls, compliance constraints, rate limits, and the risk of modifying production
 data. We present EnterpriseSynth, a zero-execution framework that converts OpenAPI specifications
 into supervised fine-tuning trajectories and paired evaluation instances without invoking the
-underlying APIs. The framework uses a four-stage pipeline for specification parsing, graph-based
-dependency analysis, trajectory synthesis, and static validation. Each generated trajectory is
+underlying APIs. The framework uses a four-stage pipeline for specification parsing, intent
+generation, trajectory synthesis, and static validation. Each generated trajectory is
 checked against the source specification for endpoint, parameter, type, and schema consistency
 before being admitted to the dataset.
 We evaluate EnterpriseSynth on 17 real and synthetic APIs. Adversarial refinement increases the
@@ -205,7 +205,7 @@ Schema-based verification & No & Limited & No & Yes \\
 \section{Methodology}
 
 \subsection{Implemented System}
-What is actually built and measured (Sections 6--8) is a four-stage pipeline:
+What is actually built and measured (Sections 6--7) is a four-stage pipeline:
 
 \begin{center}
 OpenAPI Spec $\rightarrow$ API Schema Parser $\rightarrow$ Intent Generation Agent
@@ -310,7 +310,7 @@ $U \subseteq K$ the subset of intents that are unique strings:
 \text{Intent Diversity (exact-string)} &= |U| / |K|
 \end{align*}
 Workflow Completeness (multi-step task coverage) is defined but not applicable at pilot scale,
-since every generated intent in this paper is single-endpoint (Section~8).
+since every generated intent in this paper is single-endpoint (Section~7).
 
 \section{Experiments}
 
@@ -361,7 +361,7 @@ the aggregate metric) is more informative: for GitHub's
 included distinct, correctly-scoped enterprise scenarios (rotating access to a
 \texttt{DOCKER\_REGISTRY\_PASSWORD} secret; restricting an \texttt{AWS\_DEPLOY\_KEY} secret to
 specific repos) rather than template-filled restatements of the same request. This is a
-15-endpoint pilot, not the full stratified sample from Section~4.2; scaling up and adding
+15-endpoint pilot, not the full stratified sample from Section~4.1; scaling up and adding
 human/semantic-similarity evaluation is the next step.
 
 \begin{figure}[h]
@@ -485,7 +485,7 @@ Training loss dropped monotonically over the 3 epochs (0.708 $\rightarrow$ 0.403
 for 45 training examples and a 0.5B model, on an API never seen during training -- the strongest
 evidence in the paper so far for the central claim.
 
-\textbf{The Self-Instruct baseline is the first real evidence against a prompt-only alternative.} Adapted per Section~4.3
+\textbf{The Self-Instruct baseline is the first real evidence against a prompt-only alternative.} Adapted per Section~4.2
 (schema-free bootstrap from 4 human-quality seeds, iterative few-shot generation, ROUGE-L-style
 dedup filtering, no access to any real OpenAPI spec), fine-tuned and evaluated with the identical
 methodology on the identical held-out set. Result: fine-tuning on any tool-use data helps over the
@@ -510,7 +510,7 @@ the failure mode Stage 6 verification exists to catch before a generated traject
 real API call or a training set. Experiments 4 and 5 corroborate each other here.
 
 This pilot does not show the effect holds at the paper's actual target model scale (7--8B), at
-the full stratified training sample size (Section~4.2), or against the ToolBench/prompt-only-agent
+the full stratified training sample size (Section~4.1), or against the ToolBench/prompt-only-agent
 baselines -- those require cloud GPU access or further implementation time, both future work.
 
 \begin{figure}[h]
@@ -706,7 +706,7 @@ Tool Selection Accuracy reaches 100\% for GitHub and Stripe, 93.3--100\% for Sla
 runs (Figure~\ref{fig:exp3}); Parameter Validity among correct selections reaches 100\%. Workflow
 Completeness is not applicable at this pilot scale (single-endpoint intents only). No baseline
 comparison row exists yet for this experiment specifically -- the prompt-only and AgentInstruct
-baselines are not yet implemented for trajectory generation directly (Section~4.3).
+baselines are not yet implemented for trajectory generation directly (Section~4.2).
 
 \subsection{Experiment 4: Verification Performance}
 The paper's strongest result area. 45 valid trajectories (100\% Verification Pass Rate) plus 44
@@ -732,7 +732,7 @@ Parameter type mismatch & 8/9 & 1 \\
 \end{table}
 
 This 98\% detection rate is the product of adversarial testing, not a first-attempt result: an
-initial pass reached only 57--80\% detection (Invalid Case Detection Rate, Section~4.5), and
+initial pass reached only 57--80\% detection (Invalid Case Detection Rate, Section~4.4), and
 deliberately corrupting already-correct trajectories -- rather than only checking that correct
 ones pass -- surfaced verification and parsing gaps that a non-adversarial test would not have
 revealed. The finding that generalizes beyond this system: a verifier's correctness cannot be
@@ -858,7 +858,7 @@ below.
 
 \section{Discussion}
 
-Two results here are load-bearing. Schema verification is unambiguously necessary and was
+Four points here matter most. Schema verification is unambiguously necessary and was
 adversarially validated, not assumed: an initial pass on Experiment 4 caught only 57--80\% of
 planted structural errors, and only after fixing the bugs that test itself surfaced did detection
 reach 98\% (43/44); the gate remains structural, not semantic, so a well-typed but nonsensical value
@@ -927,8 +927,8 @@ At pilot scale (17 real and synthetic APIs, 45--89 examples per experiment, a 0.
 fine-tuning model), four findings stand on their own. Schema-based verification is necessary, not
 optional, closing most of a 0\%-to-98\% gap on planted structural errors, and only reached that
 98\% (43/44) after adversarial testing forced fixes across the verifier, test harness, and schema
-parser. Explicit
-intent generation provides real, measurable grounding over generating directly from a bare
+parser. Explicit intent generation provides real, measurable grounding over generating directly
+from a bare
 endpoint. Fine-tuning on EnterpriseSynth-generated data, averaged over a 5-seed sweep, consistently
 outperforms both an untuned baseline and a real Self-Instruct baseline across every held-out API
 tested, including DigitalOcean, where a single early run had shown a loss -- that single-run
@@ -944,7 +944,7 @@ metric still contained a real defect, usually a missing or hallucinated paramete
 this paper should be read as an upper bound on deployment readiness, not an estimate of it.
 
 \subsection{Future Work}
-Five gaps define the path beyond this pilot. \textit{Scale}: roughly 65 stratified APIs.guru
+Six gaps define the path beyond this pilot. \textit{Scale}: roughly 65 stratified APIs.guru
 specs and the paper's actual 7--8B target model, versus the 17 APIs and 0.5B substitute model
 used here. \textit{Baselines}: a prompt-only agent and AgentInstruct's own \texttt{tool\_use} flow
 are specified but not yet run; only Self-Instruct has been implemented as a real comparison.
