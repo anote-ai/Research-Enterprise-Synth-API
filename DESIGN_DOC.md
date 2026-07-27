@@ -455,11 +455,11 @@ or wrong param type — cycled deterministically) and checks whether `SchemaVeri
 
 | API | Valid trajectories tested | Verification Pass Rate | Corrupted trajectories tested | Invalid Cases Detected |
 | --- | --- | --- | --- | --- |
-| GitHub | 15 | 100.0% | 15 | 100.0% |
+| GitHub | 15 | 100.0% | 15 | 93.3% (14/15) |
 | Stripe | 15 | 100.0% | 14 | 100.0% |
 | Slack | 15 | 100.0% | 15 | 100.0% |
 
-**This 100%/100% was earned, not assumed — the first run surfaced four real bugs**, three
+**This 100%/98% was earned, not assumed — the first run surfaced four real bugs**, three
 serious enough that reporting the first-run numbers (57–80% detection) without fixing them would
 have been misleading:
 
@@ -845,18 +845,19 @@ parameter to corrupt), scored for whether Stage 6 catches each planted error.
 | Wrong HTTP method | 12/12 | 0 |
 | Missing required parameter | 11/11 | 0 |
 | Invalid endpoint path | 12/12 | 0 |
-| Parameter type mismatch | 9/9 | 0 |
-| **Total** | **44/44 (100%)** | **0** |
+| Parameter type mismatch | 8/9 | 1 |
+| **Total** | **43/44 (98%)** | **1** |
 
-**Analysis — why static verification is valuable, and why the 100% took real work to earn:**
+**Analysis — why static verification is valuable, and why the 98% took real work to earn:**
 enterprises frequently cannot provide production API access, private credentials, or live
 staging environments for internal systems — EnterpriseSynth's entire premise depends on offline
 verification being trustworthy without any of that. The first run of this experiment did **not**
-reach 100% (57–80% detection, §6.6) — adversarial testing surfaced two real verifier/harness bugs
+reach 98% (57–80% detection, §6.6) — adversarial testing surfaced two real verifier/harness bugs
 and two real Stage 1 parser gaps ($ref resolution, requestBody field parsing) that a
 non-adversarial test (checking only already-correct trajectories) would never have revealed. The
-honest conclusion is not "the verifier is perfect" but that adversarial testing against a verifier
-is what actually validates one, and a verifier is only as good as the structured representation it
+honest conclusion is not "the verifier is perfect" -- one planted type-mismatch case still slips
+through -- but that adversarial testing against a verifier is what actually validates one, and a
+verifier is only as good as the structured representation it
 checks against.
 
 ### 7.6 RQ5 — Downstream Agent Performance
@@ -912,10 +913,11 @@ verification or a purpose-built eval artifact tied to its own generation process
   requestBody field parsing) were found and fixed, not assumed from the start.
 - Schema-grounded generation (Stages 3–5) produces enterprise-specific, non-generic intents and
   correctly-scoped trajectories on a 45-example GitHub/Stripe/Slack pilot.
-- Static, non-LLM verification (Stage 6) catches 100% of deliberately planted errors across four
-  corruption types (wrong method, missing param, invalid path, wrong type) — but only after
+- Static, non-LLM verification (Stage 6) catches 98% (43/44) of deliberately planted errors across
+  four corruption types (wrong method, missing param, invalid path, wrong type) — but only after
   adversarial testing surfaced and forced fixes to real bugs; the pre-fix detection rate was
-  57–80%, not 100%, and that gap is reported, not hidden.
+  57–80%, not 98%, that gap is reported not hidden, and one planted type-mismatch case is still
+  missed.
 - EnterpriseSynth-generated SFT data measurably improves a fine-tuned model's tool-selection
   accuracy on a genuinely unseen API (12.5% → 87.5%), though exact-field-name generalization for
   request parameters remains a real, unresolved limitation (57.1%) — one that Stage 6 verification
@@ -966,17 +968,17 @@ description.
 
 **Setup:** no new run needed — this reuses Experiment 4's corruption-testing data directly
 (§6.6/§7.5). Without a verifier, none of the 44 deliberately-planted errors would be caught (by
-construction — there is nothing filtering them); with `SchemaVerificationEngine`, 44/44 are.
+construction — there is nothing filtering them); with `SchemaVerificationEngine`, 43/44 are.
 
 | Configuration | Invalid trajectories retained (of 44 planted) |
 | --- | --- |
 | Without verification | 44/44 (100% — nothing is filtered) |
-| With verification | 0/44 (0% — all caught) |
+| With verification | 1/44 (2% — one type-mismatch case slips through) |
 
 **Conclusion:** this is the strongest and clearest ablation in the paper. Every planted structural
 error (wrong method, missing required parameter, invalid path, wrong parameter type) survives into
-the dataset with no verification step, and none do with one. Full detail, including the four real
-bugs found and fixed to get to 100%, is in §6.6.
+the dataset with no verification step, and only one still does with one. Full detail, including
+the four real bugs found and fixed to get to 98%, is in §6.6.
 
 ### 8.4 A3 — Without vs. With API Descriptions
 
@@ -1030,7 +1032,7 @@ exists yet.
 
 | Variant | Parameter/Endpoint Validity | Instruction/Intent Diversity | Verification Pass |
 | --- | --- | --- | --- |
-| Full pipeline (baseline) | 100% (Exp. 3) | 100% (Exp. 2) | 100% (Exp. 4, post-fix) |
+| Full pipeline (baseline) | 100% (Exp. 3) | 100% (Exp. 2) | 98% (Exp. 4, post-fix) |
 | A1: − Intent Generation | 93.3–100% | 93.3–100% | n/a (not tested through Stage 6) |
 | A2: − Verification | n/a | n/a | 0% (nothing filtered) |
 | A3: + Descriptions | unchanged (ceiling) | unchanged (ceiling); qualitative diff. observed | n/a |
@@ -1042,7 +1044,7 @@ Without an ablation study, reviewers will reasonably ask: "why do you need all t
 why not just prompt an LLM with the OpenAPI file directly?" The honest answer, per component
 actually tested: **Intent Generation** provides real (if modest, at 45-example pilot scale)
 grounding that improves both diversity and parameter correctness (A1). **Verification** is
-unambiguously necessary — it is the difference between 0% and 100% of planted errors surviving
+unambiguously necessary — it is the difference between 2% and 100% of planted errors surviving
 into the dataset (A2). **Descriptions** and **full-API context** show no effect on the metrics
 used so far (A3, A4) — which is itself useful information: it means the current quantitative
 metrics (coverage, exact-string diversity) are too coarse to detect what may still be a real
@@ -1157,7 +1159,7 @@ string to an object.
 > compatible with declared type 'string'."
 
 **Trajectory status: REJECTED.** This is the same mechanism, on the same data, that produced
-Experiment 4's 44/44 detection rate (§7.5) — shown here as a single concrete instance rather than
+Experiment 4's 43/44 detection rate (§7.5) — shown here as a single concrete instance rather than
 an aggregate percentage.
 
 ### 9.5 Qualitative Analysis
@@ -1170,7 +1172,8 @@ and Stripe examples above were generated this way.
 
 **Finding 2: verification prevents synthetic data contamination.** Without Stage 6, every planted
 structural error in Experiment 4 survived into the dataset (0% detection, ablation A2, §8). With
-it, all 44 did not (100%). Case Study 3 shows the mechanism, not just the aggregate: a model
+it, 43 of 44 did not (98%) -- one planted type-mismatch case still slips through. Case Study 3
+shows the mechanism, not just the aggregate: a model
 trained on unverified data would have learned that passing an object where a string is required is
 acceptable GitHub API usage.
 
@@ -1293,9 +1296,10 @@ don't check its own success rate.
 ### 11.1 What Actually Works, and Why
 
 Two results in this paper are load-bearing, not decorative. First, Schema Verification (Stage 4)
-is unambiguously necessary: A2 shows a binary 0%-vs-100% gap between no verification and ours —
-every planted structural error survives without a gate, and none do with one. Second, that 100%
-was earned through adversarial testing, not assumed: the first run of Experiment 4 caught only
+is unambiguously necessary: A2 shows a near-binary 0%-vs-98% gap between no verification and ours
+— nearly every planted structural error survives without a gate, and only one still does with
+one. Second, that 98% was earned through adversarial testing, not assumed: the first run of
+Experiment 4 caught only
 57–80% of planted errors, and chasing down why surfaced four real bugs spanning the verifier, the
 test harness, and Stage 1's parser (§6.5–6.6). The methodological point generalizes beyond this
 codebase: a static verifier's correctness cannot be established by checking that it accepts good
@@ -1436,8 +1440,9 @@ live execution at any stage (unlike API-Bank and ToolBench, both of which ground
 data in real API calls).
 
 At pilot scale, three findings stand on their own: schema-based verification is necessary, not
-optional, closing a 0%-to-100% gap on planted structural errors, and only reached 100% after
-adversarial testing surfaced and forced fixes to real bugs; explicit intent generation provides
+optional, closing most of a 0%-to-98% gap on planted structural errors, and only reached that 98%
+(43/44) after adversarial testing surfaced and forced fixes to real bugs; explicit intent
+generation provides
 real, measurable grounding over generating directly from a bare endpoint; and fine-tuning on
 EnterpriseSynth-generated data measurably outperforms both an untuned baseline and a real
 Self-Instruct baseline on most, though not all, held-out APIs tested. We reported the one

@@ -7,8 +7,9 @@
 > **Honesty markers**: Experiment 1 = measured, 3 APIs (845/446/174 ops), no execution needed.
 > Experiment 2 = measured, N=45 intents (Claude Sonnet 5). Experiment 3 = measured, N=45
 > trajectories, **self-consistency caveat applies**. Experiment 4 = measured, N=45 valid + N=44
-> corrupted, **100% only after fixing 4 real bugs found by this experiment itself** (first run:
-> 57–80%); its Haiku 4.5 semantic-check ablation arm adds real value (100% catch rate on a
+> corrupted, **98% (43/44) only after fixing 4 real bugs found by this experiment itself** (first
+> run: 57–80%); one planted type-mismatch case still slips through. Its Haiku 4.5 semantic-check
+> ablation arm adds real value (100% catch rate on a
 > distinct error class) but has a disclosed 33% false-positive rate on GitHub. Experiment 5 =
 > measured, hardware-scoped substitute model (Qwen2.5-0.5B, not the paper's 7–8B target); a
 > **5-seed sweep** (not just the single-Zoom 87.5% headline) shows EnterpriseSynth beats both the
@@ -121,8 +122,9 @@ ablation-study accounting of what is and is not built):
   multi-turn instruction traces without a single live backend connection.
 - We release a deterministic, non-LLM static constraint validator that checks generated
   trajectories against the spec's declared endpoint/method/parameter-type/required-field structure
-  completely offline, and show via adversarial (corruption-based) testing that it reaches 100%
-  detection of planted errors — after fixing four real bugs the testing itself surfaced (§6.6).
+  completely offline, and show via adversarial (corruption-based) testing that it reaches 98%
+  (43/44) detection of planted errors — after fixing four real bugs the testing itself surfaced
+  (§6.6); one planted type-mismatch case still slips through.
 - We show, on a hardware-scoped pilot, that fine-tuning a small open model on
   EnterpriseSynth-generated, verified trajectories measurably improves tool-selection accuracy on
   a genuinely held-out API (§6.7) — though this effect does **not** hold uniformly once scaled to
@@ -416,19 +418,21 @@ The paper's strongest contribution area. 45 valid trajectories (100% Verificatio
 | Wrong HTTP method | 12/12 | 0 |
 | Missing required parameter | 11/11 | 0 |
 | Invalid endpoint path | 12/12 | 0 |
-| Parameter type mismatch | 9/9 | 0 |
-| **Total** | **44/44 (100%)** | **0** |
+| Parameter type mismatch | 8/9 | 1 |
+| **Total** | **43/44 (98%)** | **1** |
 
-This 100% took real work to earn: the first run of this experiment reached only 57–80% detection,
+This 98% took real work to earn: the first run of this experiment reached only 57–80% detection,
 and adversarial testing (deliberately corrupting already-correct trajectories, not just checking
 that correct ones pass) surfaced two verifier/harness bugs and two Stage 1 parser gaps that a
 non-adversarial test would never have revealed. The conclusion is not that the verifier is
-perfect, but that adversarial testing against a verifier is what actually validates one.
+perfect -- one planted type-mismatch case still slips through -- but that adversarial testing
+against a verifier is what actually validates one.
 
 ![Experiment 4 figure](paper/figures/exp4_verification_before_after.png)
 
 **Figure 5.** Invalid-case detection rate by corruption type, first run vs. final. Missing-parameter
-and wrong-type detection were the two categories that required real bug fixes to reach 100%.
+and wrong-type detection were the two categories that required real bug fixes; final detection
+reaches 98% (43/44) overall, with one parameter type-mismatch case still missed.
 
 **Ablation arm — Claude Haiku 4.5 semantic-plausibility check (RQ3).** The deterministic verifier
 only checks structure; it has no notion of whether a parameter *value* makes business sense. For
@@ -575,10 +579,11 @@ this hardware-scoped pilot model, not extrapolated to the 7–8B target.
   from the start.
 - Schema-grounded generation produces enterprise-specific, non-generic intents and correctly-scoped
   trajectories on a 45-example pilot.
-- Static, non-LLM verification catches 100% of planted errors across four corruption types — but
-  only after adversarial testing forced fixes to real bugs; the pre-fix rate (57–80%) is reported,
-  not hidden. A Haiku-based semantic-check ablation adds real value for a distinct error class but
-  has a disclosed false-positive rate.
+- Static, non-LLM verification catches 98% (43/44) of planted errors across four corruption types
+  — but only after adversarial testing forced fixes to real bugs; the pre-fix rate (57–80%) is
+  reported, not hidden, and one planted type-mismatch case is still missed. A Haiku-based
+  semantic-check ablation adds real value for a distinct error class but has a disclosed
+  false-positive rate.
 - EnterpriseSynth-generated SFT data measurably improves tool-selection accuracy on a genuinely
   unseen API (12.5%→87.5% on Zoom); exact-field-name generalization remains a real, unresolved
   limitation, and the effect **does not hold uniformly** across held-out APIs (loses to
@@ -611,7 +616,7 @@ an instruction and parameters in one step, run on the same 45 endpoint samples a
 | Stripe | 100.0% | 100.0% |
 | Slack | 93.3% | 93.3% |
 
-Compare to the full pipeline's 100%/100%/100% (Experiments 2–3). The drop is small but real:
+Compare to the full pipeline's 100%/100%/98% (Experiments 2–4). The drop is small but real:
 without an intent to ground it, the model generated Slack's `POST /users.profile.set` call with an
 invented `token` field and a parameter shape that didn't validate — something the intent-grounded
 pipeline did not do in 45/45 trials. Explicit intent generation provides real, if modest at this
@@ -620,15 +625,15 @@ sample size, grounding that improves both diversity and correctness.
 ### 7.3 A2 — Without Verification Engine
 
 Reuses Experiment 4's corruption data directly: without a verifier, none of the 44 planted errors
-would be caught (by construction); with one, all 44 are.
+would be caught (by construction); with one, 43 of 44 are.
 
 | Configuration | Invalid trajectories retained (of 44) |
 | --- | --- |
 | Without verification | 44/44 (100%) |
-| With verification | 0/44 (0%) |
+| With verification | 1/44 (2%) |
 
 The strongest and clearest ablation in the paper: every planted structural error survives into the
-dataset with no verification step, and none do with one.
+dataset with no verification step, and only one still does with one.
 
 ### 7.4 A3 — Without vs. With API Descriptions
 
@@ -657,7 +662,7 @@ available; the proxy metric is reported as invalid rather than kept as a false p
 
 | Variant | Validity | Diversity | Verif. Pass |
 | --- | --- | --- | --- |
-| Full pipeline | 100% | 100% | 100% |
+| Full pipeline | 100% | 100% | 98% |
 | A1: − Intent Gen. | 93.3–100% | 93.3–100% | n/a |
 | A2: − Verification | n/a | n/a | 0% |
 | A3: + Descriptions | unchanged | unchanged (qual. diff.) | n/a |
@@ -669,7 +674,7 @@ available; the proxy metric is reported as invalid rather than kept as a false p
 Without this study, reviewers will reasonably ask why not just prompt an LLM with the OpenAPI file
 directly. The honest, per-component answer: Intent Generation provides real grounding that
 improves diversity and correctness (A1). Verification is unambiguously necessary — the difference
-between 0% and 100% of planted errors surviving into the dataset (A2). A cheap LLM semantic check
+between 2% and 100% of planted errors surviving into the dataset (A2). A cheap LLM semantic check
 adds real value for a distinct error class the deterministic gate can't see, but isn't free (A5).
 Descriptions and full-API context show no effect on the metrics used so far (A3, A4), which is
 itself useful: it means current metrics are too coarse to detect what may still be a real
@@ -781,7 +786,7 @@ string to an object.
 > compatible with declared type 'string'."
 
 **Trajectory status: REJECTED.** This is the same mechanism, on the same data, that produced
-Experiment 4's 44/44 detection rate (§6.5) — shown here as a single concrete instance rather than
+Experiment 4's 43/44 detection rate (§6.5) — shown here as a single concrete instance rather than
 an aggregate percentage.
 
 ### 8.5 Qualitative Analysis
@@ -794,7 +799,8 @@ and Stripe examples above were generated this way.
 
 **Finding 2: verification prevents synthetic data contamination.** Without Stage 6, every planted
 structural error in Experiment 4 survived into the dataset (0% detection, ablation A2, §7). With
-it, all 44 did not (100%). Case Study 3 shows the mechanism, not just the aggregate: a model
+it, 43 of 44 did not (98%) -- one planted type-mismatch case still slips through. Case Study 3
+shows the mechanism, not just the aggregate: a model
 trained on unverified data would have learned that passing an object where a string is required is
 acceptable GitHub API usage.
 
@@ -903,9 +909,10 @@ marked correct by binary Tool Selection Accuracy (48.9% of 47), the judge flagge
 ### 10.1 What Actually Works, and Why
 
 Two results in this paper are load-bearing, not decorative. First, Schema Verification (Stage 4)
-is unambiguously necessary: A2 shows a binary 0%-vs-100% gap between no verification and ours —
-every planted structural error survives without a gate, and none do with one. Second, that 100%
-was earned through adversarial testing, not assumed: the first run of Experiment 4 caught only
+is unambiguously necessary: A2 shows a near-binary 0%-vs-98% gap between no verification and ours
+— nearly every planted structural error survives without a gate, and only one still does with
+one. Second, that 98% was earned through adversarial testing, not assumed: the first run of
+Experiment 4 caught only
 57–80% of planted errors, and chasing down why surfaced four real bugs spanning the verifier, the
 test harness, and Stage 1's parser (§6.2, §6.5). The methodological point generalizes beyond this
 codebase: a static verifier's correctness cannot be established by checking that it accepts good
@@ -1068,8 +1075,9 @@ live execution at any stage (unlike API-Bank and ToolBench, both of which ground
 data in real API calls).
 
 At pilot scale, four findings stand on their own. Schema-based verification is necessary, not
-optional, closing a 0%-to-100% gap on planted structural errors, and only reached 100% after
-adversarial testing surfaced and forced fixes to real bugs. Explicit intent generation provides
+optional, closing most of a 0%-to-98% gap on planted structural errors, and only reached that 98%
+(43/44) after adversarial testing surfaced and forced fixes to real bugs. Explicit intent
+generation provides
 real, measurable grounding over generating directly from a bare endpoint. Fine-tuning on
 EnterpriseSynth-generated data measurably and, averaged over a 5-seed sweep, consistently
 outperforms both an untuned baseline and a real Self-Instruct baseline across every held-out API

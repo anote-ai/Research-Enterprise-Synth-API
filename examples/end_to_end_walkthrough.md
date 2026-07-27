@@ -88,8 +88,8 @@ correctly rejected:**
 ```
 
 This pair (real trajectory passes, corrupted trajectory rejected) is exactly what Experiment 4
-tests at scale (44 corrupted variants, 100% caught after fixing four real bugs — see
-`RESULTS.md`).
+tests at scale (44 corrupted variants, 98% (43/44) caught after fixing four real bugs, with one
+planted type-mismatch case still missed — see `RESULTS.md`).
 
 ## Where this data comes from
 
