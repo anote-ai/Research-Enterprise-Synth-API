@@ -29,8 +29,7 @@ verified SFT training traces and evaluation records — without executing a sing
 against the target API. It targets the **enterprise cold-start problem**: teams that have an API
 schema but no historical tool-use data or eval suite to fine-tune or test an agent against. The
 repository supports both in-repo experiment reproduction (deterministic scripts producing
-committed JSON results) and paper-oriented workflows (`paper/main.tex` and `main_aaai.tex` cite
-the same result files).
+committed JSON results) and paper-oriented workflows.
 
 **Status:** pilot-scale experiments complete and scaled: Experiments 1–5, Ablation Study A1–A5, a
 real Self-Instruct baseline, a 5-seed multi-API scaling sweep, a private never-published-API
