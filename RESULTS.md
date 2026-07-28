@@ -223,7 +223,7 @@ pipeline**. Real cost data as a byproduct (`phase3_timings.json`): LoRA training
 
 ## Semantic Quality Evaluation (LLM-as-a-Judge)
 
-`scripts/run_llm_judge_eval.py`, using `src/enterprisesynth/llm_judge.py` (Claude Sonnet 5 as an
+`scripts/run_llm_judge_eval.py`, using `code/enterprisesynth/llm_judge.py` (Claude Sonnet 5 as an
 independent judge) · data: `llm_judge_results.json`, `llm_judge_summary.json`
 
 Every result above is Tool Selection Accuracy — binary, endpoint-only. It can't say whether the

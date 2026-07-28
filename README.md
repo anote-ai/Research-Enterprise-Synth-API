@@ -213,7 +213,7 @@ and need no key at all.
    pipeline's generation steps use **Claude Sonnet 5**; the semantic-plausibility ablation (A5) and
    the LLM-as-a-judge evaluation use **Claude Haiku 4.5**. Neither model choice is configurable via
    flag today — swap the model string directly in the relevant script under `scripts/` or
-   `src/enterprisesynth/` if you need a different one.
+   `code/enterprisesynth/` if you need a different one.
 
 No API key ever reaches the target/internal API being modeled — `ANTHROPIC_API_KEY` only talks to
 Claude for generation and judging. The whole point of the pipeline is that the target API itself is
@@ -331,7 +331,7 @@ what needs external resources) and exact environment details.
   submission two-column format (`aaai2026.sty`/`.bst`, from the real AAAI author kit) for
   submission. `main.tex` remains the source of truth for edits; `main_aaai.tex` is regenerated
   from it, not hand-maintained separately.
-- `src/enterprisesynth/` — parser, intent agent, trajectory agent, verifier, ablation agents,
+- `code/enterprisesynth/` — parser, intent agent, trajectory agent, verifier, ablation agents,
   semantic checker (Haiku ablation), LLM-as-a-judge scorer, fine-tuning helpers
 - `scripts/` — one script per experiment/ablation/baseline/scaling phase, plus figure and diagram
   generation

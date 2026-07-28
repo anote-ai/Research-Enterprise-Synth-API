@@ -15,7 +15,7 @@ import sys
 import time
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "code"))
 
 from enterprisesynth.intent_agent import IntentSynthesisAgent  # noqa: E402
 from enterprisesynth.parser import SchemaParser  # noqa: E402

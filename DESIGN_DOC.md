@@ -262,7 +262,7 @@ This is a placeholder default pending actual budget confirmation, not a final co
   YAML). `FastAPI` is not needed — this is an offline batch pipeline, not a served API; add it
   only if a live-serving mode is wanted later.
 - **Libraries planned but not adopted:** an audit found four declared dependencies with zero
-  actual imports anywhere in `src/`/`scripts/` — removed from `pyproject.toml`/`requirements.txt`
+  actual imports anywhere in `code/`/`scripts/` — removed from `pyproject.toml`/`requirements.txt`
   rather than kept as unused weight, with the reason for each disclosed here:
   - **NetworkX** — reserved for Stage 2 (knowledge graph), which is not implemented; see §4/§8.
   - **`openapi-spec-validator`** — planned for Stage 1 to validate that an input spec is
@@ -335,7 +335,7 @@ Extraction Accuracy (required/optional params, types, constraints), Schema Extra
 (request body, response schemas, object definitions), Authentication Extraction Accuracy (API
 keys, OAuth, JWT, Basic).
 
-**Measured** (`src/enterprisesynth/parser.py`, run via `scripts/run_experiment1.py`; ground truth
+**Measured** (`code/enterprisesynth/parser.py`, run via `scripts/run_experiment1.py`; ground truth
 independently recomputed straight from each raw spec, not by reusing the parser's own logic —
 see the script for both implementations):
 
@@ -353,7 +353,7 @@ any parameter defined via `$ref`** (GitHub uses this extensively — e.g. `org`,
 shared, `$ref`'d parameters across its huge API surface) and **never parsed `requestBody` schema
 fields into typed parameters at all** (most POST/PUT/PATCH endpoints, e.g. Stripe's
 `/v1/charges`, put their real payload fields there, not in OpenAPI's `parameters` array). Both are
-now resolved (`_resolve_ref` in `src/enterprisesynth/parser.py`, plus
+now resolved (`_resolve_ref` in `code/enterprisesynth/parser.py`, plus
 `_parse_request_body_fields`). The scale of the first fix alone: GitHub's independently-recomputed
 required-parameter count went from **67 to 1,721** once `$ref` parameters were correctly resolved
 — a stark illustration of how much of the spec was previously invisible to the pipeline. A second,
@@ -373,7 +373,7 @@ from a spec's operations?
 Diversity (unique intents, semantic-similarity distribution, clustering diversity), and optional
 human evaluation (relevance/realism/enterprise-usefulness, 1–5 scale).
 
-**Measured (pilot scale)** — `src/enterprisesynth/intent_agent.py` (Claude Sonnet 5), run via
+**Measured (pilot scale)** — `code/enterprisesynth/intent_agent.py` (Claude Sonnet 5), run via
 `scripts/run_experiment2.py`: 5 endpoints sampled per API (seeded, reproducible), 3 intents
 generated per endpoint. Raw output in `data/generated/experiment2_intents.json`.
 
@@ -403,7 +403,7 @@ intent → planning steps → API calls → arguments → expected response)?
 correctly typed, schema-compliant), Workflow Completeness (for multi-step tasks, e.g. create
 customer → retrieve customer ID → create invoice — does the full chain exist?).
 
-**Measured (pilot scale)** — `src/enterprisesynth/trajectory_agent.py` (Stages 4+5 combined into
+**Measured (pilot scale)** — `code/enterprisesynth/trajectory_agent.py` (Stages 4+5 combined into
 one Claude Sonnet 5 call for this pilot, not yet split), run via `scripts/run_experiment3.py` on
 all 45 intents from Experiment 2. Each intent's candidate tool list = its 5 "source" endpoints for
 that API + 10 seeded distractors (shuffled per trial), so tool selection is a real choice among 15
@@ -449,7 +449,7 @@ circular — of course they pass, they were already confirmed correct. The verif
 catching *bad* trajectories, so `scripts/run_experiment4.py` also generates a deliberately
 corrupted variant of each valid trajectory (wrong method, missing a required param, invalid path,
 or wrong param type — cycled deterministically) and checks whether `SchemaVerificationEngine`
-(`src/enterprisesynth/verifier.py`) correctly flags it.
+(`code/enterprisesynth/verifier.py`) correctly flags it.
 
 **Measured, final** (after the fixes below) — `scripts/run_experiment4.py`:
 
@@ -500,7 +500,7 @@ guarantee for arbitrary future specs.
 §5.4 names an optional ablation arm layering Claude Haiku 4.5 on top of the deterministic gate.
 This was flagged in a repo audit
 ([issue #1](https://github.com/Rashmioffcialpage/enterprisesynth-api/issues/1)) as described but
-never implemented — it now is (`src/enterprisesynth/semantic_checker.py`,
+never implemented — it now is (`code/enterprisesynth/semantic_checker.py`,
 `scripts/run_ablation_haiku.py`).
 
 **The actual claim being tested:** the deterministic verifier only checks structure (types,
@@ -941,7 +941,7 @@ Four ablations **are** real, implemented, and run against actual data:
 
 ### 8.2 A1 — Without Intent Generation
 
-**Setup:** `NoIntentTrajectoryAgent` (`src/enterprisesynth/ablation_agents.py`) receives only an
+**Setup:** `NoIntentTrajectoryAgent` (`code/enterprisesynth/ablation_agents.py`) receives only an
 endpoint (no user intent) and must invent both an instruction and concrete parameters in one
 step. Run on the same 45 endpoint samples (15 per API) as Experiments 2–3, via
 `scripts/run_ablation_study.py`.
@@ -1254,7 +1254,7 @@ intent match, argument correctness, missing parameters, reasoning quality — an
 primary-error category: none, wrong tool selected, missing required parameter, incorrect argument
 value, hallucinated parameter, or invalid request format. We judged all 48 EnterpriseSynth
 predictions from one full seed run of §7.6's multi-API scaling (Zoom/DigitalOcean/Spotify); 47
-judge responses parsed as valid JSON. Implementation: `src/enterprisesynth/llm_judge.py`,
+judge responses parsed as valid JSON. Implementation: `code/enterprisesynth/llm_judge.py`,
 `scripts/run_llm_judge_eval.py`.
 
 ### 10.3 Results

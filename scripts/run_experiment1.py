@@ -1,6 +1,6 @@
 """Experiment 1: OpenAPI Schema Understanding.
 
-Parses each spec with SchemaParser (src/enterprisesynth/parser.py), then independently
+Parses each spec with SchemaParser (code/enterprisesynth/parser.py), then independently
 recomputes ground-truth counts directly from the raw spec dict (not reusing the parser's
 internal logic) to check extraction correctness.
 """
@@ -10,7 +10,7 @@ import json
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "code"))
 
 from enterprisesynth.parser import HTTP_METHODS, SchemaParser  # noqa: E402
 

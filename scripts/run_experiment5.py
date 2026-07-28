@@ -11,7 +11,7 @@ Compares: (1) base model, zero-shot, vs (2) the same base model + LoRA adapter f
 same 16 held-out Zoom intents, scored by Tool Selection Accuracy (against known ground truth) and
 Parameter Validity (via the same Stage 6 SchemaVerificationEngine used in Experiment 4).
 
-Shared LoRA training/eval helpers live in src/enterprisesynth/finetune.py, reused by
+Shared LoRA training/eval helpers live in code/enterprisesynth/finetune.py, reused by
 scripts/run_baseline_selfinstruct_finetune.py for a fair, methodology-identical comparison.
 """
 from __future__ import annotations
@@ -23,7 +23,7 @@ from pathlib import Path
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "code"))
 
 from enterprisesynth.finetune import DEVICE, MODEL_NAME, evaluate, train_lora  # noqa: E402
 from enterprisesynth.parser import SchemaParser  # noqa: E402

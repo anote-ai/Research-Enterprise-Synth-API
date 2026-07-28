@@ -33,7 +33,7 @@ Repository = "https://github.com/Rashmioffcialpage/enterprisesynth-api"
 "Design Doc" = "https://github.com/Rashmioffcialpage/enterprisesynth-api/blob/main/DESIGN_DOC.md"
 
 [tool.setuptools.packages.find]
-where = ["src"]
+where = ["code"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
