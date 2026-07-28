@@ -246,7 +246,7 @@ trajectories):
 | Verification Pass Rate (valid trajectories) | 100% (45/45) |
 | Invalid Case Detection Rate (corrupted trajectories) | 98% (43/44) |
 
-All numbers above are measured at pilot scale (see [Limitations in `RESULTS.md`](RESULTS.md) for
+All numbers above are measured at pilot scale (see (RESULTS.md) for
 what these should and shouldn't be read as); none are projected or extrapolated.
 
 ---
