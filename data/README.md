@@ -80,6 +80,13 @@ identically). Whether yield should scale with endpoint/graph complexity, as orig
 here, remains genuinely untested; what's measured is real generation reliability at a fixed
 sample size across specs of very different sizes, not a size-proportional yield curve.
 
+## License
+
+`data/generated/` and `data/specs/private/` are released under CC-BY-4.0. All other specs under
+`data/specs/` are sourced from APIs.guru and retain their own upstream license terms — check the
+per-spec source before redistributing any derived dataset built from them (see "Primary source"
+above).
+
 ## Directory layout (actual)
 
 - `data/specs/` — raw OpenAPI/Swagger spec files: GitHub, Stripe, Slack (training), Zoom,
