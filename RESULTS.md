@@ -287,8 +287,7 @@ the Trajectory Generator from the start), Response Schema Modeling (only a boole
 
 **A5 — Haiku 4.5 semantic-plausibility check** (`scripts/run_ablation_haiku.py`, data:
 `data/generated/ablation_haiku_semantic_check.json`) — this was described in the design doc as an
-optional ablation arm but never implemented until an audit
-([issue #1](https://github.com/Rashmioffcialpage/enterprisesynth-api/issues/1)) flagged the gap.
+optional ablation arm but never implemented until an audit flagged the gap.
 Tests whether a cheap LLM catches semantically-wrong-but-structurally-valid values (e.g. a
 negated amount, a placeholder string) that the deterministic verifier cannot see by design:
 

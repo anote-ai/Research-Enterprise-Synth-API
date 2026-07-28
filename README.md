@@ -1,6 +1,5 @@
 # EnterpriseSynth: Agentic SFT + Eval Data from API Schemas Without Live Execution
 
-[![CI](https://github.com/anote-ai/Research-Enterprise-Synth-API/actions/workflows/ci.yml/badge.svg)](https://github.com/anote-ai/Research-Enterprise-Synth-API/actions/workflows/ci.yml)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 
 > **How do you generate verified, tool-use training data for an internal API that has no traffic history, no safe sandbox, and no existing SFT data — without ever calling it live?**
@@ -372,9 +371,8 @@ Local developer check:
 ```bibtex
 @misc{enterprisesynth2026,
   title        = {EnterpriseSynth: Zero-Execution SFT and Eval Data from OpenAPI Specs},
-  author       = {Thimmaraju, Rashmi and Vindra, Natan and Setty, Spurthi},
+  author       = {Anonymous Authors},
   year         = {2026},
-  howpublished = {\url{https://github.com/anote-ai/Research-Enterprise-Synth-API}},
   note         = {Preprint}
 }
 ```

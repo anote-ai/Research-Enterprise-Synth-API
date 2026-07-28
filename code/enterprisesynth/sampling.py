@@ -19,8 +19,7 @@ def sample_and_distract(
 
     Uses a single `random.Random(seed)` instance for both steps, in this order, matching the
     exact call sequence every pipeline script has used historically -- refactored here from
-    four near-identical copies (see the audit at
-    github.com/Rashmioffcialpage/enterprisesynth-api/issues/1) into one implementation.
+    four near-identical copies (see the repo audit) into one implementation.
 
     If `sample_size` is given, first samples that many endpoints (this is Experiment 2's "5
     source endpoints per API" step), then samples `n_distractors` more from the remainder.

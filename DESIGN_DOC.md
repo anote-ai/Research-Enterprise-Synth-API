@@ -1,9 +1,7 @@
 # EnterpriseSynth: Agentic SFT + Eval Data from API Schemas Without Live Execution— Research Design Document
 Paper #3 (EnterpriseSynth) 
 
-Authors: Rashmi Thimmaraju
-
-Supervisor: Natan Vidra
+Authors: Anonymous Authors
 
 Date: 2026-06-20
 
@@ -498,8 +496,7 @@ guarantee for arbitrary future specs.
 ### 6.6.1 Ablation Arm — Claude Haiku 4.5 Semantic-Plausibility Check (RQ3)
 
 §5.4 names an optional ablation arm layering Claude Haiku 4.5 on top of the deterministic gate.
-This was flagged in a repo audit
-([issue #1](https://github.com/Rashmioffcialpage/enterprisesynth-api/issues/1)) as described but
+This was flagged in a repo audit as described but
 never implemented — it now is (`code/enterprisesynth/semantic_checker.py`,
 `scripts/run_ablation_haiku.py`).
 
@@ -565,8 +562,7 @@ prior experiment or by the SFT training data in this pipeline. **Training set:**
 `scripts/run_experiment5.py`.
 
 **Measured (pilot scale — ToolBench/prompt-only-agent baselines still not implemented; Self-Instruct
-now is, closing the gap flagged in
-[audit issue #1](https://github.com/Rashmioffcialpage/enterprisesynth-api/issues/1)):**
+now is, closing a gap flagged in a repo audit):**
 
 | Model | Tool Selection Accuracy | Parameter Validity (among correct selections) |
 | --- | --- | --- |

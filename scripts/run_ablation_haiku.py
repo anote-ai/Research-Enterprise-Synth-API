@@ -1,7 +1,7 @@
 """Ablation: Haiku 4.5 semantic-plausibility check layered on the deterministic verifier (RQ3).
 
 Referenced in paper/main.tex S4.4 and DESIGN_DOC.md S5.4 but never implemented -- this script
-closes that gap (see the audit at github.com/Rashmioffcialpage/enterprisesynth-api/issues/1).
+closes that gap (see the repo audit).
 
 Tests the actual claim: does a cheap LLM catch errors the deterministic verifier CANNOT catch by
 design? The deterministic verifier only checks structure (types, required fields, existence) --

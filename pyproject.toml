@@ -9,7 +9,7 @@ description = "Schema-aware agentic framework for generating verified SFT and ev
 readme = "README.md"
 requires-python = ">=3.10"
 authors = [
-    {name = "Rashmi Thimmaraju"},
+    {name = "Anonymous Authors"},
 ]
 keywords = [
     "llm",
@@ -27,10 +27,6 @@ dependencies = [
 dev = [
     "pytest>=8.0",
 ]
-
-[project.urls]
-Repository = "https://github.com/Rashmioffcialpage/enterprisesynth-api"
-"Design Doc" = "https://github.com/Rashmioffcialpage/enterprisesynth-api/blob/main/DESIGN_DOC.md"
 
 [tool.setuptools.packages.find]
 where = ["code"]

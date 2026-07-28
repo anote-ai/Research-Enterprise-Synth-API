@@ -10,14 +10,7 @@ abstract: >-
   evaluation records without executing any live API, targeting the enterprise cold-start
   problem for tool-using LLM agents.
 authors:
-  - family-names: Thimmaraju
-    given-names: Rashmi
-  - family-names: Vindra
-    given-names: Natan
-  - family-names: Setty
-    given-names: Spurthi
-repository-code: "https://github.com/anote-ai/Research-Enterprise-Synth-API"
-url: "https://github.com/anote-ai/Research-Enterprise-Synth-API"
+  - name: "Anonymous Authors"
 keywords:
   - llm agents
   - openapi
