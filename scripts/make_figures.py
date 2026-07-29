@@ -14,6 +14,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 matplotlib.use("Agg")
+# AAAI kit rejects Type 3 fonts in embedded figures; force Type 42 (TrueType) in any PDF output.
+matplotlib.rcParams["pdf.fonttype"] = 42
+matplotlib.rcParams["ps.fonttype"] = 42
 
 ROOT = Path(__file__).resolve().parent.parent
 FIG_DIR = ROOT / "paper" / "figures"
@@ -99,6 +102,7 @@ def fig1_schema_understanding():
     ax.spines[["top", "right"]].set_visible(False)
     fig.tight_layout()
     fig.savefig(FIG_DIR / "exp1_schema_understanding.png", dpi=150, bbox_inches="tight")
+    fig.savefig(FIG_DIR / "exp1_schema_understanding.pdf", bbox_inches="tight")
     plt.close(fig)
 
 
@@ -131,6 +135,7 @@ def fig2_intent_generation():
     ax.spines[["top", "right"]].set_visible(False)
     fig.tight_layout()
     fig.savefig(FIG_DIR / "exp2_intent_generation.png", dpi=150, bbox_inches="tight")
+    fig.savefig(FIG_DIR / "exp2_intent_generation.pdf", bbox_inches="tight")
     plt.close(fig)
 
 
@@ -168,6 +173,7 @@ def fig3_trajectory_generation():
     ax.spines[["top", "right"]].set_visible(False)
     fig.tight_layout()
     fig.savefig(FIG_DIR / "exp3_trajectory_generation.png", dpi=150, bbox_inches="tight")
+    fig.savefig(FIG_DIR / "exp3_trajectory_generation.pdf", bbox_inches="tight")
     plt.close(fig)
 
 
@@ -197,6 +203,7 @@ def fig4_verification_before_after():
     ax.spines[["top", "right"]].set_visible(False)
     fig.tight_layout()
     fig.savefig(FIG_DIR / "exp4_verification_before_after.png", dpi=150, bbox_inches="tight")
+    fig.savefig(FIG_DIR / "exp4_verification_before_after.pdf", bbox_inches="tight")
     plt.close(fig)
 
 
@@ -246,6 +253,7 @@ def fig5_downstream_performance():
     fig.suptitle("Experiment 5: Downstream Agent Evaluation", y=1.02, fontsize=13)
     fig.tight_layout()
     fig.savefig(FIG_DIR / "exp5_downstream_performance.png", dpi=150, bbox_inches="tight")
+    fig.savefig(FIG_DIR / "exp5_downstream_performance.pdf", bbox_inches="tight")
     plt.close(fig)
 
 

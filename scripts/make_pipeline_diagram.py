@@ -11,6 +11,9 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import FancyArrow, FancyBboxPatch
 
 matplotlib.use("Agg")
+# AAAI kit rejects Type 3 fonts in embedded figures; force Type 42 (TrueType) in any PDF output.
+matplotlib.rcParams["pdf.fonttype"] = 42
+matplotlib.rcParams["ps.fonttype"] = 42
 
 OUT_PATH = Path(__file__).resolve().parent.parent / "paper" / "enterprisesynth_pipeline_diagram.pdf"
 
