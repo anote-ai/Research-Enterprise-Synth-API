@@ -2,7 +2,7 @@
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 
-> **How do you generate verified, tool-use training data for an internal API that has no traffic history, no safe sandbox, and no existing SFT data — without ever calling it live?**
+> **How do you generate verified, tool-use training data for an internal API that has no traffic history, no safe sandbox, and no existing SFT data, without ever calling it live?**
 
 ## Abstract
 
@@ -30,13 +30,6 @@ against the target API. It targets the **enterprise cold-start problem**: teams 
 schema but no historical tool-use data or eval suite to fine-tune or test an agent against. The
 repository supports both in-repo experiment reproduction (deterministic scripts producing
 committed JSON results) and paper-oriented workflows.
-
-**Status:** pilot-scale experiments complete and scaled: Experiments 1–5, Ablation Study A1–A5, a
-real Self-Instruct baseline, a 5-seed multi-API scaling sweep, a private never-published-API
-cold-start validation, a 6-API real-spec scale-up (17 APIs touched by the pipeline in total), a
-Case Study section with real pipeline output, and an independent LLM-as-a-judge semantic
-evaluation. See [DESIGN_DOC.md](DESIGN_DOC.md) for the full design, results, and honest accounting
-of what is/isn't implemented.
 
 ---
 
@@ -85,10 +78,6 @@ full real-vs-planned accounting):
 4. **Schema Verification Engine** — a deterministic, code-based gate (no LLM) that checks every
    generated trajectory against the spec itself: does the endpoint exist, is the method right, are
    required parameters present with the correct types, does the response match the schema.
-
-
-See [examples/end_to_end_walkthrough.md](examples/end_to_end_walkthrough.md) for one real GitHub
-API endpoint followed through all four implemented stages using committed pipeline output.
 
 ---
 
@@ -250,17 +239,6 @@ what these should and shouldn't be read as); none are projected or extrapolated.
 
 ---
 
-## License
-
-Code in this repository is released under the [MIT License](LICENSE). Generated data and the
-private synthetic API specs (`data/generated/`, `data/specs/private/`) are released under
-CC-BY-4.0. Third-party OpenAPI specs under `data/specs/` (GitHub, Stripe, Slack, Zoom,
-DigitalOcean, Spotify, and `data/specs/phase3/`) are sourced from
-[APIs.guru](https://apis.guru/) and retain their own upstream license terms — see
-[data/README.md](data/README.md) before redistributing any derived dataset built from them.
-
----
-
 ## Quickstart
 
 Install and run the core checks:
@@ -398,74 +376,6 @@ APIs.guru.
 ./.venv/bin/python scripts/build_phase3_eval.py
 ./.venv/bin/python scripts/run_phase3_eval.py
 ```
-
-### 8. LLM-as-a-judge semantic evaluation
-
-Needs `ANTHROPIC_API_KEY`. Scores real predictions from a committed seed-42 run on intent
-match/argument correctness/missing parameters/reasoning quality.
-
-```bash
-./.venv/bin/python scripts/run_llm_judge_eval.py
-```
-
-### 9. Figures and diagrams
-
-No API key needed — reads only committed `data/generated/*.json`.
-
-```bash
-./.venv/bin/pip install matplotlib
-./.venv/bin/python scripts/make_figures.py
-./.venv/bin/python scripts/make_pipeline_diagram.py
-```
-
-See [REPRODUCIBILITY.md](REPRODUCIBILITY.md) for the full evidence-type table (what's measured vs.
-what needs external resources) and exact environment details.
-
----
-
-## Repository Layout
-
-- `DESIGN_DOC.md` — full design, literature review, methodology, all measured results
-- `literature-review/` — the five-paper review, one file per paper (also condensed in `DESIGN_DOC.md` §3)
-- `BLOG.md` — companion blog post covering the core thesis and results
-- `paper/` — LaTeX draft (`main.tex`), bibliography, figures, related-work audit; also
-  `main_aaai.tex`/`main_aaai.pdf`, the same content reflowed into the official AAAI-26 anonymous-
-  submission two-column format (`aaai2026.sty`/`.bst`, from the real AAAI author kit) for
-  submission. `main.tex` remains the source of truth for edits; `main_aaai.tex` is regenerated
-  from it, not hand-maintained separately.
-- `code/enterprisesynth/` — parser, intent agent, trajectory agent, verifier, ablation agents,
-  semantic checker (Haiku ablation), LLM-as-a-judge scorer, fine-tuning helpers
-- `scripts/` — one script per experiment/ablation/baseline/scaling phase, plus figure and diagram
-  generation
-- `data/specs/` — committed real OpenAPI specs (GitHub, Stripe, Slack, Zoom, DigitalOcean,
-  Spotify, Twilio, Notion, OpenAI, Jira, Asana, Trello under `phase3/`) plus 5 hand-authored,
-  never-published synthetic enterprise specs under `private/` (CRM, HRIS, Procurement, Ticketing,
-  Asset Management)
-- `data/generated/` — committed experiment outputs (JSON), including all 5 seeds of the
-  multi-API scaling sweep and the LLM-judge results
-- `examples/` — the end-to-end walkthrough (one real endpoint through all four stages)
-- `tests/` — pytest suite (45 tests, all pass with `torch` installed; 39 without it, since
-  `test_finetune.py`'s 6 tests need it — see `test_finetune.py`)
-
----
-
-## Development and CI
-
-Continuous integration runs on push and pull request to `main` for Python 3.10, 3.11, and 3.12
-(see `.github/workflows/ci.yml`).
-
-Local developer check:
-
-```bash
-./.venv/bin/python -m pytest tests/ -v
-```
-
----
-
-## Target Venues
-
-- MLinPL 2026 — deadline Aug 1, 2026
-- AAAI 2027 Workshop on Enterprise AI Evaluation — deadline Jul 28, 2026
 
 ---
 
